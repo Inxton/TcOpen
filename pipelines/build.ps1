@@ -4,8 +4,8 @@
   $msbuildVerbosity = "minimal"
   $baseDir  = resolve-path ..
   $solutionDir = "$baseDir\"
-  $nugetSource = "https://api.nuget.org/v3/index.json"
-  $nugetToken = ([System.Environment]::GetEnvironmentVariable('TcoOpenNugetdotorgPAT'))
+  $nugetSource = "https://nuget.pkg.github.com/inxton/index.json"
+  $nugetToken = ([System.Environment]::GetEnvironmentVariable('GH_TOKEN'))
   $publishNugets = $false
   $packNugets = $false
   $updateAssemblyInfo = $false
