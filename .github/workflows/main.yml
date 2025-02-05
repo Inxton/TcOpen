@@ -64,13 +64,13 @@ jobs:
           git tag $tag 
           git push --tags
         continue-on-error: true
-      - name: Test Report
-        uses: dorny/test-reporter@v1
-        if: success() || failure()
-        with:
-          name: Test report
-          path: '**/TestResults/*.xml'   
-          reporter: dotnet-trx
+      # - name: Test Report
+      #   uses: dorny/test-reporter@v1
+      #   if: success() || failure()
+      #   with:
+      #     name: Test report
+      #     path: '**/TestResults/*.xml'   
+      #     reporter: dotnet-trx
       # - name: Upload PLC libraries
       #   uses: actions/upload-artifact@v4 
       #   if: success() 
