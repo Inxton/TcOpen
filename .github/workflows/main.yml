@@ -41,7 +41,7 @@ jobs:
             "publishNugets" = $false; 
             }
       - name: Run Psake with package release
-      if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.publish == 'true' }}            
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.publish == 'true' }}            
         env:
           GH_TOKEN : ${{ secrets.GH_TOKEN  }}
           GH_USER : ${{ secrets.GH_USER  }}           
