@@ -26,10 +26,10 @@ jobs:
           path : '.'
           fetch-depth: 0
       - name: Run Psake
-        env:
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.publish == 'false' }}            
+        env:        
           GH_TOKEN : ${{ secrets.GH_TOKEN  }}
-          GH_USER : ${{ secrets.GH_USER  }}         
-        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.publish == false }}            
+          GH_USER : ${{ secrets.GH_USER  }}                 
         run: >
           .\pipelines\runbuild.ps1 -properties 
           @{
@@ -41,10 +41,10 @@ jobs:
             "publishNugets" = $false; 
             }
       - name: Run Psake with package release
+      if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.publish == 'true' }}            
         env:
           GH_TOKEN : ${{ secrets.GH_TOKEN  }}
-          GH_USER : ${{ secrets.GH_USER  }}   
-        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.publish == true }}            
+          GH_USER : ${{ secrets.GH_USER  }}           
         run: >
           .\pipelines\runbuild.ps1 -properties 
           @{
