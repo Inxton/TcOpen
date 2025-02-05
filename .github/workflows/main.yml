@@ -2,83 +2,85 @@ name: dev
 
 on: 
   push:
-    branches : 
+    branches: 
       - dev
   pull_request: 
     paths:
       - 'src/**'
       - 'pipelines/**'
       - '.github/**'
-  workflow_dispatch:    
+  workflow_dispatch:
     inputs:
-      publish:
-        type: boolean
+      publishPackages:
+        description: 'Set to "true" if packages should be published (runs the Release build); otherwise, leave as "false"'
         required: false
-        default: false
-        description: "Set to 'true' to publish packages"
+        default: 'false'
+
 jobs:
   build:
     strategy:
       matrix:
         configuration: [Release]
     runs-on: self-hosted    
-    
     timeout-minutes: 240
-    
+
     steps:
       - uses: actions/checkout@v3
-        with :
-          path : '.'
+        with:
+          path: '.'
           fetch-depth: 0
-      - name: Run Psake
-        #if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.publish == false }}            
+
+      - name: Build Test Package
+        if: ${{ github.event.inputs.publishPackages != 'true' }}
         env:        
-          GH_TOKEN : ${{ secrets.GH_TOKEN  }}
-          GH_USER : ${{ secrets.GH_USER  }}                 
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_USER: ${{ secrets.GH_USER }}
         run: >
-          .\pipelines\runbuild.ps1 -properties 
-          @{
+          .\pipelines\runbuild.ps1 -properties @{
             "buildConfig" = "Release";
             "updateAssemblyInfo" = $true;
             "testingStrength" = 1;
             "isTestingEnabled" = $true;
             "packNugets" = $false;
             "publishNugets" = $false; 
-            }
-      - name: Run Psake with package release
-        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.publish == true }}            
+          }
+
+      - name: Build Test Package Release
+        if: ${{ github.event.inputs.publishPackages == 'true' }}
         env:
-          GH_TOKEN : ${{ secrets.GH_TOKEN  }}
-          GH_USER : ${{ secrets.GH_USER  }}           
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_USER: ${{ secrets.GH_USER }}
         run: >
-          .\pipelines\runbuild.ps1 -properties 
-          @{
+          .\pipelines\runbuild.ps1 -properties @{
             "buildConfig" = "Release";
             "updateAssemblyInfo" = $true;
             "testingStrength" = 10;
             "isTestingEnabled" = $true;
             "packNugets" = $true;
             "publishNugets" = $true;
-            }    
-      - name : Create Tag
-        if : ${{ env.BuildNumber && success() && github.event_name != 'pull_request'}}
-        run : |
+          }
+
+      - name: Create Tag
+        if: ${{ env.BuildNumber && success() && github.event_name != 'pull_request' }}
+        run: |
           git config --global user.email "team@inxton.com"
           git config --global user.name "InxtonDev"
-          $tag = "GH-${{github.run_id}}-${{env.BuildNumber}}"
+          $tag = "GH-${{ github.run_id }}-${{ env.BuildNumber }}"
           git tag $tag 
           git push --tags
         continue-on-error: true
+
       # - name: Test Report
       #   uses: dorny/test-reporter@v1
       #   if: success() || failure()
       #   with:
       #     name: Test report
-      #     path: '**/TestResults/*.xml'   
+      #     path: '**/TestResults/*.xml'
       #     reporter: dotnet-trx
+      #
       # - name: Upload PLC libraries
-      #   uses: actions/upload-artifact@v4 
-      #   if: success() 
+      #   uses: actions/upload-artifact@v4
+      #   if: success()
       #   with:
-      #     name: plcLibs 
+      #     name: plcLibs
       #     path: ${{ github.workspace }}\plcLibs\*.library
