@@ -18,10 +18,15 @@ on:
         description: "Set to 'true' to publish packages"
 jobs:
   build:
-    runs-on: self-hosted
+    strategy:
+      matrix:
+        configuration: [Release]
+    runs-on: self-hosted    
+    
     timeout-minutes: 240
+    
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with :
           path : '.'
           fetch-depth: 0
