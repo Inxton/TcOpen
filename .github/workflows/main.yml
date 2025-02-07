@@ -59,7 +59,7 @@ jobs:
             "isTestingEnabled" = $true;
             "packNugets" = $true;
             "publishNugets" = $true;
-            "nugetToken" = ${{ env.NUGET_TCOPEN }};
+            "nugetToken" = "$env:NUGET_TCOPEN";
             "nugetSource" = "https://api.nuget.org/v3/index.json";
           }
 
