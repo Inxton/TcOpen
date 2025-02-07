@@ -50,6 +50,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GH_USER: ${{ secrets.GH_USER }}
+          NUGET_TCOPEN : ${{ secrets.NUGET_TCOPEN }}
         run: >
           .\pipelines\runbuild.ps1 -properties @{
             "buildConfig" = "Release";
@@ -58,6 +59,8 @@ jobs:
             "isTestingEnabled" = $true;
             "packNugets" = $true;
             "publishNugets" = $true;
+            "nugetToken" = ${{ env.NUGET_TCOPEN }};
+            "nugetSource" = "https://api.nuget.org/v3/index.json";
           }
 
       - name: Create Tag
