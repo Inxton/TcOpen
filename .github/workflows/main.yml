@@ -65,7 +65,7 @@ jobs:
       - name: Cake-Draft-Release
         if: ${{ github.event.inputs.publishPackages == 'true' }}
         env:
-          TC_OPEN_GROUP_USER_PAT : ${{ secrets.NUGET_TCOPEN  }}
+          NUGET_TCOPEN : ${{ secrets.NUGET_TCOPEN  }}
         run: >
               .\pipelines\release-to-gh.ps1      
       - name: Create Tag
