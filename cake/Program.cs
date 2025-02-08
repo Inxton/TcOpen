@@ -50,7 +50,7 @@ public sealed class PushTcOpenGroupPackages : FrostingTask<BuildContext>
     {        
         // WE WILL NOT RELEASE TO GITHUB ONLY TO NUGET.ORG
         // PUSH TO NUGET IS DONE BY GITHUB ACTIONS
-        context.Information("Skiping pushing to nuget.org");
+        context.Log.Information("Skipping pushing to github org");
         return;
         foreach (var nugetFile in Directory.EnumerateFiles(context.ArtifactsFolder, "*.nupkg").Select(p => new FileInfo(p)))
         {
