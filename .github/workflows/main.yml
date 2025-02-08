@@ -65,7 +65,8 @@ jobs:
       - name: Cake-Draft-Release
         if: ${{ github.event.inputs.publishPackages == 'true' }}
         env:
-          NUGET_TCOPEN : ${{ secrets.NUGET_TCOPEN  }}
+          NUGET_TCOPEN: ${{ secrets.NUGET_TCOPEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: >
               .\pipelines\release-to-gh.ps1      
       - name: Create Tag

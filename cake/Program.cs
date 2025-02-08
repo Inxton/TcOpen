@@ -72,7 +72,7 @@ public sealed class ReleaseTask : FrostingTask<BuildContext>
     {
         
         {
-            var githubToken = context.Environment.GetEnvironmentVariable("NUGET_TCOPEN");
+            var githubToken = context.Environment.GetEnvironmentVariable("GITHUB_TOKEN");
             var githubClient = new GitHubClient(new ProductHeaderValue("TcOpen"));
             githubClient.Credentials = new Credentials(githubToken);
 
