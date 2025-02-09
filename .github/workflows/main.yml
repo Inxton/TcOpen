@@ -62,7 +62,13 @@ jobs:
             "nugetToken" = "$env:NUGET_TCOPEN";
             "nugetSource" = "https://api.nuget.org/v3/index.json";
           }
-
+      - name: Cake-Draft-Release
+        if: ${{ github.event.inputs.publishPackages == 'true' }}
+        env:
+          NUGET_TCOPEN: ${{ secrets.NUGET_TCOPEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >
+              .\pipelines\release-to-gh.ps1      
       - name: Create Tag
         if: ${{ env.BuildNumber && success() && github.event_name != 'pull_request' }}
         run: |

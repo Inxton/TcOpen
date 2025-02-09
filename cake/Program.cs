@@ -48,12 +48,16 @@ public sealed class PushTcOpenGroupPackages : FrostingTask<BuildContext>
 {
     public override void Run(BuildContext context)
     {        
+        // WE WILL NOT RELEASE TO GITHUB ONLY TO NUGET.ORG
+        // PUSH TO NUGET IS DONE BY GITHUB ACTIONS
+        context.Log.Information("Skipping pushing to github org");
+        return;
         foreach (var nugetFile in Directory.EnumerateFiles(context.ArtifactsFolder, "*.nupkg").Select(p => new FileInfo(p)))
         {
             context.DotNetNuGetPush(nugetFile.FullName, new Cake.Common.Tools.DotNet.NuGet.Push.DotNetNuGetPushSettings()
             {
-                Source = "https://nuget.pkg.github.com/TcOpenGroup/index.json",
-                ApiKey = System.Environment.GetEnvironmentVariable("TC_OPEN_GROUP_USER_PAT"),  
+                Source = "https://nuget.pkg.github.com/inxton/index.json",
+                ApiKey = System.Environment.GetEnvironmentVariable("NUGET_TCOPEN"),  
                 SkipDuplicate = true
             });
         }
@@ -68,15 +72,15 @@ public sealed class ReleaseTask : FrostingTask<BuildContext>
     {
         
         {
-            var githubToken = context.Environment.GetEnvironmentVariable("TC_OPEN_GROUP_USER_PAT");
+            var githubToken = context.Environment.GetEnvironmentVariable("GITHUB_TOKEN");
             var githubClient = new GitHubClient(new ProductHeaderValue("TcOpen"));
             githubClient.Credentials = new Credentials(githubToken);
 
-            var doesExists = githubClient.Repository.Release.GetAll("TcOpenGroup", "TcOpen", ApiOptions.None).Result.Any(p => p.Name == GitVersionInformation.SemVer);
+            var doesExists = githubClient.Repository.Release.GetAll("Inxton", "TcOpen", ApiOptions.None).Result.Any(p => p.Name == GitVersionInformation.SemVer);
             if (!doesExists)
             {
                 var release = githubClient.Repository.Release.Create(
-                    "TcOpenGroup",
+                    "Inxton",
                     "TcOpen",
                     new NewRelease($"{GitVersionInformation.SemVer}")
                     {
