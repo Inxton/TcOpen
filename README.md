@@ -66,7 +66,7 @@ The original open-source TcOpen project, developed by the TcOpenGroup organizati
 
 # Documentation
 
-There is a separate documentation repository for this project [here](https://github.com/TcOpenGroup/TcOpen.Documentation). At this moment we use [docfx](https://github.com/dotnet/docfx) to generate documentation. The ```docfx``` uses IVF twin objects of PLC code to generate the API documentation. There is room for improvement in generated documentation; we do plan - in the course of the development of TcOpen - to improve that. 
+There is a separate documentation repository for this project [here](inxton.github.io/TcOpen.Documentation/). At this moment we use [docfx](https://github.com/dotnet/docfx) to generate documentation. The ```docfx``` uses IVF twin objects of PLC code to generate the API documentation. There is room for improvement in generated documentation; we do plan - in the course of the development of TcOpen - to improve that. 
 
 ## Working with TcOpen
 
