@@ -11,20 +11,8 @@
 
 # TcOpen
 
-## Introduction
 
-**Open Source TwinCAT 3 code by Automation Professionals for Automation Professionals.**
-
-TcOpen aims to provide standard classes to start building any **real deployable application**. TcOpen happened to develop into an application framework that addresses several pains of PLC programming (coordination, composition, componentization, connecting to IT technologies).
-
-The software in industrial automation developed historically on a very different trajectory than traditional software. We introduce modern software development practices to the PLC world so developers can shift from low-value work to high-value work. Open-source offers a solid ground upon which many can build and bring ideas from all over the world. 
-
-TcOpen is an **object oriented** framework capitalizing on **OOP** extension as defined in [IEC 61131-3](https://webstore.iec.ch/publication/4552) **ST** (structured text) and implemented by CoDeSys and [TwinCAT3](https://www.beckhoff.com/en-us/products/automation/twincat/te1xxx-twincat-3-engineering/te1000.html). 
-
-TwinCAT turns almost any compatible PC into a real-time controller with a multi-PLC system, NC axis control, programming environment, and operating station. TwinCAT replaces conventional PLC and NC/CNC, controllers.
-
-
- ## Features
+## Features
 
 ### [Application framework](https://docs.tcopengroup.org/articles/TcOpenFramework/TcoCore/Introduction.html)
 
