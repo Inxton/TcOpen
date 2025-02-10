@@ -11,20 +11,8 @@
 
 # TcOpen
 
-## Introduction
 
-**Open Source TwinCAT 3 code by Automation Professionals for Automation Professionals.**
-
-TcOpen aims to provide standard classes to start building any **real deployable application**. TcOpen happened to develop into an application framework that addresses several pains of PLC programming (coordination, composition, componentization, connecting to IT technologies).
-
-The software in industrial automation developed historically on a very different trajectory than traditional software. We introduce modern software development practices to the PLC world so developers can shift from low-value work to high-value work. Open-source offers a solid ground upon which many can build and bring ideas from all over the world. 
-
-TcOpen is an **object oriented** framework capitalizing on **OOP** extension as defined in [IEC 61131-3](https://webstore.iec.ch/publication/4552) **ST** (structured text) and implemented by CoDeSys and [TwinCAT3](https://www.beckhoff.com/en-us/products/automation/twincat/te1xxx-twincat-3-engineering/te1000.html). 
-
-TwinCAT turns almost any compatible PC into a real-time controller with a multi-PLC system, NC axis control, programming environment, and operating station. TwinCAT replaces conventional PLC and NC/CNC, controllers.
-
-
- ## Features
+## Features
 
 ### [Application framework](https://docs.tcopengroup.org/articles/TcOpenFramework/TcoCore/Introduction.html)
 
@@ -71,24 +59,14 @@ TwinCAT turns almost any compatible PC into a real-time controller with a multi-
 
 **The full list of accessible features is kept up to date [here](https://docs.tcopengroup.org/articles/intro.html#features).**
 
-# Where we are
+# State of the Project
 
-As you may notice, TcOpen is under development, and no stable version has been released yet. We expect the first release to see the light of the day in 2022. TcOpen aims to be a continuous development project in which we will be delivering small incremental features frequently. Substantial parts of the framework are being used by different companies and individuals at this time.
+The original open-source TcOpen project, developed by the TcOpenGroup organization, has been archived and is [publicly available](https://github.com/TcOpenGroup/TcOpen). It is now maintained exclusively for Inxton’s internal needs, with no plans for further extension or development.
 
-
-## Maturity of the framework
-
-At this time we channel our efforts into the building and testing of the PLC libraries, WPF GUI and extensions based on the Inxton platform. You will also find Blazor based components in this repository. Blazor is considered to be experimental by both Inxton and TcOpen. So far the resources dedicated to the Blazor platform has been limited; however, we believe it to be the future of TcOpen UI in the long run.
-
-
-## The role of Inxton.Vortex.Framework (IVF)
-
-IVF is a set of tools and libraries for creating industrial .NET applications based on the TwinCAT 3 platform. From Inxton v2 (that now being used in TcOpen) there no need for license registration as it was with previous versions, here is the license to honor when using inxton libraries 
-[Inxton license](https://docs.inxton.com/index.html#licencing).
 
 # Documentation
 
-There is a separate documentation repository for this project [here](https://github.com/TcOpenGroup/TcOpen.Documentation). At this moment we use [docfx](https://github.com/dotnet/docfx) to generate documentation. The ```docfx``` uses IVF twin objects of PLC code to generate the API documentation. There is room for improvement in generated documentation; we do plan - in the course of the development of TcOpen - to improve that. 
+There is a separate documentation repository for this project [here](inxton.github.io/TcOpen.Documentation/). At this moment we use [docfx](https://github.com/dotnet/docfx) to generate documentation. The ```docfx``` uses IVF twin objects of PLC code to generate the API documentation. There is room for improvement in generated documentation; we do plan - in the course of the development of TcOpen - to improve that. 
 
 ## Working with TcOpen
 
@@ -98,7 +76,7 @@ If you want to use TcOpen in your application you may prefer using the libraries
 
 ### Contributing
 
-Details about contribution [here](CONTRIBUTING.md)
+We do not accept contributions at this point.
 
 ----------------------------------
 #### Prerequisites
@@ -165,27 +143,4 @@ Switch profile to Debug|TwinCAT RT (x64)
 **The build process might be susceptible to some issues due to configuration and environment differences. Should you encounter a problem, please report the issue [here](https://github.com/TcOpenGroup/TcOpen/issues)**
 
 
-## Code format 
-TcOpen is powered by STweep for TwinCAT, a source code formatter for Structured Text.
 
-When contributing to TcOpen, please use this set of settings for STweep: [TCOpen.zip](https://github.com/Barteling/TcOpen/files/6455049/TCOpen.zip)
-
-STweep is free of charge for active contributors to this project.
-
-For requesting a license for STweep, visit www.stweep.com/Opensource
-
-<a href="https://www.STweep.com"><img src="https://user-images.githubusercontent.com/33071638/117724819-9b3c1d00-b1e4-11eb-89f1-ead8de7889e9.png" height="125" width="250" ></a>
-
-## Learning resources
-
-* Jakob Sagatowski's excellent series on TwinCAT programming on [youtube](https://www.youtube.com/playlist?list=PLimaF0nZKYHz3I3kFP4myaAYjmYk1SowO) and his [blogsite](https://alltwincat.com/).
-* Beckhoff's [infosys](https://infosys.beckhoff.com/).
-
-
-### Awesome TwinCAT 3 projects 🌐
-
-- An xUnit testing framework for Beckhoff TwinCAT3.  [TcUnit](https://github.com/tcunit/TcUnit) 
-- Unofficial TwinCAT function for HTTP requests with json conversion [Beckhoff Http Client ](https://github.com/fbarresi/BeckhoffHttpClient)
-- Opinionated code formatter for TwinCAT. [TcBlack](https://github.com/Roald87/TcBlack)
-- Bring the power of Json.Net to TwinCAT [TwinCAT.JsonExtension](https://github.com/fbarresi/TwinCAT.JsonExtension)
-- Use Python with ADS [pyads](https://github.com/stlehmann/pyads)
