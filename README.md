@@ -88,7 +88,7 @@ If you want to use TcOpen in your application you may prefer using the libraries
 
 ### Contributing
 
-Details about contribution [here](CONTRIBUTING.md)
+We do not accept contributions at this point.
 
 ----------------------------------
 #### Prerequisites
@@ -155,27 +155,4 @@ Switch profile to Debug|TwinCAT RT (x64)
 **The build process might be susceptible to some issues due to configuration and environment differences. Should you encounter a problem, please report the issue [here](https://github.com/TcOpenGroup/TcOpen/issues)**
 
 
-## Code format 
-TcOpen is powered by STweep for TwinCAT, a source code formatter for Structured Text.
 
-When contributing to TcOpen, please use this set of settings for STweep: [TCOpen.zip](https://github.com/Barteling/TcOpen/files/6455049/TCOpen.zip)
-
-STweep is free of charge for active contributors to this project.
-
-For requesting a license for STweep, visit www.stweep.com/Opensource
-
-<a href="https://www.STweep.com"><img src="https://user-images.githubusercontent.com/33071638/117724819-9b3c1d00-b1e4-11eb-89f1-ead8de7889e9.png" height="125" width="250" ></a>
-
-## Learning resources
-
-* Jakob Sagatowski's excellent series on TwinCAT programming on [youtube](https://www.youtube.com/playlist?list=PLimaF0nZKYHz3I3kFP4myaAYjmYk1SowO) and his [blogsite](https://alltwincat.com/).
-* Beckhoff's [infosys](https://infosys.beckhoff.com/).
-
-
-### Awesome TwinCAT 3 projects 🌐
-
-- An xUnit testing framework for Beckhoff TwinCAT3.  [TcUnit](https://github.com/tcunit/TcUnit) 
-- Unofficial TwinCAT function for HTTP requests with json conversion [Beckhoff Http Client ](https://github.com/fbarresi/BeckhoffHttpClient)
-- Opinionated code formatter for TwinCAT. [TcBlack](https://github.com/Roald87/TcBlack)
-- Bring the power of Json.Net to TwinCAT [TwinCAT.JsonExtension](https://github.com/fbarresi/TwinCAT.JsonExtension)
-- Use Python with ADS [pyads](https://github.com/stlehmann/pyads)
