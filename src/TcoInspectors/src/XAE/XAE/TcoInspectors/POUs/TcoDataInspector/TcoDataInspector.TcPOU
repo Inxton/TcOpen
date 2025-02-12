@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="TcoDataInspector" Id="{a28e1549-36e0-0a83-2425-0582897b0a9d}" SpecialFunc="None">
     <Declaration><![CDATA[(*~
 <docu>
@@ -86,70 +86,72 @@ _inspectorTask.InspectionData REF= _data;
 
 OnEnterInspection();
 
-IF(IsOverinspected())THEN
-	RETURN;
+IF (IsOverinspected()) THEN
+    RETURN;
 END_IF
-
 
 _inspectorTask.Invoke();
 
 IF (_inspectorTask.Execute()) THEN
     IF (_data.IsByPassed) THEN
-        _data.Result    := eInspectorResult.Bypassed;
+        _data.Result := eInspectorResult.Bypassed;
         _data.TimeStamp := Context.RealTimeClock.NowLocal();
         _inspectorTask.DoneWhen(TRUE);
         RETURN;
     END_IF
 
-		THIS^.Messenger.OnCondition(LEN(Status) > 250 OR LEN(_data.RequiredStatus) > 250).Build().Append('The checked input string or required pattern string exceeds 250 characters.').As().AsError();
-		
-        IF(LEN(Status) > 250 OR LEN(_data.RequiredStatus) > 254) THEN                
-            RETURN;
-        END_IF
-		
-	    _data.DetectedStatus := Status;
-		
-		
-		IF(_data.StarNotationEnabled) THEN
-			tmpResult := TRUE;
-			FOR charIndex := 1 TO LEN(_data.RequiredStatus) DO
-				charRequired := MID(_data.RequiredStatus, 1, charIndex);
-				
-				IF(LEN(_data.DetectedStatus) >= charIndex) THEN
-					charAcquired :=  MID(_data.DetectedStatus, 1, charIndex);
-				ELSE
-					charAcquired := '';
-				END_IF;	
-				
-				IF(charRequired <> '*' AND charRequired <> '#') THEN
-					tmpResult := charRequired = charAcquired;
-				ELSIF(charRequired = '#') THEN
-					tmpResult := IsNumber(charAcquired);            	
-				END_IF
-				
-				IF(NOT tmpResult) THEN
-					EXIT;
-				END_IF				
-			END_FOR
-		ELSE
-			
-			tmpResult := F_RTrim(_data.DetectedStatus) =F_RTrim(_data.RequiredStatus);	
-		END_IF
-		
-       
-		IF(NOT tmpResult) THEN	
-			_lastOutValue := Status;
-		END_IF
-		
-		_inspectorTask._failTimer(IN:= TRUE, PT:=_data.FailTime);
-		_inspectorTask._passTimer(IN:= tmpResult,PT:=_data.PassTime);
-									  
-     	IF(_inspectorTask._failTimer.Q OR _inspectorTask._passTimer.Q) THEN	  
-     		_inspectorTask.DoneWhen(TRUE);
-			OnDone();
-	 	END_IF;	
-END_IF;
+    _data.Result := eInspectorResult.Running;
+	
+    THIS^.Messenger.OnCondition(LEN(Status) > 250 OR LEN(_data.RequiredStatus) > 250)
+        .Build()
+        .Append('The checked input string or required pattern string exceeds 250 characters.')
+        .As().AsError();
 
+    IF (LEN(Status) > 250 OR LEN(_data.RequiredStatus) > 254) THEN
+        RETURN;
+    END_IF
+
+    _data.DetectedStatus := Status;
+
+    IF (_data.StarNotationEnabled) THEN
+        tmpResult := TRUE;
+
+        FOR charIndex := 1 TO LEN(_data.RequiredStatus) DO
+            charRequired := MID(_data.RequiredStatus, 1, charIndex);
+
+            IF (LEN(_data.DetectedStatus) >= charIndex) THEN
+                charAcquired := MID(_data.DetectedStatus, 1, charIndex);
+            ELSE
+                charAcquired := '';
+            END_IF;
+
+            IF (charRequired <> '*' AND charRequired <> '#') THEN
+                tmpResult := charRequired = charAcquired;
+            ELSIF (charRequired = '#') THEN
+                tmpResult := IsNumber(charAcquired);
+            END_IF
+
+            IF (NOT tmpResult) THEN
+                EXIT;
+            END_IF
+        END_FOR
+    ELSE
+
+        tmpResult := F_RTrim(_data.DetectedStatus) = F_RTrim(_data.RequiredStatus);
+    END_IF
+
+    IF (NOT tmpResult) THEN
+        _lastOutValue := Status;
+    END_IF
+
+    _inspectorTask._failTimer(IN := TRUE, PT := _data.FailTime);
+    _inspectorTask._passTimer(IN := tmpResult, PT := _data.PassTime);
+
+    IF (_inspectorTask._failTimer.Q OR _inspectorTask._passTimer.Q) THEN
+        _inspectorTask.DoneWhen(TRUE);
+        OnDone();
+    END_IF;
+END_IF;
 ]]></ST>
       </Implementation>
     </Method>

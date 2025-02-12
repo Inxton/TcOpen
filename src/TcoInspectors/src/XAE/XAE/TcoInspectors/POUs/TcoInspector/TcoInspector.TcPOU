@@ -232,9 +232,6 @@ END_IF
 
 IF (THIS^.Done) THEN
     IF (THIS^.Result = eInspectorResult.Failed) THEN
-        IF (__ISVALIDREF(_refOverallResult)) THEN
-            _refOverallResult := _originalOverallResult;
-        END_IF
 
         IF inFailMode = eTcoInspectorFailMode.CarryOn THEN
             _coordinator.MoveNext();
@@ -246,12 +243,20 @@ IF (THIS^.Done) THEN
             IF OverInspected THEN
                 _coordinator.MoveNext();
             ELSE
+                IF (__ISVALIDREF(_refOverallResult)) THEN
+                    _refOverallResult := _originalOverallResult;
+                END_IF
+
                 _coordinator.Retry(inFromState);
             END_IF;
         ELSIF inFailMode = eTcoInspectorFailMode.RetryThenJumpTo THEN
             IF OverInspected THEN
                 _coordinator.Retry(inToState);
             ELSE
+                IF (__ISVALIDREF(_refOverallResult)) THEN
+                    _refOverallResult := _originalOverallResult;
+                END_IF
+
                 _coordinator.Retry(inFromState);
             END_IF;
 
@@ -259,6 +264,10 @@ IF (THIS^.Done) THEN
             IF OverInspected THEN
                 _coordinator.Terminate();
             ELSE
+                IF (__ISVALIDREF(_refOverallResult)) THEN
+                    _refOverallResult := _originalOverallResult;
+                END_IF
+
                 _coordinator.Retry(inFromState);
             END_IF;
 
@@ -539,26 +548,27 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF(_coordinator = 0) THEN
-	RETURN;	
+        <ST><![CDATA[IF (_coordinator = 0) THEN
+    RETURN;
 END_IF
 
-IF(THIS^.Done) THEN
-	IF(THIS^.Result = eInspectorResult.Failed) THEN
-		IF(__ISVALIDREF(_refOverallResult)) THEN
-			_refOverallResult := _originalOverallResult;
-		END_IF
-		
-		IF OverInspected THEN
-			_coordinator.Terminate();
-		ELSE
-			_coordinator.Retry(inFromState);
-		END_IF
-	ELSE
-		_coordinator.MoveNext();
-	END_IF;	
-END_IF;	
+IF (THIS^.Done) THEN
+    IF (THIS^.Result = eInspectorResult.Failed) THEN
 
+        IF OverInspected THEN
+            _coordinator.Terminate();
+        ELSE
+            IF (__ISVALIDREF(_refOverallResult)) THEN
+                _refOverallResult := _originalOverallResult;
+
+            END_IF
+
+            _coordinator.Retry(inFromState);
+        END_IF
+    ELSE
+        _coordinator.MoveNext();
+    END_IF;
+END_IF;
 
 RetryThenTerminate := THIS^.Done;]]></ST>
       </Implementation>
@@ -617,11 +627,11 @@ END_VAR
       <Implementation>
         <ST><![CDATA[UpdateComprehensiveResult := THIS^;
 
-IF(_tierUpdateOverall.IsNewTier()) THEN	
-	_refOverallResult REF= inoResult;
-	_originalOverallResult := inoResult;
-END_IF
+_refOverallResult REF= inoResult;
 
+IF (_tierUpdateOverall.IsNewTier()) THEN
+    _originalOverallResult := inoResult;
+END_IF
 
 IF (NOT __ISVALIDREF(_inspectorTask.InspectionData)) THEN
     inoResult.Result := eOverallResult.NoAction;
@@ -636,11 +646,11 @@ CASE _inspectorTask.InspectionData.Result OF
     eInspectorResult.Passed:
         ;
     eInspectorResult.Failed:
-        inoResult.Result   := eOverallResult.Failed;
-		UpdateDescriptions(inoResult);		       			
+        inoResult.Result := eOverallResult.Failed;
+        UpdateDescriptions(inoResult);
     eInspectorResult.Inconclusive:
         inoResult.Result := eOverallResult.Failed;
-		UpdateDescriptions(inoResult);
+        UpdateDescriptions(inoResult);
     eInspectorResult.Excluded:
         ;
     eInspectorResult.Bypassed:
