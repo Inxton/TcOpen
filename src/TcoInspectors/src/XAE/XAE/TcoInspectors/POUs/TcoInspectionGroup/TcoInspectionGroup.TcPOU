@@ -249,9 +249,6 @@ END_IF
 
 IF (THIS^.Done) THEN
     IF (THIS^._currentRunResult.Result = eOverallResult.Failed) THEN
-        IF (__ISVALIDREF(_refOverallResult)) THEN
-            _refOverallResult := _originalOverallResult;
-        END_IF
 
         IF inFailMode = eTcoInspectorFailMode.CarryOn THEN
             _coordinator.MoveNext();
@@ -263,12 +260,22 @@ IF (THIS^.Done) THEN
             IF OverInspected THEN
                 _coordinator.MoveNext();
             ELSE
+                IF (__ISVALIDREF(_refOverallResult)) THEN
+                    _refOverallResult := _originalOverallResult;
+                END_IF
+
+                ClearResult(_currentRunResult);
                 _coordinator.Retry(inFromState);
             END_IF;
         ELSIF inFailMode = eTcoInspectorFailMode.RetryThenJumpTo THEN
             IF OverInspected THEN
                 _coordinator.Retry(inToState);
             ELSE
+                IF (__ISVALIDREF(_refOverallResult)) THEN
+                    _refOverallResult := _originalOverallResult;
+                END_IF
+
+                ClearResult(_currentRunResult);
                 _coordinator.Retry(inFromState);
             END_IF;
 
@@ -276,6 +283,11 @@ IF (THIS^.Done) THEN
             IF OverInspected THEN
                 _coordinator.Terminate();
             ELSE
+                IF (__ISVALIDREF(_refOverallResult)) THEN
+                    _refOverallResult := _originalOverallResult;
+                END_IF
+
+                ClearResult(_currentRunResult);
                 _coordinator.Retry(inFromState);
             END_IF;
 
@@ -440,16 +452,18 @@ END_IF
 
 IF (THIS^.Done) THEN
     IF (THIS^._currentRunResult.Result = eOverallResult.Failed) THEN
-        IF (__ISVALIDREF(_refOverallResult)) THEN
-            _refOverallResult := _originalOverallResult;
-        END_IF
 
-        ClearResult(_currentRunResult);
         IF OverInspected THEN
             _coordinator.Terminate();
         ELSE
+            IF (__ISVALIDREF(_refOverallResult)) THEN
+                _refOverallResult := _originalOverallResult;
+            END_IF
+
+            ClearResult(_currentRunResult);
+
             _coordinator.Retry(inFromState);
-        END_IF;
+        END_IF
     ELSE
         _coordinator.MoveNext();
     END_IF;
