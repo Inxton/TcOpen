@@ -6,8 +6,10 @@
     xmlns:local="clr-namespace:Sandbox.TcoData.Wpf"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vortex="http://vortex.mts/xaml"
-      Width="800"
+    xmlns:models="clr-namespace:TcoData.Models;assembly=TcOpen.Inxton.Data.Wpf" xmlns:tcodata="clr-namespace:TcoData;assembly=TcOpen.Inxton.Data.Wpf"
+    Width="800"
     Height="450"
+    
     mc:Ignorable="d"
     Title="MainWindow">
     <Window.DataContext>
@@ -111,6 +113,37 @@
                         </vortex:RenderableContentControl.RootContainer>
                     </vortex:RenderableContentControl>
                 </Grid>
+
+            </Grid>
+
+        </TabItem>
+
+        <TabItem Header="Bulk Data">
+            <Grid DataContext="{Binding BulkModel}">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <tcodata:BulkDataView DataContext="{Binding}"></tcodata:BulkDataView>
+                </Grid>
+                <!--<Grid Grid.Row="1">
+                            <DataGrid ItemsSource="{Binding ItemCollection}" AutoGenerateColumns="False" Margin="10"
+                  IsReadOnly="False" CanUserAddRows="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Symbol" Binding="{Binding Symbol}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Value" Binding="{Binding Value, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" IsReadOnly="True"/>
+                            <DataGridComboBoxColumn Header="Write Status"
+                        SelectedItemBinding="{Binding WriteStatus, Mode=TwoWay}"
+                        ItemsSource="{x:Static models:BulkItemWriteStatuses.All}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Click="Button_Click_1"></Button>
+                </Grid>-->
 
             </Grid>
 

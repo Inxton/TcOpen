@@ -305,7 +305,7 @@ ELSIF (_turnTask.Busy OR _startTurn OR _enableTurn ) AND inoDisableCondition AND
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="SuspendExpression" Id="{d8fc797a-9968-0ca9-180a-dcf844ea4441}">
+    <Method Name="SuspendExpression" Id="{b7013b27-12c2-08bb-272e-5e2bc8c7dd68}">
       <Declaration><![CDATA[METHOD SuspendExpression : BOOL
 VAR_INPUT
 		inDisableCondition : BOOL;

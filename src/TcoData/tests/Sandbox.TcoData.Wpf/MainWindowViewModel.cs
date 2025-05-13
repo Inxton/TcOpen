@@ -2,6 +2,7 @@
 using TcoDataTests;
 using TcOpen.Inxton.Data.MongoDb;
 using TcOpen.Inxton.Data;
+using TcoData.Models;
 
 namespace Sandbox.TcoData.Wpf
 {
@@ -19,7 +20,7 @@ namespace Sandbox.TcoData.Wpf
             Plc.MAIN.sandbox.DataManager.DataExchangeOperations.FilterByID = "TEST";
             Plc.MAIN.sandbox.DataManager.DataExchangeOperations.InvokeSearch();
         }
-        
+        public BulkTraversalModel<PlainSandboxData, BulkDataItem> BulkModel { get { return App.BulkModel; } }
         public TcoDataTestsTwinController Plc { get; } = TcoDataTests.Entry.TcoDataTests;
     }
 }
