@@ -1,8 +1,11 @@
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Windows;
+using TcoData.Helpers;
+using TcoData.Models;
 using TcoDataTests;
 using TcOpen.Inxton.Data;
 using TcOpen.Inxton.Data.MongoDb;
@@ -18,7 +21,7 @@ namespace Sandbox.TcoData.Wpf
         {
 
 
-         
+
             //TcoCore.Threading.Dispatcher.SetDispatcher(TcoCore.Wpf.Threading.Dispatcher.Get);
             Entry.TcoDataTests.Connector.BuildAndStart();
 
@@ -29,7 +32,7 @@ namespace Sandbox.TcoData.Wpf
                                                                   // .WriteTo.Notepad()        // This will write logs to first instance of notepad program.
                                         .MinimumLevel.Verbose())) // Sets the logger configuration (default reports only to console).
                 .SetDispatcher(TcoCore.Wpf.Threading.Dispatcher.Get); // This is necessary for UI operation.                  
-               
+
 
             // Initialize logger
             Entry.TcoDataTests.MAIN.sandbox._logger.StartLoggingMessages(TcoCore.eMessageCategory.All);
@@ -61,12 +64,12 @@ namespace Sandbox.TcoData.Wpf
             //};
             //;
             //var repositoryFragmented = new MongoDbFragmentedRepository<PlainSandboxData, PlainSandboxData>(parametersFragmented, updateFragments);
-            
+
 
 
             var parametersFragmented = new MongoDbRepositorySettings<PlainSandboxData>("mongodb://localhost:27017", "TestDataBase", "TestCollectionFragmented");
             List<Expression<Func<PlainSandboxData, PlainSandboxData>>> fragmentExpression = new List<Expression<Func<PlainSandboxData, PlainSandboxData>>>();
-            fragmentExpression.Add(data => new PlainSandboxData { someString = data.someString, someInteger = data.someInteger, sampleData =data.sampleData });
+            fragmentExpression.Add(data => new PlainSandboxData { someString = data.someString, someInteger = data.someInteger, sampleData = data.sampleData });
             ;
             var repositoryFragmented = new MongoDbFragmentedRepository<PlainSandboxData, PlainSandboxData>(parametersFragmented, fragmentExpression);
 
@@ -78,7 +81,7 @@ namespace Sandbox.TcoData.Wpf
 
             List<Expression<Func<PlainstProcessData_Plc1, PlainstProcessData_Plc1>>> fragmentExpressionPlc1 = new List<Expression<Func<PlainstProcessData_Plc1, PlainstProcessData_Plc1>>>();
             //fragmentExpressionPlc1.Add(data => new PlainstProcessData_Plc1 { EntityHeader = data.EntityHeader,/*_Modified = data._Modified */});
-            fragmentExpressionPlc1.Add(data => new PlainstProcessData_Plc1 { Cu_1 = data.Cu_1  });
+            fragmentExpressionPlc1.Add(data => new PlainstProcessData_Plc1 { Cu_1 = data.Cu_1 });
 
             var repositoryFragmentedPlc1 = new MongoDbFragmentedRepository<PlainstProcessData_Plc1, PlainstProcessData_Plc1>(parametersFragmentedPlc1, fragmentExpressionPlc1);
             Entry.TcoDataTests.MAIN.sandbox.DataManagerPlc1.InitializeRepository(repositoryFragmentedPlc1);
@@ -91,6 +94,44 @@ namespace Sandbox.TcoData.Wpf
             ;
             var repositoryFragmentedPlc2 = new MongoDbFragmentedRepository<PlainstProcessData_Plc2, PlainstProcessData_Plc2>(parametersFragmentedPlc2, fragmentExpressionPlc2);
             Entry.TcoDataTests.MAIN.sandbox.DataManagerPlc2.InitializeRepository(repositoryFragmentedPlc2);
+
+            ValidateDataDelegate<PlainSandboxData> validator = data =>
+            {
+                return new DataItemValidation[]
+                {
+        new DataItemValidation($"'{nameof(data.sampleData.SampleInt)}' must be greater than 0", data.sampleData.SampleInt <= 0),
+
+        new DataItemValidation($"'{nameof(data.sampleData.SampleInt2)}' must be less than 0", data.sampleData.SampleInt2 > 0)
+                };
+            };
+
+            BulkModel = new BulkTraversalModel<PlainSandboxData, BulkDataItem>(repository,
+             validator
+                    );
+            BulkModel.UpdateFromDataTemplate((symbol, value) =>
+                {
+                    var editable = BulkItemStatus.Undefined;
+
+                    var editableMembers = PropertyHelper.GetPropertiesNames( new PlainSandboxData(), p => p.someInteger, p => p.someString,p=>p.sampleData.SampleInt);
+
+                    if (editableMembers.Any(member => symbol.Contains(member)))
+                    {
+                        editable = BulkItemStatus.Editable;
+                    }
+
+                    return new BulkDataItem
+                    {
+                        Symbol = symbol,
+                        Value = value,
+                        Status = editable,
+                        WriteStatus = BulkItemWriteStatus.NoChange,
+                        OriginalValue = value
+                    };
+                });
         }
+
+
+
+        public static BulkTraversalModel<PlainSandboxData, BulkDataItem> BulkModel { get; private set; }
     }
 }
