@@ -8,8 +8,9 @@ namespace TcoData.Models
 {
     public enum BulkItemStatus
     {
-        All = 0,
-        Writable = 10,
+        All = -1,
+        Undefined = 0,
+        Editable = 10,
         Deleted = 20,
     }
     public static class BulkItemStatuses

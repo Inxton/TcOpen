@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using TcoCore;
 using TcoData;
@@ -25,14 +26,14 @@ namespace TcoData.Models
     /// <typeparam name="TItem">The output item type (must implement IDataSetItemsFad).</typeparam>
     public class BulkTraversalModel
         <TEntity, TItem>
-        where TEntity : PlainTcoEntity,new()
+        where TEntity : PlainTcoEntity, new()
         where TItem : IBulkTraversalItem
     {
         private readonly EntityTraversalHelper<TEntity> entityTraversal;
         private readonly Dictionary<Type, Func<string, object, bool>> _includeTypeHandlers = new Dictionary<Type, Func<string, object, bool>>();
         private IRepository<TEntity> _repository;
 
- 
+
         public DataViewModel<TEntity> DataViewModel { get; set; }
         public RelayCommand WriteDataCommand { get; private set; }
         public RelayCommand UpdateFilterCommand { get; private set; }
@@ -41,19 +42,26 @@ namespace TcoData.Models
 
         public ObservableCollection<TItem> ItemCollection { get; set; } = new ObservableCollection<TItem>();
         public ObservableCollection<TItem> TemplateCollection { get; set; } = new ObservableCollection<TItem>();
-        public BulkTraversalModel(IRepository<TEntity> repository )
+        public BulkTraversalModel(IRepository<TEntity> repository)
         {
 
             entityTraversal = new EntityTraversalHelper<TEntity>(new TEntity());
             _includeTypeHandlers = new Dictionary<Type, Func<string, object, bool>>();
             _repository = repository;
-            DataViewModel = new DataViewModel<TEntity>(_repository,new TcoDataExchange());
-            WriteDataCommand = new TcOpen.Inxton.Input.RelayCommand((a) => ApplyWriteRequests());
+            DataViewModel = new DataViewModel<TEntity>(_repository, new TcoDataExchange());
+            WriteDataCommand = new TcOpen.Inxton.Input.RelayCommand((a) =>
+            {
+                ApplyWriteRequests(); if (!string.IsNullOrWhiteSpace(LastValidationLog))
+                {
+                    MessageBox.Show(LastValidationLog, "Validation Results");
+                }
+            });
 
 
 
 
         }
+
 
 
         public BulkTraversalModel(IRepository<TEntity> repository, ValidateDataDelegate<TEntity> validatorDelegate)
@@ -63,20 +71,20 @@ namespace TcoData.Models
             _includeTypeHandlers = new Dictionary<Type, Func<string, object, bool>>();
             _repository = repository;
             DataViewModel = new DataViewModel<TEntity>(_repository, new TcoDataExchange());
-            WriteDataCommand = new TcOpen.Inxton.Input.RelayCommand((a) => ApplyWriteRequests());
-            _repository.OnRecordUpdateValidation = validatorDelegate;
+            WriteDataCommand = new TcOpen.Inxton.Input.RelayCommand((a) =>
+            {
+                ApplyWriteRequests(); if (!string.IsNullOrWhiteSpace(LastValidationLog))
+                {
+                    MessageBox.Show(LastValidationLog, "Validation Results");
+                }
+            });
+
+            // Register externally supplied validator
+            _repository.OnRecordUpdateValidation = validatorDelegate ?? (_ => Array.Empty<DataItemValidation>());
 
         }
 
 
-
-        /// <summary>
-        /// Registers a handler for a specific type to determine inclusion logic during traversal.
-        /// </summary>
-        public void RegisterIncludeHandler<T>(Func<string, T, bool> handler) where T : class
-        {
-            _includeTypeHandlers[typeof(T)] = (symbol, obj) => handler(symbol, obj as T);
-        }
 
         /// <summary>
         /// Traverses the entity and collects objects matching the registered type handlers.
@@ -95,7 +103,7 @@ namespace TcoData.Models
 
             UpdateList(TemplateCollection);
         }
-       
+
 
         /// <summary>
         /// Updates the data item collection based on the template data.
@@ -107,7 +115,7 @@ namespace TcoData.Models
             foreach (var item in ItemCollection)
             {
                 item.Status = templateLookup.ContainsKey(item.Symbol)
-                    ? BulkItemStatus.Writable
+                    ? BulkItemStatus.Editable
                     : BulkItemStatus.Deleted;
             }
 
@@ -130,11 +138,17 @@ namespace TcoData.Models
 
             return item.Status == SelectedStatusFilter;
         }
+        /// <summary>
+        /// Determines if a given item matches the current filter for status and symbol keyword.
+        /// </summary>
         private bool FilterByStatusAndSymbol(object obj)
         {
             if (!(obj is BulkDataItem item)) return false;
 
-            bool statusMatches = SelectedStatusFilter == null || item.Status == SelectedStatusFilter;
+            bool statusMatches = SelectedStatusFilter == null
+                 || SelectedStatusFilter == BulkItemStatus.All
+                 || item.Status == SelectedStatusFilter;
+
             bool symbolMatches = string.IsNullOrWhiteSpace(SymbolKeywordFilter)
                                  || item.Symbol.IndexOf(SymbolKeywordFilter, StringComparison.OrdinalIgnoreCase) >= 0;
 
@@ -143,7 +157,10 @@ namespace TcoData.Models
 
         public ICollectionView FilteredItems { get; set; }
 
-        private BulkItemStatus? _selectedStatusFilter;
+        private BulkItemStatus? _selectedStatusFilter = BulkItemStatus.Editable;
+        /// <summary>
+        /// The selected status filter used to control which items are visible.
+        /// </summary>
         public BulkItemStatus? SelectedStatusFilter
         {
             get => _selectedStatusFilter;
@@ -152,8 +169,11 @@ namespace TcoData.Models
                 _selectedStatusFilter = value;
                 FilteredItems.Refresh();
             }
-        }
+        } 
         private string _symbolKeywordFilter;
+        /// <summary>
+        /// The keyword filter used to filter items by symbol name.
+        /// </summary>
         public string SymbolKeywordFilter
         {
             get => _symbolKeywordFilter;
@@ -164,7 +184,18 @@ namespace TcoData.Models
             }
         }
 
-        public void  ApplyWriteRequests()
+        public bool WriteToAllEntities { get; set; }
+        public int Limit { get; set; } = 1000;
+
+        /// <summary>
+        /// Latest validation summary log as a plain string.
+        /// </summary>
+        public string LastValidationLog { get; private set; }
+
+        /// <summary>
+        /// Applies modified values to all targeted entities in the repository.
+        /// </summary>
+        public void ApplyWriteRequests()
         {
             var writeItems = ItemCollection
                 .Where(i => i.WriteStatus == BulkItemWriteStatus.Modified)
@@ -173,8 +204,11 @@ namespace TcoData.Models
             if (!writeItems.Any())
                 return;
 
-           var allEntities = DataViewModel.ObservableRecords.OfType<TEntity>().ToList();  // _repository.GetRecords("*", 100);
-
+            IEnumerable<TEntity> allEntities = new List<TEntity>();
+            if (WriteToAllEntities)
+                allEntities = _repository.GetRecords("*", Limit);
+            else
+                allEntities = DataViewModel.ObservableRecords.OfType<TEntity>().ToList();
             foreach (var entity in allEntities)
             {
                 var plain = entity;
@@ -183,17 +217,38 @@ namespace TcoData.Models
                 {
                     try
                     {
-                        SetValueBySymbolPath(plain, item.Symbol, item.Value);
+                        if (item.Status == BulkItemStatus.Editable)
+                        {
+                            SetValueBySymbolPath(plain, item.Symbol, item.Value);
+                        }
+                        else
+                            return;
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine($"Failed to update {item.Symbol}: {ex.Message}");
                     }
                 }
+                var validations = _repository.OnRecordUpdateValidation?.Invoke(entity);
+                if (validations != null)
+                {
 
-                _repository.Update(entity._EntityId,entity);
+                    if (validations != null && validations.Any())
+                    {
+                        LastValidationLog = string.Join(Environment.NewLine, validations
+                            .Where(v => v.Failed == true)
+                            .Select(v => $"❌ {v.Error}"));
+                    }
 
-                
+                    if (validations.Any(p => p.Failed == true))
+                    {
+                        return;
+                    }
+                }
+              
+                _repository.Update(entity._EntityId, entity);
+
+
 
             }
 
@@ -203,6 +258,9 @@ namespace TcoData.Models
                 item.WriteStatus = BulkItemWriteStatus.NoChange;
             }
         }
+        /// <summary>
+        /// Sets a value on a nested property path using reflection.
+        /// </summary>
         public static void SetValueBySymbolPath(object root, string symbolPath, object newValue)
         {
             var parts = symbolPath.Split('.');
@@ -231,7 +289,9 @@ namespace TcoData.Models
             }
         }
 
-
+        /// <summary>
+        /// Determines if a specific object type should be included in the traversal result.
+        /// </summary>
         private bool ShouldInclude(string symbol, object obj)
         {
             if (obj == null) return false;
@@ -242,6 +302,10 @@ namespace TcoData.Models
                 .FirstOrDefault(x => x.Key.IsAssignableFrom(objType)).Value;
             return handler != null && handler(symbol, obj);
         }
+
+        /// <summary>
+        /// Converts a raw value to the correct target property type with culture and enum handling.
+        /// </summary>
         private static object ConvertToPropertyType(object value, Type targetType)
         {
             if (value == null)

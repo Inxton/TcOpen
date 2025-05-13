@@ -8,9 +8,16 @@ namespace TcoData.Models
 {
     public enum BulkItemWriteStatus
     {
+        /// <summary>
+        /// The item has not been modified or queued for writing.
+        /// </summary>
         NoChange = 0,
-        Modified = 10,
- 
+
+        /// <summary>
+        /// The item has been edited and is pending a write operation.
+        /// </summary>
+        Modified = 10
+
     }
     public static class BulkItemWriteStatuses
     {

@@ -40,14 +40,14 @@ namespace Sandbox.TcoData.Wpf
             var parameters = new MongoDbRepositorySettings<PlainSandboxData>("mongodb://localhost:27017", "TestDataBase", "TestCollection");
             var repository = Repository.Factory<PlainSandboxData>(parameters);
 
-            //repository.OnRecordUpdateValidation = (data) =>
-            //{
-            //    return new DataItemValidation[]
-            //        {
-            //            new DataItemValidation($"'{nameof(data.sampleData.SampleInt)}' must be greater than 0", data.sampleData.SampleInt <= 0),
-            //            new DataItemValidation($"'{nameof(data.sampleData.SampleInt2)}' must be less than 0", data.sampleData.SampleInt2 > 0)
-            //        };
-            //};
+            repository.OnRecordUpdateValidation = (data) =>
+            {
+                return new DataItemValidation[]
+                    {
+                        new DataItemValidation($"'{nameof(data.sampleData.SampleInt)}' must be greater than 0", data.sampleData.SampleInt <= 0),
+                        new DataItemValidation($"'{nameof(data.sampleData.SampleInt2)}' must be less than 0", data.sampleData.SampleInt2 > 0)
+                    };
+            };
 
             Entry.TcoDataTests.MAIN.sandbox.DataManager.InitializeRepository(repository);
             Entry.TcoDataTests.MAIN.sandbox.DataManager.InitializeRemoteDataExchange();
@@ -95,20 +95,28 @@ namespace Sandbox.TcoData.Wpf
             var repositoryFragmentedPlc2 = new MongoDbFragmentedRepository<PlainstProcessData_Plc2, PlainstProcessData_Plc2>(parametersFragmentedPlc2, fragmentExpressionPlc2);
             Entry.TcoDataTests.MAIN.sandbox.DataManagerPlc2.InitializeRepository(repositoryFragmentedPlc2);
 
-  
- 
+            ValidateDataDelegate<PlainSandboxData> validator = data =>
+            {
+                return new DataItemValidation[]
+                {
+        new DataItemValidation($"'{nameof(data.sampleData.SampleInt)}' must be greater than 0", data.sampleData.SampleInt <= 0),
+
+        new DataItemValidation($"'{nameof(data.sampleData.SampleInt2)}' must be less than 0", data.sampleData.SampleInt2 > 0)
+                };
+            };
+
             BulkModel = new BulkTraversalModel<PlainSandboxData, BulkDataItem>(repository,
-             DataValidation
+             validator
                     );
             BulkModel.UpdateFromDataTemplate((symbol, value) =>
                 {
-                    var editable = BulkItemStatus.All;
+                    var editable = BulkItemStatus.Undefined;
 
-                    var editableMembers = PropertyHelper.GetPropertiesNames( new PlainSandboxData(), p => p.someInteger, p => p.someString);
+                    var editableMembers = PropertyHelper.GetPropertiesNames( new PlainSandboxData(), p => p.someInteger, p => p.someString,p=>p.sampleData.SampleInt);
 
                     if (editableMembers.Any(member => symbol.Contains(member)))
                     {
-                        editable = BulkItemStatus.Writable;
+                        editable = BulkItemStatus.Editable;
                     }
 
                     return new BulkDataItem
@@ -122,14 +130,7 @@ namespace Sandbox.TcoData.Wpf
                 });
         }
 
-        private IEnumerable<DataItemValidation> DataValidation(PlainSandboxData data)
-        {
-            return new DataItemValidation[]
-                   {
-                        new DataItemValidation($"'{nameof(data.sampleData.SampleInt)}' must be greater than 0", data.sampleData.SampleInt <= 0),
-                        new DataItemValidation($"'{nameof(data.sampleData.SampleInt2)}' must be less than 0", data.sampleData.SampleInt2 > 0)
-                   };
-        }
+
 
         public static BulkTraversalModel<PlainSandboxData, BulkDataItem> BulkModel { get; private set; }
     }

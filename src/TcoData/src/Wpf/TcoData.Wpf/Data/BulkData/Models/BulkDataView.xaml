@@ -27,7 +27,7 @@
                 <RowDefinition  MaxHeight="{Binding ElementName=RootContainer, Path=ActualHeight, Converter={wpf:PercentageConverter}, ConverterParameter=0.5}" />
 
                 <RowDefinition x:Name="GridSplitterRow" Height="Auto" />
-                <RowDefinition Height="auto"></RowDefinition>
+               
                 <RowDefinition />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
@@ -154,24 +154,29 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
-            <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="10">
-                <ComboBox ItemsSource="{x:Static models:BulkItemStatuses.All}"
+           
+            <Grid
+                        Grid.Row="3"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+                    <TextBlock Margin="10,0" VerticalAlignment="Center" Text="Status:"></TextBlock>
+                    <ComboBox ItemsSource="{x:Static models:BulkItemStatuses.All}"
               SelectedItem="{Binding SelectedStatusFilter, Mode=TwoWay}"
               Width="150"
               Margin="0,0,10,0"
               IsEditable="False"/>
-                <TextBlock Text="Filter:"></TextBlock>
-                <TextBox Margin="10,0" MinWidth="200"
+                    <TextBlock VerticalAlignment="Center" Text="Symbol contains:"></TextBlock>
+                    <TextBox Margin="10,0" MinWidth="200"
              Text="{Binding SymbolKeywordFilter, UpdateSourceTrigger=PropertyChanged}"
              />
 
-            </StackPanel>
-            <Grid
-                        Grid.Row="4"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch">
-
-                <DataGrid ItemsSource="{Binding FilteredItems}" AutoGenerateColumns="False" Margin="10"
+                </StackPanel>
+                <DataGrid Grid.Row="1" ItemsSource="{Binding FilteredItems}" AutoGenerateColumns="False" Margin="10"
                   IsReadOnly="False" CanUserAddRows="False">
                     <DataGrid.ItemContainerStyle>
                         <Style TargetType="DataGridRow">
@@ -196,10 +201,18 @@
                 </DataGrid>
 
 
+
             </Grid>
+            <Border Grid.Row="5" Padding="10">
+                    <WrapPanel  Orientation="Horizontal" HorizontalAlignment="Center" >
+                        <CheckBox  Content="Write to all" IsChecked="{Binding WriteToAllEntities}"></CheckBox>
+                        <TextBlock VerticalAlignment="Center" Margin="10,0" Text="Limit :" ></TextBlock>
+                        <TextBox Margin="10,0" VerticalAlignment="Center" Text="{Binding Limit}" ></TextBox>
 
-            <Button Grid.Row="5" Content="Bulk data entry" Command="{Binding WriteDataCommand}"></Button>
+                        <Button  Content="Bulk data entry" Command="{Binding WriteDataCommand}"></Button>
 
+                    </WrapPanel>
+            </Border>
         </Grid>
 
         <vortex:HelpProviderView Grid.Row="1">
