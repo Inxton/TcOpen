@@ -203,6 +203,8 @@ namespace TcoData.Models
 
             if (!writeItems.Any())
                 return;
+            // Create a HashSet for fast symbol lookup
+            var modifiedSymbols = new HashSet<string>(writeItems.Where(p=>p.WriteStatus == BulkItemWriteStatus.Modified).Select(i => i.Symbol));
 
             IEnumerable<TEntity> allEntities = new List<TEntity>();
             if (WriteToAllEntities)
@@ -236,11 +238,11 @@ namespace TcoData.Models
                     if (validations != null && validations.Any())
                     {
                         LastValidationLog = string.Join(Environment.NewLine, validations
-                            .Where(v => v.Failed == true)
+                            .Where(v => v.Failed == true && modifiedSymbols.Any(symbol => v.Error.Contains(symbol)))
                             .Select(v => $"❌ {v.Error}"));
                     }
 
-                    if (validations.Any(p => p.Failed == true))
+                    if (validations.Any(v => v.Failed && modifiedSymbols.Any(symbol => v.Error.Contains(symbol))))
                     {
                         return;
                     }

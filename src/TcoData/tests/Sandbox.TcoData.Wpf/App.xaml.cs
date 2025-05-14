@@ -99,9 +99,9 @@ namespace Sandbox.TcoData.Wpf
             {
                 return new DataItemValidation[]
                 {
-        new DataItemValidation($"'{nameof(data.sampleData.SampleInt)}' must be greater than 0", data.sampleData.SampleInt <= 0),
+        new DataItemValidation($"'{SymbolHelper.GetFullPath(() =>data.sampleData.SampleInt)}' must be greater than 0", data.sampleData.SampleInt <= 0),
 
-        new DataItemValidation($"'{nameof(data.sampleData.SampleInt2)}' must be less than 0", data.sampleData.SampleInt2 > 0)
+        new DataItemValidation($"'{SymbolHelper.GetFullPath(() =>data.sampleData.SampleInt2)}' must be less than 0", data.sampleData.SampleInt2 > 0)
                 };
             };
 
