@@ -7,6 +7,28 @@ using System.Text;
 
 namespace TcoData.Helpers
 {
+    using System;
+    using System.Linq.Expressions;
+
+    public static class SymbolHelper
+    {
+        public static string GetFullPath<T>(Expression<Func<T>> expr)
+        {
+            var memberExpr = expr.Body as MemberExpression;
+            if (memberExpr == null)
+                throw new ArgumentException("Expression must be a MemberExpression");
+
+            var parts = new System.Collections.Generic.List<string>();
+            while (memberExpr != null)
+            {
+                parts.Insert(0, memberExpr.Member.Name);
+                memberExpr = memberExpr.Expression as MemberExpression;
+            }
+
+            return string.Join(".", parts);
+        }
+    }
+
     public static class PropertyHelper
     {
         public static string GetPropertyName<T, TProperty>(Expression<Func<T, TProperty>> property)
