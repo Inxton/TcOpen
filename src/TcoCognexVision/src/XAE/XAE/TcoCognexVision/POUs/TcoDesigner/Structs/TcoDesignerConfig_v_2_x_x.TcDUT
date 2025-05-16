@@ -9,7 +9,7 @@
 		TriggerTimemout : TIME := T#15S;
 		ConnectionTimemout : TIME := T#10S;
         InfoTime : TIME := T#2S;
-        ErrorTime : TIME := T#5S;
+        ErrorTime : TIME := T#0S;
     END_STRUCT
 END_TYPE
 ]]></Declaration>

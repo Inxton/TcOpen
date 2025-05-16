@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="TcoDatamanClearResultData_v_5_x_x" Id="{20001709-502a-0419-3be6-fc7096dea873}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK TcoDatamanClearResultData_v_5_x_x EXTENDS TcoCore.TcoTask
 VAR_IN_OUT
@@ -87,9 +87,12 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_infoTimer(IN := inValue, PT := THIS^.inoConfig.InfoTime);
+        <ST><![CDATA[IF  __ISVALIDREF(inoConfig) AND THIS^.inoConfig.ErrorTime <> T#0S OR NOT inValue THEN  
 _errorTimer(IN := inValue, PT := THIS^.inoConfig.ErrorTime);
-]]></ST>
+END_IF;
+IF  __ISVALIDREF(inoConfig) AND THIS^.inoConfig.InfoTime <>T#0S OR NOT inValue THEN  
+_infoTimer(IN := inValue, PT := THIS^.inoConfig.InfoTime);
+END_IF;]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_init" Id="{0d7d3ac7-a86f-0355-3715-b462a3facc86}">

@@ -10,7 +10,7 @@
 		UpdateStatesPermanently : BOOL := FALSE;
         MaxJobNumber : UINT := 999;
         InfoTime : TIME := T#2S;
-        ErrorTime : TIME := T#5S;
+        ErrorTime : TIME := T#0S;
 		ShowUserData : BOOL := FALSE;
 		ShowResultsData : BOOL := FALSE;
 
