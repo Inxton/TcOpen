@@ -50,7 +50,7 @@ IF Execute() THEN
 			Messenger.Programming(_sb.Clear().Append('<#Invalid reference: #>').Append(_varInfo.Symbol).ToString()).Pin();
 
 		ELSIF inTriggerType = eTcoDesignerTriggerType.TriggerWithTimeout 
-			AND inoConfig.ErrorTime < inoConfig.TriggerTimemout THEN
+			AND inoConfig.ErrorTime < inoConfig.TriggerTimemout  AND inoConfig.ErrorTime <>T#0S THEN
 				Messenger.Error(_sb.Clear().Append('<#Error time is lower than timeout. Please check config!#>').ToString()).Pin();
 
 		ELSE
@@ -74,8 +74,17 @@ IF Execute() THEN
 		END_IF
 
 	END_IF;
-
+	
 	IF _progress = 2 THEN
+		THIS^.Messenger.OnCondition(_infoTimer.Q).Warning('<#Waiting for the Online signal!#>'); 
+		IF THIS^.inoIoData.PcToPlc.SystemOnline THEN
+			CallTimers(FALSE);
+			_progress := _progress + 1;
+		END_IF
+	END_IF
+	
+
+	IF _progress = 3 THEN
 		THIS^.Messenger.OnCondition(_infoTimer.Q).Info('<#Trigger!#>'); 
 		THIS^.inoIoData.PlcToPc.Trigger:=TRUE;
 	
@@ -87,7 +96,7 @@ IF Execute() THEN
 	END_IF
 	
 	
-	IF _progress=3 THEN	
+	IF _progress=4 THEN	
 		Messenger.Info('Waiting for results available');
 		IF THIS^.inoIoData.PcToPlc.ResultsAvailable  THEN		
 			CallTimers(FALSE);
@@ -95,7 +104,7 @@ IF Execute() THEN
 		END_IF
 	END_IF
 	
-	IF _progress=4 THEN	
+	IF _progress=5 THEN	
 		Messenger.Info('Acknovledge results');
 		THIS^.inoIoData.PlcToPc.ResultsAck:=TRUE;
 		IF NOT THIS^.inoIoData.PcToPlc.ResultsAvailable  THEN
@@ -123,9 +132,12 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_infoTimer(IN := inValue, PT := THIS^.inoConfig.InfoTime);
+        <ST><![CDATA[IF  __ISVALIDREF(inoConfig) AND THIS^.inoConfig.ErrorTime <> T#0S OR NOT inValue THEN  
 _errorTimer(IN := inValue, PT := THIS^.inoConfig.ErrorTime);
-]]></ST>
+END_IF;
+IF  __ISVALIDREF(inoConfig) AND THIS^.inoConfig.InfoTime <>T#0S OR NOT inValue THEN  
+_infoTimer(IN := inValue, PT := THIS^.inoConfig.InfoTime);
+END_IF;]]></ST>
       </Implementation>
     </Method>
     <Method Name="OnAbort" Id="{fee7fe37-7d09-0a35-3b6e-db34c6b40ed8}">
