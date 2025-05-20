@@ -186,7 +186,7 @@ namespace TcoData.Models
 
         public bool WriteToAllEntities { get; set; }
         public int Limit { get; set; } = 1000;
-
+      
         /// <summary>
         /// Latest validation summary log as a plain string.
         /// </summary>
@@ -213,7 +213,10 @@ namespace TcoData.Models
                 allEntities = DataViewModel.ObservableRecords.OfType<TEntity>().ToList();
             foreach (var entity in allEntities)
             {
-                var plain = entity;
+
+                var plain = _repository.Read(entity._EntityId);
+
+
 
                 foreach (var item in writeItems)
                 {
@@ -221,17 +224,33 @@ namespace TcoData.Models
                     {
                         if (item.Status == BulkItemStatus.Editable)
                         {
-                            SetValueBySymbolPath(plain, item.Symbol, item.Value);
+
+                            object oldValue;
+                            SetValueBySymbolPath(plain, item.Symbol, item.Value, out oldValue);
+
+                            var change = new ValueChangeItem()
+                            {
+                                ValueTag = new ValueItemDescriptor() { Symbol = item.Symbol },
+                                OldValue = oldValue,
+                                NewValue = item.Value,
+                                DateTime = DateTime.Now,
+                                UserName = GetUser()
+                            };
+
+                            plain.Changes.Add(change); ;
+                            TcOpen.Inxton.TcoAppDomain.Current.Logger.Information($"(Bulk data edit) User '{change.UserName}' changed value of '{change.ValueTag.Symbol}' from '{change.OldValue}' to '{change.NewValue}' {{@payload}}",change);
                         }
                         else
                             return;
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"Failed to update {item.Symbol}: {ex.Message}");
+                        //Console.WriteLine($"Failed to update {item.Symbol}: {ex.Message}");
+                        MessageBox.Show($"Failed to update {item.Symbol}: {ex.Message}");
+                        return;
                     }
                 }
-                var validations = _repository.OnRecordUpdateValidation?.Invoke(entity);
+                var validations = _repository.OnRecordUpdateValidation?.Invoke(plain);
                 if (validations != null)
                 {
 
@@ -247,8 +266,9 @@ namespace TcoData.Models
                         return;
                     }
                 }
-              
-                _repository.Update(entity._EntityId, entity);
+                
+                
+                _repository.Update(plain._EntityId, plain);
 
 
 
@@ -260,11 +280,28 @@ namespace TcoData.Models
                 item.WriteStatus = BulkItemWriteStatus.NoChange;
             }
         }
+
+        private static string GetUser()
+        {
+            var userName = "";
+            try
+            {
+                userName = TcOpen.Inxton.Local.Security.SecurityManager.Manager.Principal.Identity.Name;
+            }
+            catch
+            {
+                userName = "!failed to determine user!";
+            }
+
+            return userName;
+        }
+
         /// <summary>
         /// Sets a value on a nested property path using reflection.
         /// </summary>
-        public static void SetValueBySymbolPath(object root, string symbolPath, object newValue)
+        public static void SetValueBySymbolPath(object root, string symbolPath, object newValue, out object oldValue)
         {
+            oldValue = new object();
             var parts = symbolPath.Split('.');
             object current = root;
             PropertyInfo prop = null;
@@ -272,10 +309,17 @@ namespace TcoData.Models
             for (int i = 0; i < parts.Length; i++)
             {
                 prop = current.GetType().GetProperty(parts[i]);
-                if (prop == null) return;
+                if (prop == null)
+                {
+                    oldValue = null;
+                    return;
+                }
 
                 if (i == parts.Length - 1)
                 {
+                    // Final property – get old value and set new value
+                    oldValue = prop.GetValue(current);
+
                     // Final property – set value
                     var converted = ConvertToPropertyType(newValue, prop.PropertyType);
                     prop.SetValue(current, converted);
