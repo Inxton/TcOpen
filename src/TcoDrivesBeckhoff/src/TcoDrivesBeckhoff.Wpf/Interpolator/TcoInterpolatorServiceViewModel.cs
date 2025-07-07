@@ -33,6 +33,6 @@ namespace TcoDrivesBeckhoff
 
     }
 
-    public class TcoInterpolatorViewModel : TcoMultiAxisServiceViewModel
+    public class TcoInterpolatorViewModel : TcoInterpolatorServiceViewModel
     { }
 }
