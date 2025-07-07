@@ -144,4 +144,7 @@
   <data name="___Wrapped_Component_Example__" xml:space="preserve">
     <value>Wrapped Component Example</value>
   </data>
+  <data name="___Interpolator__" xml:space="preserve">
+    <value>Interpolator</value>
+  </data>
 </root>

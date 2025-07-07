@@ -45,6 +45,9 @@ VAR
     _sequence1Task 	: Sequence1Task(THIS^);
     _dialog        	: TcoCore.TcoDialog(THIS^);
 	_moveParam: TcoMultiAxisMoveParam;
+	
+	{attribute addProperty Name "<#Interpolator#>"}
+    _interpolator : TcoDrivesBeckhoff.TcoInterpolator(THIS^);
 
 END_VAR
 ]]></Declaration>

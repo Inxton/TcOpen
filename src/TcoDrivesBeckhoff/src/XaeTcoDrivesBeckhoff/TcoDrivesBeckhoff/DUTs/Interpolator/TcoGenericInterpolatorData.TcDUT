@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="TcoGenericInterpolatorData" Id="{c871a0dc-1c02-42ae-acc5-f4842a862619}">
+    <Declaration><![CDATA[{attribute addProperty Name "<#Data#>"}
+{attribute wpf [Container(Layout.Stack)]}
+TYPE TcoGenericInterpolatorData :
+STRUCT
+
+	{attribute addProperty Name "X - <#Actual Position#>"}
+	posX : LREAL;
+	{attribute addProperty Name "Y - <#Actual Position#>"}
+	posY : LREAL;
+	{attribute addProperty Name "Z - <#Actual Position#>"}
+	posZ : LREAL;
+	{attribute addProperty Name "<#Actual Interpolation Block No#>"}
+	blockNo : UDINT;
+	{attribute clr [ReadOnly()]}
+	{attribute addProperty Name "<#Alarm Code#>"}
+	AlarmCode : UDINT;
+	
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

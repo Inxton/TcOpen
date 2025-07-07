@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="TcoGenericInterpolatorHwOutputs" Id="{9a6530dd-ac45-4b44-82d0-42c1c1cb6601}">
+    <Declaration><![CDATA[TYPE TcoGenericInterpolatorHwOutputs :
+STRUCT
+	qFromPlc AT %Q* : PLCTONC_NCICHANNEL_REF;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

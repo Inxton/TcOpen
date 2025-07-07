@@ -61,6 +61,15 @@ namespace TcoDrivesBeckhoffTestsConnector.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Interpolator.
+        /// </summary>
+        public static string ___Interpolator__ {
+            get {
+                return ResourceManager.GetString("___Interpolator__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pick Position.
         /// </summary>
         public static string ___Pick_Position__ {
@@ -129,6 +138,15 @@ namespace TcoDrivesBeckhoffTestsConnector.Properties {
         public static string ___Test_single_axis__ {
             get {
                 return ResourceManager.GetString("___Test_single_axis__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrapped Component Example.
+        /// </summary>
+        public static string ___Wrapped_Component_Example__ {
+            get {
+                return ResourceManager.GetString("___Wrapped_Component_Example__", resourceCulture);
             }
         }
     }

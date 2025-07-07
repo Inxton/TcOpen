@@ -135,6 +135,18 @@
 
                 </Grid>
             </TabItem>
+            <TabItem Header="Interpolator">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition ></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <ScrollViewer>
+                        <vortex:RenderableContentControl Grid.Row="0" DataContext="{Binding MAIN._wpfContext._interpolator}" PresentationType="Service"/>
+                    </ScrollViewer>
+                    
+                </Grid>
+            </TabItem>
             <TabItem Header="Diagnostic">
                 <vortex:RenderableContentControl DataContext="{Binding MAIN._wpfContext }" PresentationType="Diagnostics"/>
 

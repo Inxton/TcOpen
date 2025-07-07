@@ -88,6 +88,15 @@ namespace TcoDrivesBeckhoffConnector.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Actual Interpolation Block No.
+        /// </summary>
+        public static string ___Actual_Interpolation_Block_No__ {
+            get {
+                return ResourceManager.GetString("___Actual_Interpolation_Block_No__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Actual modulo position.
         /// </summary>
         public static string ___Actual_modulo_position__ {
@@ -106,11 +115,11 @@ namespace TcoDrivesBeckhoffConnector.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Actual position.
+        ///   Looks up a localized string similar to Actual Position.
         /// </summary>
-        public static string ___Actual_position__ {
+        public static string ___Actual_Position__ {
             get {
-                return ResourceManager.GetString("___Actual_position__", resourceCulture);
+                return ResourceManager.GetString("___Actual_Position__", resourceCulture);
             }
         }
         
@@ -129,6 +138,15 @@ namespace TcoDrivesBeckhoffConnector.Properties {
         public static string ___Actual_velocity__ {
             get {
                 return ResourceManager.GetString("___Actual_velocity__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Alarm Code.
+        /// </summary>
+        public static string ___Alarm_Code__ {
+            get {
+                return ResourceManager.GetString("___Alarm_Code__", resourceCulture);
             }
         }
         
@@ -187,11 +205,47 @@ namespace TcoDrivesBeckhoffConnector.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Axis Error.
+        /// </summary>
+        public static string ___Axis_Error__ {
+            get {
+                return ResourceManager.GetString("___Axis_Error__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Axis status.
         /// </summary>
         public static string ___Axis_status__ {
             get {
                 return ResourceManager.GetString("___Axis_status__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Block Mode.
+        /// </summary>
+        public static string ___Block_Mode__ {
+            get {
+                return ResourceManager.GetString("___Block_Mode__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bode Plot Error.
+        /// </summary>
+        public static string ___Bode_Plot_Error__ {
+            get {
+                return ResourceManager.GetString("___Bode_Plot_Error__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Channel Error.
+        /// </summary>
+        public static string ___Channel_Error__ {
+            get {
+                return ResourceManager.GetString("___Channel_Error__", resourceCulture);
             }
         }
         
@@ -232,6 +286,42 @@ namespace TcoDrivesBeckhoffConnector.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Continuous update.
+        /// </summary>
+        public static string ___Continuous_update__ {
+            get {
+                return ResourceManager.GetString("___Continuous_update__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Control.
+        /// </summary>
+        public static string ___Control__ {
+            get {
+                return ResourceManager.GetString("___Control__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Controller Error.
+        /// </summary>
+        public static string ___Controller_Error__ {
+            get {
+                return ResourceManager.GetString("___Controller_Error__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data.
+        /// </summary>
+        public static string ___Data__ {
+            get {
+                return ResourceManager.GetString("___Data__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Deceleration.
         /// </summary>
         public static string ___Deceleration__ {
@@ -264,6 +354,15 @@ namespace TcoDrivesBeckhoffConnector.Properties {
         public static string ___Distance__ {
             get {
                 return ResourceManager.GetString("___Distance__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drive Error.
+        /// </summary>
+        public static string ___Drive_Error__ {
+            get {
+                return ResourceManager.GetString("___Drive_Error__", resourceCulture);
             }
         }
         
@@ -322,11 +421,74 @@ namespace TcoDrivesBeckhoffConnector.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Encoder Error.
+        /// </summary>
+        public static string ___Encoder_Error__ {
+            get {
+                return ResourceManager.GetString("___Encoder_Error__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         public static string ___Error__ {
             get {
                 return ResourceManager.GetString("___Error__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error executing Build Interpolation Group command. ErrorID:.
+        /// </summary>
+        public static string ___Error_executing_Build_Interpolation_Group_command__ErrorID___ {
+            get {
+                return ResourceManager.GetString("___Error_executing_Build_Interpolation_Group_command__ErrorID___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error executing Clear Group command. ErrorID:.
+        /// </summary>
+        public static string ___Error_executing_Clear_Group_command__ErrorID___ {
+            get {
+                return ResourceManager.GetString("___Error_executing_Clear_Group_command__ErrorID___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error executing Confirm Handshake command. ErrorID:.
+        /// </summary>
+        public static string ___Error_executing_Confirm_Handshake_command__ErrorID___ {
+            get {
+                return ResourceManager.GetString("___Error_executing_Confirm_Handshake_command__ErrorID___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error executing Load Program command. ErrorID:.
+        /// </summary>
+        public static string ___Error_executing_Load_Program_command__ErrorID___ {
+            get {
+                return ResourceManager.GetString("___Error_executing_Load_Program_command__ErrorID___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error executing Reset command.
+        /// </summary>
+        public static string ___Error_executing_Reset_command__ {
+            get {
+                return ResourceManager.GetString("___Error_executing_Reset_command__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error executing Start Program command. ErrorID:.
+        /// </summary>
+        public static string ___Error_executing_Start_Program_command__ErrorID___ {
+            get {
+                return ResourceManager.GetString("___Error_executing_Start_Program_command__ErrorID___", resourceCulture);
             }
         }
         
@@ -340,11 +502,47 @@ namespace TcoDrivesBeckhoffConnector.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Force/Torque.
+        /// </summary>
+        public static string ___Force_Torque__ {
+            get {
+                return ResourceManager.GetString("___Force_Torque__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Furhter Error.
+        /// </summary>
+        public static string ___Furhter_Error__ {
+            get {
+                return ResourceManager.GetString("___Furhter_Error__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General Error.
+        /// </summary>
+        public static string ___General_Error__ {
+            get {
+                return ResourceManager.GetString("___General_Error__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Global control.
         /// </summary>
         public static string ___Global_control__ {
             get {
                 return ResourceManager.GetString("___Global_control__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Group Error.
+        /// </summary>
+        public static string ___Group_Error__ {
+            get {
+                return ResourceManager.GetString("___Group_Error__", resourceCulture);
             }
         }
         
@@ -466,6 +664,15 @@ namespace TcoDrivesBeckhoffConnector.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hide SetTorque Tab.
+        /// </summary>
+        public static string ___Hide_SetTorque_Tab__ {
+            get {
+                return ResourceManager.GetString("___Hide_SetTorque_Tab__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hide Stop Tab.
         /// </summary>
         public static string ___Hide_Stop_Tab__ {
@@ -489,6 +696,42 @@ namespace TcoDrivesBeckhoffConnector.Properties {
         public static string ___Homing_error_no___ {
             get {
                 return ResourceManager.GetString("___Homing_error_no___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Interpolácia prerušená..
+        /// </summary>
+        public static string ___Interpolácia_prerušená___ {
+            get {
+                return ResourceManager.GetString("___Interpolácia_prerušená___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Interpolation File.
+        /// </summary>
+        public static string ___Interpolation_File__ {
+            get {
+                return ResourceManager.GetString("___Interpolation_File__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Interpreter not in IDLE state..
+        /// </summary>
+        public static string ___Interpreter_not_in_IDLE_state___ {
+            get {
+                return ResourceManager.GetString("___Interpreter_not_in_IDLE_state___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid file name of interpolation file..
+        /// </summary>
+        public static string ___Invalid_file_name_of_interpolation_file___ {
+            get {
+                return ResourceManager.GetString("___Invalid_file_name_of_interpolation_file___", resourceCulture);
             }
         }
         
@@ -579,6 +822,15 @@ namespace TcoDrivesBeckhoffConnector.Properties {
         public static string ___Jogging__ {
             get {
                 return ResourceManager.GetString("___Jogging__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kinematic Transformation Error.
+        /// </summary>
+        public static string ___Kinematic_Transformation_Error__ {
+            get {
+                return ResourceManager.GetString("___Kinematic_Transformation_Error__", resourceCulture);
             }
         }
         
@@ -691,6 +943,42 @@ namespace TcoDrivesBeckhoffConnector.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to NC PLC Error.
+        /// </summary>
+        public static string ___NC_PLC_Error__ {
+            get {
+                return ResourceManager.GetString("___NC_PLC_Error__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Next step.
+        /// </summary>
+        public static string ___Next_step__ {
+            get {
+                return ResourceManager.GetString("___Next_step__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Off.
+        /// </summary>
+        public static string ___Off__ {
+            get {
+                return ResourceManager.GetString("___Off__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to On.
+        /// </summary>
+        public static string ___On__ {
+            get {
+                return ResourceManager.GetString("___On__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Override.
         /// </summary>
         public static string ___Override__ {
@@ -750,6 +1038,15 @@ namespace TcoDrivesBeckhoffConnector.Properties {
         public static string ___Reference_mode__ {
             get {
                 return ResourceManager.GetString("___Reference_mode__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Relative.
+        /// </summary>
+        public static string ___Relative__ {
+            get {
+                return ResourceManager.GetString("___Relative__", resourceCulture);
             }
         }
         
@@ -817,6 +1114,15 @@ namespace TcoDrivesBeckhoffConnector.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to see detailed description in Component View.
+        /// </summary>
+        public static string ___see_detailed_description_in_Component_View__ {
+            get {
+                return ResourceManager.GetString("___see_detailed_description_in_Component_View__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Set position.
         /// </summary>
         public static string ___Set_position__ {
@@ -840,6 +1146,24 @@ namespace TcoDrivesBeckhoffConnector.Properties {
         public static string ___Soe_Reset_Drives_Task__ {
             get {
                 return ResourceManager.GetString("___Soe_Reset_Drives_Task__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start Ground.
+        /// </summary>
+        public static string ___Start_Ground__ {
+            get {
+                return ResourceManager.GetString("___Start_Ground__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start Interpolation.
+        /// </summary>
+        public static string ___Start_Interpolation__ {
+            get {
+                return ResourceManager.GetString("___Start_Interpolation__", resourceCulture);
             }
         }
         
@@ -889,11 +1213,83 @@ namespace TcoDrivesBeckhoffConnector.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Table Error.
+        /// </summary>
+        public static string ___Table_Error__ {
+            get {
+                return ResourceManager.GetString("___Table_Error__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Torque/Force.
+        /// </summary>
+        public static string ___Torque_Force__ {
+            get {
+                return ResourceManager.GetString("___Torque_Force__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Torque Options: Enable Manual Torque Start value .
+        /// </summary>
+        public static string ___Torque_Options__Enable_Manual_Torque_Start_value___ {
+            get {
+                return ResourceManager.GetString("___Torque_Options__Enable_Manual_Torque_Start_value___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Torque Options:Manual Torque Start value.
+        /// </summary>
+        public static string ___Torque_Options_Manual_Torque_Start_value__ {
+            get {
+                return ResourceManager.GetString("___Torque_Options_Manual_Torque_Start_value__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Torque ramp.
+        /// </summary>
+        public static string ___Torque_ramp__ {
+            get {
+                return ResourceManager.GetString("___Torque_ramp__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Velocity.
         /// </summary>
         public static string ___Velocity__ {
             get {
                 return ResourceManager.GetString("___Velocity__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Velocity limit high.
+        /// </summary>
+        public static string ___Velocity_limit_high__ {
+            get {
+                return ResourceManager.GetString("___Velocity_limit_high__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Velocity limit low.
+        /// </summary>
+        public static string ___Velocity_limit_low__ {
+            get {
+                return ResourceManager.GetString("___Velocity_limit_low__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Velocity Override.
+        /// </summary>
+        public static string ___Velocity_Override__ {
+            get {
+                return ResourceManager.GetString("___Velocity_Override__", resourceCulture);
             }
         }
     }
