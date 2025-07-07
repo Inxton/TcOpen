@@ -63,6 +63,18 @@
     <Compile Include="DUTs\eJogMode.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\Interpolator\HW\TcoGenericInterpolatorHw.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\Interpolator\HW\TcoGenericInterpolatorHwInputs.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\Interpolator\HW\TcoGenericInterpolatorHwOutputs.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\Interpolator\TcoGenericInterpolatorData.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\TcoAxisOpModes.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -118,6 +130,18 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\MAIN.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\CartesianCoordinateSystem\Intetrpolator\TcoInterpolator.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\CartesianCoordinateSystem\Intetrpolator\TcoInterpolatorConfig.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\CartesianCoordinateSystem\Intetrpolator\TcoInterpolatorStatus.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\CartesianCoordinateSystem\Intetrpolator\TcoInterpolatorControl.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Prototypes\CartesianCoordinateSystem\MultiAxisSystem\eTcoMultiAxisSystem.TcDUT">
@@ -216,10 +240,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DUTs" />
+    <Folder Include="DUTs\Interpolator" />
+    <Folder Include="DUTs\Interpolator\HW" />
     <Folder Include="GVLs" />
     <Folder Include="POUs\Conversions" />
     <Folder Include="POUs\Prototypes\CartesianCoordinateSystem" />
     <Folder Include="POUs\Prototypes\CartesianCoordinateSystem\MultiAxisSystem" />
+    <Folder Include="POUs\Prototypes\CartesianCoordinateSystem\Intetrpolator" />
     <Folder Include="POUs\Prototypes\CartesianCoordinateSystem\SingleAxisSystem" />
     <Folder Include="POUs\Prototypes\TcoDriveSimple\MotionTasks" />
     <Folder Include="POUs\Prototypes\TcoDriveSimple\AxisTasks" />
@@ -238,6 +265,10 @@
       <DefaultResolution>Tc2_MC2_Drive, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_MC2_Drive</Namespace>
     </PlaceholderReference>
+    <PlaceholderReference Include="Tc2_NCI">
+      <DefaultResolution>Tc2_NCI, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_NCI</Namespace>
+    </PlaceholderReference>
     <PlaceholderReference Include="Tc2_Standard">
       <DefaultResolution>Tc2_Standard, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_Standard</Namespace>
@@ -245,6 +276,10 @@
     <PlaceholderReference Include="Tc2_System">
       <DefaultResolution>Tc2_System, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_System</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc2_Utilities">
+      <DefaultResolution>Tc2_Utilities, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_Utilities</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3_Module">
       <DefaultResolution>Tc3_Module, * (Beckhoff Automation GmbH)</DefaultResolution>

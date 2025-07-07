@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="TcoInterpolatorConfig" Id="{8f762ce7-5d15-0508-3930-f48d0c729e95}">
+    <Declaration><![CDATA[TYPE TcoInterpolatorConfig :
+STRUCT
+   Axis1Disabled:BOOL;
+   Axis2Disabled:BOOL;
+   Axis3Disabled:BOOL;
+
+   InfoTime : TIME := T#2S;
+   ErrorTime : TIME := T#5S;
+   
+   Timeout:TIME :=T#15S;  
+   FileName:STRING(254);  	
+   Override : LREAL := 100.0;
+   
+  
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

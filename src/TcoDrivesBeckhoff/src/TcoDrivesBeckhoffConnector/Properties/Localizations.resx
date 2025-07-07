@@ -126,8 +126,23 @@
   <data name="___Invalid_reference_axis_3__" xml:space="preserve">
     <value>Invalid reference axis 3</value>
   </data>
-  <data name="___Invalid_reference_axis_4__" xml:space="preserve">
-    <value>Invalid reference axis 4</value>
+  <data name="___Error_executing_Build_Interpolation_Group_command__ErrorID___" xml:space="preserve">
+    <value>Error executing Build Interpolation Group command. ErrorID:</value>
+  </data>
+  <data name="___Error_executing_Load_Program_command__ErrorID___" xml:space="preserve">
+    <value>Error executing Load Program command. ErrorID:</value>
+  </data>
+  <data name="___Error_executing_Start_Program_command__ErrorID___" xml:space="preserve">
+    <value>Error executing Start Program command. ErrorID:</value>
+  </data>
+  <data name="___Error_executing_Clear_Group_command__ErrorID___" xml:space="preserve">
+    <value>Error executing Clear Group command. ErrorID:</value>
+  </data>
+  <data name="___Error_executing_Confirm_Handshake_command__ErrorID___" xml:space="preserve">
+    <value>Error executing Confirm Handshake command. ErrorID:</value>
+  </data>
+  <data name="___Error_executing_Reset_command__" xml:space="preserve">
+    <value>Error executing Reset command</value>
   </data>
   <data name="___Axis_1__" xml:space="preserve">
     <value>Axis 1</value>
@@ -138,14 +153,95 @@
   <data name="___Axis_3__" xml:space="preserve">
     <value>Axis 3</value>
   </data>
-  <data name="___Axis_4__" xml:space="preserve">
-    <value>Axis 4</value>
-  </data>
   <data name="___Status__" xml:space="preserve">
     <value>Status</value>
   </data>
   <data name="___Config__" xml:space="preserve">
     <value>Config</value>
+  </data>
+  <data name="___Control__" xml:space="preserve">
+    <value>Control</value>
+  </data>
+  <data name="___Start_Interpolation__" xml:space="preserve">
+    <value>Start Interpolation</value>
+  </data>
+  <data name="___Block_Mode__" xml:space="preserve">
+    <value>Block Mode</value>
+  </data>
+  <data name="___On__" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="___Off__" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="___Start_Ground__" xml:space="preserve">
+    <value>Start Ground</value>
+  </data>
+  <data name="___Next_step__" xml:space="preserve">
+    <value>Next step</value>
+  </data>
+  <data name="___Reset_Drives_Task__" xml:space="preserve">
+    <value>Reset Drives Task</value>
+  </data>
+  <data name="___Soe_Reset_Drives_Task__" xml:space="preserve">
+    <value>Soe Reset Drives Task</value>
+  </data>
+  <data name="___Restore_Task__" xml:space="preserve">
+    <value>Restore Task</value>
+  </data>
+  <data name="___General_Error__" xml:space="preserve">
+    <value>General Error</value>
+  </data>
+  <data name="___see_detailed_description_in_Component_View__" xml:space="preserve">
+    <value>see detailed description in Component View</value>
+  </data>
+  <data name="___Channel_Error__" xml:space="preserve">
+    <value>Channel Error</value>
+  </data>
+  <data name="___Group_Error__" xml:space="preserve">
+    <value>Group Error</value>
+  </data>
+  <data name="___Axis_Error__" xml:space="preserve">
+    <value>Axis Error</value>
+  </data>
+  <data name="___Encoder_Error__" xml:space="preserve">
+    <value>Encoder Error</value>
+  </data>
+  <data name="___Controller_Error__" xml:space="preserve">
+    <value>Controller Error</value>
+  </data>
+  <data name="___Drive_Error__" xml:space="preserve">
+    <value>Drive Error</value>
+  </data>
+  <data name="___Table_Error__" xml:space="preserve">
+    <value>Table Error</value>
+  </data>
+  <data name="___NC_PLC_Error__" xml:space="preserve">
+    <value>NC PLC Error</value>
+  </data>
+  <data name="___Kinematic_Transformation_Error__" xml:space="preserve">
+    <value>Kinematic Transformation Error</value>
+  </data>
+  <data name="___Bode_Plot_Error__" xml:space="preserve">
+    <value>Bode Plot Error</value>
+  </data>
+  <data name="___Furhter_Error__" xml:space="preserve">
+    <value>Furhter Error</value>
+  </data>
+  <data name="___Interpreter_not_in_IDLE_state___" xml:space="preserve">
+    <value>Interpreter not in IDLE state.</value>
+  </data>
+  <data name="___Invalid_file_name_of_interpolation_file___" xml:space="preserve">
+    <value>Invalid file name of interpolation file.</value>
+  </data>
+  <data name="___Interpolácia_prerušená___" xml:space="preserve">
+    <value>Interpolácia prerušená.</value>
+  </data>
+  <data name="___Invalid_reference_axis_4__" xml:space="preserve">
+    <value>Invalid reference axis 4</value>
+  </data>
+  <data name="___Axis_4__" xml:space="preserve">
+    <value>Axis 4</value>
   </data>
   <data name="___Load_positions_Task__" xml:space="preserve">
     <value>Load positions Task</value>
@@ -159,17 +255,8 @@
   <data name="___Move_Absolute_Task__" xml:space="preserve">
     <value>Move Absolute Task</value>
   </data>
-  <data name="___Reset_Drives_Task__" xml:space="preserve">
-    <value>Reset Drives Task</value>
-  </data>
-  <data name="___Soe_Reset_Drives_Task__" xml:space="preserve">
-    <value>Soe Reset Drives Task</value>
-  </data>
   <data name="___Abort_Task__" xml:space="preserve">
     <value>Abort Task</value>
-  </data>
-  <data name="___Restore_Task__" xml:space="preserve">
-    <value>Restore Task</value>
   </data>
   <data name="___Invalid_reference_axis___" xml:space="preserve">
     <value>Invalid reference axis </value>
@@ -348,8 +435,17 @@
   <data name="___Move_modulo__" xml:space="preserve">
     <value>Move modulo</value>
   </data>
-  <data name="___Actual_position__" xml:space="preserve">
-    <value>Actual position</value>
+  <data name="___Data__" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="___Actual_Position__" xml:space="preserve">
+    <value>Actual Position</value>
+  </data>
+  <data name="___Actual_Interpolation_Block_No__" xml:space="preserve">
+    <value>Actual Interpolation Block No</value>
+  </data>
+  <data name="___Alarm_Code__" xml:space="preserve">
+    <value>Alarm Code</value>
   </data>
   <data name="___Actual_modulo_position__" xml:space="preserve">
     <value>Actual modulo position</value>
@@ -416,6 +512,12 @@
   </data>
   <data name="___Override_velocity_in_service______" xml:space="preserve">
     <value>Override velocity in service [%]</value>
+  </data>
+  <data name="___Velocity_Override__" xml:space="preserve">
+    <value>Velocity Override</value>
+  </data>
+  <data name="___Interpolation_File__" xml:space="preserve">
+    <value>Interpolation File</value>
   </data>
   <data name="___Hide_Load_position_Tab__" xml:space="preserve">
     <value>Hide Load position Tab</value>

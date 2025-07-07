@@ -1,0 +1,1085 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoInterpolator" Id="{c91b754d-5975-088e-14f8-2364767b3d40}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK TcoInterpolator EXTENDS TcoCore.TcoComponent 
+VAR_INPUT
+	inEnableAxis1 : BOOL;
+    inEnablePositiveAxis1 : BOOL;
+    inEnableNegativeAxis1 : BOOL;
+    inCalibrationCamAxis1 : BOOL;
+	refAxis1 : REFERENCE TO TcoAxisRef;
+	inEnableAxis2 : BOOL;
+    inEnablePositiveAxis2 : BOOL;
+    inEnableNegativeAxis2 : BOOL;
+    inCalibrationCamAxis2 : BOOL;
+	refAxis2 : REFERENCE TO TcoAxisRef;
+	inEnableAxis3 : BOOL;
+    inEnablePositiveAxis3 : BOOL;
+    inEnableNegativeAxis3 : BOOL;
+    inCalibrationCamAxis3 : BOOL;
+	refAxis3 : REFERENCE TO TcoAxisRef;
+
+END_VAR
+VAR_IN_OUT
+	IoData : TcoGenericInterpolatorHw;
+END_VAR
+
+VAR
+	{attribute 'hide'}
+    _axis1Ref : REFERENCE TO TcoAxisRef;
+	{attribute addProperty Name "<#Axis 1#>"}
+	_axis1 :   TcoDriveSimple(THIS^);
+	{attribute 'hide'}
+    _axis2Ref : REFERENCE TO TcoAxisRef;
+	{attribute addProperty Name "<#Axis 2#>"}
+	_axis2 :   TcoDriveSimple(THIS^);
+	{attribute 'hide'}
+    _axis3Ref : REFERENCE TO TcoAxisRef;
+	{attribute addProperty Name "<#Axis 3#>"}
+	_axis3 :   TcoDriveSimple(THIS^);
+
+	
+	interpBuildGroup		: Tc2_NCI.CfgBuild3DGroup;
+	interpLoadGCode			: Tc2_NCI.ItpLoadProgEx;
+	interpStartGCode		: Tc2_NCI.ItpStartStopEx;
+	interpSingleBlock		: Tc2_NCI.ItpSingleBlock;
+	interpClearGroup		: Tc2_NCI.CfgReconfigGroup;
+	interpConfirmHsk		: Tc2_NCI.ItpConfirmHsk;
+	interpReset				: Tc2_NCI.ItpResetEx2;
+	
+	
+	{attribute addProperty Name "<#Status#>"}
+    {attribute clr [ReadOnly()]}
+    _status : TcoInterpolatorStatus;
+	{attribute addProperty Name "<#Config#>"}
+    _config : TcoInterpolatorConfig;
+	{attribute addProperty Name "<#Control#>"}
+    _control : TcoInterpolatorControl;
+	
+	
+	
+	{attribute addProperty Name "<#Start Interpolation#>"}
+	_startInterpolation :   TcoCore.TcoTask (THIS^);
+	
+    {attribute addProperty Name "<#Block Mode#>"}
+	{attribute addProperty StateOnDesc "<#On#>"}
+	{attribute addProperty StateOffDesc "<#Off#>"}
+
+	_blockMode :   TcoCore.TcoToggleTask(THIS^, FALSE);
+	
+	{attribute addProperty Name "<#Start Ground#>"}
+	_startGroundPos :   TcoCore.TcoTask (THIS^);
+	
+	{attribute addProperty Name "<#Next step#>"}
+	_nextStep :   TcoCore.TcoTask (THIS^);
+	
+
+
+	{attribute addProperty Name "<#Reset Drives Task#>"}
+	_resetDrivesTask :   TcoCore.TcoTask (THIS^);
+	{attribute addProperty Name "<#Soe Reset Drives Task#>"}
+	_soeResetDrivesTask :   TcoCore.TcoTask (THIS^);
+
+	{attribute addProperty Name "<#Restore Task#>"}
+	_restoreTask :   TcoCore.TcoTask (THIS^);
+
+
+	  {attribute 'hide'} 
+	_infoTimer :  TON;
+    {attribute 'hide'} 
+	_errorTimer :  TON;
+	_done: BOOL;
+	_override: LREAL;
+	
+	{attribute clr [RenderIgnore()]}
+	_fileOpened : BOOL;
+    {attribute clr [RenderIgnore()]}
+	_interpreterState : UDINT;
+    {attribute clr [RenderIgnore()]}
+	_hasError : BOOL;
+	 {attribute 'hide'} 
+	_progress: INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+
+
+
+
+//*************RESTORE********************
+
+_restoreTask.Enabled := TRUE;
+IF _restoreTask.Execute() THEN
+	Restore();
+END_IF
+//****************************************
+
+
+IF NOT __ISVALIDREF(refAxis1)  AND NOT _config.Axis1Disabled THEN
+    Messenger.Post('<#Invalid reference axis 1#>', TcoCore.eMessageCategory.ProgrammingError);
+    RETURN;
+ELSIF NOT _config.Axis1Disabled THEN
+	_axis1Ref REF= refAxis1;
+
+
+	_axis1(
+		inEnable:=inEnableAxis1 , 
+		inEnablePositive:=inEnablePositiveAxis1 , 
+		inEnableNegative:=inEnableNegativeAxis1 , 
+		inCalibrationCam:=inCalibrationCamAxis1, 
+		inoAxisRef:= _axis1Ref);
+END_IF
+
+
+IF NOT __ISVALIDREF(refAxis2) AND NOT _config.Axis2Disabled THEN
+    Messenger.Post('<#Invalid reference axis 2#>', TcoCore.eMessageCategory.ProgrammingError);
+    RETURN;
+ELSIF  NOT _config.Axis2Disabled THEN
+	_axis2Ref REF= refAxis2;
+
+	_axis2(
+		inEnable:=inEnableAxis2 , 
+		inEnablePositive:=inEnablePositiveAxis2 , 
+		inEnableNegative:=inEnableNegativeAxis2 , 
+		inCalibrationCam:=inCalibrationCamAxis2, 
+		inoAxisRef:= _axis2Ref);
+END_IF
+
+
+IF NOT __ISVALIDREF(refAxis3) AND NOT _config.Axis3Disabled THEN
+    Messenger.Post('<#Invalid reference axis 3#>', TcoCore.eMessageCategory.ProgrammingError);
+    RETURN;
+ELSIF NOT _config.Axis3Disabled THEN
+	_axis3Ref REF= refAxis3;
+
+	_axis3(
+		inEnable:=inEnableAxis3 , 
+		inEnablePositive:=inEnablePositiveAxis3 , 
+		inEnableNegative:=inEnableNegativeAxis3 , 
+		inCalibrationCam:=inCalibrationCamAxis3, 
+		inoAxisRef:= _axis3Ref);
+END_IF	
+
+	
+
+
+
+
+//*************Reset Drives********************
+
+_resetDrivesTask.Enabled:= NOT _soeResetDrivesTask.Busy;
+IF _resetDrivesTask.Execute() THEN
+	
+
+	IF  NOT _config.Axis1Disabled THEN 
+		THIS^._axis1.Reset();
+	END_IF;
+	IF  NOT _config.Axis2Disabled THEN 
+		THIS^._axis2.Reset();
+	END_IF;
+	IF  NOT _config.Axis3Disabled THEN 
+		THIS^._axis3.Reset();
+	END_IF;
+	
+
+	
+	_hasError :=   (THIS^._axis1.ResetTask.Error AND NOT _config.Axis1Disabled)
+				OR (THIS^._axis2.ResetTask.Error AND NOT _config.Axis2Disabled)
+				OR (THIS^._axis3.ResetTask.Error AND NOT _config.Axis3Disabled) ;
+	_done:=  (THIS^._axis1.ResetTask.Done XOR _config.Axis1Disabled)
+		AND (THIS^._axis2.ResetTask.Done XOR _config.Axis2Disabled)
+		AND (THIS^._axis3.ResetTask.Done XOR _config.Axis3Disabled);
+			
+		
+	_resetDrivesTask.DoneWhen(_done);
+	_resetDrivesTask.ThrowWhen(_hasError);	
+
+END_IF;
+
+
+
+_soeResetDrivesTask.Enabled:=  NOT _ResetDrivesTask.Busy;
+
+//*************Soe Reset Drives********************
+IF _soeResetDrivesTask.Execute() THEN
+	
+		IF  NOT _config.Axis1Disabled THEN 
+			THIS^._axis1.SoEReset();
+		END_IF;
+		IF  NOT _config.Axis2Disabled THEN 
+			THIS^._axis2.SoeReset();
+		END_IF;
+		IF  NOT _config.Axis3Disabled THEN 
+			THIS^._axis3.SoEReset();
+		END_IF;
+		
+				
+
+
+		_hasError :=   (THIS^._axis1.SoEResetTask.Error AND NOT _config.Axis1Disabled)
+					OR (THIS^._axis2.SoEResetTask.Error AND NOT _config.Axis2Disabled)
+					OR (THIS^._axis3.SoEResetTask.Error AND NOT _config.Axis3Disabled)  ;
+				
+		_done:= (THIS^._axis1.SoEResetTask.Done XOR _config.Axis1Disabled)
+			AND (THIS^._axis2.SoEResetTask.Done XOR _config.Axis2Disabled)
+			AND (THIS^._axis3.SoEResetTask.Done XOR _config.Axis3Disabled);
+
+	_soeResetDrivesTask.DoneWhen(_done);
+	_soeResetDrivesTask.ThrowWhen(_errorTimer.Q OR _hasError);	
+END_IF;
+
+	
+_startInterpolation.Enabled:=NOT _startGroundPos.Busy;	
+IF _startInterpolation.Execute() THEN
+	StartInterpolation(refProgress:=_progress, refTask:=_startInterpolation);
+END_IF;	
+
+_startGroundPos.Enabled:=NOT _startInterpolation.Busy;	
+IF _startGroundPos.Execute() THEN
+	GroundPosition(refProgress:=_progress,refTask:=_startGroundPos);
+END_IF;	
+	
+//*************Block Mode********************
+_blockMode.Enabled := THIS^.IsService;
+_blockMode.Run();
+
+IF _blockMode.IsOn THEN
+		// activate single block mode
+	THIS^.interpSingleBlock.nMode := E_ItpSingleBlockMode.ItpSingleBlockIntp;
+	THIS^.interpSingleBlock.bTriggerNext := FALSE;
+ELSE
+		// deactivate single block mode
+	THIS^.interpSingleBlock.nMode := E_ItpSingleBlockMode.ItpSingleBlockOff;
+	THIS^.interpSingleBlock.bTriggerNext := FALSE;
+END_IF;	
+
+
+IF THIS^._blockMode.IsOn THEN 
+	IF THIS^._nextStep.Execute() THEN
+		THIS^.interpSingleBlock.bTriggerNext := TRUE;
+		THIS^._nextStep.DoneWhen(TRUE);
+	END_IF
+ELSE
+	THIS^._nextStep.Restore();
+END_IF
+ItpSetOverridePercent(fOverridePercent:= _control.Override , sPlcToNci:=THIS^.IoData.Outputs.qFromPlc);
+
+
+THIS^.interpBuildGroup(
+	bExecute:= , 
+	nGroupId:= ItpGetGroupId(sNciToPlc:=THIS^.IoData.Inputs.iToPlc), 
+	nXAxisId:= THIS^._axis1.AxisRef.NcToPlc.AxisId, 
+	nYAxisId:= THIS^._axis2.AxisRef.NcToPlc.AxisId, 
+	nZAxisId:= THIS^._axis3.AxisRef.NcToPlc.AxisId, 
+	tTimeOut:= THIS^._config.Timeout, 
+	bBusy=> , 
+	bErr=> , 
+	nErrId=> );
+
+	
+IF interpBuildGroup.bErr THEN
+	Messenger.Error(CONCAT('<#Error executing Build Interpolation Group command. ErrorID:#> 0x',DWORD_TO_HEXSTR(UDINT_TO_DWORD(interpBuildGroup.nErrId),4,FALSE)));
+END_IF
+
+THIS^.interpLoadGCode(
+	sNciToPlc:= THIS^.IoData.Inputs.iToPlc, 
+	bExecute:= , 
+	sPrg:= _control.FileName, 
+	nLength:= INT_TO_UDINT(LEN(_control.FileName)), 
+	tTimeOut:= Config.Timeout, 
+	bBusy=> , 
+	bErr=> , 
+	nErrId=> );
+	
+IF interpLoadGCode.bErr THEN
+	Messenger.Error(CONCAT('<#Error executing Load Program command. ErrorID:#> 0x',DWORD_TO_HEXSTR(UDINT_TO_DWORD(interpLoadGCode.nErrId),4,FALSE)));
+END_IF
+	
+THIS^.interpStartGCode(
+	bStart:= , 
+	bStop:= , 
+	tTimeOut:= Config.Timeout, 
+	sNciToPlc:= THIS^.IoData.Inputs.iToPlc, 
+	bBusy=> , 
+	bErr=> , 
+	nErrId=> );
+	
+IF interpStartGCode.bErr THEN
+	Messenger.Error(CONCAT('<#Error executing Start Program command. ErrorID:#> 0x',DWORD_TO_HEXSTR(UDINT_TO_DWORD(interpStartGCode.nErrId),4,FALSE)));
+END_IF
+
+THIS^.interpSingleBlock(
+	bExecuteModeChange:= , 
+	nMode:= , 
+	bTriggerNext:= , 
+	tTimeOut:= Config.Timeout, 
+	sNciToPlc:= THIS^.IoData.Inputs.iToPlc, 
+	bBusy=> , 
+	bErr=> , 
+	nErrId=> );
+
+THIS^.interpClearGroup(
+	bExecute:= , 
+	nGroupId:= ItpGetGroupId(sNciToPlc:=THIS^.IoData.Inputs.iToPlc), 
+	tTimeOut:= Config.Timeout, 
+	bBusy=> , 
+	bErr=> , 
+	nErrId=> );
+	
+IF interpClearGroup.bErr THEN
+	Messenger.Error(CONCAT('<#Error executing Clear Group command. ErrorID:#> 0x',DWORD_TO_HEXSTR(UDINT_TO_DWORD(interpClearGroup.nErrId),4,FALSE)));
+END_IF
+
+THIS^.interpConfirmHsk(
+	bExecute:= , 
+	sNciToPlc:= THIS^.IoData.Inputs.iToPlc, 
+	sPlcToNci:= THIS^.IoData.Outputs.qFromPlc, 
+	bBusy=> , 
+	bErr=> , 
+	nErrId=> );
+
+IF interpConfirmHsk.bErr THEN
+	Messenger.Error(CONCAT('<#Error executing Confirm Handshake command. ErrorID:#> 0x',DWORD_TO_HEXSTR(UDINT_TO_DWORD(interpConfirmHsk.nErrId),4,FALSE)));
+END_IF
+
+THIS^.interpReset(
+	bExecute:= , 
+	tTimeOut:= Config.Timeout, 
+	sNciToPlc:= THIS^.IoData.Inputs.iToPlc, 
+	bBusy=> , 
+	bErr=> , 
+	nErrId=> );
+	
+_status.Progress:=_progress;
+_status.Data.posX:=_axis1.AxisStatus.ActPos;
+_status.Data.posY:=_axis2.AxisStatus.ActPos;
+_status.Data.posZ:=_axis3.AxisStatus.ActPos;
+_status.Data.blockNo := ItpGetBlockNumber(sNciToPlc := THIS^.IoData.Inputs.iToPlc);
+_status.Data.AlarmCode := ItpGetError(sNciToPlc := THIS^.IoData.Inputs.iToPlc);
+	
+IF interpReset.bErr THEN
+	Messenger.Error(CONCAT('<#Error executing Reset command#>: ',DWORD_TO_HEXSTR(UDINT_TO_DWORD(interpReset.nErrId),4,TRUE)));
+END_IF
+
+
+THIS^._interpreterState := ItpGetStateInterpreter(sNciToPlc:=THIS^.IoData.Inputs.iToPlc);
+
+THIS^._hasError := interpBuildGroup.bErr OR interpLoadGCode.bErr OR interpStartGCode.bErr;
+
+Messenger.OnCondition(Status.Data.AlarmCode <> 0).Error(  THIS^.GetErrorDescription());
+
+
+
+ ]]></ST>
+    </Implementation>
+    <Folder Name="Internal" Id="{8d8416b2-533f-094f-2c77-4c0f19bb8eff}" />
+    <Folder Name="Public" Id="{654a87f5-14ab-0bcf-354a-63b9dad16bcc}" />
+    <Folder Name="Tasks" Id="{1acec98e-06b1-0f04-31a2-2b4f5fd897da}" />
+    <Property Name="Axis_1" Id="{23146000-129d-0c37-1a2f-c710d4faa8e1}">
+      <Declaration><![CDATA[PROPERTY Axis_1 : REFERENCE TO TcoDriveSimple]]></Declaration>
+      <Get Name="Get" Id="{89d0fdef-7f46-011d-1d7e-af0589c06b67}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Axis_1 REF=_axis1;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Axis_2" Id="{3101e1a2-dd13-02be-13a9-0cb650e8200b}">
+      <Declaration><![CDATA[PROPERTY Axis_2 : REFERENCE TO TcoDriveSimple]]></Declaration>
+      <Get Name="Get" Id="{9e46db78-1ec7-0b7b-3466-0abbc74ad4fb}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Axis_2 REF=_axis2;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Axis_3" Id="{8fea86d3-ff63-0852-25f7-b8c971376756}">
+      <Declaration><![CDATA[PROPERTY Axis_3 : REFERENCE TO TcoDriveSimple]]></Declaration>
+      <Get Name="Get" Id="{55b73b1f-10ea-056e-3b0d-8cc294d5c81b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Axis_3 REF=_axis3;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="CallTimers" Id="{a819df6b-a7fa-0e98-3cb2-e1df7fd5d5f0}">
+      <Declaration><![CDATA[METHOD CallTimers
+VAR_INPUT
+	inValue : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF  __ISVALIDREF(Config) THEN  
+_infoTimer(IN := inValue, PT := THIS^.Config.InfoTime);
+_errorTimer(IN := inValue, PT := THIS^.Config.ErrorTime);
+END_IF;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Config" Id="{5588fc0f-f291-0bd6-3d50-8287dcf382d6}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Gets the configuration of the interpolator. 					
+		</summary>			
+	</docu>	
+~*)
+PROPERTY Config : REFERENCE TO TcoInterpolatorConfig]]></Declaration>
+      <Get Name="Get" Id="{b23f8b76-4f87-0b8b-35e3-dfc3a5b5141f}">
+        <Declaration><![CDATA[]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Config REF= _config;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="GetErrorDescription" Id="{c06db0eb-0733-4b0b-92c9-7b49642d0581}">
+      <Declaration><![CDATA[METHOD GetErrorDescription : STRING(254)
+VAR_INPUT
+END_VAR
+VAR
+	status:STRING(254);
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_status.AlarmMessage := '';
+
+
+CASE _status.Data.AlarmCode OF
+	0: status := 'No Error';
+	16#4000 .. 16#40FF: status := CONCAT(DWORD_TO_HEXSTR((_status.Data.AlarmCode),4,FALSE),' - <#General Error#> - <#see detailed description in Component View#>');
+	16#4100 .. 16#41FF: status := CONCAT(DWORD_TO_HEXSTR((_status.Data.AlarmCode),4,FALSE),' - <#Channel Error#> - <#see detailed description in Component View#>');
+	16#4200 .. 16#42FF: status := CONCAT(DWORD_TO_HEXSTR((_status.Data.AlarmCode),4,FALSE),' - <#Group Error#> - <#see detailed description in Component View#>');
+	16#4300 .. 16#43FF: status := CONCAT(DWORD_TO_HEXSTR((_status.Data.AlarmCode),4,FALSE),' - <#Axis Error#> - <#see detailed description in Component View#>');
+	16#4400 .. 16#44FF: status := CONCAT(DWORD_TO_HEXSTR((_status.Data.AlarmCode),4,FALSE),' - <#Encoder Error#> - <#see detailed description in Component View#>');
+	16#4500 .. 16#45FF: status := CONCAT(DWORD_TO_HEXSTR((_status.Data.AlarmCode),4,FALSE),' - <#Controller Error#> - <#see detailed description in Component View#>');
+	16#4600 .. 16#46FF: status := CONCAT(DWORD_TO_HEXSTR((_status.Data.AlarmCode),4,FALSE),' - <#Drive Error#> - <#see detailed description in Component View#>');
+	16#4A00 .. 16#4AFF: status := CONCAT(DWORD_TO_HEXSTR((_status.Data.AlarmCode),4,FALSE),' - <#Table Error#> - <#see detailed description in Component View#>');
+	16#4B00 .. 16#4BFF: status := CONCAT(DWORD_TO_HEXSTR((_status.Data.AlarmCode),4,FALSE),' - <#NC PLC Error#> - <#see detailed description in Component View#>');
+	16#4C00 .. 16#4CFF: status := CONCAT(DWORD_TO_HEXSTR((_status.Data.AlarmCode),4,FALSE),' - <#Kinematic Transformation Error#> - <#see detailed description in Component View#>');
+	16#8100 .. 16#811F: status := CONCAT(DWORD_TO_HEXSTR((_status.Data.AlarmCode),4,FALSE),' - <#Bode Plot Error#> - <#see detailed description in Component View#>');
+	16#8120 .. 16#8FFF: status := CONCAT(DWORD_TO_HEXSTR((_status.Data.AlarmCode),4,FALSE),' - <#Furhter Error#> - <#see detailed description in Component View#>');
+	
+ELSE
+	status := 'Unknown Error';
+END_CASE
+_status.AlarmMessage :=status;
+GetErrorDescription := status;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Ground" Id="{6176e3a3-336f-0eeb-04af-2f16f65fde07}" FolderPath="Public\">
+      <Declaration><![CDATA[METHOD PUBLIC Ground : TcoCore.ITcoTaskStatus
+
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Ground:=THIS^._startGroundPos.Invoke();
+
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GroundPosition" Id="{5f4fbbee-b47a-4eea-bbed-7044834b55b1}" FolderPath="Internal\">
+      <Declaration><![CDATA[(*
+
+			DESCRIBE FUNCTION OF THIS METHOD
+
+*)
+METHOD PRIVATE GroundPosition
+VAR_INPUT
+    refProgress : REFERENCE TO INT;
+    refTask : REFERENCE TO TcoCore.TcoTask;
+END_VAR
+VAR_INST
+    _progress : REFERENCE TO INT;
+    _task : REFERENCE TO TcoCore.TcoTask;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_progress REF= refProgress;
+_task REF= refTask;
+
+
+IF _progress = 0 THEN
+//--------------------------------------------------------------  
+	interpStartGCode.bStop := TRUE;
+	_status.ActionDescription:='Waiting to  Tc2_NCI.NCI_INTERPRETER_IDLE';
+	IF _interpreterState = Tc2_NCI.NCI_INTERPRETER_IDLE THEN	
+		interpStartGCode.bStop := FALSE;		
+		_progress := 10;
+	ELSE
+		Messenger.Info('<#Interpreter not in IDLE state.#>');
+	END_IF
+//--------------------------------------------------------------  
+END_IF
+
+IF _progress = 10 THEN
+//--------------------------------------------------------------   
+	interpReset.bExecute := TRUE;
+	_status.ActionDescription:='Waiting to interpReset.bBusy';
+
+	IF (interpReset.bBusy) THEN
+		_progress := _progress + 1;
+	END_IF
+//--------------------------------------------------------------	
+END_IF
+
+IF _progress = 11 THEN
+//--------------------------------------------------------------
+	_status.ActionDescription:='Waiting to NOT interpReset.bBusy';   
+	IF NOT interpReset.bBusy THEN
+		interpReset.bExecute := FALSE;
+		_progress := _progress + 1;
+	END_IF
+//--------------------------------------------------------------	
+END_IF
+
+IF _progress = 12 THEN
+//--------------------------------------------------------------   
+	interpClearGroup.bExecute := TRUE;
+	_status.ActionDescription:='Waiting to interpClearGroup.bBusy';
+	IF (interpClearGroup.bBusy) THEN
+		_progress := _progress + 1;
+	END_IF
+//--------------------------------------------------------------	
+END_IF
+
+IF _progress = 13 THEN
+//--------------------------------------------------------------   
+	_status.ActionDescription:='Waiting to NOT interpClearGroup.bBusy';
+	IF NOT interpClearGroup.bBusy AND NOT interpClearGroup.bErr THEN	
+		interpClearGroup.bExecute := FALSE;		
+		_progress := _progress + 1;
+	END_IF
+//--------------------------------------------------------------	
+END_IF
+
+IF _progress = 14 THEN
+//--------------------------------------------------------------   
+_task.DoneWhen(TRUE);
+//--------------------------------------------------------------	
+END_IF
+
+_task.ThrowWhen(_task.ElapsedTime>_config.ErrorTime);
+Messenger.OnCondition(_infoTimer.Q AND _status.ActionDescription<>'').Info(concat(TO_STRING(_progress), _status.ActionDescription)); 
+
+
+
+
+
+
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Handshake" Id="{42e5b3ec-e801-4a27-a957-d6b3338201fb}" FolderPath="Internal\">
+      <Declaration><![CDATA[METHOD Handshake
+VAR_IN_OUT
+	iHandshakeAck : BOOL;
+	qHandshake : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// all m-functions are directly confiremd. In a real application we have of course to consider the m-function numbers to turn on/off certain functions in the machine.
+IF ItpIsHskMFunc(THIS^.IoData.Inputs.iToPlc) AND NOT interpConfirmHsk.bBusy THEN
+	qHandshake := TRUE;
+	IF iHandshakeAck THEN
+		interpConfirmHsk.bExecute	:= TRUE;
+	END_IF
+ELSE	
+	qHandshake := FALSE;
+	interpConfirmHsk.bExecute	:= FALSE;
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Interpolate" Id="{c7cd8fd9-c566-0894-0b64-b492ec440b0f}" FolderPath="Public\">
+      <Declaration><![CDATA[METHOD PUBLIC Interpolate : TcoCore.ITcoTaskStatus
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_control.FileName:=_config.FileName;
+_control.Override:=_config.Override;
+
+
+Interpolate:=THIS^._startInterpolation.Invoke();
+
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="InterpolateWithHandshake" Id="{b346a93d-58e7-4c5f-8191-0c323ab3c627}" FolderPath="Public\">
+      <Declaration><![CDATA[(*
+
+			DESCRIBE FUNCTION OF THIS METHOD
+
+*)
+METHOD InterpolateWithHandshake : TcoCore.ITcoTaskStatus
+VAR_INPUT
+	inFileName : STRING;
+	inOverride : LREAL;
+END_VAR
+VAR_IN_OUT
+	inoIHandshakeAck : BOOL;
+	inoQHandshake : BOOL;
+END_VAR
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_control.FileName:=inFileName;
+_control.Override:=inOverride;
+
+InterpolateWithHandshake:=THIS^._startInterpolation.Invoke();
+
+// all m-functions are directly confiremd. In a real application we have of course to consider the m-function numbers to turn on/off certain functions in the machine.
+Handshake(inoIHandshakeAck,inoQHandshake);	
+
+// Hlasenie o stave priebehu volania metody
+//THIS^._progressMessage.Post(Message:= CONCAT('@en-US@Executing action ~', INT_TO_STRING(THIS^._progress)), Category:= enumMessageCategory.Info);
+
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="InterpolateWithHandshakeAndOutput" Id="{fc7512cb-09e2-0c36-2ed9-5c746ee0098f}" FolderPath="Public\">
+      <Declaration><![CDATA[(*
+
+			DESCRIBE FUNCTION OF THIS METHOD
+
+*)
+METHOD InterpolateWithHandshakeAndOutput : TcoCore.ITcoTaskStatus
+VAR_INPUT
+	inFileName : STRING;
+	inOverride : LREAL;
+END_VAR
+VAR_IN_OUT
+	inoIHandshakeAck : BOOL;
+	inoQHandshake : BOOL;
+	inoProgrammedOutput : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_control.FileName:=inFileName;
+_control.Override:=inOverride;
+
+InterpolateWithHandshakeAndOutput:=THIS^._startInterpolation.Invoke();
+
+// handling of m-functions is done outside statemachine
+// M10 is signal for start and M11 is signal for stop
+SetOutputWithMFunction(10,inoProgrammedOutput);
+ResetOutputWithMFunction(11,inoProgrammedOutput);
+
+// all m-functions are directly confiremd. In a real application we have of course to consider the m-function numbers to turn on/off certain functions in the machine.
+Handshake(inoIHandshakeAck,inoQHandshake);	
+
+// Hlasenie o stave priebehu volania metody
+//THIS^._progressMessage.Post(Message:= CONCAT('@en-US@Executing action ~', INT_TO_STRING(THIS^._progress)), Category:= enumMessageCategory.Info);
+
+
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="InterpolateWithParam" Id="{82c1bb61-701c-05ec-11bd-299a0fa52a90}" FolderPath="Public\">
+      <Declaration><![CDATA[METHOD PUBLIC InterpolateWithParam : TcoCore.ITcoTaskStatus
+VAR_INPUT
+	inFileName : STRING;
+	inOverride : LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_control.FileName:=inFileName;
+_control.Override:=inOverride;
+
+InterpolateWithParam:=THIS^._startInterpolation.Invoke();
+
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="IsRunning" Id="{98fc968e-50ac-471f-bb30-04de7ffd48c7}">
+      <Declaration><![CDATA[PROPERTY IsRunning : BOOL]]></Declaration>
+      <Get Name="Get" Id="{181b53ec-da3a-461a-9c7d-73ef70497642}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsRunning := _interpreterState = Tc2_NCI.NCI_INTERPRETER_RUNNING;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="ResetDrives" Id="{7ee8369d-6039-0711-19f4-df4670ccd18a}">
+      <Declaration><![CDATA[METHOD ResetDrives : TcoCore.ITcoTaskStatus
+
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ResetDrives:=THIS^._resetDrivesTask.Invoke();
+
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="ResetDrivesTask" Id="{ab245890-6505-08f0-1e64-ec49473ee06d}" FolderPath="Tasks\">
+      <Declaration><![CDATA[PROPERTY PUBLIC ResetDrivesTask : REFERENCE TO TcoCore.TcoTask]]></Declaration>
+      <Get Name="Get" Id="{80bea905-250b-0db0-0042-599d1ba2663b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[ResetDrivesTask REF=_resetDrivesTask;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="ResetOutputWithMFunction" Id="{e660cf0a-7514-4b66-bf5b-789c63dd3252}" FolderPath="Internal\">
+      <Declaration><![CDATA[METHOD ResetOutputWithMFunction
+VAR_INPUT
+	MfunctionNo : INT;
+END_VAR
+VAR_IN_OUT
+	programmedOutput : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF ItpIsFastMFunc(MfunctionNo,THIS^.IoData.Inputs.iToPlc) 
+	OR NOT (_interpreterState = Tc2_NCI.NCI_INTERPRETER_RUNNING) THEN
+	programmedOutput := FALSE;
+END_IF;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Restore" Id="{415de10e-bdf6-0a9a-0e49-9027484edd02}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Restores this instance to the Ready state. Can be called explicitly or from within one of the restore mechanisms.	
+		</summary>			
+	</docu>	
+~*)
+METHOD  Restore : ITcoRestorable
+
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_axis1.Restore();
+_axis2.Restore();
+_axis3.Restore();
+_restoreTask.Restore();
+
+_progress:=0;
+_soeResetDrivesTask.Restore();
+_resetDrivesTask.Restore();
+_startGroundPos.Restore();
+_startInterpolation.Restore();
+_nextStep.Restore();
+CallTimers(FALSE);
+
+
+// disable execute
+interpBuildGroup.bExecute := FALSE;
+interpClearGroup.bExecute := FALSE;
+interpLoadGCode.bExecute := FALSE;
+interpStartGCode.bStart := FALSE;
+interpStartGCode.bStop := TRUE;
+interpSingleBlock.bExecuteModeChange := FALSE;
+interpSingleBlock.bTriggerNext := FALSE;
+interpConfirmHsk.bExecute := FALSE;
+interpReset.bExecute := FALSE;
+interpSingleBlock.nMode := E_ItpSingleBlockMode.ItpSingleBlockOff;
+Messenger.UnPin();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ServiceMode" Id="{198b7e66-48f3-00dd-1d70-8ad19cbe4051}">
+      <Declaration><![CDATA[METHOD PROTECTED ServiceMode
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^._axis1.Service();
+THIS^._axis2.Service();
+THIS^._axis3.Service();
+
+
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetOutputWithMFunction" Id="{be6a1b1c-4d23-46b0-9318-9bb81712392a}" FolderPath="Internal\">
+      <Declaration><![CDATA[METHOD SetOutputWithMFunction
+VAR_INPUT
+	MfunctionNo : INT;
+END_VAR
+VAR_IN_OUT
+	programmedOutput : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF ItpIsFastMFunc(MfunctionNo,THIS^.IoData.Inputs.iToPlc) THEN
+	programmedOutput := TRUE;
+END_IF;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SoeReset" Id="{6cd34742-b807-0195-016c-60fff328d513}">
+      <Declaration><![CDATA[METHOD SoeReset : TcoCore.ITcoTaskStatus
+
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SoeReset:=THIS^._soeResetDrivesTask.Invoke();
+
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="SoeResetDrivesTask" Id="{67fab9b9-01a4-0024-2faf-98d9b9833e3a}" FolderPath="Tasks\">
+      <Declaration><![CDATA[PROPERTY PUBLIC SoeResetDrivesTask : REFERENCE TO TcoCore.TcoTask]]></Declaration>
+      <Get Name="Get" Id="{43469d28-4920-0392-1255-492321c0afda}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[SoeResetDrivesTask REF=_soeResetDrivesTask;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="StartInterpolation" Id="{babc2452-e86e-43e2-a851-862fab2dab37}" FolderPath="Internal\">
+      <Declaration><![CDATA[(*
+
+			DESCRIBE FUNCTION OF THIS METHOD
+
+*)
+METHOD PRIVATE StartInterpolation 
+VAR_INPUT
+	refProgress:REFERENCE TO INT;
+	refTask:REFERENCE TO TcoCore.TcoTask;
+END_VAR
+VAR_INST
+	_progress:REFERENCE TO INT;
+	_task:REFERENCE TO TcoCore.TcoTask;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_progress REF= refProgress;
+_task REF= refTask;
+
+IF _progress = 0 THEN
+    //--------------------------------------------------------------  
+    // Inicializacia
+    interpBuildGroup.bExecute := FALSE;
+    interpLoadGCode.bExecute := FALSE;
+    interpStartGCode.bStart := FALSE;
+    interpStartGCode.bStop := FALSE;
+    interpClearGroup.bExecute := FALSE;
+    interpReset.bExecute := FALSE;
+    interpSingleBlock.bExecuteModeChange := FALSE;
+
+    IF LEN(_control.FileName) <= 0 THEN
+        Messenger.Error('<#Invalid file name of interpolation file.#>');
+    END_IF
+
+    IF (NOT interpReset.bBusy AND LEN(_control.FileName) > 0) THEN
+        _progress := 100;
+    END_IF
+    //--------------------------------------------------------------  
+END_IF
+
+IF _progress = 100 THEN
+    //--------------------------------------------------------------   
+
+    _progress := _progress + 1;
+
+    //--------------------------------------------------------------	
+END_IF
+
+IF _progress = 101 THEN
+    //--------------------------------------------------------------   
+    interpReset.bExecute := TRUE;
+    _status.ActionDescription := 'Waiting to interpReset.bBusy';
+
+    IF interpReset.bBusy THEN
+        _progress := _progress + 1;
+    END_IF
+    //--------------------------------------------------------------	
+END_IF
+
+IF _progress = 102 THEN
+    //--------------------------------------------------------------   
+    _status.ActionDescription := 'Waiting to NOT interpReset.bBusy';
+
+    IF NOT interpReset.bBusy THEN
+        interpReset.bExecute := FALSE;
+        _progress := _progress + 1;
+    END_IF
+
+    //--------------------------------------------------------------	
+END_IF
+
+IF _progress = 103 THEN
+    //--------------------------------------------------------------   
+    interpBuildGroup.bExecute := TRUE;
+    _status.ActionDescription := 'Waiting to interpBuildGroup.bBusy';
+
+    IF interpBuildGroup.bBusy THEN
+        _progress := _progress + 1;
+    END_IF
+    //--------------------------------------------------------------	
+END_IF
+
+IF _progress = 104 THEN
+    //--------------------------------------------------------------   
+    _status.ActionDescription := 'Waiting to NOT interpBuildGroup.bBusy';
+
+    IF NOT interpBuildGroup.bBusy THEN
+        interpBuildGroup.bExecute := FALSE;
+        _progress := _progress + 1;
+    END_IF
+
+    //--------------------------------------------------------------	
+END_IF
+
+IF _progress = 105 THEN
+    //--------------------------------------------------------------   
+    interpLoadGCode.bExecute := TRUE;
+    _status.ActionDescription := 'Waiting to interpLoadGCode.bBusy';
+
+    IF interpLoadGCode.bBusy THEN
+        _progress := _progress + 1;
+    END_IF
+    //--------------------------------------------------------------	
+END_IF
+
+IF _progress = 106 THEN
+    //--------------------------------------------------------------   
+    _status.ActionDescription := 'Waiting to NOT interpLoadGCode.bBusy and NOT interpLoadGCode.bErr ';
+
+    IF NOT interpLoadGCode.bBusy AND NOT interpLoadGCode.bErr THEN
+        interpLoadGCode.bExecute := FALSE;
+        _progress := _progress + 1;
+    END_IF
+
+    //--------------------------------------------------------------	
+END_IF
+
+IF _progress = 107 THEN
+    //--------------------------------------------------------------   
+    _status.ActionDescription := 'Waiting to Tc2_NCI.NCI_INTERPRETER_READY';
+
+    IF _interpreterState = Tc2_NCI.NCI_INTERPRETER_READY THEN
+        _progress := _progress + 1;
+    END_IF
+
+    //--------------------------------------------------------------	
+END_IF
+
+IF _progress = 108 THEN
+    //--------------------------------------------------------------   
+    interpStartGCode.bStart := TRUE;
+    interpStartGCode.bStop := FALSE;
+    interpSingleBlock.bExecuteModeChange := TRUE;
+
+    _status.ActionDescription := 'Waiting to interpStartGCode.bBusyY';
+
+    IF interpStartGCode.bBusy THEN
+        _progress := _progress + 1;
+    END_IF
+    //--------------------------------------------------------------	
+END_IF
+
+IF _progress = 109 THEN
+    //--------------------------------------------------------------   
+    _status.ActionDescription := 'Waiting to NOT interpStartGCode.bBusy AND NOT interpStartGCode.bErr ';
+
+    IF NOT interpStartGCode.bBusy AND NOT interpStartGCode.bErr THEN
+        interpStartGCode.bStart := FALSE;
+        _progress := _progress + 1;
+    END_IF
+
+    //--------------------------------------------------------------	
+END_IF
+
+IF _progress = 110 THEN
+    //--------------------------------------------------------------  
+    _status.ActionDescription := 'Waiting to NOT Tc2_NCI.NCI_INTERPRETER_READY ';
+
+    IF _interpreterState <> Tc2_NCI.NCI_INTERPRETER_READY THEN
+        _progress := _progress + 1;
+    END_IF
+
+    //--------------------------------------------------------------	
+END_IF
+
+IF _progress = 111 THEN
+    //-------------------------------------------------------------- 
+    _status.ActionDescription := 'Waiting to Tc2_NCI.NCI_INTERPRETER_READY ';
+
+    IF _interpreterState = Tc2_NCI.NCI_INTERPRETER_READY THEN
+        _progress := _progress + 1;
+    ELSIF _interpreterState = Tc2_NCI.NCI_INTERPRETER_ABORTED THEN
+        Messenger.Error('<#Interpolácia prerušená.#>');
+    END_IF
+
+    //--------------------------------------------------------------	
+END_IF
+
+IF _progress = 112 THEN
+    //--------------------------------------------------------------   
+    interpClearGroup.bExecute := TRUE;
+    _status.ActionDescription := 'Waiting to interpClearGroup.bBusy';
+
+    IF interpClearGroup.bBusy THEN
+        _progress := _progress + 1;
+    END_IF
+    //--------------------------------------------------------------	
+END_IF
+
+IF _progress = 113 THEN
+    //--------------------------------------------------------------   
+    _task.DoneWhen(TRUE);
+
+    //--------------------------------------------------------------	
+END_IF
+
+_task.ThrowWhen(_task.ElapsedTime > _config.ErrorTime);
+Messenger.OnCondition(_infoTimer.Q AND _status.ActionDescription <> '').Info(concat(TO_STRING(_progress), _status.ActionDescription));
+
+// handling of m-functions is done outside statemachine
+// M10 is signal for start and M11 is signal for stop
+//IF ItpIsFastMFunc(10,THIS^.IoData.Inputs.iToPlc) THEN
+//	programmedOutput := TRUE;
+//END_IF
+
+//IF ItpIsFastMFunc(11,THIS^.IoData.Inputs.iToPlc) THEN
+//	programmedOutput := FALSE;
+//END_IF
+
+//// all m-functions are directly confiremd. In a real application we have of course to consider the m-function numbers to turn on/off certain functions in the machine.
+//IF ItpIsHskMFunc(THIS^.IoData.Inputs.iToPlc) AND NOT interpConfirmHsk.bBusy THEN
+//	interpConfirmHsk.bExecute	:= TRUE;
+//ELSE	
+//	interpConfirmHsk.bExecute	:= FALSE;
+//END_IF	
+
+// Hlasenie o stave priebehu volania metody
+//THIS^._progressMessage.Post(Message:= CONCAT('@en-US@Executing action ~', INT_TO_STRING(THIS^._progress)), Category:= enumMessageCategory.Info);
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Status" Id="{24b5d671-7ed5-0e3f-18dc-3397f067372f}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Gets the status of the Interpolator 					
+		</summary>			
+	</docu>	
+~*)
+PROPERTY Status : REFERENCE TO TcoInterpolatorStatus]]></Declaration>
+      <Get Name="Get" Id="{c37bb18c-a022-0624-3de0-c3aed5723416}">
+        <Declaration><![CDATA[]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Status REF= _status;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>
