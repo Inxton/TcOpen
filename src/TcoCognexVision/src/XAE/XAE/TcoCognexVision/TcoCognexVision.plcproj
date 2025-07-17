@@ -172,6 +172,12 @@
     <Compile Include="POUs\TcoInsight\v_5_x_x\Structs\TcoInsightUser_v_5_x_x.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\TcoInsight\v_5_x_x\Tasks\TcoInsightSetUserData_v_5_x_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\TcoInsight\v_5_x_x\Tasks\TcoInsightClearUserData_v_5_x_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\TcoInsight\v_5_x_x\Tasks\TcoInsightTrigger_v_5_x_x.TcPOU">
       <SubType>Code</SubType>
     </Compile>
