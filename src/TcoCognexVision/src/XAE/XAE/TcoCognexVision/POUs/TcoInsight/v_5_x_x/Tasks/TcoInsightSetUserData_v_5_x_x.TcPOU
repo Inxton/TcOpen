@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoInsightSetUserData_v_5_x_x" Id="{751f8887-e5b2-0496-241b-1f68bf3d9015}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK TcoInsightSetUserData_v_5_x_x EXTENDS TcoCore.TcoTask
+VAR_IN_OUT
+	inoIoData	: TcoInsightIO_v_5_x_x;
+    inoConfig	: TcoInsightConfig_v_5_x_x;
+	inoStatus	: TcoInsightStatus_v_5_x_x;	
+	inoUserData 	: TcoInsightUser_v_5_x_x;
+END_VAR
+VAR
+    {attribute 'hide'} 
+	_progress : INT := 0;
+    {attribute 'hide'} 
+	_infoTimer :  TON;
+    {attribute 'hide'} 
+	_errorTimer :  TON;
+    {attribute 'hide'} 
+	_varInfo : __SYSTEM.VAR_INFO;
+    {attribute 'hide'} 
+	_sb : TcoCore.StringBuilder;
+	   {attribute 'hide'} 
+	_size : UINT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF Execute() THEN
+    IF _progress = 0 THEN
+        IF NOT __ISVALIDREF(inoIoData) THEN
+            _varInfo := __VARINFO(inoIoData);
+            Messenger.Programming(_sb.Clear().Append('<#Invalid reference: #>').Append(_varInfo.Symbol).ToString()).Pin();
+        ELSIF NOT __ISVALIDREF(inoConfig) THEN
+            _varInfo := __VARINFO(inoConfig);
+            Messenger.Programming(_sb.Clear().Append('<#Invalid reference: #>').Append(_varInfo.Symbol).ToString()).Pin();
+        ELSIF NOT __ISVALIDREF(inoStatus) THEN
+            _varInfo := __VARINFO(inoStatus);
+            Messenger.Programming(_sb.Clear().Append('<#Invalid reference: #>').Append(_varInfo.Symbol).ToString()).Pin();
+        ELSIF NOT __ISVALIDREF(inoUserData) THEN
+            _varInfo := __VARINFO(inoUserData);
+            Messenger.Programming(_sb.Clear().Append('<#Invalid reference: #>').Append(_varInfo.Symbol).ToString()).Pin();
+        ELSE
+            _progress := _progress + 1;
+        END_IF
+    END_IF
+
+    IF _progress = 1 THEN
+        THIS^.inoStatus.ActionDescription := '<#Set user data running.#>';
+        CallTimers(FALSE);
+        _progress := _progress + 1;
+    END_IF
+
+    IF _progress = 2 THEN
+        THIS^.inoIoData.InspectionControl.ExecuteCommand := FALSE;
+        THIS^.inoIoData.InspectionControl.ClearError := FALSE;
+        THIS^.inoIoData.AcquisitionControl.SetOffline := FALSE;
+
+        THIS^.Messenger.OnCondition(_infoTimer.Q).Warning('<#Waiting for the User data to be copied!#>').Pin();
+
+        _size := THIS^.inoConfig.UserDataSize;
+
+        IF Tc2_System.MEMCPY(srcAddr := ADR(THIS^.inoUserData.UserData), destAddr := ADR(THIS^.inoIoData.UserData), n := _size) > 0 AND
+            Tc2_System.MEMSET(destAddr := ADR(THIS^.inoIoData.UserData) + _size, fillByte := 0, n := SIZEOF(THIS^.inoIoData.UserData) - _size) > 0
+            THEN
+            CallTimers(FALSE);
+            _progress := _progress + 1;
+        END_IF
+
+    END_IF
+
+    IF _progress = 3 THEN
+        THIS^.inoIoData.InspectionControl.ExtendedUserDataSet := TRUE;
+        Messenger.OnCondition(_infoTimer.Q).Info('<#Waiting for signal User dataset acknowledge#>');
+
+        IF (THIS^.inoIoData.InspectionStatus.ExtendedUserDataSetAcknowledge) THEN
+            CallTimers(FALSE);
+            _progress := _progress + 1;
+        END_IF
+    END_IF
+
+    IF _progress = 4 THEN
+        THIS^.inoIoData.InspectionControl.ExtendedUserDataSet := FALSE;
+
+        IF (NOT THIS^.inoIoData.InspectionStatus.ExtendedUserDataSetAcknowledge) THEN
+
+            THIS^.DoneWhen(TRUE);
+            CallTimers(FALSE);
+            _progress := 0;
+        END_IF
+    END_IF
+
+    CallTimers(TRUE);
+
+    THIS^.ThrowWhen(_errorTimer.Q);
+END_IF
+]]></ST>
+    </Implementation>
+    <Method Name="CallTimers" Id="{f72584ab-03ed-0fbc-32b2-f17d0d32958c}">
+      <Declaration><![CDATA[METHOD CallTimers
+VAR_INPUT
+	inValue : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF  __ISVALIDREF(inoConfig) AND THIS^.inoConfig.ErrorTime <> T#0S OR NOT inValue THEN  
+_errorTimer(IN := inValue, PT := THIS^.inoConfig.ErrorTime);
+END_IF;
+IF  __ISVALIDREF(inoConfig) AND THIS^.inoConfig.InfoTime <>T#0S OR NOT inValue THEN  
+_infoTimer(IN := inValue, PT := THIS^.inoConfig.InfoTime);
+END_IF;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{393869bb-b8a4-0a7e-216b-4e1183b307db}">
+      <Declaration><![CDATA[{attribute 'hide'}
+METHOD PUBLIC FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	ParentObject : ITcoObject;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnAbort" Id="{298b8d78-3ae4-04ba-2bd0-ac7486a97ef1}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Executes when task is aborted.
+		</summary>			
+	</docu>	
+~*)
+METHOD PROTECTED OnAbort
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^.inoStatus.ActionDescription := '<#Set user data was aborted, while not yet finished.#>'; 
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnDone" Id="{31bbdf26-6f61-07e6-1056-7507dd136369}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Executes when task reaches the ```Done``` state .
+		</summary>			
+	</docu>	
+~*)
+METHOD PROTECTED OnDone
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^.inoStatus.ActionDescription := '<#Set User data of the inspection  was completed succesfully.#>'; 
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnError" Id="{56543a4e-03ec-00ba-340e-ff6fc62ce0a3}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Executes when task reaches the ```Error``` state.
+			<para>
+				Do not confuse with <see cref="PlcDocu.TcoCore.TcoTask.WhileError()"/>, that is called cyclically until '''Error''' state is left.
+			</para>
+		</summary>			
+	</docu>	
+~*)
+METHOD PROTECTED OnError
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^.inoStatus.ActionDescription := '<#Set user data  finished with error.#>'; 
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnStart" Id="{c4c8adf9-e3cc-0527-2fce-600269e3dc82}">
+      <Declaration><![CDATA[METHOD PROTECTED OnStart 
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Restore" Id="{3600bac3-37e7-09c6-3c4d-025cbc4a45b9}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Restores this instance to the Ready state. Can be called explicitly or from within one of the restore mechanisms.
+			<para>
+				See also <see cref="PlcDocu.TcoCore.TcoTask.AutoRestorable()"/>
+			</para>
+		</summary>			
+	</docu>	
+~*)
+METHOD Restore : ITcoRestorable]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.Restore();
+_progress := 0;
+CallTimers(FALSE);
+Messenger.UnPin();
+]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

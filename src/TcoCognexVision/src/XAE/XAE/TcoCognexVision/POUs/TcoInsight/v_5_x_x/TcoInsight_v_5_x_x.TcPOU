@@ -33,6 +33,10 @@ VAR
     _changeJobByNameTask : TcoInsightChangeJobByName_v_5_x_x(THIS^);
 	{attribute addProperty Name "<#Clear inspection results#>"}
     _clearInspectionResultsTask : TcoInsightClearInspectionResults_v_5_x_x(THIS^);
+	{attribute addProperty Name "<#Set user data#>"}
+    _setUserDataTask : TcoInsightSetUserData_v_5_x_x(THIS^);
+	{attribute addProperty Name "<#Clear user data#>"}
+    _clearUserDataTask : TcoInsightClearUserData_v_5_x_x(THIS^);
 	{attribute addProperty Name "<#Soft event#>"}
     _softEventTask : TcoInsightSoftEvent_v_5_x_x(THIS^);
 	{attribute addProperty Name "<#Trigger#>"}
@@ -105,16 +109,30 @@ _clearInspectionResultsTask.Enabled := _taskEnabled;
 _clearInspectionResultsTask(inoIoData := THIS^.inoIoData,inoConfig := THIS^._config,inoStatus := THIS^._status,inoResults := THIS^._results);
 //****************************************
 
+//*************CLEAR USER DATA*****************
+_taskEnabled:=SUPER^.ProfinetReady;
+_taskEnabled := _taskEnabled AND NOT _setUserDataTask.Busy  ;
+_clearUserDataTask.Enabled := _taskEnabled;
+_clearUserDataTask(inoIoData := THIS^.inoIoData,inoConfig := THIS^._config,inoStatus := THIS^._status,inoUserData := THIS^._userData);
+//****************************************
+
+//*************SET USER DATA*****************
+_taskEnabled:=SUPER^.ProfinetReady;
+_taskEnabled := _taskEnabled AND NOT _changeJobByNameTask.Busy AND NOT _clearInspectionResultsTask.Busy AND NOT _triggerTask.Busy ;
+_setUserDataTask.Enabled := _taskEnabled;
+_setUserDataTask(inoIoData := THIS^.inoIoData,inoConfig := THIS^._config,inoStatus := THIS^._status,inoUserData := THIS^._userData);
+//****************************************
+
 //*************SOFT*EVENT*****************
 _taskEnabled:=SUPER^.ProfinetReady;
-_taskEnabled := _taskEnabled AND THIS^.inoIoData.AcquisitionStatus.Online AND NOT _clearInspectionResultsTask.Busy;
+_taskEnabled := _taskEnabled AND THIS^.inoIoData.AcquisitionStatus.Online AND NOT _clearInspectionResultsTask.Busy AND NOT _setUserDataTask.Busy;
 _softEventTask.Enabled := _taskEnabled;
 _softEventTask(inoIoData := THIS^.inoIoData,inoConfig := THIS^._config,inoStatus := THIS^._status);
 //****************************************
 
 //*************TRIGGER********************
 _taskEnabled:=SUPER^.ProfinetReady;
-_taskEnabled := _taskEnabled AND NOT _clearInspectionResultsTask.Busy;
+_taskEnabled := _taskEnabled AND NOT _clearInspectionResultsTask.Busy AND NOT _setUserDataTask.Busy;
 _triggerTask.Enabled :=  _taskEnabled;
 _triggerTask(inoIoData := THIS^.inoIoData,inoConfig := THIS^._config,inoStatus := THIS^._status,inoResults := THIS^._results);
 //****************************************]]></ST>
@@ -156,6 +174,38 @@ END_VAR
 ]]></Declaration>
         <Implementation>
           <ST><![CDATA[ClearInspectionResultsTask := THIS^._clearInspectionResultsTask;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="ClearUserData" Id="{625c0802-8152-0aaa-2ea4-fee184996999}" FolderPath="Operations\">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Clears user data. 		
+		</summary>			
+	</docu>	
+~*)
+METHOD ClearUserData : TcoCore.ITcoTaskStatus
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ClearUserData := THIS^._clearUserDataTask.Invoke();
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="ClearUserDataTask" Id="{578af25a-08a8-0522-31aa-cb2c0964dc0e}" FolderPath="Tasks\">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Gets the `ClearUserDataTask` task that controls clearing of the user data. 		
+		</summary>			
+	</docu>	
+~*)
+PROPERTY ClearUserDataTask : TcoCore.ITcoTaskStatus]]></Declaration>
+      <Get Name="Get" Id="{0b1ced55-994c-0ffa-2e64-3ee4f2828c50}">
+        <Declaration><![CDATA[]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[ClearUserDataTask := THIS^._clearUserDataTask;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -436,8 +486,12 @@ _changeJobByNameTask.Restore();
 _clearInspectionResultsTask.Restore();
 _softEventTask.Restore();
 _triggerTask.Restore();
+_clearUserDataTask.Restore();
+_setUserDataTask.Restore();
 
 Tc2_System.MEMSET(destAddr:= ADR(THIS^._results.InspectionResults) , fillByte:= 0 , n:= SIZEOF(THIS^._results.InspectionResults));
+Tc2_System.MEMSET(destAddr:= ADR(THIS^._userData.UserData) , fillByte:= 0 , n:= SIZEOF(THIS^._userData.UserData));
+
 
 THIS^._results.InspectionId := 0;
 THIS^._results.ResultCode := 0;
@@ -464,6 +518,22 @@ _restoreTask.Restore();]]></ST>
 METHOD PROTECTED ServiceMode]]></Declaration>
       <Implementation>
         <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetUserData" Id="{5457dc01-fac4-0b42-1737-185529b1def4}" FolderPath="Operations\">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Set user data. 		
+		</summary>			
+	</docu>	
+~*)
+METHOD SetUserData : TcoCore.ITcoTaskStatus
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SetUserData := THIS^._setUserDataTask.Invoke();
+
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetUserDataAsByte" Id="{3d3891bf-ea7c-4417-babb-4a17a2cd4b2b}" FolderPath="UserData\">
@@ -619,6 +689,22 @@ END_FOR;
 SetUserDataAsString := TRUE;]]></ST>
       </Implementation>
     </Method>
+    <Property Name="SetUserDataTask" Id="{3cfd469d-d30d-0371-2a8f-60bd2e63d711}" FolderPath="Tasks\">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Gets the `SetUserDataTask` task that controls to set of the user data. 		
+		</summary>			
+	</docu>	
+~*)
+PROPERTY SetUserDataTask : TcoCore.ITcoTaskStatus]]></Declaration>
+      <Get Name="Get" Id="{376fe7dd-f9b6-07cd-1832-fe63a71e6134}">
+        <Declaration><![CDATA[]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[SetUserDataTask := THIS^._setUserDataTask;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Method Name="SoftEvent" Id="{966e5f34-d655-0ae7-3c79-57b0e6604da9}" FolderPath="Operations\">
       <Declaration><![CDATA[(*~
 	<docu>
@@ -687,7 +773,7 @@ METHOD Trigger : TcoCore.ITcoTaskStatus
       <Declaration><![CDATA[(*~
 	<docu>
 		<summary>
-			Gets the `ClearResultDataTask` task that controls clearing of the results data. 		
+			Gets the `TriggerTask` result. 		
 		</summary>			
 	</docu>	
 ~*)
