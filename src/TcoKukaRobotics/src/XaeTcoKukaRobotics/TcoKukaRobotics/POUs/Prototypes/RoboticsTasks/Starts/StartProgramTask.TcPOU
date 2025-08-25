@@ -190,7 +190,8 @@ THIS^._errorMessage.Error(_sb.Clear().Append(description).Append(' To restore ac
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN  THIS^.inoStatus.ActionDescription := '<#Stopping program started.#>'; END_IF; 
-CallTimers(FALSE);]]></ST>
+CallTimers(FALSE);
+inoControl.MoveEnable:=TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Restore" Id="{057cdf95-bed7-0f72-0377-688f6b6793d6}">

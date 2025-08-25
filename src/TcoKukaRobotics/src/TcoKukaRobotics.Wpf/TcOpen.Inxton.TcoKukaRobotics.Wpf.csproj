@@ -45,6 +45,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Krc4\Service\TcoKrc4_Ecat_v_5_x_xServiceView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Krc4\Service\TcoKrc4_v_5_x_xServiceView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>

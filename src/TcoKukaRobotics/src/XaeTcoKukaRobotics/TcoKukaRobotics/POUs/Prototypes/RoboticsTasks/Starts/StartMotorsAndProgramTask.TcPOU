@@ -61,7 +61,7 @@ IF Execute() THEN
 	
 	IF _progress = 4 THEN	
 		Messenger.Debug('<#Robot Error Reset and Move Enable#>');
-		inoControl.MoveEnable:=TRUE;
+		
 		inoControl.ErrorConfirmation := inoStatus.State.StopMess AND _blink.outQ;
 		_varInfo :=__VARINFO( inoStatus.State.StopMess);                                                
 		THIS^.Messenger.OnCondition(_infoTimer.Q AND  inoStatus.State.StopMess).Warning(_sb.Clear().Append('<#Waiting for signal#>').Append(_varInfo.Symbol).Append(' is OFF').ToString());

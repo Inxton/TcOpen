@@ -4,7 +4,7 @@
     <Declaration><![CDATA[TYPE TcoDatamanStatus_v_5_x_x :
 STRUCT
 	ActionDescription : STRING(100);
-	ResultString:STRING;
+	ResultString:STRING(254);
 	
 	SignalStatus : TcoDatamanSignalStates_v_5_x_x;
 END_STRUCT

@@ -171,6 +171,9 @@
   <data name="___Restore__" xml:space="preserve">
     <value>Restore</value>
   </data>
+  <data name="___ECat_Error__" xml:space="preserve">
+    <value>ECat Error</value>
+  </data>
   <data name="___Invalid_reference____" xml:space="preserve">
     <value>Invalid reference: </value>
   </data>

@@ -255,6 +255,9 @@ IF Execute() THEN
   <data name="___Error_time_is_lower_than_timeout__Please_check_config___" xml:space="preserve">
     <value>Error time is lower than timeout. Please check config!</value>
   </data>
+  <data name="___Waiting_for_the_Online_signal___" xml:space="preserve">
+    <value>Waiting for the Online signal!</value>
+  </data>
   <data name="___Trigger___" xml:space="preserve">
     <value>Trigger!</value>
   </data>
@@ -272,9 +275,6 @@ IF Execute() THEN
   </data>
   <data name="___Reset_Request___" xml:space="preserve">
     <value>Reset Request!</value>
-  </data>
-  <data name="___Waiting_for_the_Online_signal___" xml:space="preserve">
-    <value>Waiting for the Online signal!</value>
   </data>
   <data name="___Waiting_to_Acknowledge_results___" xml:space="preserve">
     <value>Waiting to Acknowledge results!</value>
@@ -314,6 +314,33 @@ IF Execute() THEN
   </data>
   <data name="___Trigger_with_Timeout__" xml:space="preserve">
     <value>Trigger with Timeout</value>
+  </data>
+  <data name="___Set_user_data_running___" xml:space="preserve">
+    <value>Set user data running.</value>
+  </data>
+  <data name="___Waiting_for_the_User_data_to_be_copied___" xml:space="preserve">
+    <value>Waiting for the User data to be copied!</value>
+  </data>
+  <data name="___Waiting_for_signal_User_dataset_acknowledge__" xml:space="preserve">
+    <value>Waiting for signal User dataset acknowledge</value>
+  </data>
+  <data name="___Set_user_data_was_aborted__while_not_yet_finished___" xml:space="preserve">
+    <value>Set user data was aborted, while not yet finished.</value>
+  </data>
+  <data name="___Set_User_data_of_the_inspection__was_completed_succesfully___" xml:space="preserve">
+    <value>Set User data of the inspection  was completed succesfully.</value>
+  </data>
+  <data name="___Set_user_data__finished_with_error___" xml:space="preserve">
+    <value>Set user data  finished with error.</value>
+  </data>
+  <data name="___Clear_user_data_was_aborted__while_not_yet_finished___" xml:space="preserve">
+    <value>Clear user data was aborted, while not yet finished.</value>
+  </data>
+  <data name="___Userdata_of_the_inspection__was_completed_succesfully___" xml:space="preserve">
+    <value>Userdata of the inspection  was completed succesfully.</value>
+  </data>
+  <data name="___User_data__finished_with_error___" xml:space="preserve">
+    <value>User data  finished with error.</value>
   </data>
   <data name="___Trigger_running___" xml:space="preserve">
     <value>Trigger running.</value>
@@ -462,6 +489,12 @@ IF Execute() THEN
   <data name="___Clear_inspection_results__" xml:space="preserve">
     <value>Clear inspection results</value>
   </data>
+  <data name="___Set_user_data__" xml:space="preserve">
+    <value>Set user data</value>
+  </data>
+  <data name="___Clear_user_data__" xml:space="preserve">
+    <value>Clear user data</value>
+  </data>
   <data name="___Soft_event__" xml:space="preserve">
     <value>Soft event</value>
   </data>
@@ -497,6 +530,9 @@ IF Execute() THEN
   </data>
   <data name="___Index_of_UserData_in_method_SetUserDataAsString_exceeds_the_defined_size__" xml:space="preserve">
     <value>Index of UserData in method SetUserDataAsString exceeds the defined size</value>
+  </data>
+  <data name="___Continuous_Reading__Hand_held_reader___" xml:space="preserve">
+    <value>Continuous Reading (Hand-held reader)</value>
   </data>
   <data name="___Trigger_enable__" xml:space="preserve">
     <value>Trigger enable</value>

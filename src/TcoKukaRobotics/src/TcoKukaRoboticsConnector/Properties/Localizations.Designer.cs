@@ -178,6 +178,15 @@ namespace TcoKukaRoboticsConnector.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ECat Error.
+        /// </summary>
+        public static string ___ECat_Error__ {
+            get {
+                return ResourceManager.GetString("___ECat_Error__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Emergency stop active.
         /// </summary>
         public static string ___Emergency_stop_active__ {
