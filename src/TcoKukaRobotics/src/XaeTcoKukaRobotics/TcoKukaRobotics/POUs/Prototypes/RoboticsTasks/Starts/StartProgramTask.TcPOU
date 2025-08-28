@@ -64,7 +64,7 @@ IF Execute() THEN
 	
 	IF _progress = 4 THEN	
 		Messenger.Debug('<#Robot Error Reset and Move Enable#>');
-		inoControl.MoveEnable:=TRUE;
+	
 		inoControl.ErrorConfirmation := inoStatus.State.StopMess AND _blink.outQ;
 		_varInfo :=__VARINFO( inoStatus.State.StopMess);                                                
 		THIS^.Messenger.OnCondition(_infoTimer.Q AND  inoStatus.State.StopMess).Warning(_sb.Clear().Append('<#Waiting for signal#>').Append(_varInfo.Symbol).Append(' is OFF').ToString());
@@ -146,7 +146,9 @@ InvokeWithParams := THIS^.Invoke();]]></ST>
 METHOD PROTECTED OnAbort
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN   THIS^.inoStatus.ActionDescription := '<#Stop program was aborted, while not yet completed!#>';END_IF; 
+        <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN   THIS^.inoStatus.ActionDescription := '<#Start program was aborted, while not yet completed!#>';END_IF; 
+inoControl.MoveEnable := FALSE;
+
 ]]></ST>
       </Implementation>
     </Method>
@@ -189,7 +191,7 @@ THIS^._errorMessage.Error(_sb.Clear().Append(description).Append(' To restore ac
       <Declaration><![CDATA[METHOD PROTECTED OnStart 
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN  THIS^.inoStatus.ActionDescription := '<#Stopping program started.#>'; END_IF; 
+        <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN  THIS^.inoStatus.ActionDescription := '<#Starting program started.#>'; END_IF; 
 CallTimers(FALSE);
 inoControl.MoveEnable:=TRUE;]]></ST>
       </Implementation>

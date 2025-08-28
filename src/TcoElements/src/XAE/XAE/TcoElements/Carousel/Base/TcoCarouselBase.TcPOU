@@ -149,7 +149,7 @@ METHOD  Restore : ITcoRestorable
       <Declaration><![CDATA[(*~
 	<docu>
 		<summary>
-			Starts movement into work position. 		
+			Starts rotating table. 		
 		</summary>			
 	</docu>	
 ~*)
@@ -161,6 +161,46 @@ METHOD Turn :TcoCore.ITcoTaskStatus
 END_IF;	]]></ST>
       </Implementation>
     </Method>
+    <Method Name="TurnRecovery" Id="{aba52f27-0f65-068c-13a7-8a141a19e8c9}" FolderPath="Operations\">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Starts rotating table do not check expected position 		
+		</summary>			
+	</docu>	
+~*)
+METHOD TurnRecovery :TcoCore.ITcoTaskStatus
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF(TurnTask <> 0) THEN
+
+	TurnRecovery := TurnRecoveryTask.Invoke();
+END_IF;	]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="TurnRecoveryTask" Id="{59dbd72a-380a-06e5-2149-9fb319fb80e0}" FolderPath="Tasks\">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Gets the `TurnRecoveryTask` task that controls the rotation from  position to next position in same direction.
+			<remarks>			
+				<note type="important">
+					This is an abstract method and must be implemented in derived class.
+				</note>
+			</remarks>	 		
+		</summary>			
+	</docu>	
+~*)
+PROPERTY PUBLIC ABSTRACT TurnRecoveryTask : TcoCore.ITcoTask]]></Declaration>
+      <Get Name="Get" Id="{1471e626-b926-04be-0b68-4d0e211e11a5}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Property Name="TurnTask" Id="{05f16e55-6df3-0265-3393-67ae5f28d889}" FolderPath="Tasks\">
       <Declaration><![CDATA[(*~
 	<docu>

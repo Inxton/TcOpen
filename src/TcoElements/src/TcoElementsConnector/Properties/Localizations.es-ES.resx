@@ -177,4 +177,133 @@
   <data name="___Unscaled_value__" xml:space="preserve">
     <value>Valor no escalado</value>
   </data>
+  <data name="___Enable_turn__" xml:space="preserve">
+    <value>Activar giro</value>
+  </data>
+  <data name="___Start_turn__" xml:space="preserve">
+    <value>Iniciar giro</value>
+  </data>
+  <data name="___In_position_sensor__" xml:space="preserve">
+    <value>Sensor de posición</value>
+  </data>
+  <data name="___In_precise_position_sensor__" xml:space="preserve">
+    <value>Sensor de posición de precisión</value>
+  </data>
+  <data name="___Enable_turn_table__" xml:space="preserve">
+    <value>Habilitar mesa giratoria</value>
+  </data>
+  <data name="___Start_turn_table__" xml:space="preserve">
+    <value>Iniciar mesa giratoria</value>
+  </data>
+  <data name="___In_position_signal__" xml:space="preserve">
+    <value>Señal de posición</value>
+  </data>
+  <data name="___In_precise_position_signal__" xml:space="preserve">
+    <value>En señal de posición precisa</value>
+  </data>
+  <data name="___Enable_turn_signal__" xml:space="preserve">
+    <value>Activar intermitente</value>
+  </data>
+  <data name="___Start_turn_signal__" xml:space="preserve">
+    <value>Intermitente de arranque</value>
+  </data>
+  <data name="___Invalid_reference____" xml:space="preserve">
+    <value>Referencia no válida:</value>
+  </data>
+  <data name="___Rotatiting_started___but_table_is_not_in_default_position__Acknowledge_this_alarm_if_you_still_want_to_turn____" xml:space="preserve">
+    <value>Se ha iniciado el giro, pero la mesa no está en la posición predeterminada. Confirme esta alarma si aún desea girar.</value>
+  </data>
+  <data name="___Calulate_next_expected_Id_position__" xml:space="preserve">
+    <value>Calcular la siguiente posición Id prevista</value>
+  </data>
+  <data name="___Incorrectly_coded_current_position__Check_configuration_of_code_bits____" xml:space="preserve">
+    <value>Posición actual codificada incorrectamente. Compruebe la configuración de los bits de código.</value>
+  </data>
+  <data name="___Table_turning__Trying_to_leave_sensor__" xml:space="preserve">
+    <value>Mesa giratoria. Tratando de dejar el sensor</value>
+  </data>
+  <data name="___Table_turning__Trying_to_reach_sensor_table_in_positon___" xml:space="preserve">
+    <value>Mesa giratoria. Tratando de llegar a la mesa del sensor en positon.</value>
+  </data>
+  <data name="___Table_after_turn_does_not_have_expected_coding__Expected_id_at_position__1_is__" xml:space="preserve">
+    <value>La tabla después de la vuelta no tiene la codificación esperada. El id esperado en la posición #1 es</value>
+  </data>
+  <data name="___Safety_conditions_to_turn_the_table_are_not_met___" xml:space="preserve">
+    <value>No se cumplen las condiciones de seguridad para girar la mesa.</value>
+  </data>
+  <data name="___Required_position_must_be_in_range_1___20_but_was___" xml:space="preserve">
+    <value>Posición requerida debe estar en el rango 1 - 20 pero fue:</value>
+  </data>
+  <data name="___Turning_table_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>La mesa de giro se ha abortado, ¡aún no se ha completado!</value>
+  </data>
+  <data name="___Truning_table__was_completed_successfully___" xml:space="preserve">
+    <value>La tabla de sintonización se ha completado correctamente.</value>
+  </data>
+  <data name="___Turning_table_finished_with_an_error___" xml:space="preserve">
+    <value>La mesa giratoria terminó con un error.</value>
+  </data>
+  <data name="___Turning_table_started___" xml:space="preserve">
+    <value>Comienza la mesa giratoria.</value>
+  </data>
+  <data name="___Parameter_number_of_positions_is____0__The_paremeters_must_be_grater_than_0___" xml:space="preserve">
+    <value>El parámetro número de posiciones es &lt;= 0. Los parámetros deben ser mayores que 0.</value>
+  </data>
+  <data name="___Turn__" xml:space="preserve">
+    <value>Gire</value>
+  </data>
+  <data name="___Restore__" xml:space="preserve">
+    <value>Restaurar</value>
+  </data>
+  <data name="___Turning_table_aborted_due_to__" xml:space="preserve">
+    <value>Mesa giratoria abortada debido a</value>
+  </data>
+  <data name="___Turning_table_aborted_due_to_NOT___" xml:space="preserve">
+    <value>Mesa giratoria abortada debido a NOT</value>
+  </data>
+  <data name="___Turning_table_is_suspended_due_to__" xml:space="preserve">
+    <value>La mesa giratoria se suspende debido a</value>
+  </data>
+  <data name="___Turning_table_is_suspended_due_to_NOT___" xml:space="preserve">
+    <value>La mesa giratoria se suspende debido a que NO</value>
+  </data>
+  <data name="___Rotating_is_suspended_due_to__" xml:space="preserve">
+    <value>La rotación se suspende debido a</value>
+  </data>
+  <data name="___Setpoint__" xml:space="preserve">
+    <value>Consigna</value>
+  </data>
+  <data name="___In_position__" xml:space="preserve">
+    <value>En posición</value>
+  </data>
+  <data name="___In_precise_position__" xml:space="preserve">
+    <value>En posición precisa</value>
+  </data>
+  <data name="___Turn_safety_condition__" xml:space="preserve">
+    <value>Condición de seguridad de giro</value>
+  </data>
+  <data name="___Current_position__" xml:space="preserve">
+    <value>Posición actual</value>
+  </data>
+  <data name="___Expected_next_position__" xml:space="preserve">
+    <value>Próxima posición prevista</value>
+  </data>
+  <data name="___Positions__" xml:space="preserve">
+    <value>Puestos</value>
+  </data>
+  <data name="___Turn_task_Recovery__" xml:space="preserve">
+    <value>Tarea de turno Recuperación</value>
+  </data>
+  <data name="___Recovery_turning_table_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>La recuperación de la mesa giratoria se ha abortado, ¡aún no se ha completado!</value>
+  </data>
+  <data name="___Recovery_truning_table__was_completed_successfully___" xml:space="preserve">
+    <value>La tabla de trunking de recuperación se ha completado con éxito.</value>
+  </data>
+  <data name="___Recovery_turning_table_finished_with_an_error___" xml:space="preserve">
+    <value>La mesa giratoria de recuperación ha terminado con un error.</value>
+  </data>
+  <data name="___Recovery_turning_table_started___" xml:space="preserve">
+    <value>Comienza la mesa giratoria de recuperación.</value>
+  </data>
 </root>

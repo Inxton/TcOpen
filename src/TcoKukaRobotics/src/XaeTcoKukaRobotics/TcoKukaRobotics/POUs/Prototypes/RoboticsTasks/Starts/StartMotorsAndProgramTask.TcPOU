@@ -132,6 +132,7 @@ METHOD PROTECTED OnAbort
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN   THIS^.inoStatus.ActionDescription := '<#Start motors and program was aborted.#>'; END_IF;
+inoControl.MoveEnable := false;
 
 ]]></ST>
       </Implementation>

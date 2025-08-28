@@ -120,4 +120,364 @@
   <data name="___Error__" xml:space="preserve">
     <value>Fehler</value>
   </data>
+  <data name="___Emergency_stop_active__" xml:space="preserve">
+    <value>Not-Aus aktiv</value>
+  </data>
+  <data name="___Safety_Error___" xml:space="preserve">
+    <value>Sicherheitsfehler</value>
+  </data>
+  <data name="___Robot_reported_an_error____" xml:space="preserve">
+    <value>Der Roboter hat einen Fehler gemeldet:</value>
+  </data>
+  <data name="___Status__" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="___Control__" xml:space="preserve">
+    <value>Kontrolle</value>
+  </data>
+  <data name="___Config__" xml:space="preserve">
+    <value>Konfigurieren Sie</value>
+  </data>
+  <data name="___PN_Error__" xml:space="preserve">
+    <value>PN-Fehler</value>
+  </data>
+  <data name="___Start_at_Main__" xml:space="preserve">
+    <value>Start am Main</value>
+  </data>
+  <data name="___Start_motors_and_program__" xml:space="preserve">
+    <value>Motoren starten und programmieren</value>
+  </data>
+  <data name="___Start_program__" xml:space="preserve">
+    <value>Programm starten</value>
+  </data>
+  <data name="___Start_motors__" xml:space="preserve">
+    <value>Motoren starten</value>
+  </data>
+  <data name="___Start_movements__" xml:space="preserve">
+    <value>Bewegungen starten</value>
+  </data>
+  <data name="___Start_motors_program_and_movements__" xml:space="preserve">
+    <value>Motoren starten Programm und Bewegungen</value>
+  </data>
+  <data name="___Stop_movements__" xml:space="preserve">
+    <value>Bewegungen anhalten</value>
+  </data>
+  <data name="___Stop_movenents_and_program__" xml:space="preserve">
+    <value>Bewegungen anhalten und programmieren</value>
+  </data>
+  <data name="___Stop_program__" xml:space="preserve">
+    <value>Programm anhalten</value>
+  </data>
+  <data name="___Stop_motors__" xml:space="preserve">
+    <value>Motoren anhalten</value>
+  </data>
+  <data name="___Restore__" xml:space="preserve">
+    <value>Wiederherstellen</value>
+  </data>
+  <data name="___ECat_Error__" xml:space="preserve">
+    <value>ECat-Fehler</value>
+  </data>
+  <data name="___Invalid_reference____" xml:space="preserve">
+    <value>Ungültige Referenz:</value>
+  </data>
+  <data name="___Waiting_program_pointer_changed____" xml:space="preserve">
+    <value>Warteprogrammzeiger geändert!</value>
+  </data>
+  <data name="___Start_at_Main_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>Der Start am Main wurde abgebrochen, obwohl er noch nicht abgeschlossen war!</value>
+  </data>
+  <data name="___Start_at_Main_was_completed_successfully___" xml:space="preserve">
+    <value>Der Start am Hauptbahnhof wurde erfolgreich abgeschlossen.</value>
+  </data>
+  <data name="___Start_at_Main_finished_with_error___" xml:space="preserve">
+    <value>Start bei Main mit Fehler beendet.</value>
+  </data>
+  <data name="___Start_at_Main_started___" xml:space="preserve">
+    <value>Start bei Main begonnen.</value>
+  </data>
+  <data name="___Waiting_for_signal__" xml:space="preserve">
+    <value>Warten auf das Signal</value>
+  </data>
+  <data name="____Waiting_for_signal____" xml:space="preserve">
+    <value>Ich warte auf das Signal:</value>
+  </data>
+  <data name="___Robot_Error_Reset_and_Move_Enable__" xml:space="preserve">
+    <value>Roboterfehler-Reset und Bewegungsfreigabe</value>
+  </data>
+  <data name="___Waiting_for_program_running_signal____" xml:space="preserve">
+    <value>Ich warte auf das Signal zum Programmstart!</value>
+  </data>
+  <data name="___Start_motors_and_program_was_aborted___" xml:space="preserve">
+    <value>Motoren starten und Programm wurde abgebrochen.</value>
+  </data>
+  <data name="___Start_motors_and_program_finished_successfully___" xml:space="preserve">
+    <value>Motoren starten und Programm erfolgreich beendet.</value>
+  </data>
+  <data name="___Start_motors_and_program_finished_with_error___" xml:space="preserve">
+    <value>Motoren starten und Programm mit Fehler beendet.</value>
+  </data>
+  <data name="___Start_motors_and_program_started___" xml:space="preserve">
+    <value>Motoren starten und Programm starten.</value>
+  </data>
+  <data name="___Invalid_reference_StartMotorAndProgramTask__" xml:space="preserve">
+    <value>Ungültige Referenz StartMotorAndProgramTask</value>
+  </data>
+  <data name="___Moving_to_position_ID__" xml:space="preserve">
+    <value>Anfahren der Position ID</value>
+  </data>
+  <data name="___Start_motors__program_and_movements_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>Motoren starten, Programm und Bewegungen wurden abgebrochen, obwohl noch nicht abgeschlossen!</value>
+  </data>
+  <data name="___Start_motors__program_and_movements_finished_successfully___" xml:space="preserve">
+    <value>Motoren starten, Programm und Bewegungen erfolgreich beendet.</value>
+  </data>
+  <data name="___Start_motors__program_and_movements_finished_with_error___" xml:space="preserve">
+    <value>Motoren starten, Programm und Bewegungen mit Fehler beendet.</value>
+  </data>
+  <data name="___Start_motors__program_and_movements_stared___" xml:space="preserve">
+    <value>Motoren starten, programmieren und Bewegungen starren.</value>
+  </data>
+  <data name="___Start_motors__was_aborted___" xml:space="preserve">
+    <value>Das Starten von Motoren wurde abgebrochen.</value>
+  </data>
+  <data name="___Start_motors__finished_successfully___" xml:space="preserve">
+    <value>Die Motoren wurden erfolgreich gestartet.</value>
+  </data>
+  <data name="___Start_motors_finished_with_error___" xml:space="preserve">
+    <value>Startmotoren mit Fehler beendet.</value>
+  </data>
+  <data name="___Start_motors_started___" xml:space="preserve">
+    <value>Startmotoren gestartet.</value>
+  </data>
+  <data name="___Waiting_for_motors_are_On____" xml:space="preserve">
+    <value>Warten auf Motoren ist angesagt!</value>
+  </data>
+  <data name="___Waiting_for_system_is_without_errors____" xml:space="preserve">
+    <value>Warten auf System ist fehlerfrei!</value>
+  </data>
+  <data name="___Start_movements_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>Die Startbewegung wurde abgebrochen, obwohl sie noch nicht abgeschlossen war!</value>
+  </data>
+  <data name="___Start_movements_finished_successfully___" xml:space="preserve">
+    <value>Startbewegungen erfolgreich beendet.</value>
+  </data>
+  <data name="___Start_movements_finished_with_error___" xml:space="preserve">
+    <value>Startbewegungen mit Fehler beendet.</value>
+  </data>
+  <data name="___Start_movements_stared___" xml:space="preserve">
+    <value>Startbewegungen starrten.</value>
+  </data>
+  <data name="___Stop_program_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>Stop-Programm wurde abgebrochen, obwohl es noch nicht abgeschlossen ist!</value>
+  </data>
+  <data name="___Stop_program_was_completed_successfully___" xml:space="preserve">
+    <value>Das Stopp-Programm wurde erfolgreich beendet.</value>
+  </data>
+  <data name="___Stopping_program_with_error___" xml:space="preserve">
+    <value>Das Programm wird mit einem Fehler beendet.</value>
+  </data>
+  <data name="___Stopping_program_started___" xml:space="preserve">
+    <value>Anhaltendes Programm gestartet.</value>
+  </data>
+  <data name="____is_OFF___" xml:space="preserve">
+    <value>ist AUS</value>
+  </data>
+  <data name="___Stop_motors_was_completed_successfully___" xml:space="preserve">
+    <value>Der Motorstopp wurde erfolgreich abgeschlossen.</value>
+  </data>
+  <data name="___Stop_motors_finished_with_error___" xml:space="preserve">
+    <value>Motoren stoppen mit Fehler beendet.</value>
+  </data>
+  <data name="___Stop_motors_started___" xml:space="preserve">
+    <value>Gestartete Motoren anhalten.</value>
+  </data>
+  <data name="___Stop_movements_and_program_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>Stop-Bewegungen und Programm wurde abgebrochen, obwohl es noch nicht abgeschlossen war!</value>
+  </data>
+  <data name="___Stop_movements_and_program__was_completed_successfully___" xml:space="preserve">
+    <value>Stoppen Sie die Bewegungen und das Programm wurde erfolgreich abgeschlossen.</value>
+  </data>
+  <data name="___Stop_movements_and_program_finished_with_error___" xml:space="preserve">
+    <value>Bewegungen anhalten und Programm mit Fehler beenden.</value>
+  </data>
+  <data name="___Stop_movements_and_program_started___" xml:space="preserve">
+    <value>Bewegungen anhalten und Programm starten.</value>
+  </data>
+  <data name="___Stopping_movements_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>Das Anhalten der Bewegungen wurde abgebrochen, obwohl es noch nicht abgeschlossen war!</value>
+  </data>
+  <data name="___Stopping_movements_was_completed_successfully___" xml:space="preserve">
+    <value>Das Anhalten der Bewegungen wurde erfolgreich abgeschlossen.</value>
+  </data>
+  <data name="___Stopping_movement_finished_with_error___" xml:space="preserve">
+    <value>Stoppen der Bewegung mit Fehler beendet.</value>
+  </data>
+  <data name="___Stopping_movements_started___" xml:space="preserve">
+    <value>Anhaltende Bewegungen wurden eingeleitet.</value>
+  </data>
+  <data name="___Program_Start__EXT_START___" xml:space="preserve">
+    <value>Programmstart [EXTSTART]</value>
+  </data>
+  <data name="___Move_Enable__MOVE_ENABLE___" xml:space="preserve">
+    <value>Verschieben Aktivieren [MOVEENABLE]</value>
+  </data>
+  <data name="___Error_Confirmation__CONF_MESS___" xml:space="preserve">
+    <value>Fehlerbestätigung [CONFMESS]</value>
+  </data>
+  <data name="___Drives_Off__DRIVES_OFF___" xml:space="preserve">
+    <value>Fahrten aus [DRIVESOFF]</value>
+  </data>
+  <data name="___Drives_On__DRIVES_ON___" xml:space="preserve">
+    <value>Fährt weiter [DRIVESON]</value>
+  </data>
+  <data name="___Activate_Interface__I_O_ACT___" xml:space="preserve">
+    <value>Schnittstelle aktivieren [IOACT]</value>
+  </data>
+  <data name="___Start_At_Main__START_AT_MAIN___" xml:space="preserve">
+    <value>Start  [STARTATMAIN]</value>
+  </data>
+  <data name="___Master_mode__" xml:space="preserve">
+    <value>Master-Modus</value>
+  </data>
+  <data name="___Tool_1_retract__" xml:space="preserve">
+    <value>Werkzeug 1 einziehen</value>
+  </data>
+  <data name="___Tool_1_extend__" xml:space="preserve">
+    <value>Werkzeug 1 erweitern</value>
+  </data>
+  <data name="___Tool_2_retract__" xml:space="preserve">
+    <value>Werkzeug 2 einziehen</value>
+  </data>
+  <data name="___Tool_2_extend__" xml:space="preserve">
+    <value>Werkzeug 2 erweitern</value>
+  </data>
+  <data name="___Tool_3_retract__" xml:space="preserve">
+    <value>Werkzeug 3 einziehen</value>
+  </data>
+  <data name="___Tool_3_extend__" xml:space="preserve">
+    <value>Werkzeug 3 erweitern</value>
+  </data>
+  <data name="___Tool_4_retract__" xml:space="preserve">
+    <value>Werkzeug 4 einziehen</value>
+  </data>
+  <data name="___Tool_4_extend__" xml:space="preserve">
+    <value>Werkzeug 4 erweitern</value>
+  </data>
+  <data name="___Zones__" xml:space="preserve">
+    <value>Zonen</value>
+  </data>
+  <data name="___In_position__" xml:space="preserve">
+    <value>In Stellung</value>
+  </data>
+  <data name="___Action_number__" xml:space="preserve">
+    <value>Aktionsnummer</value>
+  </data>
+  <data name="___Global_robot_speed__" xml:space="preserve">
+    <value>Globale Robotergeschwindigkeit</value>
+  </data>
+  <data name="___Tool_number__" xml:space="preserve">
+    <value>Werkzeug-Nummer</value>
+  </data>
+  <data name="___Workobject_number__" xml:space="preserve">
+    <value>Nummer des Arbeitsobjekts</value>
+  </data>
+  <data name="___Point_number__" xml:space="preserve">
+    <value>Punktzahl</value>
+  </data>
+  <data name="___User_specific_speed_1__" xml:space="preserve">
+    <value>Benutzerspezifische Geschwindigkeit 1</value>
+  </data>
+  <data name="___User_specific_speed_2__" xml:space="preserve">
+    <value>Benutzerspezifische Geschwindigkeit 2</value>
+  </data>
+  <data name="___Coordinates__" xml:space="preserve">
+    <value>Koordinaten</value>
+  </data>
+  <data name="___ControlReady__RC_RDY1___" xml:space="preserve">
+    <value>ControlReady [RCRDY1]</value>
+  </data>
+  <data name="___AlarmStopActive__ALARM_STOP___" xml:space="preserve">
+    <value>AlarmStopActive [ALARMSTOP]</value>
+  </data>
+  <data name="___UserSafetySwitchClosed__USER_SAF___" xml:space="preserve">
+    <value>UserSafetySwitchClosed [USERSAF]</value>
+  </data>
+  <data name="___DrivesReady__PERI_RDY___" xml:space="preserve">
+    <value>DrivesReady [PERIRDY]</value>
+  </data>
+  <data name="___RobotCalibrated__ROB_CAL___" xml:space="preserve">
+    <value>RoboterKalibriert [ROBCAL]</value>
+  </data>
+  <data name="___InterfaceActivated__I_O_ACTCONF___" xml:space="preserve">
+    <value>InterfaceActivated [IOACTCONF]</value>
+  </data>
+  <data name="___ErrorCollection__STOPMESS___" xml:space="preserve">
+    <value>ErrorCollection [STOPMESS]</value>
+  </data>
+  <data name="___RobotStopped__ROB_STOPPED___" xml:space="preserve">
+    <value>RobotStopped [ROBSTOPPED]</value>
+  </data>
+  <data name="___InHome__IN_HOME___" xml:space="preserve">
+    <value>InHome [INHOME]</value>
+  </data>
+  <data name="___Manual__T1___" xml:space="preserve">
+    <value>Manual [T1]</value>
+  </data>
+  <data name="___Automatic__AUT___" xml:space="preserve">
+    <value>Automatisch [AUT]</value>
+  </data>
+  <data name="___ExternalAutomatic__EXT___" xml:space="preserve">
+    <value>ExternAutomatisch [EXT]</value>
+  </data>
+  <data name="___ProcesActive__PRO_ACT___" xml:space="preserve">
+    <value>ProcesActive [PROACT]</value>
+  </data>
+  <data name="___ProgramMoveActive__PROGRAM_MOVEMENT_ACTIVE___" xml:space="preserve">
+    <value>ProgrammBewegungAktiv [PROGRAMM-BEWEGUNG AKTIV]</value>
+  </data>
+  <data name="___Event_ID__" xml:space="preserve">
+    <value>Ereignis-ID</value>
+  </data>
+  <data name="___PpMoved__" xml:space="preserve">
+    <value>PpMoved</value>
+  </data>
+  <data name="___StartAtMain__" xml:space="preserve">
+    <value>StartAtMain</value>
+  </data>
+  <data name="___In_area_1__" xml:space="preserve">
+    <value>Im Bereich 1</value>
+  </data>
+  <data name="___In_area_2__" xml:space="preserve">
+    <value>Im Bereich 2</value>
+  </data>
+  <data name="___In_area_3__" xml:space="preserve">
+    <value>Im Bereich 3</value>
+  </data>
+  <data name="___In_area_4__" xml:space="preserve">
+    <value>Im Bereich 4</value>
+  </data>
+  <data name="___In_position_1__" xml:space="preserve">
+    <value>In Stellung 1</value>
+  </data>
+  <data name="___In_position_2__" xml:space="preserve">
+    <value>In Stellung 2</value>
+  </data>
+  <data name="___In_position_3__" xml:space="preserve">
+    <value>In Stellung 3</value>
+  </data>
+  <data name="___In_position_4__" xml:space="preserve">
+    <value>Auf Platz 4</value>
+  </data>
+  <data name="___Global_speed__" xml:space="preserve">
+    <value>Globale Geschwindigkeit</value>
+  </data>
+  <data name="___PointNumber__" xml:space="preserve">
+    <value>PunktZahl</value>
+  </data>
+  <data name="___IN__" xml:space="preserve">
+    <value>IN</value>
+  </data>
+  <data name="___OUT__" xml:space="preserve">
+    <value>OUT</value>
+  </data>
 </root>

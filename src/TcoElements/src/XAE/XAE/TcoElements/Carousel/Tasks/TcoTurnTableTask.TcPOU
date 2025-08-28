@@ -4,6 +4,7 @@
     <Declaration><![CDATA[FUNCTION_BLOCK TcoTurnTableTask EXTENDS TcoCore.TcoTask
 VAR_INPUT
 	inSafetyCondition:BOOL;
+	inDoNotVerifyPositions:BOOL;
 END_VAR
 VAR_IN_OUT
 
@@ -61,7 +62,7 @@ END_VAR
 
 	END_IF
 	IF _progress=1 THEN	
-		_notInPositionMessage.OnCondition(NOT inoInPosition).Error('<#Rotatiting started , but table is not in default position! Acknowledge this alarm if you still want to turn! #>').Pin();
+		_notInPositionMessage.OnCondition(NOT inoInPosition AND _infoTimer.Q ).Error('<#Rotatiting started , but table is not in default position! Acknowledge this alarm if you still want to turn! #>').Pin();
 		_progress:=10;
 	
 	END_IF;
@@ -69,26 +70,27 @@ END_VAR
 
 	
 	IF _progress=10 THEN	
-		Messenger.Info('<#Calulate next expected Id position#>');
+		Messenger.OnCondition(_infoTimer.Q).Info('<#Calulate next expected Id position#>');
 		IF inoStatus.CurrentPosition <> 0 THEN
 			inoStatus.ExpectedNextPosition := GetIdentifierAtPosition( inoConfig.NumberOfPositions,inoStatus.Positions);	
 		END_IF;
 		
-		Messenger.OnCondition(inoStatus.CurrentPosition=0  AND inoInPosition).Error('<#Incorrectly coded current position. Check configuration of code bits! #>').Pin();
+		Messenger.OnCondition(inoStatus.CurrentPosition=0  AND inoInPosition AND _infoTimer.Q).Error('<#Incorrectly coded current position. Check configuration of code bits! #>').Pin();
 		
 		IF	inoStatus.CurrentPosition <> 0 AND inoInPosition THEN
 			_progress := 20;
 		ELSIF NOT 	_notInPositionMessage.Pinned THEN
 			_progress:=20;
 			_notInPositionMessage.UnPin();
-	
+		ELSIF inDoNotVerifyPositions THEN
+			_progress:=20;
 		END_IF;		
 	END_IF;
 	
 	IF _progress=20 THEN	
 		inoEnableTurn:=TRUE; 
 		inoStartTurn:=TRUE;	
-		Messenger.Info('<#Table turning. Trying to leave sensor#>');
+		Messenger.OnCondition(_infoTimer.Q).Info('<#Table turning. Trying to leave sensor#>');
 		
 		IF NOT inoInPosition THEN
 			inoEnableTurn:=FALSE;	
@@ -98,7 +100,7 @@ END_VAR
 	
 	
 	IF _progress=30 THEN	
-		Messenger.Info('<#Table turning. Trying to reach sensor table in positon.#>');
+		Messenger.OnCondition(_infoTimer.Q).Info('<#Table turning. Trying to reach sensor table in positon.#>');
 		inoStartTurn:=TRUE;	
 		IF inoInPosition THEN
 			inoEnableTurn:=FALSE; 
@@ -108,13 +110,14 @@ END_VAR
 	END_IF;
 	
 	IF _progress=40 THEN	
-		Messenger.OnCondition(inoStatus.CurrentPosition > 0 AND_THEN inoStatus.ExpectedNextPosition  <>  GetIdentifierAtPosition(1,inoStatus.Positions)).
-			Error(_sb.Clear().Append('<#Table after turn does not have expected coding. Expected id at position #1 is#> ').Append( UINT_TO_STRING(inoStatus.ExpectedNextPosition)).ToString()).Pin();
+		Messenger.OnCondition(_infoTimer.Q AND inoStatus.CurrentPosition > 0 AND_THEN inoStatus.ExpectedNextPosition  <>  GetIdentifierAtPosition(1,inoStatus.Positions) ).
+			Error (_sb.Clear().Append('<#Table after turn does not have expected coding. Expected id at position #1 is#> ').Append( UINT_TO_STRING(inoStatus.ExpectedNextPosition)).ToString()).Pin();
 	
 		IF(inoStatus.CurrentPosition > 0 AND inoStatus.ExpectedNextPosition = GetIdentifierAtPosition(1,inoStatus.Positions)) THEN
 			
 			THIS^.DoneWhen(TRUE);	
-	
+		ELSIF inDoNotVerifyPositions THEN
+			THIS^.DoneWhen(TRUE);	
 		END_IF;	
 	END_IF;
 	
@@ -138,10 +141,13 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF  __ISVALIDREF(inoConfig) THEN  
-_infoTimer(IN := inValue, PT := THIS^.inoConfig.InfoTime);
+        <ST><![CDATA[IF  __ISVALIDREF(inoConfig) AND THIS^.inoConfig.ErrorTime <> T#0S OR NOT inValue THEN  
 _errorTimer(IN := inValue, PT := THIS^.inoConfig.ErrorTime);
-END_IF;]]></ST>
+END_IF;
+IF  __ISVALIDREF(inoConfig) AND THIS^.inoConfig.InfoTime <>T#0S OR NOT inValue THEN  
+_infoTimer(IN := inValue, PT := THIS^.inoConfig.InfoTime);
+END_IF;
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_init" Id="{4c15fac0-a071-4ca8-b7be-4fc1d603b99e}">
@@ -184,8 +190,13 @@ GetIdentifierAtPosition := inPositions[inPosition - 1];]]></ST>
 METHOD PROTECTED OnAbort
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN   THIS^.inoStatus.ActionDescription := '<#Turning table was aborted, while not yet completed!#>';END_IF; 
+        <ST><![CDATA[IF __ISVALIDREF(inoStatus) THEN
+    THIS^.inoStatus.ActionDescription := '<#Turning table was aborted, while not yet completed!#>';
 
+    IF inDoNotVerifyPositions THEN
+        THIS^.inoStatus.ActionDescription := '<#Recovery turning table was aborted, while not yet completed!#>';
+    END_IF
+END_IF;
 ]]></ST>
       </Implementation>
     </Method>
@@ -200,7 +211,12 @@ METHOD PROTECTED OnAbort
 METHOD PROTECTED OnDone
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN  THIS^.inoStatus.ActionDescription := '<#Truning table  was completed successfully.#>';END_IF; 
+        <ST><![CDATA[IF __ISVALIDREF(inoStatus) THEN
+    THIS^.inoStatus.ActionDescription := '<#Truning table  was completed successfully.#>';
+    IF inDoNotVerifyPositions THEN
+        THIS^.inoStatus.ActionDescription := '<#Recovery truning table  was completed successfully.#>';
+    END_IF;
+END_IF;
 ]]></ST>
       </Implementation>
     </Method>
@@ -209,7 +225,12 @@ METHOD PROTECTED OnDone
 
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN   THIS^.inoStatus.ActionDescription := '<#Turning table finished with an error.#>'; END_IF;
+        <ST><![CDATA[IF __ISVALIDREF(inoStatus) THEN
+    THIS^.inoStatus.ActionDescription := '<#Turning table finished with an error.#>';
+    IF inDoNotVerifyPositions THEN
+        THIS^.inoStatus.ActionDescription := '<#Recovery turning table finished with an error.#>';
+    END_IF;
+END_IF
 ]]></ST>
       </Implementation>
     </Method>
@@ -217,7 +238,13 @@ METHOD PROTECTED OnDone
       <Declaration><![CDATA[METHOD PROTECTED OnStart 
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN  THIS^.inoStatus.ActionDescription := '<#Turning table started.#>'; END_IF; 
+        <ST><![CDATA[IF __ISVALIDREF(inoStatus) THEN
+    THIS^.inoStatus.ActionDescription := '<#Turning table started.#>';
+
+    IF inDoNotVerifyPositions THEN
+        THIS^.inoStatus.ActionDescription := '<#Recovery turning table started.#>';
+    END_IF
+END_IF;
 ]]></ST>
       </Implementation>
     </Method>

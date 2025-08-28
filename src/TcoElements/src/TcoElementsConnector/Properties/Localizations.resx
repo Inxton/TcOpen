@@ -195,14 +195,26 @@
   <data name="___Turning_table_was_aborted__while_not_yet_completed___" xml:space="preserve">
     <value>Turning table was aborted, while not yet completed!</value>
   </data>
+  <data name="___Recovery_turning_table_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>Recovery turning table was aborted, while not yet completed!</value>
+  </data>
   <data name="___Truning_table__was_completed_successfully___" xml:space="preserve">
     <value>Truning table  was completed successfully.</value>
+  </data>
+  <data name="___Recovery_truning_table__was_completed_successfully___" xml:space="preserve">
+    <value>Recovery truning table  was completed successfully.</value>
   </data>
   <data name="___Turning_table_finished_with_an_error___" xml:space="preserve">
     <value>Turning table finished with an error.</value>
   </data>
+  <data name="___Recovery_turning_table_finished_with_an_error___" xml:space="preserve">
+    <value>Recovery turning table finished with an error.</value>
+  </data>
   <data name="___Turning_table_started___" xml:space="preserve">
     <value>Turning table started.</value>
+  </data>
+  <data name="___Recovery_turning_table_started___" xml:space="preserve">
+    <value>Recovery turning table started.</value>
   </data>
   <data name="___Parameter_number_of_positions_is____0__The_paremeters_must_be_grater_than_0___" xml:space="preserve">
     <value>Parameter number of positions is &lt;= 0. The paremeters must be grater than 0.</value>
@@ -212,6 +224,9 @@
   </data>
   <data name="___Restore__" xml:space="preserve">
     <value>Restore</value>
+  </data>
+  <data name="___Turn_task_Recovery__" xml:space="preserve">
+    <value>Turn task Recovery</value>
   </data>
   <data name="___Turning_table_aborted_due_to__" xml:space="preserve">
     <value>Turning table aborted due to</value>
