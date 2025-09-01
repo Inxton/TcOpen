@@ -117,7 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="___Error__" xml:space="preserve">
-    <value>Error</value>
+  <data name="CarouselNotInPos" xml:space="preserve">
+    <value>Otočný stůl není v poloze</value>
+  </data>
+  <data name="CarouselNotInPrecisePos" xml:space="preserve">
+    <value>Otočný stůl není v přesné poloze</value>
+  </data>
+  <data name="CarouselNotSafeTurnCondition" xml:space="preserve">
+    <value>Nelze otáčet stolem, zkontrolujte bezpečné podmínky!</value>
+  </data>
+  <data name="Positions" xml:space="preserve">
+    <value>Pozice</value>
   </data>
 </root>

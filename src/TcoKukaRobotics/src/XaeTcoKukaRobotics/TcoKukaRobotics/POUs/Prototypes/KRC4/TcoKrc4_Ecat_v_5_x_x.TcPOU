@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
-  <POU Name="TcoKrc4_v_5_x_x" Id="{b348e825-43a7-09e2-1e74-31e7d2e0f4e1}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK TcoKrc4_v_5_x_x EXTENDS TcoIo.TcoPnIoComponent  IMPLEMENTS TcoAbstractions.ITcoRobotics
+  <POU Name="TcoKrc4_Ecat_v_5_x_x" Id="{34d3e3e5-d998-0e59-3213-a2e6864c528a}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK TcoKrc4_Ecat_v_5_x_x EXTENDS TcoIo.TcoEcatComponent  IMPLEMENTS TcoAbstractions.ITcoRobotics
 VAR_INPUT
     inEnable : BOOL;
 END_VAR
@@ -20,7 +20,7 @@ VAR
 	_control 	: TcoKukaRobotics_Control_v_5_x_x;
 	{attribute addProperty Name "<#Config#>"}
     _config : TcoKukaRobotics_Config_v_5_x_x;
-	{attribute addProperty Name "<#PN Error#>"}
+	{attribute addProperty Name "<#ECat Error#>"}
     {attribute clr [ReadOnly()]}
     _busError : BOOL;
 
@@ -74,18 +74,16 @@ VAR
 
 END_VAR
 
-VAR
-	{attribute 'hide'}
-	_sb : TcoCore.StringBuilder;
-END_VAR]]></Declaration>
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF NOT __ISVALIDREF(inoData) THEN
     Messenger.Post('Invalid reference', TcoCore.eMessageCategory.ProgrammingError);
     RETURN;
 END_IF
 
-SUPER^(inPnIoBoxState := THIS^.inoData.PnIoBoxState,inPnIoBoxDiag := THIS^.inoData.PnIoBoxDiag);
-_busError:= NOT _profinetReady;
+SUPER^(AdsAddr:=AdsAddr);
+_busError:= NOT SUPER^._ecatState.EcatOk;
+
 
 
 UpdateStatus();
@@ -128,8 +126,6 @@ _stopMovementsAndProgramTask(inoConfig:=_config,inoControl:=_control,inoStatus:=
 
 
 
-
-
 //*************RESTORE********************
 
 _restoreTask.Enabled := TRUE;
@@ -167,9 +163,9 @@ IF(_status.State.Error) THEN Messenger.Error(_sb.Clear().Append('<#Robot reporte
 
 UpdateControl();]]></ST>
     </Implementation>
-    <Folder Name="Operations" Id="{8ad0cc2a-08e3-0512-1900-21314256c7c5}" />
-    <Folder Name="Task" Id="{08253d38-d648-0984-0d8c-d1f59b423720}" />
-    <Property Name="Config" Id="{a844cd46-fd00-0012-3344-12c0e2b94f06}">
+    <Folder Name="Operations" Id="{7b69b042-5212-026a-24ee-2f6bae1aebfe}" />
+    <Folder Name="Task" Id="{f2132768-87b4-0d17-35f3-1809d222b061}" />
+    <Property Name="Config" Id="{54b2fe6d-a059-01b3-0fa9-58f3d8599257}">
       <Declaration><![CDATA[(*~
 	<docu>
 		<summary>
@@ -178,16 +174,16 @@ UpdateControl();]]></ST>
 	</docu>	
 ~*)
 PROPERTY Config : REFERENCE TO TcoKukaRobotics_Config_v_5_x_x]]></Declaration>
-      <Get Name="Get" Id="{a0909f66-0d69-0c96-1281-e17a1eeef28e}">
+      <Get Name="Get" Id="{a3bc7dc3-3220-0cd6-31ef-89329f6770e7}">
         <Declaration><![CDATA[]]></Declaration>
         <Implementation>
           <ST><![CDATA[Config REF= _config;]]></ST>
         </Implementation>
       </Get>
     </Property>
-    <Property Name="Control" Id="{62033779-cabf-0568-137e-47cc47a3d40e}">
+    <Property Name="Control" Id="{5a22aa63-58b4-01bc-043b-26bc6ea8222f}">
       <Declaration><![CDATA[PROPERTY PUBLIC Control : REFERENCE TO TcoKukaRobotics_Control_v_5_x_x]]></Declaration>
-      <Get Name="Get" Id="{1145ec37-3b39-039e-125a-7063b344287b}">
+      <Get Name="Get" Id="{b3a68f52-429a-019a-0d7f-2bb1cda0e54e}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
@@ -196,7 +192,7 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <Method Name="FB_init" Id="{770744a9-ce87-0842-2331-25c06a1a273e}">
+    <Method Name="FB_init" Id="{e31a71ec-8ad2-0234-3b7c-1e1c34a6a659}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
@@ -209,7 +205,7 @@ END_VAR
         <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Restore" Id="{19070d81-4070-02aa-2265-53044f4c3197}">
+    <Method Name="Restore" Id="{1b8b16dc-c193-0e91-11e9-91abc40b67f4}">
       <Declaration><![CDATA[(*~
 	<docu>
 		<summary>
@@ -244,7 +240,7 @@ _control.Coordinates.Rz:=0;
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="RestoreTasks" Id="{244a5596-198b-0e1a-3eed-b177aea34b8c}">
+    <Method Name="RestoreTasks" Id="{ea0cc216-610e-086a-2a52-3d1380026cd2}">
       <Declaration><![CDATA[METHOD INTERNAL RestoreTasks 
 ]]></Declaration>
       <Implementation>
@@ -261,7 +257,7 @@ _stopMovementsAndProgramTask.Restore();
 _stopProgramTask.Restore();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="ServiceMode" Id="{eb3beca7-06fd-0b5d-32bb-2c195662bb07}">
+    <Method Name="ServiceMode" Id="{54ae6529-501c-08db-353c-6948152ab2ad}">
       <Declaration><![CDATA[(*~
 	<docu>
 		<summary>
@@ -275,7 +271,7 @@ METHOD PROTECTED ServiceMode]]></Declaration>
         <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
-    <Method Name="StartAtMain" Id="{5c073a9c-5742-0d17-2b52-e8e1907cccb0}" FolderPath="Operations\">
+    <Method Name="StartAtMain" Id="{0c71b1ff-1d5e-0f80-0ee5-850d0b5e96e1}" FolderPath="Operations\">
       <Declaration><![CDATA[METHOD PUBLIC StartAtMain : TcoCore.ITcoTaskStatus
 VAR_INPUT
 END_VAR
@@ -284,22 +280,22 @@ END_VAR
         <ST><![CDATA[StartAtMain:=_startAtMainTask.Invoke();]]></ST>
       </Implementation>
     </Method>
-    <Property Name="StartAtMainTask" Id="{1557cd1d-c2bb-0018-2cdb-705bfa66479b}" FolderPath="Task\">
+    <Property Name="StartAtMainTask" Id="{836bc709-ff65-0815-370c-e763f17b412e}" FolderPath="Task\">
       <Declaration><![CDATA[PROPERTY StartAtMainTask : TcoCore.ITcoTaskStatus]]></Declaration>
-      <Get Name="Get" Id="{15102218-5e3f-04e6-3f89-9bc7fc0ca209}">
+      <Get Name="Get" Id="{c5fc96f9-6b49-0ec7-2191-d45521cd68fe}">
         <Declaration><![CDATA[]]></Declaration>
         <Implementation>
           <ST><![CDATA[StartAtMainTask := _startAtMainTask;]]></ST>
         </Implementation>
       </Get>
     </Property>
-    <Method Name="StartMotors" Id="{70ef45bd-a92a-0e85-0fd9-c11092850f58}" FolderPath="Operations\">
+    <Method Name="StartMotors" Id="{0921de31-63fb-0b08-3343-739c4754dfbc}" FolderPath="Operations\">
       <Declaration><![CDATA[METHOD PUBLIC StartMotors : TcoCore.ITcoTaskStatus]]></Declaration>
       <Implementation>
         <ST><![CDATA[StartMotors:=_startMotorsTask.Invoke();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="StartMotorsAndProgram" Id="{7bc55c7f-c48e-0cfd-2ea6-f40b8ffb6123}" FolderPath="Operations\">
+    <Method Name="StartMotorsAndProgram" Id="{eecc6b74-e06a-0318-24c2-3fdedcfffc49}" FolderPath="Operations\">
       <Declaration><![CDATA[METHOD StartMotorsAndProgram : TcoCore.ITcoTaskStatus
 VAR_INPUT
 END_VAR]]></Declaration>
@@ -307,16 +303,16 @@ END_VAR]]></Declaration>
         <ST><![CDATA[StartMotorsAndProgram := THIS^._startMotorsAndProgramTask.Invoke();]]></ST>
       </Implementation>
     </Method>
-    <Property Name="StartMotorsAndProgramTask" Id="{268ce030-08c9-09be-0334-1c91910a073f}" FolderPath="Task\">
+    <Property Name="StartMotorsAndProgramTask" Id="{23c80277-9065-013f-3540-9ab09772b48f}" FolderPath="Task\">
       <Declaration><![CDATA[PROPERTY StartMotorsAndProgramTask : TcoCore.ITcoTaskStatus]]></Declaration>
-      <Get Name="Get" Id="{461ab203-45f6-0256-1de0-8293b6626f21}">
+      <Get Name="Get" Id="{6b2dffcb-2584-042a-0bf9-215a5bf4ea12}">
         <Declaration><![CDATA[]]></Declaration>
         <Implementation>
           <ST><![CDATA[StartMotorsAndProgramTask := _startMotorsAndProgramTask;]]></ST>
         </Implementation>
       </Get>
     </Property>
-    <Method Name="StartMotorsProgramAndMovements" Id="{40ad7954-6f73-0165-024f-fab3a21f2404}" FolderPath="Operations\">
+    <Method Name="StartMotorsProgramAndMovements" Id="{47948003-2a5c-01ce-235e-381572236397}" FolderPath="Operations\">
       <Declaration><![CDATA[METHOD PUBLIC StartMotorsProgramAndMovements : TcoCore.ITcoTaskStatus
 VAR_INPUT
 	inData : TcoRoboticsMovementsParams;
@@ -326,25 +322,25 @@ END_VAR
         <ST><![CDATA[StartMotorsProgramAndMovements:=_startMotorsProgramAndMovementsTask.InvokeWithParams(inData);]]></ST>
       </Implementation>
     </Method>
-    <Property Name="StartMotorsProgramAndMovementsTask" Id="{f00aaca3-4bfc-095e-34f3-bb0393d183b2}" FolderPath="Task\">
+    <Property Name="StartMotorsProgramAndMovementsTask" Id="{ada9672c-f36e-09af-0567-efbb131265e3}" FolderPath="Task\">
       <Declaration><![CDATA[PROPERTY StartMotorsProgramAndMovementsTask : TcoCore.ITcoTaskStatus]]></Declaration>
-      <Get Name="Get" Id="{a06b3c16-5b5f-030c-1d0f-8a258497a806}">
+      <Get Name="Get" Id="{7a9b48d2-9575-0675-3793-178a70d8080f}">
         <Declaration><![CDATA[]]></Declaration>
         <Implementation>
           <ST><![CDATA[StartMotorsProgramAndMovementsTask := _startMotorsProgramAndMovementsTask;]]></ST>
         </Implementation>
       </Get>
     </Property>
-    <Property Name="StartMotorsTask" Id="{8d26ce70-5160-0d71-0206-dc5ed067d820}" FolderPath="Task\">
+    <Property Name="StartMotorsTask" Id="{ac31fead-b297-0472-2d32-1b9c8f7a0e2f}" FolderPath="Task\">
       <Declaration><![CDATA[PROPERTY StartMotorsTask : TcoCore.ITcoTaskStatus]]></Declaration>
-      <Get Name="Get" Id="{d2d6893a-2be5-0592-08a6-6cfda058fbe6}">
+      <Get Name="Get" Id="{5f91384e-bc61-0c79-16fb-21b28e5362d1}">
         <Declaration><![CDATA[]]></Declaration>
         <Implementation>
           <ST><![CDATA[StartMotorsTask := _startMotorsTask;]]></ST>
         </Implementation>
       </Get>
     </Property>
-    <Method Name="StartMovements" Id="{bab25d08-49bb-068a-0982-e3fcd21558f8}" FolderPath="Operations\">
+    <Method Name="StartMovements" Id="{2ad7f8a0-3581-043b-2fae-0d6a06aab7fb}" FolderPath="Operations\">
       <Declaration><![CDATA[METHOD PUBLIC StartMovements : TcoCore.ITcoTaskStatus
 VAR_INPUT
 	inData : TcoRoboticsMovementsParams;
@@ -354,31 +350,31 @@ END_VAR
         <ST><![CDATA[StartMovements:=_startMovementsTask.InvokeWithParams(inData);]]></ST>
       </Implementation>
     </Method>
-    <Property Name="StartMovementsTask" Id="{b57afa17-5edf-0704-1722-199fd7796a68}" FolderPath="Task\">
+    <Property Name="StartMovementsTask" Id="{1aea7b85-7411-0793-32b5-024ac4544b40}" FolderPath="Task\">
       <Declaration><![CDATA[PROPERTY StartMovementsTask : TcoCore.ITcoTaskStatus]]></Declaration>
-      <Get Name="Get" Id="{562238ba-5f3c-066e-0388-6f1f95384fb1}">
+      <Get Name="Get" Id="{7eea2d92-04f9-0eee-25bd-d3be85f654ea}">
         <Declaration><![CDATA[]]></Declaration>
         <Implementation>
           <ST><![CDATA[StartMovementsTask := _startMovementsTask;]]></ST>
         </Implementation>
       </Get>
     </Property>
-    <Method Name="StartProgram" Id="{116c1ecf-b019-082c-3231-bd273cc679dd}" FolderPath="Operations\">
+    <Method Name="StartProgram" Id="{cd2bde8b-39e0-0808-22d7-8138582c872c}" FolderPath="Operations\">
       <Declaration><![CDATA[METHOD PUBLIC StartProgram : TcoCore.ITcoTaskStatus]]></Declaration>
       <Implementation>
         <ST><![CDATA[StartProgram:=_startProgramTask.Invoke();]]></ST>
       </Implementation>
     </Method>
-    <Property Name="StartProgramTask" Id="{8c45d3d8-aa41-0aab-2349-a4d879319654}" FolderPath="Task\">
+    <Property Name="StartProgramTask" Id="{79d22559-35e7-094c-20d0-892eed2a96d5}" FolderPath="Task\">
       <Declaration><![CDATA[PROPERTY StartProgramTask : TcoCore.ITcoTaskStatus]]></Declaration>
-      <Get Name="Get" Id="{81d70bd0-830a-0fa2-3fbf-d73453f4da84}">
+      <Get Name="Get" Id="{68aca713-02f9-03e7-2ddb-adc5c3b658d5}">
         <Declaration><![CDATA[]]></Declaration>
         <Implementation>
           <ST><![CDATA[StartProgramTask := _startProgramTask;]]></ST>
         </Implementation>
       </Get>
     </Property>
-    <Property Name="Status" Id="{a95d3da3-7708-0e53-3ea8-47a9563b73f9}">
+    <Property Name="Status" Id="{d4994dbb-70c3-0ae4-3060-6a19883412b9}">
       <Declaration><![CDATA[(*~
 	<docu>
 		<summary>
@@ -387,30 +383,30 @@ END_VAR
 	</docu>	
 ~*)
 PROPERTY Status : REFERENCE TO TcoKukaRobotics_Status_v_5_x_x]]></Declaration>
-      <Get Name="Get" Id="{5f25c150-d9d8-00c5-0222-3cf76c59e6f6}">
+      <Get Name="Get" Id="{0247349a-c6d0-0cfd-1ed6-7db2e6306ceb}">
         <Declaration><![CDATA[]]></Declaration>
         <Implementation>
           <ST><![CDATA[Status REF= _status;]]></ST>
         </Implementation>
       </Get>
     </Property>
-    <Method Name="StopMotors" Id="{409a5adb-c938-0859-389f-bbd9e3fce8fb}" FolderPath="Operations\">
+    <Method Name="StopMotors" Id="{312a2f7d-8794-0c7f-0b76-f15d85eb66f2}" FolderPath="Operations\">
       <Declaration><![CDATA[METHOD PUBLIC StopMotors : TcoCore.ITcoTaskStatus
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[StopMotors:=_stopMotorsTask.Invoke();]]></ST>
       </Implementation>
     </Method>
-    <Property Name="StopMotorsTask" Id="{803f73e4-9521-0663-01b8-e9435818bc80}" FolderPath="Task\">
+    <Property Name="StopMotorsTask" Id="{5dc3a979-04c2-0782-14c8-0669d7f4c694}" FolderPath="Task\">
       <Declaration><![CDATA[PROPERTY StopMotorsTask : TcoCore.ITcoTaskStatus]]></Declaration>
-      <Get Name="Get" Id="{77b37848-e608-05cd-3933-63b1de09fd33}">
+      <Get Name="Get" Id="{b284ed1c-31c3-04dd-23bd-43f1c73a5de9}">
         <Declaration><![CDATA[]]></Declaration>
         <Implementation>
           <ST><![CDATA[StopMotorsTask := _stopMotorsTask;]]></ST>
         </Implementation>
       </Get>
     </Property>
-    <Method Name="StopMovements" Id="{dc1c006b-22f6-0c9c-0d85-d84300c6c91e}" FolderPath="Operations\">
+    <Method Name="StopMovements" Id="{79c75360-3430-0a43-0ced-aadba7ce3397}" FolderPath="Operations\">
       <Declaration><![CDATA[METHOD PUBLIC StopMovements : TcoCore.ITcoTaskStatus
 VAR_INPUT
 	inStopType : eTcoRoboticsStopType;
@@ -420,7 +416,7 @@ END_VAR
         <ST><![CDATA[StopMovements:=_stopMovementsTask.InvokeWithParams(inStopType);]]></ST>
       </Implementation>
     </Method>
-    <Method Name="StopMovementsAndProgram" Id="{014c362b-6e2e-0291-2538-0b14b1f10471}" FolderPath="Operations\">
+    <Method Name="StopMovementsAndProgram" Id="{db7a197e-0725-09c5-389c-65e12f323bf0}" FolderPath="Operations\">
       <Declaration><![CDATA[METHOD PUBLIC StopMovementsAndProgram : TcoCore.ITcoTaskStatus
 VAR_INPUT
 	inStopType : eTcoRoboticsStopType;
@@ -430,41 +426,41 @@ END_VAR
         <ST><![CDATA[StopMovementsAndProgram:=_stopMovementsAndProgramTask.InvokeWithParams(inStopType);]]></ST>
       </Implementation>
     </Method>
-    <Property Name="StopMovementsAndProgramTask" Id="{11edbf1c-81bb-099b-14bf-6360cad52261}" FolderPath="Task\">
+    <Property Name="StopMovementsAndProgramTask" Id="{e594c56a-b6e5-0f88-0d96-e43c7a79b156}" FolderPath="Task\">
       <Declaration><![CDATA[PROPERTY StopMovementsAndProgramTask : TcoCore.ITcoTaskStatus]]></Declaration>
-      <Get Name="Get" Id="{d0d478c1-8077-0f06-3676-0d1cf665c1af}">
+      <Get Name="Get" Id="{7c399350-37a8-03b4-2dff-1bf79e183cba}">
         <Declaration><![CDATA[]]></Declaration>
         <Implementation>
           <ST><![CDATA[StopMovementsAndProgramTask := _stopMovementsAndProgramTask;]]></ST>
         </Implementation>
       </Get>
     </Property>
-    <Property Name="StopMovementsTask" Id="{ab6246de-fb88-0c98-2a57-cf9c48d6fb9d}" FolderPath="Task\">
+    <Property Name="StopMovementsTask" Id="{fc67b280-ecdb-0d67-0d9f-a34438ec2137}" FolderPath="Task\">
       <Declaration><![CDATA[PROPERTY StopMovementsTask : TcoCore.ITcoTaskStatus]]></Declaration>
-      <Get Name="Get" Id="{641ac3d9-9cac-063a-33b9-dff29d6226ea}">
+      <Get Name="Get" Id="{630ddc62-db47-01d9-3e5e-cc9981025644}">
         <Declaration><![CDATA[]]></Declaration>
         <Implementation>
           <ST><![CDATA[StopMovementsTask := _stopMovementsTask;]]></ST>
         </Implementation>
       </Get>
     </Property>
-    <Method Name="StopProgram" Id="{ad5751b4-f571-080e-0df9-6a6f596db98a}" FolderPath="Operations\">
+    <Method Name="StopProgram" Id="{d20058b4-e6ac-0495-39a4-7fe3babd2c9a}" FolderPath="Operations\">
       <Declaration><![CDATA[METHOD PUBLIC StopProgram : TcoCore.ITcoTaskStatus
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[StopProgram:=_stopProgramTask.Invoke();]]></ST>
       </Implementation>
     </Method>
-    <Property Name="StopProgramTask" Id="{fa7f2994-f503-0f99-26ba-4d675e2062c1}" FolderPath="Task\">
+    <Property Name="StopProgramTask" Id="{26d11f5f-33e6-0473-1292-83036a395088}" FolderPath="Task\">
       <Declaration><![CDATA[PROPERTY StopProgramTask : TcoCore.ITcoTaskStatus]]></Declaration>
-      <Get Name="Get" Id="{12a81b41-1b56-0c39-35d4-de4415ef8d92}">
+      <Get Name="Get" Id="{be465996-829d-0290-1deb-375579bddc18}">
         <Declaration><![CDATA[]]></Declaration>
         <Implementation>
           <ST><![CDATA[StopProgramTask := _stopProgramTask;]]></ST>
         </Implementation>
       </Get>
     </Property>
-    <Method Name="UpdateControl" Id="{7f029cb4-6c5f-0a6e-3cf0-6367c8ebbc3f}">
+    <Method Name="UpdateControl" Id="{6414a2b4-b4b5-031c-343e-c07ec86a2c24}">
       <Declaration><![CDATA[METHOD INTERNAL UpdateControl
 VAR_INPUT
 END_VAR
@@ -589,7 +585,7 @@ TcoUtilities.TcoDintToBytes(inFormat:=TcoUtilities.eTcoDataFormat.LittleEndian,
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="UpdateStatus" Id="{84ff8470-6df7-03c6-27ab-a29aaaa4eb5e}">
+    <Method Name="UpdateStatus" Id="{2fe7e92c-2e7e-0a04-1fad-3cc2f5d4c660}">
       <Declaration><![CDATA[METHOD INTERNAL UpdateStatus
 VAR
     _message : STRING(125);

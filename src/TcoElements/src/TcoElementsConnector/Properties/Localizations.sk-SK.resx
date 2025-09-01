@@ -117,8 +117,116 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="___Division_by_zero__Verify_values_defined_in_config___RawHigh_RawLow___" xml:space="preserve">
+    <value>Delenie nulou: Overte hodnoty definované v konfigurácii! (RawHigh,RawLow)</value>
+  </data>
+  <data name="___Invalid_data__Gain_is_not_defined___" xml:space="preserve">
+    <value>Neplatné údaje: Zisk nie je definovaný!</value>
+  </data>
+  <data name="___Out_of_boundaries_check_correction_parameters__Gain_Ofset__in_config___" xml:space="preserve">
+    <value>Mimo hraníc, skontrolujte korekčné parametre (Gain,Ofset) v konfigurácii!</value>
+  </data>
   <data name="___Signal__" xml:space="preserve">
     <value>Signál</value>
+  </data>
+  <data name="___Config__" xml:space="preserve">
+    <value>Konfigurácia</value>
+  </data>
+  <data name="___Status__" xml:space="preserve">
+    <value>Stav</value>
+  </data>
+  <data name="___Enable_turn__" xml:space="preserve">
+    <value>Povolenie otáčania</value>
+  </data>
+  <data name="___Start_turn__" xml:space="preserve">
+    <value>Začiatok otáčania</value>
+  </data>
+  <data name="___In_position_sensor__" xml:space="preserve">
+    <value>Snímač polohy</value>
+  </data>
+  <data name="___In_precise_position_sensor__" xml:space="preserve">
+    <value>V presnej  polohe</value>
+  </data>
+  <data name="___Enable_turn_table__" xml:space="preserve">
+    <value>Povolenie otočného stola</value>
+  </data>
+  <data name="___Start_turn_table__" xml:space="preserve">
+    <value>Štart otočného stola</value>
+  </data>
+  <data name="___In_position_signal__" xml:space="preserve">
+    <value>Signál v polohe</value>
+  </data>
+  <data name="___In_precise_position_signal__" xml:space="preserve">
+    <value>V presnej polohe</value>
+  </data>
+  <data name="___Enable_turn_signal__" xml:space="preserve">
+    <value>Povolenie smerovky</value>
+  </data>
+  <data name="___Start_turn_signal__" xml:space="preserve">
+    <value>Spustenie smerovky</value>
+  </data>
+  <data name="___Invalid_reference____" xml:space="preserve">
+    <value>Neplatný odkaz:</value>
+  </data>
+  <data name="___Rotatiting_started___but_table_is_not_in_default_position__Acknowledge_this_alarm_if_you_still_want_to_turn____" xml:space="preserve">
+    <value>Otáčanie sa spustilo, ale tabuľka nie je v predvolenej polohe! Potvrďte tento alarm, ak sa ešte chcete otáčať!</value>
+  </data>
+  <data name="___Calulate_next_expected_Id_position__" xml:space="preserve">
+    <value>Výpočet ďalšej očakávanej polohy Id</value>
+  </data>
+  <data name="___Incorrectly_coded_current_position__Check_configuration_of_code_bits____" xml:space="preserve">
+    <value>Nesprávne zakódovaná aktuálna pozícia. Skontrolujte konfiguráciu kódových bitov!</value>
+  </data>
+  <data name="___Table_turning__Trying_to_leave_sensor__" xml:space="preserve">
+    <value>Otáčanie tabuľky. Snaha opustiť senzor</value>
+  </data>
+  <data name="___Table_turning__Trying_to_reach_sensor_table_in_positon___" xml:space="preserve">
+    <value>Otáčanie tabuľky. Snaha dosiahnuť stôl so snímačom v polohe.</value>
+  </data>
+  <data name="___Table_after_turn_does_not_have_expected_coding__Expected_id_at_position__1_is__" xml:space="preserve">
+    <value>Tabuľka po ťahu nemá očakávané kódovanie. Očakávané id na pozícii č. 1 je</value>
+  </data>
+  <data name="___Safety_conditions_to_turn_the_table_are_not_met___" xml:space="preserve">
+    <value>Nie sú splnené bezpečnostné podmienky na otočenie stola.</value>
+  </data>
+  <data name="___Required_position_must_be_in_range_1___20_but_was___" xml:space="preserve">
+    <value>Požadovaná pozícia musí byť v rozsahu 1 - 20, ale bola:</value>
+  </data>
+  <data name="___Turning_table_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>Otáčanie stola bolo prerušené, pričom ešte nebolo dokončené!</value>
+  </data>
+  <data name="___Truning_table__was_completed_successfully___" xml:space="preserve">
+    <value>Skracovacia tabuľka bola úspešne dokončená.</value>
+  </data>
+  <data name="___Turning_table_finished_with_an_error___" xml:space="preserve">
+    <value>Otáčanie tabuľky skončilo s chybou.</value>
+  </data>
+  <data name="___Turning_table_started___" xml:space="preserve">
+    <value>Začal sa otáčať stôl.</value>
+  </data>
+  <data name="___Parameter_number_of_positions_is____0__The_paremeters_must_be_grater_than_0___" xml:space="preserve">
+    <value>Parameter počet pozícií je &lt;= 0. Parametre musia byť väčšie ako 0.</value>
+  </data>
+  <data name="___Turn__" xml:space="preserve">
+    <value>Otočte</value>
+  </data>
+  <data name="___Restore__" xml:space="preserve">
+    <value>Obnovenie</value>
+  </data>
+  <data name="___Turning_table_aborted_due_to__" xml:space="preserve">
+    <value>Otáčanie stola prerušené z dôvodu</value>
+  </data>
+  <data name="___Turning_table_aborted_due_to_NOT___" xml:space="preserve">
+    <value>Otáčanie stola prerušené z dôvodu NOT</value>
+  </data>
+  <data name="___Turning_table_is_suspended_due_to__" xml:space="preserve">
+    <value>Otáčanie stola je pozastavené z dôvodu</value>
+  </data>
+  <data name="___Turning_table_is_suspended_due_to_NOT___" xml:space="preserve">
+    <value>Otáčanie stola je pozastavené z dôvodu NIE</value>
+  </data>
+  <data name="___Rotating_is_suspended_due_to__" xml:space="preserve">
+    <value>Otáčanie je pozastavené z dôvodu</value>
   </data>
   <data name="___Check_On__" xml:space="preserve">
     <value>Skontrolujte, či</value>
@@ -133,7 +241,7 @@
     <value>Odhlásiť sa</value>
   </data>
   <data name="___On__" xml:space="preserve">
-    <value>Zapnuté</value>
+    <value>Na stránke</value>
   </data>
   <data name="___Sets_the_output__" xml:space="preserve">
     <value>Nastaví výstup</value>
@@ -150,20 +258,8 @@
   <data name="___Setting_signal__on_true___" xml:space="preserve">
     <value>Nastavenie signálu (zapnuté/pravdivé)</value>
   </data>
-  <data name="___Division_by_zero__Verify_values_defined_in_config___RawHigh_RawLow___" xml:space="preserve">
-    <value>Delenie nulou: Overte hodnoty definované v konfigurácii! (RawHigh,RawLow)</value>
-  </data>
-  <data name="___Invalid_data__Gain_is_not_defined___" xml:space="preserve">
-    <value>Neplatné údaje: Zisk nie je definovaný!</value>
-  </data>
-  <data name="___Out_of_boundaries_check_correction_parameters__Gain_Ofset__in_config___" xml:space="preserve">
-    <value>Mimo hraníc, skontrolujte korekčné parametre (Gain,Ofset) v konfigurácii!</value>
-  </data>
-  <data name="___Config__" xml:space="preserve">
-    <value>Konfigurácia</value>
-  </data>
-  <data name="___Status__" xml:space="preserve">
-    <value>Stav</value>
+  <data name="___Setpoint__" xml:space="preserve">
+    <value>Nastavená hodnota</value>
   </data>
   <data name="___Raw_range__" xml:space="preserve">
     <value>Surový rozsah</value>
@@ -171,10 +267,43 @@
   <data name="___Real_range__" xml:space="preserve">
     <value>Skutočný rozsah</value>
   </data>
+  <data name="___Unscaled_value__" xml:space="preserve">
+    <value>Neškálovaná hodnota</value>
+  </data>
+  <data name="___In_position__" xml:space="preserve">
+    <value>V polohe</value>
+  </data>
+  <data name="___In_precise_position__" xml:space="preserve">
+    <value>V presnej polohe</value>
+  </data>
+  <data name="___Turn_safety_condition__" xml:space="preserve">
+    <value>Podmienka bezpečnosti pri otáčaní</value>
+  </data>
+  <data name="___Current_position__" xml:space="preserve">
+    <value>Súčasná pozícia</value>
+  </data>
+  <data name="___Expected_next_position__" xml:space="preserve">
+    <value>Očakávaná ďalšia pozícia</value>
+  </data>
+  <data name="___Positions__" xml:space="preserve">
+    <value>Pozície</value>
+  </data>
   <data name="___Scaled_value__" xml:space="preserve">
     <value>Škálovaná hodnota</value>
   </data>
-  <data name="___Unscaled_value__" xml:space="preserve">
-    <value>Neškálovaná hodnota</value>
+  <data name="___Turn_task_Recovery__" xml:space="preserve">
+    <value>Nudzove dotocenie</value>
+  </data>
+  <data name="___Recovery_turning_table_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>Nudzove dotočenie stala boleo prerušené, zatiaľ čo ešte nie je dokončená!</value>
+  </data>
+  <data name="___Recovery_truning_table__was_completed_successfully___" xml:space="preserve">
+    <value>Nudzove dotočenie stola bolo úspešne dokončená.</value>
+  </data>
+  <data name="___Recovery_turning_table_finished_with_an_error___" xml:space="preserve">
+    <value>Nudzove dotočenie  stôl skončil s chybou.</value>
+  </data>
+  <data name="___Recovery_turning_table_started___" xml:space="preserve">
+    <value>Začal sa stôl na zotavenie.</value>
   </data>
 </root>

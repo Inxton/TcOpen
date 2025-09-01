@@ -59,7 +59,7 @@
                     <materialdesign:PackIcon Kind="CheckBox"  Foreground="{StaticResource Warning}"  VerticalAlignment="Center"/>
                     <TextBlock   Text="{x:Static p:strings.SafetyError}" Foreground="{StaticResource Warning}"/>
                 </WrapPanel>
-                <WrapPanel DataContext="{Binding _pnError}"  Visibility="{Binding Cyclic, Converter={vortex:BooleanToVisibilityConverter}}" Margin=" 5,0">
+                <WrapPanel DataContext="{Binding _busError}"  Visibility="{Binding Cyclic, Converter={vortex:BooleanToVisibilityConverter}}" Margin=" 5,0">
                     <materialdesign:PackIcon Kind="AlertBox"  Foreground="{StaticResource Errors}"  VerticalAlignment="Center"/>
                     <TextBlock VerticalAlignment="Center" Text="{Binding AttributeName}" Foreground="{StaticResource Errors}"  />
                 </WrapPanel>

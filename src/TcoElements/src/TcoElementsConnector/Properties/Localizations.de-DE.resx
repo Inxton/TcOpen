@@ -177,4 +177,133 @@
   <data name="___Unscaled_value__" xml:space="preserve">
     <value>Unskalierter Wert</value>
   </data>
+  <data name="___Enable_turn__" xml:space="preserve">
+    <value>Aktivieren Sie die Drehung</value>
+  </data>
+  <data name="___Start_turn__" xml:space="preserve">
+    <value>Startdrehung</value>
+  </data>
+  <data name="___In_position_sensor__" xml:space="preserve">
+    <value>In-Lage-Sensor</value>
+  </data>
+  <data name="___In_precise_position_sensor__" xml:space="preserve">
+    <value>In präzisen Lagesensoren</value>
+  </data>
+  <data name="___Enable_turn_table__" xml:space="preserve">
+    <value>Drehscheibe einschalten</value>
+  </data>
+  <data name="___Start_turn_table__" xml:space="preserve">
+    <value>Start Drehscheibe</value>
+  </data>
+  <data name="___In_position_signal__" xml:space="preserve">
+    <value>Signal in Position</value>
+  </data>
+  <data name="___In_precise_position_signal__" xml:space="preserve">
+    <value>Bei präzisem Positionssignal</value>
+  </data>
+  <data name="___Enable_turn_signal__" xml:space="preserve">
+    <value>Blinker einschalten</value>
+  </data>
+  <data name="___Start_turn_signal__" xml:space="preserve">
+    <value>Start-Blinker</value>
+  </data>
+  <data name="___Invalid_reference____" xml:space="preserve">
+    <value>Ungültige Referenz:</value>
+  </data>
+  <data name="___Rotatiting_started___but_table_is_not_in_default_position__Acknowledge_this_alarm_if_you_still_want_to_turn____" xml:space="preserve">
+    <value>Die Drehung wurde gestartet, aber der Tisch ist nicht in der Standardposition! Bestätigen Sie diesen Alarm, wenn Sie noch drehen wollen!</value>
+  </data>
+  <data name="___Calulate_next_expected_Id_position__" xml:space="preserve">
+    <value>Berechnung der nächsten erwarteten Id-Position</value>
+  </data>
+  <data name="___Incorrectly_coded_current_position__Check_configuration_of_code_bits____" xml:space="preserve">
+    <value>Falsch kodierte aktuelle Position. Konfiguration der Codebits prüfen!</value>
+  </data>
+  <data name="___Table_turning__Trying_to_leave_sensor__" xml:space="preserve">
+    <value>Der Tisch dreht sich. Versuchen, den Sensor zu verlassen</value>
+  </data>
+  <data name="___Table_turning__Trying_to_reach_sensor_table_in_positon___" xml:space="preserve">
+    <value>Tisch dreht sich. Versucht, den Sensortisch in Position zu bringen.</value>
+  </data>
+  <data name="___Table_after_turn_does_not_have_expected_coding__Expected_id_at_position__1_is__" xml:space="preserve">
+    <value>Die Tabelle nach der Umdrehung hat nicht die erwartete Kodierung. Die erwartete Kennung an Position 1 ist</value>
+  </data>
+  <data name="___Safety_conditions_to_turn_the_table_are_not_met___" xml:space="preserve">
+    <value>Die Sicherheitsbedingungen zum Drehen des Tisches sind nicht erfüllt.</value>
+  </data>
+  <data name="___Required_position_must_be_in_range_1___20_but_was___" xml:space="preserve">
+    <value>Gewünschte Position muss im Bereich 1 - 20 liegen, war aber:</value>
+  </data>
+  <data name="___Turning_table_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>Der Wendetisch wurde abgebrochen, obwohl er noch nicht fertig ist!</value>
+  </data>
+  <data name="___Truning_table__was_completed_successfully___" xml:space="preserve">
+    <value>Die Abstimmtabelle wurde erfolgreich abgeschlossen.</value>
+  </data>
+  <data name="___Turning_table_finished_with_an_error___" xml:space="preserve">
+    <value>Der Wendetisch wurde mit einem Fehler beendet.</value>
+  </data>
+  <data name="___Turning_table_started___" xml:space="preserve">
+    <value>Drehtisch gestartet.</value>
+  </data>
+  <data name="___Parameter_number_of_positions_is____0__The_paremeters_must_be_grater_than_0___" xml:space="preserve">
+    <value>Der Parameter Anzahl der Positionen ist &lt;= 0. Die Paremeter müssen größer als 0 sein.</value>
+  </data>
+  <data name="___Turn__" xml:space="preserve">
+    <value>Drehen Sie</value>
+  </data>
+  <data name="___Restore__" xml:space="preserve">
+    <value>Wiederherstellen</value>
+  </data>
+  <data name="___Turning_table_aborted_due_to__" xml:space="preserve">
+    <value>Wendetisch abgebrochen wegen</value>
+  </data>
+  <data name="___Turning_table_aborted_due_to_NOT___" xml:space="preserve">
+    <value>Wendetisch abgebrochen wegen NOT</value>
+  </data>
+  <data name="___Turning_table_is_suspended_due_to__" xml:space="preserve">
+    <value>Der Wendetisch ist ausgesetzt wegen</value>
+  </data>
+  <data name="___Turning_table_is_suspended_due_to_NOT___" xml:space="preserve">
+    <value>Wendetisch ist ausgesetzt wegen NOT</value>
+  </data>
+  <data name="___Rotating_is_suspended_due_to__" xml:space="preserve">
+    <value>Das Drehen wird ausgesetzt aufgrund von</value>
+  </data>
+  <data name="___Setpoint__" xml:space="preserve">
+    <value>Sollwert</value>
+  </data>
+  <data name="___In_position__" xml:space="preserve">
+    <value>In Stellung</value>
+  </data>
+  <data name="___In_precise_position__" xml:space="preserve">
+    <value>In genauer Position</value>
+  </data>
+  <data name="___Turn_safety_condition__" xml:space="preserve">
+    <value>Sicherheitsbedingung drehen</value>
+  </data>
+  <data name="___Current_position__" xml:space="preserve">
+    <value>Derzeitige Position</value>
+  </data>
+  <data name="___Expected_next_position__" xml:space="preserve">
+    <value>Voraussichtliche nächste Position</value>
+  </data>
+  <data name="___Positions__" xml:space="preserve">
+    <value>Positionen</value>
+  </data>
+  <data name="___Turn_task_Recovery__" xml:space="preserve">
+    <value>Aufgabe drehen Wiederherstellung</value>
+  </data>
+  <data name="___Recovery_turning_table_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>Die Wiederherstellung der Drehscheibe wurde abgebrochen, obwohl sie noch nicht abgeschlossen war!</value>
+  </data>
+  <data name="___Recovery_truning_table__was_completed_successfully___" xml:space="preserve">
+    <value>Die Wiederherstellung der Truningtabelle wurde erfolgreich abgeschlossen.</value>
+  </data>
+  <data name="___Recovery_turning_table_finished_with_an_error___" xml:space="preserve">
+    <value>Die Wiederherstellung der Drehscheibe wurde mit einem Fehler beendet.</value>
+  </data>
+  <data name="___Recovery_turning_table_started___" xml:space="preserve">
+    <value>Recovery-Drehtisch gestartet.</value>
+  </data>
 </root>

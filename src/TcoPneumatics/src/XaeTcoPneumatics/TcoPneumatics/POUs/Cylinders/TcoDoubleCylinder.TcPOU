@@ -61,10 +61,8 @@ IF (_stopDefault.Execute()) THEN
 	_toWorkPos := FALSE;
     _moveHomeDefault.Abort();
     _moveWorkDefault.Abort();
-    _stopDefault.Abort();
     _moveHomeDefault.Restore();
     _moveWorkDefault.Restore();
-    _stopDefault.Restore();
     _stopDefault.DoneWhen(TRUE);
 END_IF
 

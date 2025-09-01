@@ -117,7 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="___Error__" xml:space="preserve">
-    <value>Error</value>
+  <data name="KeyNotInAuto" xml:space="preserve">
+    <value>La llave no está en Auto</value>
+  </data>
+  <data name="Motors On" xml:space="preserve">
+    <value>Motores encendidos</value>
+  </data>
+  <data name="MotorsOff" xml:space="preserve">
+    <value>Motores apagados</value>
+  </data>
+  <data name="ProgramIsNotRunning" xml:space="preserve">
+    <value>Se detiene el programa</value>
+  </data>
+  <data name="ProgramIsRunning" xml:space="preserve">
+    <value>El programa está en marcha</value>
+  </data>
+  <data name="SafetyError" xml:space="preserve">
+    <value>Error de seguridad</value>
+  </data>
+  <data name="SafetyOk" xml:space="preserve">
+    <value>Seguridad Ok</value>
   </data>
 </root>

@@ -27,6 +27,8 @@ END_VAR
 VAR
     {attribute addProperty Name "|[[1]Attribute_turnTableName]|"}
     _turnTask : TcoTurnTableTask(THIS^);
+	 {attribute addProperty Name "<#Turn task Recovery#>"}
+    _turnRecoveryTask : TcoTurnTableTask(THIS^);
 
     {attribute addProperty Name "|[[1]Attribute_restoreName]|"}
     _restoreTask : TcoCore.TcoTask(THIS^);
@@ -82,10 +84,22 @@ END_FOR
 
 
 // Disables mutualy exclusive actions		
-_turnTask.Enabled := NOT _restoreTask.Busy;
+_turnTask.Enabled := NOT _turnRecoveryTask.Busy;
 	
 _turnTask(
 	inSafetyCondition:=inSafetyCondition , 
+	inDoNotVerifyPositions:=FALSE,
+	inoInPosition:=_inPosition , 
+	inoInPrecisePosition:=_inPrecisePosition , 
+	inoEnableTurn:=_enableTurn , 
+	inoStartTurn:=_startTurn , 
+	inoConfig:=_config , 
+	inoStatus:=_status );
+
+_turnRecoveryTask.Enabled := NOT _turnTask.Busy;
+_turnRecoveryTask(
+	inSafetyCondition:=inSafetyCondition , 
+	inDoNotVerifyPositions:=TRUE,
 	inoInPosition:=_inPosition , 
 	inoInPrecisePosition:=_inPrecisePosition , 
 	inoEnableTurn:=_enableTurn , 
@@ -111,7 +125,8 @@ ELSIF(_restoreTask.Busy) THEN
 ELSE	
 	_status.ActionDescription := 'Idle';
 END_IF
-
+  
+ 
 SUPER^(inoInPosition := inoInPosition, inoInPrecisePosition := inoInPrecisePosition, inoEnableTurn := inoEnableTurn, inoStartTurn := inoStartTurn);
 
 ]]></ST>
@@ -229,7 +244,8 @@ METHOD  Restore : ITcoRestorable
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[_turnTask.Restore();
-_restoreTask.Abort();
+_turnRecoveryTask.Restore();
+
 _restoreTask.Restore();
 _enableTurn := FALSE;
 _startTurn := FALSE;
@@ -322,6 +338,24 @@ END_VAR
 END_IF;]]></ST>
       </Implementation>
     </Method>
+    <Property Name="TurnRecoveryTask" Id="{cb6366f0-0a2e-04d7-0eb2-378d799b9b92}" FolderPath="Tasks\">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Gets the `TurnTask` task that controls the moving of the carousel to next position. 		
+		</summary>			
+	</docu>	
+~*)
+PROPERTY TurnRecoveryTask : TcoCore.ITcoTask]]></Declaration>
+      <Get Name="Get" Id="{4c99c372-d68f-0481-3501-478d5822a482}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[TurnRecoveryTask := _turnRecoveryTask;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Property Name="TurnTask" Id="{edac1389-8e4f-0acd-2642-1f7433525494}" FolderPath="Tasks\">
       <Declaration><![CDATA[(*~
 	<docu>

@@ -7,13 +7,13 @@
         ResultDataSize : eDatamanResultDataSize_v_5_x_x := eDatamanResultDataSize_v_5_x_x.RESULT_DATA_64B;
         UserDataSize : eDatamanUserDataSize_v_5_x_x := eDatamanUserDataSize_v_5_x_x.USER_DATA_64B;
         DataFormat : eTcoDataFormat := TcoUtilities.eTcoDataFormat.BigEndian;
+		{attribute addProperty Name "<#Continuous Reading (Hand-held reader)#>"}
         ContinuousReading : BOOL := FALSE;
-		UpdateStatesPermanently : BOOL := FALSE;
+		UpdateStatesPermanently : BOOL := TRUE;
         InfoTime : TIME := T#2S;
         ErrorTime : TIME := T#5S;
 		ShowUserData : BOOL := FALSE;
 		ShowResultsData : BOOL := FALSE;
-
     END_STRUCT
 END_TYPE
 ]]></Declaration>

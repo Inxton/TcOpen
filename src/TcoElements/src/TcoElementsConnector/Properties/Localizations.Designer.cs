@@ -169,15 +169,6 @@ namespace TcoElementsConnector.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expecting table in position. .
-        /// </summary>
-        internal static string ___Expecting_table_in_position____ {
-            get {
-                return ResourceManager.GetString("___Expecting_table_in_position____", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to In position.
         /// </summary>
         internal static string ___In_position__ {
@@ -323,6 +314,42 @@ namespace TcoElementsConnector.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Recovery truning table  was completed successfully..
+        /// </summary>
+        internal static string ___Recovery_truning_table__was_completed_successfully___ {
+            get {
+                return ResourceManager.GetString("___Recovery_truning_table__was_completed_successfully___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recovery turning table finished with an error..
+        /// </summary>
+        internal static string ___Recovery_turning_table_finished_with_an_error___ {
+            get {
+                return ResourceManager.GetString("___Recovery_turning_table_finished_with_an_error___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recovery turning table started..
+        /// </summary>
+        internal static string ___Recovery_turning_table_started___ {
+            get {
+                return ResourceManager.GetString("___Recovery_turning_table_started___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recovery turning table was aborted, while not yet completed!.
+        /// </summary>
+        internal static string ___Recovery_turning_table_was_aborted__while_not_yet_completed___ {
+            get {
+                return ResourceManager.GetString("___Recovery_turning_table_was_aborted__while_not_yet_completed___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Required position must be in range 1 - 20 but was:.
         /// </summary>
         internal static string ___Required_position_must_be_in_range_1___20_but_was___ {
@@ -355,6 +382,25 @@ namespace TcoElementsConnector.Properties {
         internal static string ___Restore__ {
             get {
                 return ResourceManager.GetString("___Restore__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rotating is suspended due to.
+        /// </summary>
+        internal static string ___Rotating_is_suspended_due_to__ {
+            get {
+                return ResourceManager.GetString("___Rotating_is_suspended_due_to__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rotatiting started , but table is not in default position! Acknowledge this alarm if you still want to turn! .
+        /// </summary>
+        internal static string ___Rotatiting_started___but_table_is_not_in_default_position__Acknowledge_this_alarm_if_you_still_want_to_turn____ {
+            get {
+                return ResourceManager.GetString("___Rotatiting_started___but_table_is_not_in_default_position__Acknowledge_this_al" +
+                        "arm_if_you_still_want_to_turn____", resourceCulture);
             }
         }
         
@@ -500,6 +546,15 @@ namespace TcoElementsConnector.Properties {
         internal static string ___Turn_safety_condition__ {
             get {
                 return ResourceManager.GetString("___Turn_safety_condition__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Turn task Recovery.
+        /// </summary>
+        internal static string ___Turn_task_Recovery__ {
+            get {
+                return ResourceManager.GetString("___Turn_task_Recovery__", resourceCulture);
             }
         }
         

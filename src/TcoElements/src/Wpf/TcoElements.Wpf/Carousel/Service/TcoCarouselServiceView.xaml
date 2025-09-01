@@ -23,6 +23,7 @@
         <vortex:TcoComponentView.ComponentHeader>
             <WrapPanel DataContext="{Binding Model}">
                 <vortex:RenderableContentControl DataContext="{Binding _turnTask}" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                <vortex:RenderableContentControl DataContext="{Binding _turnRecoveryTask}" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
                 <vortex:RenderableContentControl DataContext="{Binding _restoreTask}" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
                 <vortex:RenderableContentControl DataContext="{Binding _status.CurrentPosition}" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
 

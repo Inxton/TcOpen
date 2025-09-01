@@ -331,6 +331,24 @@ namespace TcoCognexVisionConnector.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clear user data.
+        /// </summary>
+        internal static string ___Clear_user_data__ {
+            get {
+                return ResourceManager.GetString("___Clear_user_data__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clear user data was aborted, while not yet finished..
+        /// </summary>
+        internal static string ___Clear_user_data_was_aborted__while_not_yet_finished___ {
+            get {
+                return ResourceManager.GetString("___Clear_user_data_was_aborted__while_not_yet_finished___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clearing of the inspection results aborted, while not yet finished..
         /// </summary>
         internal static string ___Clearing_of_the_inspection_results_aborted__while_not_yet_finished___ {
@@ -1304,6 +1322,51 @@ namespace TcoCognexVisionConnector.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Set user data.
+        /// </summary>
+        internal static string ___Set_user_data__ {
+            get {
+                return ResourceManager.GetString("___Set_user_data__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set user data  finished with error..
+        /// </summary>
+        internal static string ___Set_user_data__finished_with_error___ {
+            get {
+                return ResourceManager.GetString("___Set_user_data__finished_with_error___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set User data of the inspection  was completed succesfully..
+        /// </summary>
+        internal static string ___Set_User_data_of_the_inspection__was_completed_succesfully___ {
+            get {
+                return ResourceManager.GetString("___Set_User_data_of_the_inspection__was_completed_succesfully___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set user data running..
+        /// </summary>
+        internal static string ___Set_user_data_running___ {
+            get {
+                return ResourceManager.GetString("___Set_user_data_running___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set user data was aborted, while not yet finished..
+        /// </summary>
+        internal static string ___Set_user_data_was_aborted__while_not_yet_finished___ {
+            get {
+                return ResourceManager.GetString("___Set_user_data_was_aborted__while_not_yet_finished___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Soft event.
         /// </summary>
         internal static string ___Soft_event__ {
@@ -1589,11 +1652,29 @@ namespace TcoCognexVisionConnector.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User data  finished with error..
+        /// </summary>
+        internal static string ___User_data__finished_with_error___ {
+            get {
+                return ResourceManager.GetString("___User_data__finished_with_error___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to UserData.
         /// </summary>
         internal static string ___UserData__ {
             get {
                 return ResourceManager.GetString("___UserData__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Userdata of the inspection  was completed succesfully..
+        /// </summary>
+        internal static string ___Userdata_of_the_inspection__was_completed_succesfully___ {
+            get {
+                return ResourceManager.GetString("___Userdata_of_the_inspection__was_completed_succesfully___", resourceCulture);
             }
         }
         
@@ -1622,6 +1703,15 @@ namespace TcoCognexVisionConnector.Properties {
         internal static string ___Waiting_for_Inspection_ready___ {
             get {
                 return ResourceManager.GetString("___Waiting_for_Inspection_ready___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waiting for signal User dataset acknowledge.
+        /// </summary>
+        internal static string ___Waiting_for_signal_User_dataset_acknowledge__ {
+            get {
+                return ResourceManager.GetString("___Waiting_for_signal_User_dataset_acknowledge__", resourceCulture);
             }
         }
         
@@ -1858,6 +1948,15 @@ namespace TcoCognexVisionConnector.Properties {
             get {
                 return ResourceManager.GetString("___Waiting_for_the_signal_TriggerSoftEvent____Append_UINT_TO_STRING_THIS___softEv" +
                         "entNumber___Append____to_be_set___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waiting for the User data to be copied!.
+        /// </summary>
+        internal static string ___Waiting_for_the_User_data_to_be_copied___ {
+            get {
+                return ResourceManager.GetString("___Waiting_for_the_User_data_to_be_copied___", resourceCulture);
             }
         }
         

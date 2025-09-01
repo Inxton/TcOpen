@@ -117,7 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="___Error__" xml:space="preserve">
-    <value>Error</value>
+  <data name="CarouselNotInPos" xml:space="preserve">
+    <value>La mesa giratoria no está en posición</value>
+  </data>
+  <data name="CarouselNotInPrecisePos" xml:space="preserve">
+    <value>La mesa giratoria no está en la posición precisa</value>
+  </data>
+  <data name="CarouselNotSafeTurnCondition" xml:space="preserve">
+    <value>No se puede girar la mesa, ¡verifique las condiciones seguras!</value>
+  </data>
+  <data name="Positions" xml:space="preserve">
+    <value>Posiciones</value>
   </data>
 </root>

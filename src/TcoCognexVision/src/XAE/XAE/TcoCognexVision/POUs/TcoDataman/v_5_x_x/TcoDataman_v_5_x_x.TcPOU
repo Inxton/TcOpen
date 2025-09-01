@@ -281,7 +281,7 @@ GetResultAsReal := TcoUtilities.TcoBytesToReal(THIS^._config.DataFormat,	THIS^._
       </Implementation>
     </Method>
     <Method Name="GetResultAsString" Id="{47535512-60fe-0a1f-1f20-295ecdd0fd48}" FolderPath="ResultData\">
-      <Declaration><![CDATA[METHOD GetResultAsString : STRING
+      <Declaration><![CDATA[METHOD GetResultAsString : STRING(254)
 VAR_INPUT
     inPosition : UINT;
 	inLength : UINT;

@@ -4,6 +4,65 @@
 
 ## Components
 
+### Generic Component rendering
+ 
+![alt text](assets/image-1.png)
+The default display of a generic component is in an expander.
+In the expander header, the most important status information is shown (see figure above), which provides a quick overview of the current device state – for example, basic status, error messages, or connection information.
+
+When the expander is expanded, more complex information is displayed, divided into several sections:
+-	Top section: always contains a list of tasks available for the component. These tasks represent specific functions or operations – e.g., movement, reset, diagnostics, test modes, etc.
+-	Left section: displays the component’s status – such as current operating state, errors, warnings, or basic values (position, power status, etc.).
+-	Config section: contains configuration data of the component – parameters such as identifiers, device types, communication settings, and other technical data.
+-	Control section (if available): enables manual control of selected component functions (e.g., start, reset, output activation, etc.).
+
+This structure allows quick orientation while also providing detailed access to information and control without the need to switch between multiple screens.
+
+```pascal
+{attribute 'qualified_only'}
+TYPE GenericComponent EXTENDS TcoCore.TcoComponent
+VAR
+    {attribute addProperty Name "<#Config#>"}
+    _config  : SomeTcoGenericComponent_Config;
+
+    {attribute addProperty Name "<#Status#>"}
+    _status  : SomeTcoGenericComponent_Status;
+
+    {attribute addProperty Name "<#Control#>"}
+    _control : SomeTcoGenericComponent_Control;
+END_VAR
+END_TYPE
+```
+
+### Generic rendering of a Wrapped Component
+A wrapped component has the same basic structure as a generic component – consisting of a header in an expander, a basic overview of states, and an expanded part with sections like Status, Config, Control (if available), and the task list in the top part.
+	
+The difference is that a wrapped component groups and displays already existing generic components that are part of it internally. These are visually embedded (wrapped) into a single unit and serve as subcomponents.
+ 
+ ![alt text](assets/image-2.png)
+Properties of a wrapped component:
+
+- Displays internal generic components, which themselves already represent functional modules (e.g., xis, camera, sensor...).
+- Each of these nested components retains its own functionality and status information.
+- A wrapped component thus serves as a higher-level element that enables unified display and control of multiple related components at once – for example, in the case of complex technology consisting of several devices from different manufacturers.
+
+```pascal
+TYPE WrappedComponent EXTENDS TcoCore.TcoComponent
+VAR
+    {attribute addProperty Name "<#Config#>"}
+    _config     : SomeTcoGenericComponent_Config;
+
+    {attribute addProperty Name "<#Status#>"}
+    _status     : SomeTcoGenericComponent_Status;
+
+    {attribute addProperty Name "<#Control#>"}
+    _control    : SomeTcoGenericComponent_Control;
+
+    {attribute addProperty Name "<#Components#>"}
+    _components : SomeTcoGenericComponent_Components := (Parent := THIS^);
+END_VAR
+END_TYPE
+```
 
 ## Dialogs 
 

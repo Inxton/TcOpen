@@ -66,6 +66,9 @@
     <Compile Include="POUs\Prototypes\KRC4\TcoKrc4_v_5_x_x.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Prototypes\KRC4\TcoKrc4_Ecat_v_5_x_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Prototypes\RoboticsTasks\Starts\StartAtMainTask.TcPOU">
       <SubType>Code</SubType>
     </Compile>
