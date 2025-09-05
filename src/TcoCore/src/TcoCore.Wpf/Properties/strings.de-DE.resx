@@ -117,118 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="___In_service_mode__" xml:space="preserve">
-    <value>En modo de servicio</value>
+  <data name="Cancel" xml:space="preserve">
+    <value>Abbrechen</value>
   </data>
-  <data name="___On__" xml:space="preserve">
-    <value>En</value>
+  <data name="Components" xml:space="preserve">
+    <value>Komponenten</value>
   </data>
-  <data name="___Off__" xml:space="preserve">
-    <value>Fuera de</value>
+  <data name="Config" xml:space="preserve">
+    <value>Konfigurieren Sie</value>
   </data>
-  <data name="___Set_on_request__" xml:space="preserve">
-    <value>Juego a petición del cliente</value>
+  <data name="Control" xml:space="preserve">
+    <value>Kontrolle</value>
   </data>
-  <data name="___Enabled__" xml:space="preserve">
-    <value>Activado</value>
+  <data name="Details" xml:space="preserve">
+    <value>Einzelheiten</value>
   </data>
-  <data name="___Serviceable__" xml:space="preserve">
-    <value>Disponible</value>
+  <data name="General" xml:space="preserve">
+    <value>Allgemein</value>
   </data>
-  <data name="___Step_ID__" xml:space="preserve">
-    <value>Identificación del paso</value>
+  <data name="More" xml:space="preserve">
+    <value>Mehr</value>
   </data>
-  <data name="___Step_Order__" xml:space="preserve">
-    <value>Orden de paso</value>
+  <data name="No" xml:space="preserve">
+    <value>Nein</value>
   </data>
-  <data name="___Step_description__" xml:space="preserve">
-    <value>Descripción del paso</value>
+  <data name="Ok" xml:space="preserve">
+    <value>Ok</value>
   </data>
-  <data name="___Step_status__" xml:space="preserve">
-    <value>Estado de los pasos</value>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
   </data>
-  <data name="___Step_duration__" xml:space="preserve">
-    <value>Duración de la etapa</value>
+  <data name="Tasks" xml:space="preserve">
+    <value>Aufgaben</value>
   </data>
-  <data name="___Step_count__" xml:space="preserve">
-    <value>Recuento de pasos</value>
-  </data>
-  <data name="___Changing_mode_disabled__" xml:space="preserve">
-    <value>Modo de cambio desactivado</value>
-  </data>
-  <data name="___Skipping_steps_disabled__" xml:space="preserve">
-    <value>Salto de pasos desactivado</value>
-  </data>
-  <data name="___Step_backward__" xml:space="preserve">
-    <value>Paso atrás</value>
-  </data>
-  <data name="___Step_in__" xml:space="preserve">
-    <value>Entrar</value>
-  </data>
-  <data name="___Step_forward__" xml:space="preserve">
-    <value>Un paso adelante</value>
-  </data>
-  <data name="___Change_mode__" xml:space="preserve">
-    <value>Cambiar el modo</value>
-  </data>
-  <data name="___Mode__" xml:space="preserve">
-    <value>Modo</value>
-  </data>
-  <data name="___Current_step__" xml:space="preserve">
-    <value>Paso actual</value>
-  </data>
-  <data name="___Sequencer_error__" xml:space="preserve">
-    <value>Error del secuenciador</value>
-  </data>
-  <data name="___Sequencer_error_ID__" xml:space="preserve">
-    <value>ID de error del secuenciador</value>
-  </data>
-  <data name="___Sequence_cycle_elapsed_time__" xml:space="preserve">
-    <value>Tiempo transcurrido del ciclo de secuencia</value>
-  </data>
-  <data name="___Total_sequence_time__" xml:space="preserve">
-    <value>Tiempo total de la secuencia</value>
-  </data>
-  <data name="___Restore_request__" xml:space="preserve">
-    <value>Solicitud de restablecimiento</value>
-  </data>
-  <data name="___Invoke_request__" xml:space="preserve">
-    <value>Invocar solicitud</value>
-  </data>
-  <data name="___Abort_request__" xml:space="preserve">
-    <value>Abortar solicitud</value>
-  </data>
-  <data name="___Task_aborted___" xml:space="preserve">
-    <value>Tarea abortada.</value>
-  </data>
-  <data name="___Task_done___" xml:space="preserve">
-    <value>Tarea realizada.</value>
-  </data>
-  <data name="___Task_cannot_start__Enabled_property_is_FALSE___" xml:space="preserve">
-    <value>La tarea no puede iniciarse; la propiedad Enabled es FALSE.</value>
-  </data>
-  <data name="___Running_task_entered_Error_state_when_the_Enabled_property_transitioned_to_FALSE_during_task_execution___" xml:space="preserve">
-    <value>La tarea en ejecución entró en estado de error cuando la propiedad Enabled pasó a FALSE durante la ejecución de la tarea.</value>
-  </data>
-  <data name="___Task_started___" xml:space="preserve">
-    <value>Tarea iniciada.</value>
-  </data>
-  <data name="___Task_requested___" xml:space="preserve">
-    <value>Tarea solicitada.</value>
-  </data>
-  <data name="___Task_restored___" xml:space="preserve">
-    <value>Tarea restaurada.</value>
-  </data>
-  <data name="___Task_error_thrown___" xml:space="preserve">
-    <value>Error en la tarea lanzada.</value>
-  </data>
-  <data name="___Toggle_request__" xml:space="preserve">
-    <value>Alternar la solicitud</value>
-  </data>
-  <data name="___Real_time_clock_is_invalid___" xml:space="preserve">
-    <value>¡El reloj de tiempo real no es válido!</value>
-  </data>
-  <data name="___Real_time_clock_is_not_sychronized___" xml:space="preserve">
-    <value>El reloj en tiempo real no está sincronizado.</value>
+  <data name="Yes" xml:space="preserve">
+    <value>Ja</value>
   </data>
 </root>

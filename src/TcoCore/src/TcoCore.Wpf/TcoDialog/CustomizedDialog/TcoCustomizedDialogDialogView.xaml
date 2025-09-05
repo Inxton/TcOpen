@@ -56,7 +56,7 @@
                     Margin="0,10,10,10"
                     HorizontalAlignment="Center"
                     Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                    Text="{Binding Dialog._caption.Synchron}" />
+                    Text="{Binding Dialog._caption.Cyclic}" />
 
                 <wv2:WebView2 x:Name="webView" Visibility="{Binding  Dialog._imageSource.Synchron,Converter={local:EmptyStringToVisibilityConverter} }" Height="{Binding Dialog._imageHeight.Cyclic}" Width="{Binding Dialog._imageWidth.Cyclic}" Source="{Binding Dialog._imageSource.Synchron ,Mode=OneWay}" />
                 
@@ -64,7 +64,7 @@
                     Margin="0,10,10,10"
                     HorizontalAlignment="Center"
                     Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                    Text="{Binding Dialog._text.Synchron}" />
+                    Text="{Binding Dialog._text.Cyclic}" />
             </StackPanel>
             <WrapPanel
                 Grid.Row="1"
@@ -78,20 +78,20 @@
                 </WrapPanel.Resources>
                 <Button
                     Command="{Binding Option1Command, Mode=OneWay}"
-                    Content="{Binding Dialog._contentOption1.LastValue }"
-                    Visibility="{Binding Dialog._hasOption1.LastValue, Converter={local:DialogAnswerButtonVisibility}}" />
+                    Content="{Binding Dialog._contentOption1.Cyclic }"
+                    Visibility="{Binding Dialog._hasOption1.Cyclic, Converter={local:DialogAnswerButtonVisibility}}" />
                 <Button
                     Command="{Binding Option2Command, Mode=OneWay}"
-                     Content="{Binding Dialog._contentOption2.LastValue }"
-                    Visibility="{Binding Dialog._hasOption2.LastValue, Converter={local:DialogAnswerButtonVisibility}}" />
+                     Content="{Binding Dialog._contentOption2.Cyclic }"
+                    Visibility="{Binding Dialog._hasOption2.Cyclic, Converter={local:DialogAnswerButtonVisibility}}" />
                 <Button
                     Command="{Binding Option3Command, Mode=OneWay}"
-                    Content="{Binding Dialog._contentOption3.LastValue }"
-                    Visibility="{Binding Dialog._hasOption3.LastValue, Converter={local:DialogAnswerButtonVisibility}}" />
+                    Content="{Binding Dialog._contentOption3.Cyclic }"
+                    Visibility="{Binding Dialog._hasOption3.Cyclic, Converter={local:DialogAnswerButtonVisibility}}" />
                 <Button
                     Command="{Binding Option4Command, Mode=OneWay}"
-                    Content="{Binding Dialog._contentOption4.LastValue }"
-                    Visibility="{Binding Dialog._hasOption4.LastValue, Converter={local:DialogAnswerButtonVisibility}}" />
+                    Content="{Binding Dialog._contentOption4.Cyclic }"
+                    Visibility="{Binding Dialog._hasOption4.Cyclic, Converter={local:DialogAnswerButtonVisibility}}" />
             </WrapPanel>
         </Grid>
     </materialDesign:Card>

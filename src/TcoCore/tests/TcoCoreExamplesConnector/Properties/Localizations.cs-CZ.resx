@@ -129,4 +129,94 @@
   <data name="___Stopped__" xml:space="preserve">
     <value>Zastaveno</value>
   </data>
+  <data name="___Signal__" xml:space="preserve">
+    <value>Signál</value>
+  </data>
+  <data name="___Check_On__" xml:space="preserve">
+    <value>Zkontrolujte, zda</value>
+  </data>
+  <data name="___Checks_that_the_input_is_on__" xml:space="preserve">
+    <value>kontroluje, zda je vstup zapnutý</value>
+  </data>
+  <data name="___Checks_that_the_input_is_off__" xml:space="preserve">
+    <value>Kontroluje, zda je vstup vypnutý</value>
+  </data>
+  <data name="___Check_Off__" xml:space="preserve">
+    <value>Odškrtnout</value>
+  </data>
+  <data name="___On__" xml:space="preserve">
+    <value>Na adrese</value>
+  </data>
+  <data name="___Sets_the_output__" xml:space="preserve">
+    <value>Nastaví výstup</value>
+  </data>
+  <data name="___Resets_the_output__" xml:space="preserve">
+    <value>Resetuje výstup</value>
+  </data>
+  <data name="___Off__" xml:space="preserve">
+    <value>Vypnuto</value>
+  </data>
+  <data name="___Reseting_signal__off_false___" xml:space="preserve">
+    <value>Signál resetování (vypnuto/nevypnuto)</value>
+  </data>
+  <data name="___Setting_signal__on_true___" xml:space="preserve">
+    <value>Nastavení signálu (zapnuto/pravdivé)</value>
+  </data>
+  <data name="___Do_we_go_ahead_to_2___" xml:space="preserve">
+    <value>Přejdeme na 2?</value>
+  </data>
+  <data name="___Do_we_go_ahead___" xml:space="preserve">
+    <value>Máme pokračovat?</value>
+  </data>
+  <data name="___This_is_Option1__retry__" xml:space="preserve">
+    <value>Toto je Option1=&gt;retry</value>
+  </data>
+  <data name="___This_is_Option2__first_step__" xml:space="preserve">
+    <value>Toto je možnost2=&gt;první krok</value>
+  </data>
+  <data name="___This_is_Option3___continue__" xml:space="preserve">
+    <value>Toto je možnost3 =&gt;pokračovat</value>
+  </data>
+  <data name="___This_is_Option4__stop_sequence__" xml:space="preserve">
+    <value>Toto je Option4=&gt;stop sekvence</value>
+  </data>
+  <data name="___Recipe__" xml:space="preserve">
+    <value>Recept</value>
+  </data>
+  <data name="___Qantity__" xml:space="preserve">
+    <value>Kvalita</value>
+  </data>
+  <data name="___Timeout__" xml:space="preserve">
+    <value>Časový limit</value>
+  </data>
+  <data name="___Exclude__" xml:space="preserve">
+    <value>Vyloučit</value>
+  </data>
+  <data name="___Hey__" xml:space="preserve">
+    <value>Ahoj</value>
+  </data>
+  <data name="___Hey___" xml:space="preserve">
+    <value>Ahoj</value>
+  </data>
+  <data name="___We_go_ahead___" xml:space="preserve">
+    <value>Pokračujeme.</value>
+  </data>
+  <data name="___Do_you_wana_retry_it__Yes_answer_will_be_set_in_4_sec___" xml:space="preserve">
+    <value>Chcete to zkusit znovu? Ano, odpověď bude nastavena za 4 sekundy?</value>
+  </data>
+  <data name="___What_we_are_going_to_do___" xml:space="preserve">
+    <value>Co budeme dělat.</value>
+  </data>
+  <data name="___This_is_Option3___continue_and_finish_in_4s__" xml:space="preserve">
+    <value>Toto je možnost3 =&gt;pokračovat a dokončit za 4s</value>
+  </data>
+  <data name="___Hey_wana_set_data__" xml:space="preserve">
+    <value>Hej wana nastavit data</value>
+  </data>
+  <data name="___Do_you_realy_want_to_sent_data_to________" xml:space="preserve">
+    <value>Opravdu chcete odesílat data na adresu ....?</value>
+  </data>
+  <data name="___We_are_done___" xml:space="preserve">
+    <value>Skončili jsme.</value>
+  </data>
 </root>
