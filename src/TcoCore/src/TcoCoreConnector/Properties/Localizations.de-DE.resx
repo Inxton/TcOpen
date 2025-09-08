@@ -225,4 +225,10 @@
   <data name="___Running_task_entered_Error_state_when_the_Enabled_property_transitioned_to_FALSE_during_task_execution___" xml:space="preserve">
     <value>Die laufende Aufgabe ist in den Fehlerzustand übergegangen, als die Eigenschaft Aktiviert während der Aufgabenausführung auf FALSE überging.</value>
   </data>
+  <data name="___Real_time_clock_is_invalid___" xml:space="preserve">
+    <value>Die Echtzeituhr ist ungültig!</value>
+  </data>
+  <data name="___Real_time_clock_is_not_sychronized___" xml:space="preserve">
+    <value>Die Echtzeituhr ist nicht sychronisiert.</value>
+  </data>
 </root>

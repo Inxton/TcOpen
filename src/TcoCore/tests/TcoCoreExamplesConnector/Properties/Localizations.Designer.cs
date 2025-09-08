@@ -106,6 +106,42 @@ namespace TcoCoreExamplesConnector.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do we go ahead?.
+        /// </summary>
+        public static string ___Do_we_go_ahead___ {
+            get {
+                return ResourceManager.GetString("___Do_we_go_ahead___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do we go ahead to 2?.
+        /// </summary>
+        public static string ___Do_we_go_ahead_to_2___ {
+            get {
+                return ResourceManager.GetString("___Do_we_go_ahead_to_2___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you realy want to sent data to ....?.
+        /// </summary>
+        public static string ___Do_you_realy_want_to_sent_data_to________ {
+            get {
+                return ResourceManager.GetString("___Do_you_realy_want_to_sent_data_to________", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you wana retry it? Yes answer will be set in 4 sec?.
+        /// </summary>
+        public static string ___Do_you_wana_retry_it__Yes_answer_will_be_set_in_4_sec___ {
+            get {
+                return ResourceManager.GetString("___Do_you_wana_retry_it__Yes_answer_will_be_set_in_4_sec___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enabled.
         /// </summary>
         public static string ___Enabled__ {
@@ -120,6 +156,33 @@ namespace TcoCoreExamplesConnector.Properties {
         public static string ___Exclude__ {
             get {
                 return ResourceManager.GetString("___Exclude__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hey.
+        /// </summary>
+        public static string ___Hey__ {
+            get {
+                return ResourceManager.GetString("___Hey__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hey .
+        /// </summary>
+        public static string ___Hey___ {
+            get {
+                return ResourceManager.GetString("___Hey___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hey wana set data.
+        /// </summary>
+        public static string ___Hey_wana_set_data__ {
+            get {
+                return ResourceManager.GetString("___Hey_wana_set_data__", resourceCulture);
             }
         }
         
@@ -223,11 +286,83 @@ namespace TcoCoreExamplesConnector.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This is Option1=&gt;retry.
+        /// </summary>
+        public static string ___This_is_Option1__retry__ {
+            get {
+                return ResourceManager.GetString("___This_is_Option1__retry__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is Option2=&gt;first step.
+        /// </summary>
+        public static string ___This_is_Option2__first_step__ {
+            get {
+                return ResourceManager.GetString("___This_is_Option2__first_step__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is Option3 =&gt;continue.
+        /// </summary>
+        public static string ___This_is_Option3___continue__ {
+            get {
+                return ResourceManager.GetString("___This_is_Option3___continue__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is Option3 =&gt;continue and finish in 4s.
+        /// </summary>
+        public static string ___This_is_Option3___continue_and_finish_in_4s__ {
+            get {
+                return ResourceManager.GetString("___This_is_Option3___continue_and_finish_in_4s__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is Option4=&gt;stop sequence.
+        /// </summary>
+        public static string ___This_is_Option4__stop_sequence__ {
+            get {
+                return ResourceManager.GetString("___This_is_Option4__stop_sequence__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Timeout.
         /// </summary>
         public static string ___Timeout__ {
             get {
                 return ResourceManager.GetString("___Timeout__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are done..
+        /// </summary>
+        public static string ___We_are_done___ {
+            get {
+                return ResourceManager.GetString("___We_are_done___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We go ahead..
+        /// </summary>
+        public static string ___We_go_ahead___ {
+            get {
+                return ResourceManager.GetString("___We_go_ahead___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to What we are going to do..
+        /// </summary>
+        public static string ___What_we_are_going_to_do___ {
+            get {
+                return ResourceManager.GetString("___What_we_are_going_to_do___", resourceCulture);
             }
         }
     }

@@ -225,4 +225,10 @@
   <data name="___Running_task_entered_Error_state_when_the_Enabled_property_transitioned_to_FALSE_during_task_execution___" xml:space="preserve">
     <value>Spustená úloha vstúpila do stavu Error, keď vlastnosť Enabled počas vykonávania úlohy prešla na hodnotu FALSE.</value>
   </data>
+  <data name="___Real_time_clock_is_invalid___" xml:space="preserve">
+    <value>Hodiny reálneho času sú neplatné!</value>
+  </data>
+  <data name="___Real_time_clock_is_not_sychronized___" xml:space="preserve">
+    <value>Hodiny reálneho času nie sú synchronizované.</value>
+  </data>
 </root>
