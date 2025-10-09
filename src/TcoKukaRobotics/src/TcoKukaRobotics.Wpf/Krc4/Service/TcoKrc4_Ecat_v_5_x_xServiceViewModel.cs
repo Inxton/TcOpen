@@ -12,7 +12,7 @@ using Vortex.Presentation.Wpf;
 
 namespace TcoKukaRobotics
 {
-    public class TcoKrc4_Ecat_v_5_x_xServiceViewModel : TcoKukaRoboticsBaseServiceViewModel<TcoKrc4_v_5_x_x>
+    public class TcoKrc4_Ecat_v_5_x_xServiceViewModel : TcoKukaRoboticsBaseServiceViewModel<TcoKrc4_Ecat_v_5_x_x>
     {
 
         public TcoKrc4_Ecat_v_5_x_xServiceViewModel() :base()
