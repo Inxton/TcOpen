@@ -1177,15 +1177,6 @@ namespace TcoMitsubishiRoboticsConnector.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Waiting for system ready signal! .
-        /// </summary>
-        public static string ___Waiting_for_system_ready_signal____ {
-            get {
-                return ResourceManager.GetString("___Waiting_for_system_ready_signal____", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Waiting program reset changed! .
         /// </summary>
         public static string ___Waiting_program_reset_changed____ {

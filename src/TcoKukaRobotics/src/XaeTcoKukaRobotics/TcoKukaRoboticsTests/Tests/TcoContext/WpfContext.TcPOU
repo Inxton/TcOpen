@@ -7,6 +7,9 @@ VAR
     {attribute addProperty Name "<#Krc4 #>"}
     _robot1 : TcoKukaRobotics.TcoKrc4_v_5_x_x(THIS^);
 	
+	 {attribute addProperty Name "<#Krc4 ECAT#>"}
+    _robot2 : TcoKukaRobotics.TcoKrc4_Ecat_v_5_x_x(THIS^);
+	
 	_sequence1      : TcoCore.TcoSequence(THIS^, eRestoreMode.None);
     _observer       : TcoCore.TcoSequencerObserver(THIS^);
     {attribute addProperty Name "Start sequence"}

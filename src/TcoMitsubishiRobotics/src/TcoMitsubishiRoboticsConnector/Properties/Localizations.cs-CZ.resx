@@ -117,160 +117,391 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="___Position__" xml:space="preserve">
-    <value>Pozice</value>
-  </data>
-  <data name="___Mode__" xml:space="preserve">
-    <value>Režim</value>
-  </data>
-  <data name="___Clear_position_lag__" xml:space="preserve">
-    <value>Jasné zpoždění polohy</value>
-  </data>
-  <data name="___Search_direction__" xml:space="preserve">
-    <value>Směr vyhledávání</value>
-  </data>
-  <data name="___Search_velocity__" xml:space="preserve">
-    <value>Rychlost vyhledávání</value>
-  </data>
-  <data name="___Synchronization_direction__" xml:space="preserve">
-    <value>Směr synchronizace</value>
-  </data>
-  <data name="___Synchronization_velocity__" xml:space="preserve">
-    <value>Rychlost synchronizace</value>
-  </data>
-  <data name="___Reference_mode__" xml:space="preserve">
-    <value>Referenční režim</value>
-  </data>
-  <data name="___Velocity__" xml:space="preserve">
-    <value>Rychlost</value>
-  </data>
-  <data name="___Acceleration__" xml:space="preserve">
-    <value>Zrychlení</value>
-  </data>
-  <data name="___Deceleration__" xml:space="preserve">
-    <value>Zpomalení</value>
-  </data>
-  <data name="___Jerk__" xml:space="preserve">
-    <value>Jerk</value>
-  </data>
-  <data name="___Direction__" xml:space="preserve">
-    <value>Směr</value>
-  </data>
-  <data name="___Distance__" xml:space="preserve">
-    <value>Vzdálenost</value>
-  </data>
-  <data name="___Power_enable__" xml:space="preserve">
-    <value>Povolení napájení</value>
-  </data>
-  <data name="___Enabled__" xml:space="preserve">
-    <value>Povoleno</value>
-  </data>
-  <data name="___Disabled__" xml:space="preserve">
-    <value>Vypnuto</value>
-  </data>
-  <data name="___Enable_positive__" xml:space="preserve">
-    <value>Povolit pozitivní</value>
-  </data>
-  <data name="___Enable_negative__" xml:space="preserve">
-    <value>Povolit negativní</value>
-  </data>
-  <data name="___Drive_power_override__" xml:space="preserve">
-    <value>Přepínání výkonu pohonu</value>
-  </data>
-  <data name="___Local_control__" xml:space="preserve">
-    <value>Místní kontrola</value>
-  </data>
-  <data name="___Global_control__" xml:space="preserve">
-    <value>Globální kontrola</value>
-  </data>
-  <data name="___Override__" xml:space="preserve">
-    <value>Přepsat</value>
-  </data>
-  <data name="___Jog_forward__" xml:space="preserve">
-    <value>Jog vpřed</value>
-  </data>
-  <data name="___Running__" xml:space="preserve">
-    <value>Běh</value>
-  </data>
-  <data name="___Stopped__" xml:space="preserve">
-    <value>Zastaveno</value>
-  </data>
-  <data name="___Jog_backwards__" xml:space="preserve">
-    <value>Běh zpět</value>
-  </data>
-  <data name="___Jog_mode__" xml:space="preserve">
-    <value>Režim Jog</value>
-  </data>
   <data name="___Drive_error_no___" xml:space="preserve">
     <value>Chyba pohonu č.</value>
-  </data>
-  <data name="___Movement_state__" xml:space="preserve">
-    <value>Stav pohybu</value>
-  </data>
-  <data name="___Reset__" xml:space="preserve">
-    <value>Obnovení</value>
-  </data>
-  <data name="___SoE_reset__" xml:space="preserve">
-    <value>Obnovení SoE</value>
-  </data>
-  <data name="___Set_position__" xml:space="preserve">
-    <value>Nastavení polohy</value>
-  </data>
-  <data name="___Homing__" xml:space="preserve">
-    <value>Homing</value>
-  </data>
-  <data name="___Jogging__" xml:space="preserve">
-    <value>Jogging</value>
-  </data>
-  <data name="___Move_velocity__" xml:space="preserve">
-    <value>Rychlost pohybu</value>
   </data>
   <data name="___Stop__" xml:space="preserve">
     <value>Zastavte</value>
   </data>
-  <data name="___Halt__" xml:space="preserve">
-    <value>Zastavit</value>
+  <data name="___Emergency_stop_active__" xml:space="preserve">
+    <value>Nouzové zastavení aktivní</value>
   </data>
-  <data name="___Move_relative__" xml:space="preserve">
-    <value>Přesunutí relativní</value>
+  <data name="___High_level_errror_occured___" xml:space="preserve">
+    <value>Došlo k chybě vysoké úrovně</value>
   </data>
-  <data name="___Move_absolute__" xml:space="preserve">
-    <value>Absolutní přesun</value>
+  <data name="___Low_level_errror_occured___" xml:space="preserve">
+    <value>Došlo k chybě na nízké úrovni</value>
   </data>
-  <data name="___Move_modulo__" xml:space="preserve">
-    <value>Přesun modulo</value>
+  <data name="___Warning_level_error_occured___" xml:space="preserve">
+    <value>Došlo k chybě na úrovni varování</value>
   </data>
-  <data name="___Actual_position__" xml:space="preserve">
-    <value>Skutečná poloha</value>
+  <data name="___Status__" xml:space="preserve">
+    <value>Stav</value>
   </data>
-  <data name="___Actual_modulo_position__" xml:space="preserve">
-    <value>Skutečná poloha modulo</value>
+  <data name="___Control__" xml:space="preserve">
+    <value>Kontrola</value>
   </data>
-  <data name="___Actual_modulo_turns__" xml:space="preserve">
-    <value>Skutečné otočky modulo</value>
+  <data name="___Config__" xml:space="preserve">
+    <value>Konfigurace</value>
   </data>
-  <data name="___Actual_velocity__" xml:space="preserve">
-    <value>Skutečná rychlost</value>
+  <data name="___PN_Error__" xml:space="preserve">
+    <value>Chyba PN</value>
   </data>
-  <data name="___Actual_acceleration__" xml:space="preserve">
-    <value>Skutečné zrychlení</value>
+  <data name="___Start_at_Main__" xml:space="preserve">
+    <value>Začněte na hlavní</value>
   </data>
-  <data name="___Actual_torque__" xml:space="preserve">
-    <value>Skutečný točivý moment</value>
+  <data name="___Start_motors_and_program__" xml:space="preserve">
+    <value>Spuštění motorů a programování</value>
   </data>
-  <data name="___Command_number__" xml:space="preserve">
-    <value>Číslo příkazu</value>
+  <data name="___Start_program__" xml:space="preserve">
+    <value>Spustit program</value>
   </data>
-  <data name="___Command_state__" xml:space="preserve">
-    <value>Stav příkazu</value>
+  <data name="___Start_motors__" xml:space="preserve">
+    <value>Spouštění motorů</value>
   </data>
-  <data name="___Motion_state__" xml:space="preserve">
-    <value>Stav pohybu</value>
+  <data name="___Start_movements__" xml:space="preserve">
+    <value>Zahájení pohybů</value>
   </data>
-  <data name="___Error__" xml:space="preserve">
-    <value>Chyba</value>
+  <data name="___Start_motors_program_and_movements__" xml:space="preserve">
+    <value>Spuštění programu motorů a pohybů</value>
   </data>
-  <data name="___Error_id__" xml:space="preserve">
-    <value>Id chyby</value>
+  <data name="___Stop_movements__" xml:space="preserve">
+    <value>Zastavení pohybu</value>
+  </data>
+  <data name="___Stop_movenents_and_program__" xml:space="preserve">
+    <value>Zastavení pohyblivých prvků a programování</value>
+  </data>
+  <data name="___Stop_program__" xml:space="preserve">
+    <value>Zastavení programu</value>
+  </data>
+  <data name="___Stop_motors__" xml:space="preserve">
+    <value>Zastavení motorů</value>
+  </data>
+  <data name="___Restore__" xml:space="preserve">
+    <value>Obnovení</value>
+  </data>
+  <data name="___Invalid_reference____" xml:space="preserve">
+    <value>Neplatný odkaz:</value>
+  </data>
+  <data name="___Waiting_for_Auto_signal____" xml:space="preserve">
+    <value>Čekáme na signál Auto!</value>
+  </data>
+  <data name="___Waiting_for_Operation_enable_signal____" xml:space="preserve">
+    <value>Čekáme na signál pro povolení operace!</value>
+  </data>
+  <data name="___Robot_Error_Reset__" xml:space="preserve">
+    <value>Obnovení chyby robota</value>
+  </data>
+  <data name="___Robot_Emergency_Stop_Reset__" xml:space="preserve">
+    <value>Obnovení nouzového zastavení robota</value>
+  </data>
+  <data name="___Waiting_program_reset_changed____" xml:space="preserve">
+    <value>Čekání na reset programu se změnilo!</value>
+  </data>
+  <data name="___Start_at_Main_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>Start na hlavní trati byl přerušen, přestože ještě nebyl dokončen!</value>
+  </data>
+  <data name="___Start_at_Main_was_completed_successfully___" xml:space="preserve">
+    <value>Start na hlavní zastávce byl úspěšně dokončen.</value>
+  </data>
+  <data name="___Start_at_Main_finished_with_error___" xml:space="preserve">
+    <value>Start na adrese Main skončil chybou.</value>
+  </data>
+  <data name="___Start_at_Main_started___" xml:space="preserve">
+    <value>Začněte na hlavní začátek.</value>
+  </data>
+  <data name="____Waiting_for_signal____" xml:space="preserve">
+    <value>Čekání na signál:</value>
+  </data>
+  <data name="___Waiting_for_program_running_signal____" xml:space="preserve">
+    <value>Čekáme na signál o spuštění programu!</value>
+  </data>
+  <data name="___Start_motors_and_program_was_aborted___" xml:space="preserve">
+    <value>Spuštění motorů a programu bylo přerušeno.</value>
+  </data>
+  <data name="___Start_motors_and_program_finished_successfully___" xml:space="preserve">
+    <value>Spuštění motorů a program byl úspěšně dokončen.</value>
+  </data>
+  <data name="___Start_motors_and_program_finished_with_error___" xml:space="preserve">
+    <value>Spuštění motorů a program skončil s chybou.</value>
+  </data>
+  <data name="___Start_motors_and_program_started___" xml:space="preserve">
+    <value>Spuštění motorů a spuštění programu.</value>
+  </data>
+  <data name="___Invalid_reference_StartMotorAndProgramTask__" xml:space="preserve">
+    <value>Neplatný odkaz StartMotorAndProgramTask</value>
+  </data>
+  <data name="___Moving_to_position_ID__" xml:space="preserve">
+    <value>Přesun na pozici ID</value>
+  </data>
+  <data name="___Start_motors__program_and_movements_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>Spuštění motorů, programování a pohyby byly přerušeny, přičemž ještě nebyly dokončeny!</value>
+  </data>
+  <data name="___Start_motors__program_and_movements_finished_successfully___" xml:space="preserve">
+    <value>Spuštění motorů, programování a pohyby byly úspěšně dokončeny.</value>
+  </data>
+  <data name="___Start_motors__program_and_movements_finished_with_error___" xml:space="preserve">
+    <value>Spuštění motorů, programování a pohyby skončily s chybou.</value>
+  </data>
+  <data name="___Start_motors__program_and_movements_stared___" xml:space="preserve">
+    <value>Spuštění motorů, programování a pohyby zůstaly zachovány.</value>
+  </data>
+  <data name="___Start_motors__was_aborted___" xml:space="preserve">
+    <value>Spouštění motorů bylo přerušeno.</value>
+  </data>
+  <data name="___Start_motors__finished_successfully___" xml:space="preserve">
+    <value>Spuštění motorů bylo úspěšně dokončeno.</value>
+  </data>
+  <data name="___Start_motors_finished_with_error___" xml:space="preserve">
+    <value>Spuštění motorů skončilo chybou.</value>
+  </data>
+  <data name="___Start_motors_started___" xml:space="preserve">
+    <value>Spuštění motorů.</value>
+  </data>
+  <data name="___Waiting_for_Operation_enable____" xml:space="preserve">
+    <value>Čekání na povolení operace!</value>
+  </data>
+  <data name="___Waiting_for_auto_enable____" xml:space="preserve">
+    <value>Čekání na automatické povolení!</value>
+  </data>
+  <data name="___Waiting_for_motors_are_On____" xml:space="preserve">
+    <value>Čekání na motory je zapnuto!</value>
+  </data>
+  <data name="___Waiting_for_system_is_without_errors____" xml:space="preserve">
+    <value>Čekání na systém je bez chyb!</value>
+  </data>
+  <data name="___Start_movements_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>Startovací pohyby byly přerušeny, přičemž ještě nebyly dokončeny!</value>
+  </data>
+  <data name="___Start_movements_finished_successfully___" xml:space="preserve">
+    <value>Spuštění pohybů bylo úspěšně dokončeno.</value>
+  </data>
+  <data name="___Start_movements_finished_with_error___" xml:space="preserve">
+    <value>Spuštění pohybů skončilo chybou.</value>
+  </data>
+  <data name="___Start_movements_stared___" xml:space="preserve">
+    <value>Spouštěcí pohyby se upřeně dívaly.</value>
+  </data>
+  <data name="___Stop_program_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>Program Stop byl přerušen, přestože ještě nebyl dokončen!</value>
+  </data>
+  <data name="___Stop_program_was_completed_successfully___" xml:space="preserve">
+    <value>Program Stop byl úspěšně dokončen.</value>
+  </data>
+  <data name="___Stopping_program_with_error___" xml:space="preserve">
+    <value>Zastavení programu s chybou.</value>
+  </data>
+  <data name="___Stopping_program_started___" xml:space="preserve">
+    <value>Zastavení spuštěného programu.</value>
+  </data>
+  <data name="___Stop_motors_was_completed_successfully___" xml:space="preserve">
+    <value>Zastavení motorů bylo úspěšně dokončeno.</value>
+  </data>
+  <data name="___Stop_motors_finished_with_error___" xml:space="preserve">
+    <value>Zastavení motorů skončilo chybou.</value>
+  </data>
+  <data name="___Stop_motors_started___" xml:space="preserve">
+    <value>Spuštění motorů Stop.</value>
+  </data>
+  <data name="____is_OFF___" xml:space="preserve">
+    <value>je vypnutá</value>
+  </data>
+  <data name="___Stop_movements_and_program_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>Zastavení pohybů a program byl přerušen, přičemž ještě nebyl dokončen!</value>
+  </data>
+  <data name="___Stop_movements_and_program__was_completed_successfully___" xml:space="preserve">
+    <value>Zastavte pohyby a program byl úspěšně dokončen.</value>
+  </data>
+  <data name="___Stop_movements_and_program_finished_with_error___" xml:space="preserve">
+    <value>Zastavení pohybů a ukončení programu s chybou.</value>
+  </data>
+  <data name="___Stop_movements_and_program_started___" xml:space="preserve">
+    <value>Zastavení pohybů a spuštění programu.</value>
+  </data>
+  <data name="___Stopping_movements_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>Zastavení pohybu bylo přerušeno, ale ještě nebylo dokončeno!</value>
+  </data>
+  <data name="___Stopping_movements_was_completed_successfully___" xml:space="preserve">
+    <value>Zastavení pohybů bylo úspěšně dokončeno.</value>
+  </data>
+  <data name="___Stopping_movement_finished_with_error___" xml:space="preserve">
+    <value>Zastavení pohybu skončilo chybou.</value>
+  </data>
+  <data name="___Stopping_movements_started___" xml:space="preserve">
+    <value>Začalo zastavování pohybů.</value>
+  </data>
+  <data name="___Operation_enablre__rights___" xml:space="preserve">
+    <value>Operace enablre (práva)</value>
+  </data>
+  <data name="___Automatic_operation_enabled__" xml:space="preserve">
+    <value>Automatický provoz povolen</value>
+  </data>
+  <data name="___Start__" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="___Program_reset__" xml:space="preserve">
+    <value>Obnovení programu</value>
+  </data>
+  <data name="___Error_Reset__" xml:space="preserve">
+    <value>Obnovení chyby</value>
+  </data>
+  <data name="___Cycle_Stop__" xml:space="preserve">
+    <value>Cyklistická zastávka</value>
+  </data>
+  <data name="___Servo_Off__" xml:space="preserve">
+    <value>Servo vypnuto</value>
+  </data>
+  <data name="___Servo_On__" xml:space="preserve">
+    <value>Servo zapnuto</value>
+  </data>
+  <data name="___General_Purpose_reset__" xml:space="preserve">
+    <value>Resetování pro všeobecné účely</value>
+  </data>
+  <data name="___Overide_specification__" xml:space="preserve">
+    <value>Specifikace přepisu</value>
+  </data>
+  <data name="___Master_mode__" xml:space="preserve">
+    <value>Hlavní režim</value>
+  </data>
+  <data name="___Tool_1_retract__" xml:space="preserve">
+    <value>Zatažení nástroje 1</value>
+  </data>
+  <data name="___Tool_1_extend__" xml:space="preserve">
+    <value>Nástroj 1 rozšířit</value>
+  </data>
+  <data name="___Tool_2_retract__" xml:space="preserve">
+    <value>Zatažení nástroje 2</value>
+  </data>
+  <data name="___Tool_2_extend__" xml:space="preserve">
+    <value>Nástroj 2 rozšířit</value>
+  </data>
+  <data name="___Tool_3_retract__" xml:space="preserve">
+    <value>Zatažení nástroje 3</value>
+  </data>
+  <data name="___Tool_3_extend__" xml:space="preserve">
+    <value>Nástroj 3 rozšířit</value>
+  </data>
+  <data name="___Tool_4_retract__" xml:space="preserve">
+    <value>Zatažení nástroje 4</value>
+  </data>
+  <data name="___Tool_4_extend__" xml:space="preserve">
+    <value>Nástroj 4 rozšířit</value>
+  </data>
+  <data name="___Zones__" xml:space="preserve">
+    <value>Zóny</value>
+  </data>
+  <data name="___In_position__" xml:space="preserve">
+    <value>V poloze</value>
+  </data>
+  <data name="___Action_number__" xml:space="preserve">
+    <value>Číslo akce</value>
+  </data>
+  <data name="___Global_robot_speed__" xml:space="preserve">
+    <value>Globální rychlost robota</value>
+  </data>
+  <data name="___Tool_number__" xml:space="preserve">
+    <value>Číslo nástroje</value>
+  </data>
+  <data name="___Workobject_number__" xml:space="preserve">
+    <value>Číslo pracovního objektu</value>
+  </data>
+  <data name="___Point_number__" xml:space="preserve">
+    <value>Číslo bodu</value>
+  </data>
+  <data name="___User_specific_speed_1__" xml:space="preserve">
+    <value>Rychlost specifická pro uživatele 1</value>
+  </data>
+  <data name="___User_specific_speed_2__" xml:space="preserve">
+    <value>Rychlost specifická pro uživatele 2</value>
+  </data>
+  <data name="___Coordinates__" xml:space="preserve">
+    <value>Souřadnice</value>
+  </data>
+  <data name="___Operation_rights__" xml:space="preserve">
+    <value>Práva na provoz</value>
+  </data>
+  <data name="___High_level_rrror__" xml:space="preserve">
+    <value>Vysoká úroveň rrror</value>
+  </data>
+  <data name="___Low_level_error__" xml:space="preserve">
+    <value>Chyba nízké úrovně</value>
+  </data>
+  <data name="___Warning_level_error__caution___" xml:space="preserve">
+    <value>Chyba na úrovni varování (upozornění)</value>
+  </data>
+  <data name="___Emergency_stop__" xml:space="preserve">
+    <value>Nouzové zastavení</value>
+  </data>
+  <data name="___Rc_Ready__" xml:space="preserve">
+    <value>Rc Ready</value>
+  </data>
+  <data name="___Battery_Low__" xml:space="preserve">
+    <value>Vybitá baterie</value>
+  </data>
+  <data name="___In_area_1__" xml:space="preserve">
+    <value>V oblasti 1</value>
+  </data>
+  <data name="___In_area_2__" xml:space="preserve">
+    <value>V oblasti 2</value>
+  </data>
+  <data name="___In_area_3__" xml:space="preserve">
+    <value>V oblasti 3</value>
+  </data>
+  <data name="___In_area_4__" xml:space="preserve">
+    <value>V oblasti 4</value>
+  </data>
+  <data name="___In_position_1__" xml:space="preserve">
+    <value>V poloze 1</value>
+  </data>
+  <data name="___In_position_2__" xml:space="preserve">
+    <value>V poloze 2</value>
+  </data>
+  <data name="___In_position_3__" xml:space="preserve">
+    <value>Na pozici 3</value>
+  </data>
+  <data name="___In_position_4__" xml:space="preserve">
+    <value>Na pozici 4</value>
+  </data>
+  <data name="___Auto_stop_1__" xml:space="preserve">
+    <value>Automatické zastavení 1</value>
+  </data>
+  <data name="___Auto_stop_2__" xml:space="preserve">
+    <value>Automatické zastavení 2</value>
+  </data>
+  <data name="___Emergency_stop_1__" xml:space="preserve">
+    <value>Nouzové zastavení 1</value>
+  </data>
+  <data name="___Emergency_stop_2__" xml:space="preserve">
+    <value>Nouzové zastavení 2</value>
+  </data>
+  <data name="___General_stop_1__" xml:space="preserve">
+    <value>Obecná zastávka 1</value>
+  </data>
+  <data name="___General_stop_2__" xml:space="preserve">
+    <value>Obecná zastávka 2</value>
+  </data>
+  <data name="___Enable_1__" xml:space="preserve">
+    <value>Povolit 1</value>
+  </data>
+  <data name="___Enable_2__" xml:space="preserve">
+    <value>Povolit 2</value>
+  </data>
+  <data name="___Global_speed__" xml:space="preserve">
+    <value>Globální rychlost</value>
+  </data>
+  <data name="___PointNumber__" xml:space="preserve">
+    <value>PointNumber</value>
+  </data>
+  <data name="___Actual_coordinates_world__" xml:space="preserve">
+    <value>Skutečné souřadnice svět</value>
+  </data>
+  <data name="___Actual_coordinates_workobject_tool__" xml:space="preserve">
+    <value>Skutečné souřadnice nástroje workobject</value>
+  </data>
+  <data name="___IN__" xml:space="preserve">
+    <value>IN</value>
+  </data>
+  <data name="___OUT__" xml:space="preserve">
+    <value>OUT</value>
   </data>
 </root>

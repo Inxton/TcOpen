@@ -68,5 +68,14 @@ namespace TcoKukaRoboticsTestsConnector.Properties {
                 return ResourceManager.GetString("___Krc4___", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Krc4 ECAT.
+        /// </summary>
+        public static string ___Krc4_ECAT__ {
+            get {
+                return ResourceManager.GetString("___Krc4_ECAT__", resourceCulture);
+            }
+        }
     }
 }

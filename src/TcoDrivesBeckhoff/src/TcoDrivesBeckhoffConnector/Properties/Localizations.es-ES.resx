@@ -273,4 +273,262 @@
   <data name="___Error_id__" xml:space="preserve">
     <value>Id. de error</value>
   </data>
+  <data name="___Invalid_reference_axis_1__" xml:space="preserve">
+    <value>Eje de referencia no válido 1</value>
+  </data>
+  <data name="___Invalid_reference_axis_2__" xml:space="preserve">
+    <value>Eje de referencia no válido 2</value>
+  </data>
+  <data name="___Invalid_reference_axis_3__" xml:space="preserve">
+    <value>Eje de referencia no válido 3</value>
+  </data>
+  <data name="___Error_executing_Build_Interpolation_Group_command__ErrorID___" xml:space="preserve">
+    <value>Error al ejecutar el comando Build Interpolation Group. ErrorID:</value>
+  </data>
+  <data name="___Error_executing_Load_Program_command__ErrorID___" xml:space="preserve">
+    <value>Error al ejecutar el comando Cargar Programa. ErrorID:</value>
+  </data>
+  <data name="___Error_executing_Start_Program_command__ErrorID___" xml:space="preserve">
+    <value>Error al ejecutar el comando Start Program. ErrorID:</value>
+  </data>
+  <data name="___Error_executing_Clear_Group_command__ErrorID___" xml:space="preserve">
+    <value>Error al ejecutar el comando Clear Group. ErrorID:</value>
+  </data>
+  <data name="___Error_executing_Confirm_Handshake_command__ErrorID___" xml:space="preserve">
+    <value>Error al ejecutar el comando Confirm Handshake. ErrorID:</value>
+  </data>
+  <data name="___Error_executing_Reset_command__" xml:space="preserve">
+    <value>Error al ejecutar el comando Reset</value>
+  </data>
+  <data name="___Axis_1__" xml:space="preserve">
+    <value>Eje 1</value>
+  </data>
+  <data name="___Axis_2__" xml:space="preserve">
+    <value>Eje 2</value>
+  </data>
+  <data name="___Axis_3__" xml:space="preserve">
+    <value>Eje 3</value>
+  </data>
+  <data name="___Status__" xml:space="preserve">
+    <value>Estado</value>
+  </data>
+  <data name="___Config__" xml:space="preserve">
+    <value>Configurar</value>
+  </data>
+  <data name="___Control__" xml:space="preserve">
+    <value>Controlar</value>
+  </data>
+  <data name="___Start_Interpolation__" xml:space="preserve">
+    <value>Iniciar interpolación</value>
+  </data>
+  <data name="___Block_Mode__" xml:space="preserve">
+    <value>Modo bloque</value>
+  </data>
+  <data name="___On__" xml:space="preserve">
+    <value>En</value>
+  </data>
+  <data name="___Off__" xml:space="preserve">
+    <value>Fuera de</value>
+  </data>
+  <data name="___Start_Ground__" xml:space="preserve">
+    <value>Inicio Tierra</value>
+  </data>
+  <data name="___Next_step__" xml:space="preserve">
+    <value>Siguiente paso</value>
+  </data>
+  <data name="___Reset_Drives_Task__" xml:space="preserve">
+    <value>Tarea de reinicio de unidades</value>
+  </data>
+  <data name="___Soe_Reset_Drives_Task__" xml:space="preserve">
+    <value>Tarea Soe Reset Drives</value>
+  </data>
+  <data name="___Restore_Task__" xml:space="preserve">
+    <value>Restaurar tarea</value>
+  </data>
+  <data name="___General_Error__" xml:space="preserve">
+    <value>Error general</value>
+  </data>
+  <data name="___see_detailed_description_in_Component_View__" xml:space="preserve">
+    <value>ver descripción detallada en Vista de componentes</value>
+  </data>
+  <data name="___Channel_Error__" xml:space="preserve">
+    <value>Error de canal</value>
+  </data>
+  <data name="___Group_Error__" xml:space="preserve">
+    <value>Error de grupo</value>
+  </data>
+  <data name="___Axis_Error__" xml:space="preserve">
+    <value>Error de eje</value>
+  </data>
+  <data name="___Encoder_Error__" xml:space="preserve">
+    <value>Error de codificador</value>
+  </data>
+  <data name="___Controller_Error__" xml:space="preserve">
+    <value>Error de controlador</value>
+  </data>
+  <data name="___Drive_Error__" xml:space="preserve">
+    <value>Error de accionamiento</value>
+  </data>
+  <data name="___Table_Error__" xml:space="preserve">
+    <value>Error de tabla</value>
+  </data>
+  <data name="___NC_PLC_Error__" xml:space="preserve">
+    <value>NC Error PLC</value>
+  </data>
+  <data name="___Kinematic_Transformation_Error__" xml:space="preserve">
+    <value>Error de transformación cinemática</value>
+  </data>
+  <data name="___Bode_Plot_Error__" xml:space="preserve">
+    <value>Error del diagrama de Bode</value>
+  </data>
+  <data name="___Furhter_Error__" xml:space="preserve">
+    <value>Error Furhter</value>
+  </data>
+  <data name="___Interpreter_not_in_IDLE_state___" xml:space="preserve">
+    <value>Intérprete no en estado IDLE.</value>
+  </data>
+  <data name="___Invalid_file_name_of_interpolation_file___" xml:space="preserve">
+    <value>Nombre de fichero de interpolación no válido.</value>
+  </data>
+  <data name="___Interpolácia_prerušená___" xml:space="preserve">
+    <value>Interpolácia prerušená.</value>
+  </data>
+  <data name="___Invalid_reference_axis_4__" xml:space="preserve">
+    <value>Eje de referencia no válido 4</value>
+  </data>
+  <data name="___Axis_4__" xml:space="preserve">
+    <value>Eje 4</value>
+  </data>
+  <data name="___Load_positions_Task__" xml:space="preserve">
+    <value>Cargar posiciones Tarea</value>
+  </data>
+  <data name="___Save_positions_Task__" xml:space="preserve">
+    <value>Guardar posiciones Tarea</value>
+  </data>
+  <data name="___Positions__" xml:space="preserve">
+    <value>Puestos</value>
+  </data>
+  <data name="___Move_Absolute_Task__" xml:space="preserve">
+    <value>Mover tarea absoluta</value>
+  </data>
+  <data name="___Abort_Task__" xml:space="preserve">
+    <value>Abortar tarea</value>
+  </data>
+  <data name="___Invalid_reference_axis___" xml:space="preserve">
+    <value>Eje de referencia no válido</value>
+  </data>
+  <data name="___Axis__" xml:space="preserve">
+    <value>Eje</value>
+  </data>
+  <data name="___Move_relative_Task__" xml:space="preserve">
+    <value>Mover tarea relativa</value>
+  </data>
+  <data name="___Loading_saving_data_item_with_id___" xml:space="preserve">
+    <value>Cargar/guardar elemento de datos con id:</value>
+  </data>
+  <data name="___Homing_error_no___" xml:space="preserve">
+    <value>Error de búsqueda no</value>
+  </data>
+  <data name="___Torque_Force__" xml:space="preserve">
+    <value>Par/Fuerza</value>
+  </data>
+  <data name="___Relative__" xml:space="preserve">
+    <value>Relativa</value>
+  </data>
+  <data name="___Velocity_limit_high__" xml:space="preserve">
+    <value>Límite de velocidad alto</value>
+  </data>
+  <data name="___Velocity_limit_low__" xml:space="preserve">
+    <value>Límite de velocidad bajo</value>
+  </data>
+  <data name="___Continuous_update__" xml:space="preserve">
+    <value>Actualización continua</value>
+  </data>
+  <data name="___Torque_ramp__" xml:space="preserve">
+    <value>Rampa de par</value>
+  </data>
+  <data name="___Torque_Options__Enable_Manual_Torque_Start_value___" xml:space="preserve">
+    <value>Opciones de par: Habilitar valor de inicio de par manual</value>
+  </data>
+  <data name="___Torque_Options_Manual_Torque_Start_value__" xml:space="preserve">
+    <value>Opciones de par:Valor de inicio de par manual</value>
+  </data>
+  <data name="___Drive_in_override_mode__Reduced_velocity__due_service_mode__Limited_to___" xml:space="preserve">
+    <value>¡Conducir en modo de anulación (velocidad reducida) debido al modo de servicio! Limitado a</value>
+  </data>
+  <data name="___Axis_status__" xml:space="preserve">
+    <value>Estado del eje</value>
+  </data>
+  <data name="___Axis_config__" xml:space="preserve">
+    <value>Configuración del eje</value>
+  </data>
+  <data name="___Power__" xml:space="preserve">
+    <value>Potencia</value>
+  </data>
+  <data name="___Force_Torque__" xml:space="preserve">
+    <value>Fuerza/Torque</value>
+  </data>
+  <data name="___Data__" xml:space="preserve">
+    <value>Datos</value>
+  </data>
+  <data name="___Actual_Position__" xml:space="preserve">
+    <value>Posición real</value>
+  </data>
+  <data name="___Actual_Interpolation_Block_No__" xml:space="preserve">
+    <value>Bloque de interpolación real nº</value>
+  </data>
+  <data name="___Alarm_Code__" xml:space="preserve">
+    <value>Código de alarma</value>
+  </data>
+  <data name="___Hide_Power_Tab__" xml:space="preserve">
+    <value>Ocultar la pestaña Power</value>
+  </data>
+  <data name="___Hide_Reset_Tab__" xml:space="preserve">
+    <value>Ocultar pestaña Reiniciar</value>
+  </data>
+  <data name="___Hide_Stop_Tab__" xml:space="preserve">
+    <value>Ocultar pestaña Stop</value>
+  </data>
+  <data name="___Hide_Halt_Tab__" xml:space="preserve">
+    <value>Ocultar pestaña Halt</value>
+  </data>
+  <data name="___Hide_Homing_Tab__" xml:space="preserve">
+    <value>Ocultar pestaña de búsqueda</value>
+  </data>
+  <data name="___Hide_Jogging_Tab__" xml:space="preserve">
+    <value>Ocultar pestaña Jogging</value>
+  </data>
+  <data name="___Hide_MoveRelative_Tab__" xml:space="preserve">
+    <value>Ocultar pestaña MoverRelativo</value>
+  </data>
+  <data name="___Hide_MoveAbsolute_Tab__" xml:space="preserve">
+    <value>Ocultar pestaña MoveAbsolute</value>
+  </data>
+  <data name="___Hide_MoveModulo_Tab__" xml:space="preserve">
+    <value>Ocultar pestaña MoverMódulo</value>
+  </data>
+  <data name="___Hide_MoveVelocity_Tab__" xml:space="preserve">
+    <value>Ocultar la pestaña MoveVelocity</value>
+  </data>
+  <data name="___Hide_SetTorque_Tab__" xml:space="preserve">
+    <value>Ocultar pestaña SetTorque</value>
+  </data>
+  <data name="___Override_velocity_in_service______" xml:space="preserve">
+    <value>Velocidad de anulación en servicio [%]</value>
+  </data>
+  <data name="___Velocity_Override__" xml:space="preserve">
+    <value>Anulación de velocidad</value>
+  </data>
+  <data name="___Interpolation_File__" xml:space="preserve">
+    <value>Fichero de interpolación</value>
+  </data>
+  <data name="___Hide_Load_position_Tab__" xml:space="preserve">
+    <value>Ocultar pestaña Posición de carga</value>
+  </data>
+  <data name="___Hide_Save_position_Tab__" xml:space="preserve">
+    <value>Ocultar la pestaña Guardar posición</value>
+  </data>
+  <data name="___Hide_Position_Tab__" xml:space="preserve">
+    <value>Ocultar pestaña Posición</value>
+  </data>
 </root>

@@ -117,160 +117,49 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="___Position__" xml:space="preserve">
-    <value>Pozice</value>
+  <data name="___Status__" xml:space="preserve">
+    <value>Stav</value>
   </data>
-  <data name="___Mode__" xml:space="preserve">
-    <value>Režim</value>
+  <data name="___Config__" xml:space="preserve">
+    <value>Konfigurace</value>
   </data>
-  <data name="___Clear_position_lag__" xml:space="preserve">
-    <value>Jasné zpoždění polohy</value>
+  <data name="___Get_Command__" xml:space="preserve">
+    <value>Získat příkaz</value>
   </data>
-  <data name="___Search_direction__" xml:space="preserve">
-    <value>Směr vyhledávání</value>
+  <data name="___Set_Command__" xml:space="preserve">
+    <value>Nastavit příkaz</value>
   </data>
-  <data name="___Search_velocity__" xml:space="preserve">
-    <value>Rychlost vyhledávání</value>
-  </data>
-  <data name="___Synchronization_direction__" xml:space="preserve">
-    <value>Směr synchronizace</value>
-  </data>
-  <data name="___Synchronization_velocity__" xml:space="preserve">
-    <value>Rychlost synchronizace</value>
-  </data>
-  <data name="___Reference_mode__" xml:space="preserve">
-    <value>Referenční režim</value>
-  </data>
-  <data name="___Velocity__" xml:space="preserve">
-    <value>Rychlost</value>
-  </data>
-  <data name="___Acceleration__" xml:space="preserve">
-    <value>Zrychlení</value>
-  </data>
-  <data name="___Deceleration__" xml:space="preserve">
-    <value>Zpomalení</value>
-  </data>
-  <data name="___Jerk__" xml:space="preserve">
-    <value>Jerk</value>
-  </data>
-  <data name="___Direction__" xml:space="preserve">
-    <value>Směr</value>
-  </data>
-  <data name="___Distance__" xml:space="preserve">
-    <value>Vzdálenost</value>
-  </data>
-  <data name="___Power_enable__" xml:space="preserve">
-    <value>Povolení napájení</value>
-  </data>
-  <data name="___Enabled__" xml:space="preserve">
-    <value>Povoleno</value>
-  </data>
-  <data name="___Disabled__" xml:space="preserve">
-    <value>Vypnuto</value>
-  </data>
-  <data name="___Enable_positive__" xml:space="preserve">
-    <value>Povolit pozitivní</value>
-  </data>
-  <data name="___Enable_negative__" xml:space="preserve">
-    <value>Povolit negativní</value>
-  </data>
-  <data name="___Drive_power_override__" xml:space="preserve">
-    <value>Přepínání výkonu pohonu</value>
-  </data>
-  <data name="___Local_control__" xml:space="preserve">
-    <value>Místní kontrola</value>
-  </data>
-  <data name="___Global_control__" xml:space="preserve">
-    <value>Globální kontrola</value>
-  </data>
-  <data name="___Override__" xml:space="preserve">
-    <value>Přepsat</value>
-  </data>
-  <data name="___Jog_forward__" xml:space="preserve">
-    <value>Jog vpřed</value>
-  </data>
-  <data name="___Running__" xml:space="preserve">
-    <value>Běh</value>
-  </data>
-  <data name="___Stopped__" xml:space="preserve">
-    <value>Zastaveno</value>
-  </data>
-  <data name="___Jog_backwards__" xml:space="preserve">
-    <value>Běh zpět</value>
-  </data>
-  <data name="___Jog_mode__" xml:space="preserve">
-    <value>Režim Jog</value>
-  </data>
-  <data name="___Drive_error_no___" xml:space="preserve">
-    <value>Chyba pohonu č.</value>
-  </data>
-  <data name="___Movement_state__" xml:space="preserve">
-    <value>Stav pohybu</value>
-  </data>
-  <data name="___Reset__" xml:space="preserve">
+  <data name="___Restore__" xml:space="preserve">
     <value>Obnovení</value>
   </data>
-  <data name="___SoE_reset__" xml:space="preserve">
-    <value>Obnovení SoE</value>
+  <data name="___Command_finished_sucessfully___" xml:space="preserve">
+    <value>Příkaz byl úspěšně dokončen.</value>
   </data>
-  <data name="___Set_position__" xml:space="preserve">
-    <value>Nastavení polohy</value>
+  <data name="___Command_finished_with_error___" xml:space="preserve">
+    <value>Příkaz skončil s chybou.</value>
   </data>
-  <data name="___Homing__" xml:space="preserve">
-    <value>Homing</value>
+  <data name="___Command_started___" xml:space="preserve">
+    <value>Příkaz byl spuštěn.</value>
   </data>
-  <data name="___Jogging__" xml:space="preserve">
-    <value>Jogging</value>
+  <data name="___Nvalue__" xml:space="preserve">
+    <value>Nhodnota</value>
   </data>
-  <data name="___Move_velocity__" xml:space="preserve">
-    <value>Rychlost pohybu</value>
+  <data name="___NRF__" xml:space="preserve">
+    <value>NRF</value>
   </data>
-  <data name="___Stop__" xml:space="preserve">
-    <value>Zastavte</value>
+  <data name="___Raw_Response__" xml:space="preserve">
+    <value>Surová odezva</value>
   </data>
-  <data name="___Halt__" xml:space="preserve">
-    <value>Zastavit</value>
+  <data name="___NR1__" xml:space="preserve">
+    <value>NR1</value>
   </data>
-  <data name="___Move_relative__" xml:space="preserve">
-    <value>Přesunutí relativní</value>
+  <data name="___NR2__" xml:space="preserve">
+    <value>NR2</value>
   </data>
-  <data name="___Move_absolute__" xml:space="preserve">
-    <value>Absolutní přesun</value>
+  <data name="___N___" xml:space="preserve">
+    <value>N</value>
   </data>
-  <data name="___Move_modulo__" xml:space="preserve">
-    <value>Přesun modulo</value>
-  </data>
-  <data name="___Actual_position__" xml:space="preserve">
-    <value>Skutečná poloha</value>
-  </data>
-  <data name="___Actual_modulo_position__" xml:space="preserve">
-    <value>Skutečná poloha modulo</value>
-  </data>
-  <data name="___Actual_modulo_turns__" xml:space="preserve">
-    <value>Skutečné otočky modulo</value>
-  </data>
-  <data name="___Actual_velocity__" xml:space="preserve">
-    <value>Skutečná rychlost</value>
-  </data>
-  <data name="___Actual_acceleration__" xml:space="preserve">
-    <value>Skutečné zrychlení</value>
-  </data>
-  <data name="___Actual_torque__" xml:space="preserve">
-    <value>Skutečný točivý moment</value>
-  </data>
-  <data name="___Command_number__" xml:space="preserve">
-    <value>Číslo příkazu</value>
-  </data>
-  <data name="___Command_state__" xml:space="preserve">
-    <value>Stav příkazu</value>
-  </data>
-  <data name="___Motion_state__" xml:space="preserve">
-    <value>Stav pohybu</value>
-  </data>
-  <data name="___Error__" xml:space="preserve">
-    <value>Chyba</value>
-  </data>
-  <data name="___Error_id__" xml:space="preserve">
-    <value>Id chyby</value>
+  <data name="___Convert_Message__" xml:space="preserve">
+    <value>Převést zprávu</value>
   </data>
 </root>

@@ -264,8 +264,8 @@
   <data name="___Start_movements_stared___" xml:space="preserve">
     <value>Start movements stared.</value>
   </data>
-  <data name="___Stop_program_was_aborted__while_not_yet_completed___" xml:space="preserve">
-    <value>Stop program was aborted, while not yet completed!</value>
+  <data name="___Start_program_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>Start program was aborted, while not yet completed!</value>
   </data>
   <data name="___Stop_program_was_completed_successfully___" xml:space="preserve">
     <value>Stop program was completed successfully.</value>
@@ -273,8 +273,8 @@
   <data name="___Stopping_program_with_error___" xml:space="preserve">
     <value>Stopping program with error.</value>
   </data>
-  <data name="___Stopping_program_started___" xml:space="preserve">
-    <value>Stopping program started.</value>
+  <data name="___Starting_program_started___" xml:space="preserve">
+    <value>Starting program started.</value>
   </data>
   <data name="____is_OFF___" xml:space="preserve">
     <value> is OFF </value>
@@ -311,6 +311,12 @@
   </data>
   <data name="___Stopping_movements_started___" xml:space="preserve">
     <value>Stopping movements started.</value>
+  </data>
+  <data name="___Stop_program_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>Stop program was aborted, while not yet completed!</value>
+  </data>
+  <data name="___Stopping_program_started___" xml:space="preserve">
+    <value>Stopping program started.</value>
   </data>
   <data name="___Program_Start__EXT_START___" xml:space="preserve">
     <value>Program Start [EXT_START]</value>

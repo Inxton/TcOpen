@@ -68,5 +68,14 @@ namespace TcOpen.Inxton.TcoAimTtiPowerSupply.Wpf.Properties {
                 return ResourceManager.GetString("ShowCommandDescription", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Command description..
+        /// </summary>
+        public static string ShowCommandDescription_ {
+            get {
+                return ResourceManager.GetString("ShowCommandDescription.", resourceCulture);
+            }
+        }
     }
 }

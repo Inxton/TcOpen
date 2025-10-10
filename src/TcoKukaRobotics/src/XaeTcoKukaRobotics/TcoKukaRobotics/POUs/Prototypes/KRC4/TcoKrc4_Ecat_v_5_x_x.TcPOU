@@ -27,6 +27,7 @@ VAR
 	_someTaskIsActive: BOOL;
 
 	_stopTasksAreActive: BOOL;
+	_reportTimer:TON;
 END_VAR
 VAR
 	{attribute addProperty Name "<#Start at Main#>"}
@@ -157,9 +158,16 @@ IF _someTaskIsActive THEN
   
 END_IF;
 
+_reportTimer(IN:=Status.State.Manual AND NOT Status.State.Automatic,PT:=_config.InfoTime);
 
-IF(_status.State.Error) THEN Messenger.Error(_sb.Clear().Append('<#Robot reported an error: #>').Append(UDINT_TO_STRING(_status.State.EventId)).Append(' |[[0]AdvancedDiagnosticMessage]|').Append('.').Append('For details see the service mode').ToString()); END_IF;
 
+ Messenger.OnCondition(_reportTimer.Q AND _status.State.Error).Error(_sb.Clear().Append('<#Robot reported an error: #>').Append(UDINT_TO_STRING(_status.State.EventId)).Append(' |[[0]AdvancedDiagnosticMessage]|').Append('.').Append('For details see the service mode').ToString()); END_IF;
+										  
+
+IF Status.State.Manual AND NOT Status.State.Automatic THEN
+	_control.MoveEnable:=TRUE; //robotic department request
+	 Messenger.OnCondition(_reportTimer.Q).Warning(_sb.Clear().Append('<#Robot in Maual. MoveEnable is Forced!#>').ToString()); 
+END_IF
 
 UpdateControl();]]></ST>
     </Implementation>

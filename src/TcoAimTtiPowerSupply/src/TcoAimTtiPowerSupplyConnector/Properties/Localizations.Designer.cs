@@ -61,7 +61,7 @@ namespace TcoAimTtiPowerSupplyConnector.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Command finished successfully..
+        ///   Looks up a localized string similar to Command finished sucessfully..
         /// </summary>
         public static string ___Command_finished_sucessfully___ {
             get {

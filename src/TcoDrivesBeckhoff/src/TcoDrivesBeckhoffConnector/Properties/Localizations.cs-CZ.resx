@@ -273,4 +273,262 @@
   <data name="___Error_id__" xml:space="preserve">
     <value>Id chyby</value>
   </data>
+  <data name="___Invalid_reference_axis_1__" xml:space="preserve">
+    <value>Neplatná referenční osa 1</value>
+  </data>
+  <data name="___Invalid_reference_axis_2__" xml:space="preserve">
+    <value>Neplatná referenční osa 2</value>
+  </data>
+  <data name="___Invalid_reference_axis_3__" xml:space="preserve">
+    <value>Neplatná referenční osa 3</value>
+  </data>
+  <data name="___Error_executing_Build_Interpolation_Group_command__ErrorID___" xml:space="preserve">
+    <value>Chyba při provádění příkazu Build Interpolation Group. ErrorID:</value>
+  </data>
+  <data name="___Error_executing_Load_Program_command__ErrorID___" xml:space="preserve">
+    <value>Chyba při provádění příkazu Load Program. ErrorID:</value>
+  </data>
+  <data name="___Error_executing_Start_Program_command__ErrorID___" xml:space="preserve">
+    <value>Chyba při provádění příkazu Start programu. ErrorID:</value>
+  </data>
+  <data name="___Error_executing_Clear_Group_command__ErrorID___" xml:space="preserve">
+    <value>Chyba při provádění příkazu Clear Group. ErrorID:</value>
+  </data>
+  <data name="___Error_executing_Confirm_Handshake_command__ErrorID___" xml:space="preserve">
+    <value>Chyba při provádění příkazu Confirm Handshake. ErrorID:</value>
+  </data>
+  <data name="___Error_executing_Reset_command__" xml:space="preserve">
+    <value>Chyba při provádění příkazu Reset</value>
+  </data>
+  <data name="___Axis_1__" xml:space="preserve">
+    <value>Osa 1</value>
+  </data>
+  <data name="___Axis_2__" xml:space="preserve">
+    <value>Osa 2</value>
+  </data>
+  <data name="___Axis_3__" xml:space="preserve">
+    <value>Osa 3</value>
+  </data>
+  <data name="___Status__" xml:space="preserve">
+    <value>Stav</value>
+  </data>
+  <data name="___Config__" xml:space="preserve">
+    <value>Konfigurace</value>
+  </data>
+  <data name="___Control__" xml:space="preserve">
+    <value>Kontrola</value>
+  </data>
+  <data name="___Start_Interpolation__" xml:space="preserve">
+    <value>Spuštění interpolace</value>
+  </data>
+  <data name="___Block_Mode__" xml:space="preserve">
+    <value>Blokový režim</value>
+  </data>
+  <data name="___On__" xml:space="preserve">
+    <value>Na adrese</value>
+  </data>
+  <data name="___Off__" xml:space="preserve">
+    <value>Vypnuto</value>
+  </data>
+  <data name="___Start_Ground__" xml:space="preserve">
+    <value>Start Ground</value>
+  </data>
+  <data name="___Next_step__" xml:space="preserve">
+    <value>Další krok</value>
+  </data>
+  <data name="___Reset_Drives_Task__" xml:space="preserve">
+    <value>Úloha Resetovat jednotky</value>
+  </data>
+  <data name="___Soe_Reset_Drives_Task__" xml:space="preserve">
+    <value>Soe Resetuje jednotky Úloha</value>
+  </data>
+  <data name="___Restore_Task__" xml:space="preserve">
+    <value>Úloha obnovení</value>
+  </data>
+  <data name="___General_Error__" xml:space="preserve">
+    <value>Obecná chyba</value>
+  </data>
+  <data name="___see_detailed_description_in_Component_View__" xml:space="preserve">
+    <value>viz podrobný popis v části Zobrazení komponent</value>
+  </data>
+  <data name="___Channel_Error__" xml:space="preserve">
+    <value>Chyba kanálu</value>
+  </data>
+  <data name="___Group_Error__" xml:space="preserve">
+    <value>Chyba skupiny</value>
+  </data>
+  <data name="___Axis_Error__" xml:space="preserve">
+    <value>Chyba osy</value>
+  </data>
+  <data name="___Encoder_Error__" xml:space="preserve">
+    <value>Chyba kodéru</value>
+  </data>
+  <data name="___Controller_Error__" xml:space="preserve">
+    <value>Chyba řídicí jednotky</value>
+  </data>
+  <data name="___Drive_Error__" xml:space="preserve">
+    <value>Chyba pohonu</value>
+  </data>
+  <data name="___Table_Error__" xml:space="preserve">
+    <value>Chyba tabulky</value>
+  </data>
+  <data name="___NC_PLC_Error__" xml:space="preserve">
+    <value>Chyba NC PLC</value>
+  </data>
+  <data name="___Kinematic_Transformation_Error__" xml:space="preserve">
+    <value>Chyba kinematické transformace</value>
+  </data>
+  <data name="___Bode_Plot_Error__" xml:space="preserve">
+    <value>Chyba Bodeho grafu</value>
+  </data>
+  <data name="___Furhter_Error__" xml:space="preserve">
+    <value>Další chyba</value>
+  </data>
+  <data name="___Interpreter_not_in_IDLE_state___" xml:space="preserve">
+    <value>Tlumočník není ve stavu IDLE.</value>
+  </data>
+  <data name="___Invalid_file_name_of_interpolation_file___" xml:space="preserve">
+    <value>Nesprávný název interpolačního souboru.</value>
+  </data>
+  <data name="___Interpolácia_prerušená___" xml:space="preserve">
+    <value>Interpolácia prerušená.</value>
+  </data>
+  <data name="___Invalid_reference_axis_4__" xml:space="preserve">
+    <value>Neplatná referenční osa 4</value>
+  </data>
+  <data name="___Axis_4__" xml:space="preserve">
+    <value>Osa 4</value>
+  </data>
+  <data name="___Load_positions_Task__" xml:space="preserve">
+    <value>Pozice zatížení Úloha</value>
+  </data>
+  <data name="___Save_positions_Task__" xml:space="preserve">
+    <value>Uložit pozice Úloha</value>
+  </data>
+  <data name="___Positions__" xml:space="preserve">
+    <value>Pozice</value>
+  </data>
+  <data name="___Move_Absolute_Task__" xml:space="preserve">
+    <value>Přesunout absolutní úlohu</value>
+  </data>
+  <data name="___Abort_Task__" xml:space="preserve">
+    <value>Přerušení úlohy</value>
+  </data>
+  <data name="___Invalid_reference_axis___" xml:space="preserve">
+    <value>Nesprávná referenční osa</value>
+  </data>
+  <data name="___Axis__" xml:space="preserve">
+    <value>Osa</value>
+  </data>
+  <data name="___Move_relative_Task__" xml:space="preserve">
+    <value>Přesunutí relativní úlohy</value>
+  </data>
+  <data name="___Loading_saving_data_item_with_id___" xml:space="preserve">
+    <value>Načítání/ukládání datové položky s id:</value>
+  </data>
+  <data name="___Homing_error_no___" xml:space="preserve">
+    <value>Chyba při navádění ne</value>
+  </data>
+  <data name="___Torque_Force__" xml:space="preserve">
+    <value>Točivý moment/síla</value>
+  </data>
+  <data name="___Relative__" xml:space="preserve">
+    <value>Relativní</value>
+  </data>
+  <data name="___Velocity_limit_high__" xml:space="preserve">
+    <value>Omezení rychlosti vysoké</value>
+  </data>
+  <data name="___Velocity_limit_low__" xml:space="preserve">
+    <value>Limit rychlosti nízký</value>
+  </data>
+  <data name="___Continuous_update__" xml:space="preserve">
+    <value>Průběžná aktualizace</value>
+  </data>
+  <data name="___Torque_ramp__" xml:space="preserve">
+    <value>Momentová rampa</value>
+  </data>
+  <data name="___Torque_Options__Enable_Manual_Torque_Start_value___" xml:space="preserve">
+    <value>Možnosti točivého momentu: Povolit hodnotu ručního spuštění krouticího momentu</value>
+  </data>
+  <data name="___Torque_Options_Manual_Torque_Start_value__" xml:space="preserve">
+    <value>Možnosti krouticího momentu: Ruční hodnota krouticího momentu</value>
+  </data>
+  <data name="___Drive_in_override_mode__Reduced_velocity__due_service_mode__Limited_to___" xml:space="preserve">
+    <value>Jízda v režimu přeřazení (snížená rychlost) kvůli servisnímu režimu! Omezeno na</value>
+  </data>
+  <data name="___Axis_status__" xml:space="preserve">
+    <value>Stav osy</value>
+  </data>
+  <data name="___Axis_config__" xml:space="preserve">
+    <value>Konfigurace osy</value>
+  </data>
+  <data name="___Power__" xml:space="preserve">
+    <value>Power</value>
+  </data>
+  <data name="___Force_Torque__" xml:space="preserve">
+    <value>Síla/točivý moment</value>
+  </data>
+  <data name="___Data__" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="___Actual_Position__" xml:space="preserve">
+    <value>Skutečná pozice</value>
+  </data>
+  <data name="___Actual_Interpolation_Block_No__" xml:space="preserve">
+    <value>Skutečný interpolační blok č.</value>
+  </data>
+  <data name="___Alarm_Code__" xml:space="preserve">
+    <value>Kód alarmu</value>
+  </data>
+  <data name="___Hide_Power_Tab__" xml:space="preserve">
+    <value>Skrytí karty Napájení</value>
+  </data>
+  <data name="___Hide_Reset_Tab__" xml:space="preserve">
+    <value>Skrytí karty Reset</value>
+  </data>
+  <data name="___Hide_Stop_Tab__" xml:space="preserve">
+    <value>Skrýt kartu Stop</value>
+  </data>
+  <data name="___Hide_Halt_Tab__" xml:space="preserve">
+    <value>Skrýt kartu Zastavení</value>
+  </data>
+  <data name="___Hide_Homing_Tab__" xml:space="preserve">
+    <value>Skrytí karty Navádění</value>
+  </data>
+  <data name="___Hide_Jogging_Tab__" xml:space="preserve">
+    <value>Skrytí karty Jogging</value>
+  </data>
+  <data name="___Hide_MoveRelative_Tab__" xml:space="preserve">
+    <value>Skrýt kartu MoveRelative</value>
+  </data>
+  <data name="___Hide_MoveAbsolute_Tab__" xml:space="preserve">
+    <value>Skrýt kartu MoveAbsolute</value>
+  </data>
+  <data name="___Hide_MoveModulo_Tab__" xml:space="preserve">
+    <value>Skrýt kartu MoveModulo</value>
+  </data>
+  <data name="___Hide_MoveVelocity_Tab__" xml:space="preserve">
+    <value>Skrytí karty MoveVelocity</value>
+  </data>
+  <data name="___Hide_SetTorque_Tab__" xml:space="preserve">
+    <value>Skrýt kartu SetTorque</value>
+  </data>
+  <data name="___Override_velocity_in_service______" xml:space="preserve">
+    <value>Překročení provozní rychlosti [%]</value>
+  </data>
+  <data name="___Velocity_Override__" xml:space="preserve">
+    <value>Přepínání rychlosti</value>
+  </data>
+  <data name="___Interpolation_File__" xml:space="preserve">
+    <value>Interpolační soubor</value>
+  </data>
+  <data name="___Hide_Load_position_Tab__" xml:space="preserve">
+    <value>Skrýt kartu Poloha načítání</value>
+  </data>
+  <data name="___Hide_Save_position_Tab__" xml:space="preserve">
+    <value>Skrýt kartu Uložit pozici</value>
+  </data>
+  <data name="___Hide_Position_Tab__" xml:space="preserve">
+    <value>Skrýt kartu Pozice</value>
+  </data>
 </root>

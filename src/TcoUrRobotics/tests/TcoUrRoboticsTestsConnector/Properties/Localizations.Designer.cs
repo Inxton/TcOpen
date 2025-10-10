@@ -68,5 +68,14 @@ namespace TcoUrRoboticsTestsConnector.Properties {
                 return ResourceManager.GetString("___UR_CB3__", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UR E series.
+        /// </summary>
+        public static string ___UR_E_series__ {
+            get {
+                return ResourceManager.GetString("___UR_E_series__", resourceCulture);
+            }
+        }
     }
 }
