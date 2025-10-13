@@ -195,4 +195,43 @@
   <data name="___AT_least_one_OutputCR_Problemindicator_is_set___" xml:space="preserve">
     <value>Al menos un Indicador de Problema de SalidaCR está activado.</value>
   </data>
+  <data name="___PN_ready__" xml:space="preserve">
+    <value>PN listo</value>
+  </data>
+  <data name="___Ads_address_information_is_not_defined___" xml:space="preserve">
+    <value>¡La información de la dirección de anuncios no está definida!</value>
+  </data>
+  <data name="___Actual_state__" xml:space="preserve">
+    <value>Estado actual</value>
+  </data>
+  <data name="___Actual_Link_state__" xml:space="preserve">
+    <value>Estado real del enlace</value>
+  </data>
+  <data name="___ECAT_Communication_Ok__" xml:space="preserve">
+    <value>ECAT Comunicación Ok</value>
+  </data>
+  <data name="___EtherCat_masters_Ams_Net_Id__" xml:space="preserve">
+    <value>EtherCat masters Ams Net Id</value>
+  </data>
+  <data name="___State_check_Time_Period___" xml:space="preserve">
+    <value>Comprobación de estado Hora(Periodo)</value>
+  </data>
+  <data name="___Error_Time__" xml:space="preserve">
+    <value>Tiempo de error</value>
+  </data>
+  <data name="___Required_state__" xml:space="preserve">
+    <value>Estado requerido</value>
+  </data>
+  <data name="___Change_State__" xml:space="preserve">
+    <value>Cambiar de Estado</value>
+  </data>
+  <data name="___Restore__" xml:space="preserve">
+    <value>Restaurar</value>
+  </data>
+  <data name="___Unexpected_state____" xml:space="preserve">
+    <value>Estado inesperado:</value>
+  </data>
+  <data name="___Ecat_slave_state__" xml:space="preserve">
+    <value>Ecat estado </value>
+  </data>
 </root>

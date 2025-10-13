@@ -306,6 +306,15 @@ namespace TcoIoConnector.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PN ready.
+        /// </summary>
+        public static string ___PN_ready__ {
+            get {
+                return ResourceManager.GetString("___PN_ready__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Profinet controller has a link error!.
         /// </summary>
         public static string ___Profinet_controller_has_a_link_error___ {

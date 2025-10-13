@@ -120,4 +120,7 @@
   <data name="ShowCommandDescription" xml:space="preserve">
     <value>Command description.</value>
   </data>
+  <data name="ShowCommandDescription." xml:space="preserve">
+    <value>Command description.</value>
+  </data>
 </root>

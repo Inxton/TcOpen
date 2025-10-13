@@ -120,4 +120,7 @@
   <data name="ShowCommandDescription." xml:space="preserve">
     <value>Popis príkazu</value>
   </data>
+  <data name="ShowCommandDescription" xml:space="preserve">
+    <value>Popis príkazu.</value>
+  </data>
 </root>

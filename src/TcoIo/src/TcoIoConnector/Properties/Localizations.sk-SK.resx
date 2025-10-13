@@ -195,4 +195,43 @@
   <data name="___AT_least_one_OutputCR_Problemindicator_is_set___" xml:space="preserve">
     <value>Je nastavený aspoň jeden indikátor OutputCR Problemindicator!</value>
   </data>
+  <data name="___PN_ready__" xml:space="preserve">
+    <value>PN ready</value>
+  </data>
+  <data name="___Ads_address_information_is_not_defined___" xml:space="preserve">
+    <value>Informácie o Ads adrese nie sú definované!</value>
+  </data>
+  <data name="___Actual_state__" xml:space="preserve">
+    <value>Skutočný stav</value>
+  </data>
+  <data name="___Actual_Link_state__" xml:space="preserve">
+    <value>Skutočný stav prepojenia</value>
+  </data>
+  <data name="___ECAT_Communication_Ok__" xml:space="preserve">
+    <value>ECAT Komunikácia Ok</value>
+  </data>
+  <data name="___EtherCat_masters_Ams_Net_Id__" xml:space="preserve">
+    <value>EtherCat masters Ams Net Id</value>
+  </data>
+  <data name="___State_check_Time_Period___" xml:space="preserve">
+    <value>Štátna kontrola Čas (obdobie)</value>
+  </data>
+  <data name="___Error_Time__" xml:space="preserve">
+    <value>Čas chyby</value>
+  </data>
+  <data name="___Required_state__" xml:space="preserve">
+    <value>Požadovaný stav</value>
+  </data>
+  <data name="___Change_State__" xml:space="preserve">
+    <value>Zmena stavu</value>
+  </data>
+  <data name="___Restore__" xml:space="preserve">
+    <value>Obnovenie</value>
+  </data>
+  <data name="___Unexpected_state____" xml:space="preserve">
+    <value>Neočakávaný stav:</value>
+  </data>
+  <data name="___Ecat_slave_state__" xml:space="preserve">
+    <value>Ecat stav</value>
+  </data>
 </root>

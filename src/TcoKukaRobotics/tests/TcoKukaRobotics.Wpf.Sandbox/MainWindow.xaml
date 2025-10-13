@@ -21,8 +21,10 @@
 
                     </Grid.RowDefinitions>
                     <ScrollViewer>
+                        <StackPanel>
                     <vortex:RenderableContentControl Grid.Row="0" DataContext="{Binding MAIN._wpfContext._robot1}" PresentationType="Service"/>
-                    <!--<vortex:RenderableContentControl Grid.Row="1" DataContext="{Binding MAIN._wpfContext._robot2}" PresentationType="Service"/>-->
+                    <vortex:RenderableContentControl Grid.Row="1" DataContext="{Binding MAIN._wpfContext._robot2}" PresentationType="Service"/>
+                        </StackPanel>
                     </ScrollViewer>
                 </Grid>     
             </TabItem>
@@ -35,7 +37,13 @@
                     <vortex:RenderableContentControl Grid.Row="0" DataContext="{Binding MAIN._wpfContext._robot1}" PresentationType="Service"/>
                 </StackPanel>
             </TabItem>
-        
+
+            <TabItem Header="SequenceTest Krc4 Ecat ">
+                <StackPanel Orientation="Vertical">
+                       <vortex:RenderableContentControl Grid.Row="0" DataContext="{Binding MAIN._wpfContext._robot2}" PresentationType="Service"/>
+                </StackPanel>
+            </TabItem>
+
             <TabItem Header="Diagnostic">
                 <vortex:RenderableContentControl DataContext="{Binding MAIN._wpfContext }" PresentationType="Diagnostics"/>
 
