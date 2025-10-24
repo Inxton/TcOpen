@@ -21,7 +21,7 @@ namespace TcoKukaRobotics
 
         }
     }
-    public class TcoKrc4_Ecat_v_5_x_xViewModel : TcoKrc4_v_5_x_xServiceViewModel
+    public class TcoKrc4_Ecat_v_5_x_xViewModel : TcoKrc4_Ecat_v_5_x_xServiceViewModel
     { }
 
 }

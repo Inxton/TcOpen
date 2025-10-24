@@ -206,6 +206,8 @@ namespace TcoDrivesBeckhoff
                 this.Component._axis1._moveAbsoluteTask._velocity.Synchron       = SelectedItem.Axis1.Velocity.Synchron;
                 this.Component._axis1._moveAbsoluteTask._acceleration.Synchron   = SelectedItem.Axis1.Acceleration.Synchron;
                 this.Component._axis1._moveAbsoluteTask._deceleration.Synchron   = SelectedItem.Axis1.Deceleration.Synchron;
+                this.Component._axis1._moveAbsoluteTask._jerk.Synchron = SelectedItem.Axis1.Jerk.Synchron;
+
 
 
                 if ((bool)Axis1MoveAllowed)
@@ -218,6 +220,7 @@ namespace TcoDrivesBeckhoff
                 this.Component._axis2._moveAbsoluteTask._velocity.Synchron = SelectedItem.Axis2.Velocity.Synchron;
                 this.Component._axis2._moveAbsoluteTask._acceleration.Synchron = SelectedItem.Axis2.Acceleration.Synchron;
                 this.Component._axis2._moveAbsoluteTask._deceleration.Synchron = SelectedItem.Axis2.Deceleration.Synchron;
+                this.Component._axis2._moveAbsoluteTask._jerk.Synchron = SelectedItem.Axis2.Jerk.Synchron;
 
 
                 if ((bool)Axis2MoveAllowed)
@@ -229,6 +232,8 @@ namespace TcoDrivesBeckhoff
                 this.Component._axis3._moveAbsoluteTask._velocity.Synchron = SelectedItem.Axis3.Velocity.Synchron;
                 this.Component._axis3._moveAbsoluteTask._acceleration.Synchron = SelectedItem.Axis3.Acceleration.Synchron;
                 this.Component._axis3._moveAbsoluteTask._deceleration.Synchron = SelectedItem.Axis3.Deceleration.Synchron;
+                this.Component._axis3._moveAbsoluteTask._jerk.Synchron = SelectedItem.Axis3.Jerk.Synchron;
+
 
 
                 if ((bool)Axis3MoveAllowed)
@@ -240,6 +245,8 @@ namespace TcoDrivesBeckhoff
                 this.Component._axis4._moveAbsoluteTask._velocity.Synchron = SelectedItem.Axis4.Velocity.Synchron;
                 this.Component._axis4._moveAbsoluteTask._acceleration.Synchron = SelectedItem.Axis4.Acceleration.Synchron;
                 this.Component._axis4._moveAbsoluteTask._deceleration.Synchron = SelectedItem.Axis4.Deceleration.Synchron;
+                this.Component._axis4._moveAbsoluteTask._jerk.Synchron = SelectedItem.Axis4.Jerk.Synchron;
+
 
 
                 if ((bool)Axis4MoveAllowed)

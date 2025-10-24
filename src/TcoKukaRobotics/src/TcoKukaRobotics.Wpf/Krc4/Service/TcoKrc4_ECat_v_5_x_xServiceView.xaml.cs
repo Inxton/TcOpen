@@ -26,7 +26,7 @@ namespace TcoKukaRobotics
         {
             if (DesignerProperties.GetIsInDesignMode(this))
             {
-                this.DataContext = new TcoKrc4_v_5_x_xServiceViewModel();
+                this.DataContext = new TcoKrc4_Ecat_v_5_x_xServiceViewModel();
             }
 
             InitializeComponent();
