@@ -177,6 +177,8 @@ namespace TcoDrivesBeckhoff
                 this.Component._axis._moveAbsoluteTask._velocity.Synchron       = SelectedItem.Axis1.Velocity.Synchron;
                 this.Component._axis._moveAbsoluteTask._acceleration.Synchron   = SelectedItem.Axis1.Acceleration.Synchron;
                 this.Component._axis._moveAbsoluteTask._deceleration.Synchron   = SelectedItem.Axis1.Deceleration.Synchron;
+                this.Component._axis._moveAbsoluteTask._jerk.Synchron = SelectedItem.Axis1.Jerk.Synchron;
+
 
 
 
