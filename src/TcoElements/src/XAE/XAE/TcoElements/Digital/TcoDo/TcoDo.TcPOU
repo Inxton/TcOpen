@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
-  <POU Name="TcoDo" Id="{a94c677a-ea37-0c4d-2eda-a26d576606a9}" SpecialFunc="None">
+  <POU Name="TcoDo" Id="{6b304b07-4498-0ae4-23b7-22ea5944b0a1}" SpecialFunc="None">
     <Declaration><![CDATA[(*~
 	<docu>
 		<summary>
@@ -29,6 +29,7 @@ VAR
 	</docu>	
 	~*)
 	_signal : BOOL;
+	_sb : TcoCore.StringBuilder;
 END_VAR
 
 VAR
@@ -56,7 +57,7 @@ IF(_resetTask.Execute())THEN
 	_resetTask.DoneWhen(Reset());
 END_IF]]></ST>
     </Implementation>
-    <Method Name="FB_init" Id="{3d495706-c76b-095e-389f-7ba6c1dae3a7}">
+    <Method Name="FB_init" Id="{d0a6b8a6-b369-03b8-3d81-48354d80f0ed}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
@@ -69,7 +70,7 @@ END_VAR
         <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
-    <Property Name="IsFalse" Id="{48e6cf82-019c-09fc-0b62-4318a8025ee4}">
+    <Property Name="IsFalse" Id="{5cc824ff-b4e2-0705-185f-d773c1bcb032}">
       <Declaration><![CDATA[(*~
 	<docu>
 		<summary>
@@ -80,7 +81,7 @@ END_VAR
 ~*)	
 {attribute 'monitoring' := 'variable'}
 PROPERTY IsFalse : BOOL]]></Declaration>
-      <Get Name="Get" Id="{c23c2e72-5cf6-0203-23ee-9d8001c6afd4}">
+      <Get Name="Get" Id="{2f9cb32a-418d-01d5-10bf-6c26e7f6fce1}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
@@ -90,7 +91,7 @@ IF(NOT IsFalse) THEN Messenger.Info('<#Expecting `negative` signal#>'); END_IF;]
         </Implementation>
       </Get>
     </Property>
-    <Property Name="IsTrue" Id="{c588e641-6ea7-04c2-2aae-c7227089c8ae}">
+    <Property Name="IsTrue" Id="{a069b8b5-df37-04b4-20aa-5678a51e8e56}">
       <Declaration><![CDATA[(*~
 	<docu>
 		<summary>
@@ -101,7 +102,7 @@ IF(NOT IsFalse) THEN Messenger.Info('<#Expecting `negative` signal#>'); END_IF;]
 ~*)	
 {attribute 'monitoring' := 'variable'}
 PROPERTY IsTrue : BOOL]]></Declaration>
-      <Get Name="Get" Id="{2089a10e-bba5-06e8-1e33-1a25b4fcfa09}">
+      <Get Name="Get" Id="{8e0d59de-cb88-0527-28ca-400d08cd5a1f}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
@@ -112,7 +113,7 @@ IF(NOT IsTrue) THEN Messenger.Info('<#Expecting `positive` signal#>'); END_IF;
         </Implementation>
       </Get>
     </Property>
-    <Method Name="Reset" Id="{8d9a1541-7fde-0939-1d52-c21f46132ca4}">
+    <Method Name="Reset" Id="{3db43101-a6f5-02a8-2d3f-d796da9985b0}">
       <Declaration><![CDATA[(*~
 	<docu>
 		<summary>
@@ -128,7 +129,7 @@ _signal := FALSE;
 Reset := TRUE;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Restore" Id="{28f0fb71-aa8a-0f79-0fa8-867a06c586ce}">
+    <Method Name="Restore" Id="{987cb5fb-100a-04ca-17bf-da2f1bc3ba94}">
       <Declaration><![CDATA[(*~
 	<docu>
 		<summary>
@@ -144,7 +145,7 @@ METHOD  Restore : ITcoRestorable
         <ST><![CDATA[// No implementation needed for this componet.]]></ST>
       </Implementation>
     </Method>
-    <Method Name="ServiceMode" Id="{370c3428-cc83-04b9-0717-e7260a4027a0}">
+    <Method Name="ServiceMode" Id="{5e267bec-ce98-08c6-34ba-ed918b03d763}">
       <Declaration><![CDATA[(*~
 	<docu>
 		<summary>
@@ -159,7 +160,7 @@ METHOD PROTECTED  ServiceMode
         <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Set" Id="{83e12c95-7ea1-0597-1f2a-882d3fad52b0}">
+    <Method Name="Set" Id="{eebb1554-86cd-0dd4-230b-9d80449b3fd1}">
       <Declaration><![CDATA[(*~
 	<docu>
 		<summary>
@@ -176,9 +177,9 @@ _signal := TRUE;
 Set := TRUE;]]></ST>
       </Implementation>
     </Method>
-    <Property Name="Signal" Id="{21741c7b-be57-0224-394d-8eba10f7fef5}">
+    <Property Name="Signal" Id="{514d6d7d-e2b8-095b-30fe-f920d5156a0b}">
       <Declaration><![CDATA[PROPERTY PUBLIC Signal : Bool]]></Declaration>
-      <Get Name="Get" Id="{15d28176-9c49-02f5-384f-c21fc4407f09}">
+      <Get Name="Get" Id="{72db9780-6d60-02e2-17c2-70d504b07e67}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
@@ -187,5 +188,72 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Method Name="Suspend" Id="{480a074b-e411-0fe6-009e-4216a4fe9575}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Suspend the turning to next position when the condition is 'true'. Task is still bussy
+		</summary>
+		<remarks>			
+				<note type="warning">
+					The call of this method will be effective only when called AFTER the initialization of the instance of given TcoCarousel.
+				</note>
+		</remarks>	
+	</docu>
+~*)
+METHOD Suspend : BOOL
+VAR_IN_OUT
+	(*~
+		<docu>
+			<summary>
+				Condition to suspend the output.
+			</summary>	
+		</docu>
+	~*)
+	inoDisableCondition : BOOL;
+END_VAR
+VAR_INPUT
+	(*~
+		<docu>
+			<summary>
+				Condition to suspend the movement of the carousel can be inverted by this parameter.
+			</summary>	
+		</docu>
+	~*)
+	Invert:BOOL;
+END_VAR
+VAR
+	_signalInfo : TcoSignalInfo;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+IF (_setTask.Busy OR _signal ) AND inoDisableCondition AND NOT Invert THEN
+	_signalInfo.GetSignalInfo(SIZEOF(inoDisableCondition), ADR(inoDisableCondition));
+	Messenger.Warning(_sb.Clear().Append('<#Output is suspended due to#> : ').Append(_signalInfo.SymbolPath).ToString());
+	_signal := FALSE;
+	IF(__ISVALIDREF(THIS^.inoSignal)) THEN THIS^.inoSignal := FALSE; END_IF;
+ELSIF(_setTask.Busy OR _signal ) AND inoDisableCondition AND Invert THEN
+	_signalInfo.GetSignalInfo(SIZEOF(inoDisableCondition), ADR(inoDisableCondition));
+	Messenger.Warning(_sb.Clear().Append('<#Output is suspended due to NOT #> : ').Append(_signalInfo.SymbolPath).ToString());
+	_signal := FALSE;
+	IF(__ISVALIDREF(THIS^.inoSignal)) THEN THIS^.inoSignal := FALSE; END_IF;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SuspendExpression" Id="{5aea9d55-7c14-005d-362c-701da8683e30}">
+      <Declaration><![CDATA[METHOD SuspendExpression : BOOL
+VAR_INPUT
+		inDisableCondition : BOOL;
+		inMessage:STRING;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF (_setTask.Busy OR _signal ) AND inDisableCondition  THEN
+	Messenger.Warning(CONCAT('<#Ouput signal is suspended due to#> : ' , inMessage));
+	_signal := FALSE;
+	IF(__ISVALIDREF(THIS^.inoSignal)) THEN THIS^.inoSignal := FALSE; END_IF;
+END_IF;]]></ST>
+      </Implementation>
+    </Method>
   </POU>
 </TcPlcObject>
