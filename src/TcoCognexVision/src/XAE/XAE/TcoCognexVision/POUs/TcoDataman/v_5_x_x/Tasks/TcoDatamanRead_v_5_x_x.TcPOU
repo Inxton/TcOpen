@@ -87,10 +87,17 @@ END_VAR
 	IF _progress = 6 THEN
 		THIS^.inoResults.Length := THIS^.inoIoData.ResultData.ResultLength;
 		THIS^.Messenger.OnCondition(_infoTimer.Q).Warning('<#Waiting for the ResultData copied!#>').Pin(); 
-		IF  Tc2_System.MEMCPY(srcAddr := ADR(THIS^.inoIoData.ResultData.ResultData) , destAddr:= ADR(THIS^.inoResults.Data) ,  n:= THIS^.inoResults.Length) > 0 AND 
-			Tc2_System.MEMSET(destAddr:= ADR(THIS^.inoResults.Data) + THIS^.inoResults.Length, fillByte:= 0 , n:= SIZEOF(THIS^.inoResults.Data) - THIS^.inoResults.Length)>0 THEN
+		IF  THIS^.inoIoData.ResultData.ResultCode.0=1 THEN // read successfull
+			IF Tc2_System.MEMCPY(srcAddr := ADR(THIS^.inoIoData.ResultData.ResultData) , destAddr:= ADR(THIS^.inoResults.Data) ,  n:= THIS^.inoResults.Length) > 0 AND 
+				Tc2_System.MEMSET(destAddr:= ADR(THIS^.inoResults.Data) + THIS^.inoResults.Length, fillByte:= 0 , n:= SIZEOF(THIS^.inoResults.Data) - THIS^.inoResults.Length)>0 THEN
+				CallTimers(FALSE);
+				_progress := _progress + 1;
+			END_IF;
+		ELSIF THIS^.inoIoData.ResultData.ResultCode.0=0  THEN  // read not successfull
+			Tc2_System.MEMSET(destAddr:= ADR(THIS^.inoIoData) , fillByte:= 0 , n:= SIZEOF(THIS^.inoIoData));
 			CallTimers(FALSE);
 			_progress := _progress + 1;
+		
 		END_IF
 	END_IF
 	
@@ -98,11 +105,13 @@ END_VAR
 		THIS^.inoIoData.AcquisitionControl.Trigger := FALSE;
 		THIS^.inoIoData.ResultsControl.EnableResultBuffering := FALSE;
 		THIS^.inoIoData.ResultsControl.ResultsAcknowledge := TRUE;
-		THIS^.ThrowWhen(THIS^.inoIoData.ResultData.ResultCode=0 OR THIS^.inoIoData.ResultData.ResultLength=0);
+		//THIS^.ThrowWhen(THIS^.inoIoData.ResultData.ResultCode=0 OR THIS^.inoIoData.ResultData.ResultLength=0);
 		THIS^.DoneWhen(TRUE);
 		_progress := 0;
 	END_IF
-	
+	THIS^.ThrowWhen(THIS^.inoIoData.AcquisitionStatus.MissedAcquisition );
+	THIS^.ThrowWhen(THIS^.inoIoData.ResultsStatus.ErrorDetected);
+
 	CallTimers(TRUE);
 	
 	THIS^.ThrowWhen(_errorTimer.Q);
