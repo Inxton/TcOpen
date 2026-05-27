@@ -145,7 +145,7 @@ IF (seq.Step(inStepID := 120,
         .Inspect(Components.DmcReader)
         .UpdateComprehensiveResult(Data.OverallResult)
         .OnFail()
-        .RetryThenTerminate(110);
+        .RetryThenTerminate(120);
     //--------------------------------------------------------			
 END_IF;
 
@@ -172,7 +172,7 @@ IF (seq.Step(inStepID := 201,
     inStepDescription := 'INSPECT BOLT PRESENCE - ASK WHAT TO DO WITH INSTRUCTION')) THEN
     //--------------------------------------------------------	
     IF seq.IsFreshState THEN
-        SetupData();
+        //SetupData();
     END_IF
 
     Data.BoltPresenceInspector
@@ -181,7 +181,7 @@ IF (seq.Step(inStepID := 201,
         .UpdateComprehensiveResult(Data.OverallResult)
         .Instruct('Something is wrong')
         .OnFail()
-        .Dialog(seq.CurrentStep.ID + 1);
+        .Dialog(seq.CurrentStep.ID );
     //--------------------------------------------------------			
 END_IF;
 
@@ -282,9 +282,9 @@ IF (seq.Step(inStepID := 250,
     inEnabled := TRUE,
     inStepDescription := 'INSPECT BOLT PRESENCE - ASK WHAT TO DO WITH EXTERNAL CLOSE')) THEN
     //--------------------------------------------------------	
-    IF seq.IsFreshState THEN
-        SetupData();
-    END_IF
+//    IF seq.IsFreshState THEN
+//        SetupData();
+//    END_IF
 
     Data.BoltPresenceInspector
         .WithCoordinator(seq)
@@ -299,9 +299,9 @@ IF (seq.Step(inStepID := 300,
     inEnabled := TRUE,
     inStepDescription := 'INSPECT DIMENSIONS - WITH NORMALIZE RETRIES (lower `number of allowed retries` for this call of inspection group)')) THEN
     //--------------------------------------------------------
-    IF seq.IsFreshState THEN
-        SetupData();
-    END_IF
+//    IF seq.IsFreshState THEN
+//        SetupData();
+//    END_IF
 
     GroupInspection
         .WithCoordinator(seq)
@@ -314,21 +314,35 @@ IF (seq.Step(inStepID := 300,
         .Inspect(Data.Dimensions.DimZ_Inspector.Inspect(Components.DimZ_Sensor))
         .UpdateComprehensiveResult(Data.OverallResult)
         .OnFail()
-        .Dialog(300);
+        .Retry(300);
     //--------------------------------------------------------			
 END_IF;
 
-IF (seq.Step(inStepID := 309,
+IF (seq.Step(inStepID := 308,
     inEnabled := TRUE,
     inStepDescription := 'INSPECT MULTI DIMENSIONS - EXTERNAL CLOSE')) THEN
     //--------------------------------------------------------
     IF seq.IsFreshState THEN
         SetupData();
     END_IF
+ 	 seq.CompleteStep();
+    //--------------------------------------------------------			
+END_IF
+IF (seq.Step(inStepID := 309,
+    inEnabled := TRUE,
+    inStepDescription := 'INSPECT MULTI DIMENSIONS - EXTERNAL CLOSE')) THEN
+    //--------------------------------------------------------
+//    IF seq.IsFreshState THEN
+//        SetupData();
+//    END_IF
+
 
     GroupInspection
         .WithCoordinator(seq)
         .Act();
+		
+
+
 
     GroupInspection.Inspect(Data.Dimensions.DimX_Inspector.Inspect(Components.DimX_Sensor));
     GroupInspection.Inspect(Data.Dimensions.DimY_Inspector.WithCoordinator(seq).Inspect(Components.DimY_Sensor));
