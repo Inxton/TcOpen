@@ -15,7 +15,6 @@ VAR
     _tierAct                  : TcoCore.TcoTier(THIS^);
     _normalizedAllowedRetries : UINT;
 	
-	
 END_VAR
 
 VAR CONSTANT
@@ -95,12 +94,15 @@ END_VAR
       </Get>
     </Property>
     <Method Name="Dialog" Id="{74a2f6ff-2257-0b1f-0c44-f3b62d0819e8}" FolderPath="OnFail\">
-      <Declaration><![CDATA[METHOD Dialog : BOOL
+      <Declaration><![CDATA[{attribute 'hide'}
+{attribute 'obsolete' := 'You should access `Evaluate` method via `OnFail()` method.'}
+METHOD Dialog : BOOL
 VAR_INPUT
 	inRetryStep : INT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF(THIS^.Done) THEN
+        <ST><![CDATA[
+IF(THIS^.Done) THEN
 	_tcoInspectorDialogue.OverInspected := THIS^.OverInspected;		
 	IF(THIS^._currentRunResult.Result = eOverallResult.Failed) THEN
 		THIS^._tcoInspectorDialogue.Invoke();
@@ -130,7 +132,9 @@ END_IF;
       </Implementation>
     </Method>
     <Method Name="DialogWithExternalClose" Id="{672e39a2-df24-00dc-01ed-378f101e1a1c}" FolderPath="OnFail\">
-      <Declaration><![CDATA[METHOD DialogWithExternalClose : BOOL
+      <Declaration><![CDATA[{attribute 'hide'}
+{attribute 'obsolete' := 'You should access `Evaluate` method via `OnFail()` method.'}
+METHOD DialogWithExternalClose : BOOL
 VAR_INPUT
 	inRetryStep : INT;
 	inRetrySignal:BOOL;
@@ -138,14 +142,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[//IF THIS^._tcoInspectorDialogue.State=eTaskState.Ready THEN
-//	THIS^._tcoInspectorDialogue.DialogRetry 	    :=  FALSE;	
-//	THIS^._tcoInspectorDialogue.DialogTerminate  	:=  FALSE;	
-//	THIS^._tcoInspectorDialogue.DialogOverride   	:=  FALSE;
-//END_IF
-
-
-
+        <ST><![CDATA[
 
 _tcoInspectorDialogue.HandleExternalSignals(inRetrySignal:=inRetrySignal,inTerminateSignal:=inTerminateSignal);
 
@@ -315,6 +312,10 @@ END_VAR
       <Implementation>
         <ST><![CDATA[OnEnterInspection();
 
+IF(_coordinator.IsFreshState) THEN
+	Inspector.Restore();
+END_IF;
+
 IF(_normalizedAllowedRetries <> 0 
 AND _normalizedAllowedRetries <> MAX_NORMALIZED_RETRIES) THEN
 	Inspector.CommonData.NumberOfAllowedRetries := _normalizedAllowedRetries;
@@ -328,11 +329,12 @@ IF(Inspector.OverInspected) THEN
 END_IF;
 
 IF (Inspector.Done) THEN
-    Inspector.UpdateComprehensiveResult(_currentRunResult);							
+    Inspector.UpdateComprehensiveResult(_currentRunResult);						
 ELSE
 	_done := FALSE;	
 	_done_PV := FALSE;	
 END_IF
+
 
 
 IF(_inspectionIndex < LAST_INSPECTION_INDEX)THEN
@@ -376,7 +378,10 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[//THIS^._tcoInspectorDialogue.SetInspector(THIS^);
+        <ST><![CDATA[IF(_coordinator = 0) THEN
+	Messenger.Programming('Missing `coordinator`. You will need to call inspector `WithCoordinator` method.');			
+END_IF
+
 OnFail := THIS^;
 
 ]]></ST>
@@ -587,6 +592,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[_WithCoordinator(inCoordinator);
+
 WithCoordinator := THIS^;]]></ST>
       </Implementation>
     </Method>

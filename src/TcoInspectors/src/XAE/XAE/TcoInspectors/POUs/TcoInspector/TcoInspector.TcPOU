@@ -41,8 +41,7 @@ END_VAR
         <ST><![CDATA[_coordinator := inCoordinator;
 
 IF(_coordinator.IsFreshState) THEN
-	_inspectorTask.Restore();
-	_tcoInspectorDialogue.Restore();
+	Restore();
 END_IF
 
 _WithCoordinator := THIS^;]]></ST>
@@ -136,6 +135,8 @@ END_VAR
 		</summary>			
 	</docu>	
 ~*)
+{attribute 'hide'}
+{attribute 'obsolete' := 'You should access `Evaluate` method via `OnFail()` method.'}
 METHOD PUBLIC Dialog : BOOL
 VAR_INPUT
 	inRetryStep : INT;
@@ -155,6 +156,8 @@ END_VAR]]></Declaration>
 		</summary>			
 	</docu>	
 ~*)
+{attribute 'hide'}
+{attribute 'obsolete' := 'You should access `Evaluate` method via `OnFail()` method.'}
 METHOD PUBLIC DialogWithExternalClose : BOOL
 VAR_INPUT
 	inRetryStep : INT;
@@ -459,6 +462,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[_tcoInspectorDialogue.Restore();
+_inspectorTask.Restore();
+	
 ]]></ST>
       </Implementation>
     </Method>

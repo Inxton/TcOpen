@@ -402,8 +402,8 @@ _readTask.Restore();
 
 Tc2_System.MEMSET(destAddr:= ADR(THIS^._results.Data) , fillByte:= 0 , n:= SIZEOF(THIS^._results.Data));
 
-THIS^.inoIoData.AcquisitionControl.TriggerEnable := FALSE;
-THIS^.inoIoData.AcquisitionControl.Trigger := FALSE;
+//THIS^.inoIoData.AcquisitionControl.TriggerEnable := FALSE;
+//THIS^.inoIoData.AcquisitionControl.Trigger := FALSE;
 
 THIS^._results.Code := 0;
 THIS^._results.Extended := 0;
