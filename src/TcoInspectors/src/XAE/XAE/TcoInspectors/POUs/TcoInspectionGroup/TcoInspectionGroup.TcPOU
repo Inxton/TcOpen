@@ -528,6 +528,10 @@ _refOverallResult REF= inoResult;
 IF(_tierUpdateOverall.IsNewTier()) THEN	
 	_originalOverallResult := inoResult;
 END_IF
+IF _coordinator.IsFreshState THEN
+	_originalOverallResult := inoResult;
+END_IF
+
 
 		
 CASE _currentRunResult.Result OF
@@ -536,10 +540,10 @@ CASE _currentRunResult.Result OF
 	eOverallResult.Passed:
 		;
 	eOverallResult.Failed:
-		 
+		 _refOverallResult:=_originalOverallResult;
 		_refOverallResult.Result		:= eOverallResult.Failed;
-		_refOverallResult.Failures		:= _currentRunResult.Failures;
-		_refOverallResult.ErrorCodes	:= _currentRunResult.ErrorCodes;
+		_refOverallResult.Failures		:= concat(concat(_refOverallResult.Failures,';'), _currentRunResult.Failures);
+		_refOverallResult.ErrorCodes	:= concat(concat(_refOverallResult.ErrorCodes,';'),_currentRunResult.ErrorCodes);
 END_CASE
 
 

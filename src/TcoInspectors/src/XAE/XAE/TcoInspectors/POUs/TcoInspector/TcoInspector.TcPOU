@@ -637,6 +637,9 @@ _refOverallResult REF= inoResult;
 IF (_tierUpdateOverall.IsNewTier()) THEN
     _originalOverallResult := inoResult;
 END_IF
+IF _coordinator.IsFreshState THEN
+	_originalOverallResult := inoResult;
+END_IF
 
 IF (NOT __ISVALIDREF(_inspectorTask.InspectionData)) THEN
     inoResult.Result := eOverallResult.NoAction;
@@ -651,11 +654,13 @@ CASE _inspectorTask.InspectionData.Result OF
     eInspectorResult.Passed:
         ;
     eInspectorResult.Failed:
-        inoResult.Result := eOverallResult.Failed;
-        UpdateDescriptions(inoResult);
+        _refOverallResult:=_originalOverallResult;
+		_refOverallResult.Result		:= eOverallResult.Failed;
+        UpdateDescriptions(_originalOverallResult,inoResult);
     eInspectorResult.Inconclusive:
-        inoResult.Result := eOverallResult.Failed;
-        UpdateDescriptions(inoResult);
+	    _refOverallResult:=_originalOverallResult;
+        _refOverallResult.Result := eOverallResult.Failed;
+        UpdateDescriptions(_originalOverallResult,inoResult);
     eInspectorResult.Excluded:
         ;
     eInspectorResult.Bypassed:
@@ -672,6 +677,9 @@ END_CASE]]></ST>
 	</docu>	
 ~*)
 METHOD PROTECTED UpdateDescriptions
+VAR_INPUT
+	inOriginalResult:TcoComprehensiveResult;;
+END_VAR
 VAR_IN_OUT
 	inoResult : TcoComprehensiveResult;
 END_VAR
@@ -679,13 +687,13 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF(_inspectorTask.OnDoneFlag) THEN
 	inoResult.Failures := THIS^.Context.Environment.Messaging.StringBuilder.Clear()
-				.Append(inoResult.Failures)				
+				.Append(inOriginalResult.Failures)				
 				.Append(_inspectorTask.InspectionData.FailureDescription)
 				.Append(';')
 				.ToString();
 	
 	inoResult.ErrorCodes := THIS^.Context.Environment.Messaging.StringBuilder.Clear()
-				.Append(inoResult.ErrorCodes)				
+				.Append(inOriginalResult.ErrorCodes)				
 				.Append(_inspectorTask.InspectionData.ErrorCode)
 				.Append(';')
 				.ToString();	
