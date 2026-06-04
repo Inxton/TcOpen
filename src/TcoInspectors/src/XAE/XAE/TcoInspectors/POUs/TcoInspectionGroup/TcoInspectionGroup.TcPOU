@@ -562,6 +562,9 @@ END_IF;
 	</docu>	
 ~*)
 METHOD PROTECTED UpdateDescriptions
+VAR_INPUT
+	inOriginalResult:TcoComprehensiveResult;;
+END_VAR
 VAR_IN_OUT
 	inoResult : TcoComprehensiveResult;
 END_VAR
@@ -572,13 +575,13 @@ END_VAR
 END_IF
 IF(_done AND NOT _done_PV) THEN
 	inoResult.Failures := THIS^.Context.Environment.Messaging.StringBuilder.Clear()
-				.Append(inoResult.Failures)				
+				.Append(inOriginalResult.Failures)						
 				.Append(CommonData.FailureDescription)
 				.Append(';')
 				.ToString();
 	
 	inoResult.ErrorCodes := THIS^.Context.Environment.Messaging.StringBuilder.Clear()
-				.Append(inoResult.ErrorCodes)				
+				.Append(inOriginalResult.ErrorCodes)						
 				.Append(CommonData.ErrorCode)
 				.Append(';')
 				.ToString();			
