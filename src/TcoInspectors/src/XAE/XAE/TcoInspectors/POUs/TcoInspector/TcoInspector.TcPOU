@@ -637,9 +637,7 @@ _refOverallResult REF= inoResult;
 IF (_tierUpdateOverall.IsNewTier()) THEN
     _originalOverallResult := inoResult;
 END_IF
-IF _coordinator.IsFreshState THEN
-	_originalOverallResult := inoResult;
-END_IF
+
 
 IF (NOT __ISVALIDREF(_inspectorTask.InspectionData)) THEN
     inoResult.Result := eOverallResult.NoAction;
