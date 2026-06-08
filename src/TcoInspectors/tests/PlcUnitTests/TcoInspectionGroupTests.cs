@@ -45,7 +45,14 @@ namespace TcoInspectorsUnitTests
 
             container.ExecuteProbeRun(1, 0);
             InspectorContainer._overallResult.Result.Synchron = 0;
-            container._sut._overallResult.Result.Synchron = 0;            
+            container._sut._overallResult.Result.Synchron = 0;
+
+            InspectorContainer._overallResult.Failures.Synchron = "";
+            InspectorContainer._overallResult.ErrorCodes.Synchron = "";
+            InspectorContainer._sut._overallResult.Failures.Synchron = "";
+            InspectorContainer._sut._overallResult.ErrorCodes.Synchron = "";
+
+
         }
 
 
@@ -309,7 +316,7 @@ namespace TcoInspectorsUnitTests
             var initialState = InspectorContainer._coordinator._state.Synchron;
             var expectedState = (short)(initialState - 10);
             InspectorContainer._retryState.Synchron = expectedState;
-
+            Assert.AreEqual("", InspectorContainer._sut._overallResult.Failures.Synchron);
             InspectorContainer.ExecuteProbeRun((int)eInspectionGroupTests.UpdateComprehensiveResultDescriptions, 
                 () => {
                     Task.Delay(failTime).Wait();
