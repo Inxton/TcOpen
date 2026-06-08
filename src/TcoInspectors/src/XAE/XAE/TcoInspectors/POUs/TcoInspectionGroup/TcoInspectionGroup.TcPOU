@@ -542,8 +542,17 @@ CASE _currentRunResult.Result OF
 	eOverallResult.Failed:
 		 _refOverallResult:=_originalOverallResult;
 		_refOverallResult.Result		:= eOverallResult.Failed;
-		_refOverallResult.Failures		:= concat(concat(_refOverallResult.Failures,';'), _currentRunResult.Failures);
-		_refOverallResult.ErrorCodes	:= concat(concat(_refOverallResult.ErrorCodes,';'),_currentRunResult.ErrorCodes);
+		 IF  _refOverallResult.Failures<>'' THEN
+			_refOverallResult.Failures		:= concat(concat(_refOverallResult.Failures,';'), _currentRunResult.Failures);
+		 ELSE
+			_refOverallResult.Failures		:=  _currentRunResult.Failures;
+		END_IF;
+		
+		IF  _refOverallResult.ErrorCodes<>'' THEN
+			_refOverallResult.ErrorCodes	:= concat(concat(_refOverallResult.ErrorCodes,';'),_currentRunResult.ErrorCodes);
+		ELSE
+			_refOverallResult.ErrorCodes	:= _currentRunResult.ErrorCodes;
+		END_IF;
 END_CASE
 
 
