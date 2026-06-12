@@ -540,24 +540,18 @@ CASE _currentRunResult.Result OF
 	eOverallResult.Passed:
 		;
 	eOverallResult.Failed:
-		 _refOverallResult:=_originalOverallResult;
+	
 		_refOverallResult.Result		:= eOverallResult.Failed;
-		 IF  _refOverallResult.Failures<>'' THEN
-			_refOverallResult.Failures		:= concat(concat(_originalOverallResult.Failures,';'), _currentRunResult.Failures);
-		 ELSE
-			_refOverallResult.Failures		:=  _currentRunResult.Failures;
-		END_IF;
-		
-		IF  _refOverallResult.ErrorCodes<>'' THEN
-			_refOverallResult.ErrorCodes	:= concat(concat(_originalOverallResult.ErrorCodes,';'),_currentRunResult.ErrorCodes);
-		ELSE
-			_refOverallResult.ErrorCodes	:= _currentRunResult.ErrorCodes;
-		END_IF;
+		_refOverallResult.Failures		:= _currentRunResult.Failures;
+		_refOverallResult.ErrorCodes	:= _currentRunResult.ErrorCodes;
 END_CASE
 
 
 IF(_done) THEN
+	_refOverallResult.Failures :=concat( _originalOverallResult.Failures,_refOverallResult.Failures);
+	_refOverallResult.ErrorCodes :=concat( _originalOverallResult.ErrorCodes,_refOverallResult.ErrorCodes);
 	_overallResult := _refOverallResult;
+	
 END_IF;	
 ]]></ST>
       </Implementation>
@@ -571,9 +565,7 @@ END_IF;
 	</docu>	
 ~*)
 METHOD PROTECTED UpdateDescriptions
-VAR_INPUT
-	inOriginalResult:TcoComprehensiveResult;;
-END_VAR
+
 VAR_IN_OUT
 	inoResult : TcoComprehensiveResult;
 END_VAR
@@ -584,13 +576,13 @@ END_VAR
 END_IF
 IF(_done AND NOT _done_PV) THEN
 	inoResult.Failures := THIS^.Context.Environment.Messaging.StringBuilder.Clear()
-				.Append(inOriginalResult.Failures)						
+				.Append(inoResult.Failures)						
 				.Append(CommonData.FailureDescription)
 				.Append(';')
 				.ToString();
 	
 	inoResult.ErrorCodes := THIS^.Context.Environment.Messaging.StringBuilder.Clear()
-				.Append(inOriginalResult.ErrorCodes)						
+				.Append(inoResult.ErrorCodes)						
 				.Append(CommonData.ErrorCode)
 				.Append(';')
 				.ToString();			

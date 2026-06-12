@@ -652,18 +652,20 @@ CASE _inspectorTask.InspectionData.Result OF
     eInspectorResult.Passed:
         ;
     eInspectorResult.Failed:
-        _refOverallResult:=_originalOverallResult;
 		_refOverallResult.Result		:= eOverallResult.Failed;
-        UpdateDescriptions(_originalOverallResult,inoResult);
+        UpdateDescriptions(inoResult);
     eInspectorResult.Inconclusive:
-	    _refOverallResult:=_originalOverallResult;
         _refOverallResult.Result := eOverallResult.Failed;
-        UpdateDescriptions(_originalOverallResult,inoResult);
+        UpdateDescriptions(inoResult);
     eInspectorResult.Excluded:
         ;
     eInspectorResult.Bypassed:
         ;
-END_CASE]]></ST>
+END_CASE
+
+
+
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="UpdateDescriptions" Id="{5bf8bf48-85f6-0716-2800-f1811bbbe4d3}">
@@ -675,9 +677,7 @@ END_CASE]]></ST>
 	</docu>	
 ~*)
 METHOD PROTECTED UpdateDescriptions
-VAR_INPUT
-	inOriginalResult:TcoComprehensiveResult;;
-END_VAR
+
 VAR_IN_OUT
 	inoResult : TcoComprehensiveResult;
 END_VAR
@@ -685,13 +685,13 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF(_inspectorTask.OnDoneFlag) THEN
 	inoResult.Failures := THIS^.Context.Environment.Messaging.StringBuilder.Clear()
-				.Append(inOriginalResult.Failures)				
+				.Append(inoResult.Failures)				
 				.Append(_inspectorTask.InspectionData.FailureDescription)
 				.Append(';')
 				.ToString();
 	
 	inoResult.ErrorCodes := THIS^.Context.Environment.Messaging.StringBuilder.Clear()
-				.Append(inOriginalResult.ErrorCodes)				
+				.Append(inoResult.ErrorCodes)				
 				.Append(_inspectorTask.InspectionData.ErrorCode)
 				.Append(';')
 				.ToString();	
