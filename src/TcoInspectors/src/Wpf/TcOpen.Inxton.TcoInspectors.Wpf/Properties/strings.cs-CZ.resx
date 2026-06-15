@@ -150,4 +150,13 @@
   <data name="Override" xml:space="preserve">
     <value>Přepsat</value>
   </data>
+  <data name="Result" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="Failures" xml:space="preserve">
+    <value>Selhání</value>
+  </data>
+  <data name="ErrorCodes" xml:space="preserve">
+    <value>Chybové kódy</value>
+  </data>
 </root>

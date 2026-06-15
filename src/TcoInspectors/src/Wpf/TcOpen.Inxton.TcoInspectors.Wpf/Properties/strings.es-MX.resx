@@ -150,4 +150,13 @@
   <data name="Override" xml:space="preserve">
     <value>Anular</value>
   </data>
+  <data name="Result" xml:space="preserve">
+    <value>Resultado</value>
+  </data>
+  <data name="Failures" xml:space="preserve">
+    <value>Fallas</value>
+  </data>
+  <data name="ErrorCodes" xml:space="preserve">
+    <value>Códigos de error</value>
+  </data>
 </root>
