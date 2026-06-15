@@ -103,7 +103,7 @@
                             </StackPanel>
 
                         </GroupBox>
-                        <GroupBox Padding="10"   Header="{x:Static p:strings.Positions}" HorizontalAlignment="Stretch"
+                    <GroupBox Padding="10"  IsEnabled="{Binding Component._inServiceMode.Cyclic}"  Header="{x:Static p:strings.Positions}" HorizontalAlignment="Stretch"
                                   Visibility="{Binding Component._config.HidePositionTable.Cyclic, Converter={vortex:BooleanToVisibilityConverter},ConverterParameter=true}" >
                              <Grid >
                                 <Grid.RowDefinitions>
