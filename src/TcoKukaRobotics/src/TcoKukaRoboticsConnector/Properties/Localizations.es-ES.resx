@@ -480,4 +480,136 @@
   <data name="___OUT__" xml:space="preserve">
     <value>OUT</value>
   </data>
+  <data name="____is_OFF__" xml:space="preserve">
+    <value> está apagado</value>
+  </data>
+  <data name="___CutEnableDrives__CUT_ENABLE_DRIVES___" xml:space="preserve">
+    <value>CutEnableDrives [CUT_ENABLE_DRIVES]</value>
+  </data>
+  <data name="___NormalStop__NORMAL_STOP_ACTIVE___" xml:space="preserve">
+    <value>NormalStop [NORMAL_STOP_ACTIVE]</value>
+  </data>
+  <data name="___Data_from_robot__" xml:space="preserve">
+    <value>Datos del robot</value>
+  </data>
+  <data name="___Data_to_robot__" xml:space="preserve">
+    <value>Datos al robot</value>
+  </data>
+  <data name="___Local_emergency_stop_active__" xml:space="preserve">
+    <value>Parada de emergencia local activa</value>
+  </data>
+  <data name="___Local_emergency_stop_OK__" xml:space="preserve">
+    <value>Parada de emergencia local OK</value>
+  </data>
+  <data name="___Reset_all_outputs__" xml:space="preserve">
+    <value>Restablecer todas las salidas</value>
+  </data>
+  <data name="___Robot_in_manual_mode__MoveEnable_is_set_on_entering_manual_mode___" xml:space="preserve">
+    <value>Robot en modo manual. MoveEnable se activa al entrar en modo manual.</value>
+  </data>
+  <data name="___Waiting_for_signal____" xml:space="preserve">
+    <value>Esperando la señal: </value>
+  </data>
+  <data name="___Waiting_for_the_movement_parameters_to_be_mirrored_back___" xml:space="preserve">
+    <value>Esperando el reflejo de los parámetros de movimiento.</value>
+  </data>
+  <data name="___Waiting_for_the_robot_to_confirm_action_number_253__parameters_acknowledged____" xml:space="preserve">
+    <value>Esperando que el robot confirme la acción 253 (parámetros confirmados).</value>
+  </data>
+  <data name="___Waiting_for_the_robot_to_confirm_action_number_254__parameters_sent____" xml:space="preserve">
+    <value>Esperando que el robot confirme la acción 254 (parámetros enviados).</value>
+  </data>
+  <data name="___Waiting_for_the_robot_to_confirm_action_number_255__movement_finished____" xml:space="preserve">
+    <value>Esperando que el robot confirme la acción 255 (movimiento finalizado).</value>
+  </data>
+  <data name="___Start_at_main_finished_successfully___" xml:space="preserve">
+    <value>Inicio en main finalizado correctamente.</value>
+  </data>
+  <data name="___Start_at_main_finished_with_error___" xml:space="preserve">
+    <value>Inicio en main finalizado con error.</value>
+  </data>
+  <data name="___Start_at_main_started___" xml:space="preserve">
+    <value>Inicio en main iniciado.</value>
+  </data>
+  <data name="___Start_at_main_was_aborted___" xml:space="preserve">
+    <value>Inicio en main fue abortado.</value>
+  </data>
+  <data name="___Start_motors_finished_successfully___" xml:space="preserve">
+    <value>Arrancar motores finalizado correctamente.</value>
+  </data>
+  <data name="___Start_motors_was_aborted___" xml:space="preserve">
+    <value>Arrancar motores fue abortado.</value>
+  </data>
+  <data name="___Start_motors__program_and_movements_started___" xml:space="preserve">
+    <value>Arrancar motores, programa y movimientos iniciado.</value>
+  </data>
+  <data name="___Start_motors__program_and_movements_was_aborted___" xml:space="preserve">
+    <value>Arrancar motores, programa y movimientos fue abortado.</value>
+  </data>
+  <data name="___Start_movements_started___" xml:space="preserve">
+    <value>Iniciar movimientos iniciado.</value>
+  </data>
+  <data name="___Start_movements_was_aborted___" xml:space="preserve">
+    <value>Iniciar movimientos fue abortado.</value>
+  </data>
+  <data name="___Start_program_finished_successfully___" xml:space="preserve">
+    <value>Iniciar programa finalizado correctamente.</value>
+  </data>
+  <data name="___Start_program_finished_with_error___" xml:space="preserve">
+    <value>Iniciar programa finalizado con error.</value>
+  </data>
+  <data name="___Start_program_started___" xml:space="preserve">
+    <value>Iniciar programa iniciado.</value>
+  </data>
+  <data name="___Start_program_was_aborted___" xml:space="preserve">
+    <value>Iniciar programa fue abortado.</value>
+  </data>
+  <data name="___Stop_motors_finished_successfully___" xml:space="preserve">
+    <value>Parar motores finalizado correctamente.</value>
+  </data>
+  <data name="___Stop_motors_was_aborted___" xml:space="preserve">
+    <value>Parar motores fue abortado.</value>
+  </data>
+  <data name="___Stop_movements_and_program_finished_successfully___" xml:space="preserve">
+    <value>Detener movimientos y programa finalizado correctamente.</value>
+  </data>
+  <data name="___Stop_movements_and_program_was_aborted___" xml:space="preserve">
+    <value>Detener movimientos y programa fue abortado.</value>
+  </data>
+  <data name="___Stop_movements_finished_successfully___" xml:space="preserve">
+    <value>Detener movimientos finalizado correctamente.</value>
+  </data>
+  <data name="___Stop_movements_finished_with_error___" xml:space="preserve">
+    <value>Detener movimientos finalizado con error.</value>
+  </data>
+  <data name="___Stop_movements_started___" xml:space="preserve">
+    <value>Detener movimientos iniciado.</value>
+  </data>
+  <data name="___Stop_movements_was_aborted___" xml:space="preserve">
+    <value>Detener movimientos fue abortado.</value>
+  </data>
+  <data name="___Stop_program_finished_successfully___" xml:space="preserve">
+    <value>Detener programa finalizado correctamente.</value>
+  </data>
+  <data name="___Stop_program_finished_with_error___" xml:space="preserve">
+    <value>Detener programa finalizado con error.</value>
+  </data>
+  <data name="___Stop_program_started___" xml:space="preserve">
+    <value>Detener programa iniciado.</value>
+  </data>
+  <data name="___Stop_program_was_aborted___" xml:space="preserve">
+    <value>Detener programa fue abortado.</value>
+  </data>
+  <data name="___Reset_all_outputs_finished_successfully___" xml:space="preserve">
+    <value>Restablecer todas las salidas finalizado correctamente.</value>
+  </data>
+  <data name="___Reset_all_outputs_finished_with_error___" xml:space="preserve">
+    <value>Restablecer todas las salidas finalizado con error.</value>
+  </data>
+  <data name="___Reset_all_outputs_started___" xml:space="preserve">
+    <value>Restablecer todas las salidas iniciado.</value>
+  </data>
+  <data name="___Reset_all_outputs_was_aborted___" xml:space="preserve">
+    <value>Restablecer todas las salidas fue abortado.</value>
+  </data>
 </root>

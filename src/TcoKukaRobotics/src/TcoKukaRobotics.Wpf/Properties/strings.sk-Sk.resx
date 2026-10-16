@@ -138,4 +138,13 @@
   <data name="SafetyOk" xml:space="preserve">
     <value>Bezpečnosť Ok</value>
   </data>
+  <data name="LocalEstopNotOk" xml:space="preserve">
+    <value>Lokálne núdzové zastavenie!</value>
+  </data>
+  <data name="DrivesEnableCut" xml:space="preserve">
+    <value>Povolenie pohonov odpojené!</value>
+  </data>
+  <data name="NormalStopActive" xml:space="preserve">
+    <value>Normálny stop aktívny</value>
+  </data>
 </root>

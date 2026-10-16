@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoKukaKssTask_v_9_3_x" Id="{555e768d-3834-44dd-a615-ae7d45dd2051}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC ABSTRACT TcoKukaKssTask_v_9_3_x EXTENDS TcoCore.TcoTask
+VAR_IN_OUT
+    inoConfig 	: TcoKukaKss_Config_v_9_3_x;
+	inoControl 	: TcoKukaKss_Control_v_9_3_x;
+	inoStatus 	: TcoKukaKss_Status_v_9_3_x;
+END_VAR
+VAR
+	_errorMessage:TcoCore.TcoMessenger(THIS^);
+    {attribute 'hide'}
+	_progress : INT := 0;
+    {attribute 'hide'}
+	_infoTimer :  TON;
+    {attribute 'hide'}
+	_errorTimer :  TON;
+	{attribute 'hide'}
+	_timer :  TON;
+    {attribute 'hide'}
+	_varInfo : __SYSTEM.VAR_INFO;
+    {attribute 'hide'}
+	_sb : TcoCore.StringBuilder;
+	{attribute 'hide'}
+	_blink:TcoUtilities.TcoBlinker(THIS^);
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="CallTimers" Id="{e2ca7a90-6401-487c-80c7-8998d1a7eab7}">
+      <Declaration><![CDATA[METHOD CallTimers
+VAR_INPUT
+	inValue : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF  __ISVALIDREF(inoConfig) AND THIS^.inoConfig.ErrorTime <> T#0S OR NOT inValue THEN
+_errorTimer(IN := inValue, PT := THIS^.inoConfig.ErrorTime);
+END_IF;
+IF  __ISVALIDREF(inoConfig) AND THIS^.inoConfig.InfoTime <>T#0S OR NOT inValue THEN
+_infoTimer(IN := inValue, PT := THIS^.inoConfig.InfoTime);
+END_IF;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="CheckReferences" Id="{7f6f0536-2ba5-4f59-8526-3c33db8dc668}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Checks the references to the config, control and status structures. Returns TRUE when all of them are valid.
+		</summary>
+	</docu>
+~*)
+METHOD PROTECTED CheckReferences : BOOL]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT __ISVALIDREF(inoControl) THEN
+	_varInfo :=__VARINFO(inoControl);
+	Messenger.Programming(_sb.Clear().Append('<#Invalid reference: #>').Append(_varInfo.Symbol).ToString()).Pin();
+ELSIF NOT __ISVALIDREF(inoConfig) THEN
+	_varInfo :=__VARINFO(inoConfig);
+	Messenger.Programming(_sb.Clear().Append('<#Invalid reference: #>').Append(_varInfo.Symbol).ToString()).Pin();
+ELSIF NOT __ISVALIDREF(inoStatus) THEN
+	_varInfo :=__VARINFO(inoStatus);
+	Messenger.Programming(_sb.Clear().Append('<#Invalid reference: #>').Append(_varInfo.Symbol).ToString()).Pin();
+ELSE
+	CheckReferences := TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Restore" Id="{b5ed4d01-8178-49ef-8b4a-6a73741b8c6a}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Restores this instance to the Ready state. Can be called explicitly or from within one of the restore mechanisms.
+			<para>
+				See also <see cref="PlcDocu.TcoCore.TcoTask.AutoRestorable()"/>
+			</para>
+		</summary>
+	</docu>
+~*)
+METHOD Restore : ITcoRestorable]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.Restore();
+_progress := 0;
+_timer(In:=FALSE);
+CallTimers(FALSE);
+Messenger.UnPin();
+_errorMessage.UnPin();]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="eTcoKukaKssTests" Id="{5de07057-89f8-461b-842e-621cae46274d}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE eTcoKukaKssTests :
+(
+	None := 0,
+	Restore := 10,
+	Run := 20,
+	StartMotors := 30,
+	StartMotorsAndProgram := 40,
+	StartProgram := 50,
+	StartAtMain := 60,
+	StartMovements := 70,
+	StopMotors := 80,
+	StopMovements := 90,
+	ResetAllOutputs := 100
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

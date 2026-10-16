@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoKukaKss_ResetAllOutputsTask_v_9_3_x" Id="{588c0eab-9106-4b69-9d83-fd9df8b838e1}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK TcoKukaKss_ResetAllOutputsTask_v_9_3_x EXTENDS TcoKukaKssTask_v_9_3_x
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF Execute() THEN
+	_blink(inOnTime:=T#500MS,inOffTime:=T#500MS);
+
+	IF _progress = 0 THEN
+		IF CheckReferences() THEN
+			_progress := _progress + 1;
+		END_IF
+	END_IF
+
+	IF _progress = 1 THEN
+		// AX step 0: zero every writable output field
+		inoControl.ExternalStart := FALSE;
+		inoControl.MoveEnable := FALSE;
+		inoControl.ErrorConfirmation := FALSE;
+		inoControl.DrivesOff := FALSE;
+		inoControl.DrivesOn := FALSE;
+		inoControl.ActivateInterface := FALSE;
+		inoControl.StartAtMain := FALSE;
+		inoControl.MasterMode := 0;
+		inoControl.Tool_1_Retract := FALSE;
+		inoControl.Tool_1_Extend := FALSE;
+		inoControl.Tool_2_Retract := FALSE;
+		inoControl.Tool_2_Extend := FALSE;
+		inoControl.Tool_3_Retract := FALSE;
+		inoControl.Tool_3_Extend := FALSE;
+		inoControl.Tool_4_Retract := FALSE;
+		inoControl.Tool_4_Extend := FALSE;
+		inoControl.Zone := 0;
+		inoControl.InPosition := 0;
+		inoControl.ActionNo := 0;
+		inoControl.GlobalSpeed := 0;
+		inoControl.ToolNo := 0;
+		inoControl.WorkobjectNo := 0;
+		inoControl.PointNo := 0;
+		inoControl.UserSpecSpeed1 := 0;
+		inoControl.UserSpecSpeed2 := 0;
+		inoControl.Coordinates.X := 0;
+		inoControl.Coordinates.Y := 0;
+		inoControl.Coordinates.Z := 0;
+		inoControl.Coordinates.Rx := 0;
+		inoControl.Coordinates.Ry := 0;
+		inoControl.Coordinates.Rz := 0;
+		_progress := _progress + 1;
+	END_IF
+
+	IF _progress = 2 THEN
+		DoneWhen(TRUE);
+	END_IF
+
+	CallTimers(TRUE);
+	THIS^.ThrowWhen(_errorTimer.Q);
+END_IF
+
+IF THIS^.Error AND NOT _errorMessage.Pinned THEN
+	THIS^.Restore();
+END_IF]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{4281ba3a-5bb2-4373-83a8-d0df327ef80c}">
+      <Declaration><![CDATA[METHOD PUBLIC FB_init : BOOL
+VAR_INPUT
+    bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+    bInCopyCode : BOOL; // if TRUE, the instance afterwards gets moved into the copy code (online change)
+    ParentObject : ITcoObject;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnAbort" Id="{66072da2-a9ad-4987-9967-108c57c2274a}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Executes when task is aborted.
+		</summary>			
+	</docu>	
+~*)
+METHOD PROTECTED OnAbort
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF __ISVALIDREF(inoStatus) THEN THIS^.inoStatus.ActionDescription := '<#Reset all outputs was aborted.#>'; END_IF;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnDone" Id="{3c7ef89a-63a0-4772-89d1-989d095664eb}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Executes when task reaches the ```Done``` state .
+		</summary>			
+	</docu>	
+~*)
+METHOD PROTECTED OnDone
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF __ISVALIDREF(inoStatus) THEN THIS^.inoStatus.ActionDescription := '<#Reset all outputs finished successfully.#>'; END_IF;
+_progress := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnError" Id="{47392796-b3b0-4918-a7a3-55775fc6e0d6}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Executes when task reaches the ```Error``` state.
+		</summary>			
+	</docu>	
+~*)
+METHOD PROTECTED OnError
+VAR
+	description: STRING;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[description := '<#Reset all outputs finished with error.#>';
+IF __ISVALIDREF(inoStatus) THEN THIS^.inoStatus.ActionDescription := description; END_IF;
+THIS^._errorMessage.Error(_sb.Clear().Append(description).Append(' To restore acknowledge this alarm.').ToString()).Pin();
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnStart" Id="{8b2976ff-7222-4589-aa0b-8060956c6658}">
+      <Declaration><![CDATA[METHOD PROTECTED OnStart
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF __ISVALIDREF(inoStatus) THEN THIS^.inoStatus.ActionDescription := '<#Reset all outputs started.#>'; END_IF;
+CallTimers(FALSE);
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Restore" Id="{75cae107-d6b9-49a3-a59a-b8c9fba3f632}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Restores this instance to the Ready state. Can be called explicitly or from within one of the restore mechanisms.
+			<para>
+				See also <see cref="PlcDocu.TcoCore.TcoTask.AutoRestorable()"/>
+			</para>
+		</summary>
+	</docu>
+~*)
+METHOD Restore : ITcoRestorable]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.Restore();]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

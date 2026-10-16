@@ -4,6 +4,7 @@
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
     _tcoTestContext : TcoTestContext;
+    _kssTestContext : TcoKukaKssTestContext;
 
     _wpfContext : WpfContext;
     _wpfContextCall : BOOL := FALSE;
@@ -11,6 +12,7 @@ VAR
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[_tcoTestContext.ProbeRun();
+_kssTestContext.ProbeRun();
 
 
 IF _wpfContextCall THEN

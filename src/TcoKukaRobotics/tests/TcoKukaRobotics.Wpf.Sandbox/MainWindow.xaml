@@ -44,6 +44,15 @@
                 </StackPanel>
             </TabItem>
 
+            <TabItem Header="Robot KSS 9.3">
+                <ScrollViewer>
+                    <StackPanel>
+                        <vortex:RenderableContentControl DataContext="{Binding MAIN._wpfContext._robot3}" PresentationType="Service"/>
+                        <vortex:RenderableContentControl DataContext="{Binding MAIN._wpfContext._robot4}" PresentationType="Service"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
             <TabItem Header="Diagnostic">
                 <vortex:RenderableContentControl DataContext="{Binding MAIN._wpfContext }" PresentationType="Diagnostics"/>
 

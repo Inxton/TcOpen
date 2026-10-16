@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoKukaKss_StartMotorsTask_v_9_3_x" Id="{77930122-61ed-4bf3-8049-8d529be86837}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK TcoKukaKss_StartMotorsTask_v_9_3_x EXTENDS TcoKukaKssTask_v_9_3_x
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF Execute() THEN
+	_blink(inOnTime:=T#500MS,inOffTime:=T#500MS);
+
+	IF _progress = 0 THEN
+		IF CheckReferences() THEN
+			_progress := _progress + 1;
+		END_IF
+	END_IF
+
+	IF _progress = 1 THEN
+		// AX step 0: waiting for 'InterfaceActivated'
+		inoControl.ActivateInterface := TRUE;
+		_varInfo :=__VARINFO(inoStatus.State.InterfaceActivated);
+		THIS^.Messenger.OnCondition(_infoTimer.Q AND NOT inoStatus.State.InterfaceActivated).Warning(_sb.Clear().Append('<#Waiting for signal: #>').Append(_varInfo.Symbol).ToString());
+		IF inoStatus.State.InterfaceActivated THEN
+			_progress := _progress + 1;
+		END_IF
+	END_IF
+
+	IF _progress = 2 THEN
+		// AX step 1: enable, try to acknowledge errors, waiting for 'CutEnableDrives'
+		inoControl.MoveEnable := TRUE;
+		inoControl.DrivesOff := TRUE;
+		inoControl.ActionNo := 255;
+		inoControl.ErrorConfirmation := inoStatus.State.StopMess AND NOT _blink.outQ;
+		_varInfo :=__VARINFO(inoStatus.State.CutEnableDrives);
+		THIS^.Messenger.OnCondition(_infoTimer.Q AND NOT inoStatus.State.CutEnableDrives).Warning(_sb.Clear().Append('<#Waiting for signal: #>').Append(_varInfo.Symbol).ToString());
+		IF inoStatus.State.CutEnableDrives THEN
+			_progress := _progress + 1;
+		END_IF
+	END_IF
+
+	IF _progress = 3 THEN
+		// AX step 2: waiting for 'AlarmStopActive'
+		_varInfo :=__VARINFO(inoStatus.State.AlarmStopActive);
+		THIS^.Messenger.OnCondition(_infoTimer.Q AND NOT inoStatus.State.AlarmStopActive).Warning(_sb.Clear().Append('<#Waiting for signal: #>').Append(_varInfo.Symbol).ToString());
+		IF inoStatus.State.AlarmStopActive THEN
+			_progress := _progress + 1;
+		END_IF
+	END_IF
+
+	IF _progress = 4 THEN
+		// AX step 3: drives on, waiting for 'DrivesReady'
+		inoControl.DrivesOff := TRUE;
+		IF inoStatus.State.CutEnableDrives THEN
+			inoControl.DrivesOn := _blink.outQ;
+		END_IF
+		inoControl.ErrorConfirmation := inoStatus.State.StopMess AND NOT _blink.outQ;
+		_varInfo :=__VARINFO(inoStatus.State.DrivesReady);
+		THIS^.Messenger.OnCondition(_infoTimer.Q AND NOT inoStatus.State.DrivesReady).Warning(_sb.Clear().Append('<#Waiting for signal: #>').Append(_varInfo.Symbol).ToString());
+		IF inoStatus.State.DrivesReady THEN
+			inoControl.DrivesOn := FALSE;
+			_progress := _progress + 1;
+		END_IF
+	END_IF
+
+	IF _progress = 5 THEN
+		DoneWhen(TRUE);
+	END_IF
+
+	CallTimers(TRUE);
+	THIS^.ThrowWhen(_errorTimer.Q);
+END_IF
+
+IF THIS^.Error AND NOT _errorMessage.Pinned THEN
+	THIS^.Restore();
+END_IF]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{6bc066f8-8c22-468f-b78e-cbef0c83fadc}">
+      <Declaration><![CDATA[METHOD PUBLIC FB_init : BOOL
+VAR_INPUT
+    bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+    bInCopyCode : BOOL; // if TRUE, the instance afterwards gets moved into the copy code (online change)
+    ParentObject : ITcoObject;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnAbort" Id="{6e1ec55a-4083-434a-b970-aae4fe3c520d}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Executes when task is aborted.
+		</summary>			
+	</docu>	
+~*)
+METHOD PROTECTED OnAbort
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF __ISVALIDREF(inoStatus) THEN THIS^.inoStatus.ActionDescription := '<#Start motors was aborted.#>'; END_IF;
+IF __ISVALIDREF(inoControl) THEN
+	inoControl.DrivesOn := FALSE;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnDone" Id="{935f6cbe-e17a-49c3-991d-4f4688b12d24}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Executes when task reaches the ```Done``` state .
+		</summary>			
+	</docu>	
+~*)
+METHOD PROTECTED OnDone
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF __ISVALIDREF(inoStatus) THEN THIS^.inoStatus.ActionDescription := '<#Start motors finished successfully.#>'; END_IF;
+_progress := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnError" Id="{65a54ecd-ec5a-4f32-8c75-ee860128d155}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Executes when task reaches the ```Error``` state.
+		</summary>			
+	</docu>	
+~*)
+METHOD PROTECTED OnError
+VAR
+	description: STRING;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[description := '<#Start motors finished with error.#>';
+IF __ISVALIDREF(inoStatus) THEN THIS^.inoStatus.ActionDescription := description; END_IF;
+THIS^._errorMessage.Error(_sb.Clear().Append(description).Append(' To restore acknowledge this alarm.').ToString()).Pin();
+IF __ISVALIDREF(inoControl) THEN
+	inoControl.DrivesOn := FALSE;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnStart" Id="{1868aac0-c078-41f9-acbc-c1181cbb20c6}">
+      <Declaration><![CDATA[METHOD PROTECTED OnStart
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF __ISVALIDREF(inoStatus) THEN THIS^.inoStatus.ActionDescription := '<#Start motors started.#>'; END_IF;
+CallTimers(FALSE);
+IF __ISVALIDREF(inoControl) THEN
+	inoControl.DrivesOn := FALSE;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Restore" Id="{facae590-990f-45fa-a899-1acd9f58f6c3}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Restores this instance to the Ready state. Can be called explicitly or from within one of the restore mechanisms.
+			<para>
+				See also <see cref="PlcDocu.TcoCore.TcoTask.AutoRestorable()"/>
+			</para>
+		</summary>
+	</docu>
+~*)
+METHOD Restore : ITcoRestorable]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.Restore();]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

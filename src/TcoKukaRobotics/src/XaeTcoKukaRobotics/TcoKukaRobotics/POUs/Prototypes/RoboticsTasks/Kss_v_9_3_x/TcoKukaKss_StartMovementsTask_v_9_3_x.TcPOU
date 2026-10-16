@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoKukaKss_StartMovementsTask_v_9_3_x" Id="{3244f826-f8bd-46b5-8d67-f07767b39c02}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK TcoKukaKss_StartMovementsTask_v_9_3_x EXTENDS TcoKukaKssTask_v_9_3_x
+VAR
+	_moveParams : TcoAbstractions.TcoRoboticsMovementsParams;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF Execute() THEN
+	_blink(inOnTime:=T#500MS,inOffTime:=T#500MS);
+
+	IF _progress = 0 THEN
+		IF CheckReferences() THEN
+			_progress := _progress + 1;
+		END_IF
+	END_IF
+
+	IF _progress = 1 THEN
+		// AX step 0: waiting for 'ProActive'
+		inoControl.MoveEnable := TRUE;
+		inoControl.DrivesOff := TRUE;
+		inoControl.ErrorConfirmation := inoStatus.State.StopMess AND NOT _blink.outQ;
+		_varInfo :=__VARINFO(inoStatus.State.ProActive);
+		THIS^.Messenger.OnCondition(_infoTimer.Q AND NOT inoStatus.State.ProActive).Warning(_sb.Clear().Append('<#Waiting for signal: #>').Append(_varInfo.Symbol).ToString());
+		IF inoStatus.State.ProActive THEN
+			_progress := _progress + 1;
+		END_IF
+	END_IF
+
+	IF _progress = 2 THEN
+		// AX step 1: waiting for 'DrivesReady'
+		_varInfo :=__VARINFO(inoStatus.State.DrivesReady);
+		THIS^.Messenger.OnCondition(_infoTimer.Q AND NOT inoStatus.State.DrivesReady).Warning(_sb.Clear().Append('<#Waiting for signal: #>').Append(_varInfo.Symbol).ToString());
+		IF inoStatus.State.DrivesReady THEN
+			_progress := _progress + 1;
+		END_IF
+	END_IF
+
+	IF _progress = 3 THEN
+		// AX step 2: waiting for 'StopMess' to be off
+		_varInfo :=__VARINFO(inoStatus.State.StopMess);
+		THIS^.Messenger.OnCondition(_infoTimer.Q AND inoStatus.State.StopMess).Warning(_sb.Clear().Append('<#Waiting for signal: #>').Append(_varInfo.Symbol).Append('<# is OFF#>').ToString());
+		IF NOT inoStatus.State.StopMess THEN
+			_progress := _progress + 1;
+		END_IF
+	END_IF
+
+	IF _progress = 4 THEN
+		// AX step 3: sending parameters of the movement to the controller
+		inoControl.GlobalSpeed := _moveParams.GlobalSpeed;
+		inoControl.ToolNo := _moveParams.ToolNo;
+		inoControl.WorkobjectNo := _moveParams.WorkobjectNo;
+		inoControl.PointNo := _moveParams.PointNo;
+		inoControl.UserSpecSpeed1 := _moveParams.UserSpecSpeed1;
+		inoControl.UserSpecSpeed2 := _moveParams.UserSpecSpeed2;
+		inoControl.Coordinates := _moveParams.Coordinates;
+		inoControl.ActionNo := 254;
+		THIS^.Messenger.OnCondition(_infoTimer.Q).Warning('<#Waiting for the robot to confirm action number 254 (parameters sent).#>');
+		IF inoControl.ActionNo = inoStatus.State.ActionNo THEN
+			_progress := _progress + 1;
+		END_IF
+	END_IF
+
+	IF _progress = 5 THEN
+		// AX step 4: waiting for the movement parameters sent to the controller to be mirrored back
+		IF _infoTimer.Q THEN
+			_varInfo :=__VARINFO(inoStatus.State.GlobalSpeed);
+			THIS^.Messenger.OnCondition(inoStatus.State.GlobalSpeed <> _moveParams.GlobalSpeed).Warning(_sb.Clear().Append('<#Waiting for signal: #>').Append(_varInfo.Symbol).ToString());
+			_varInfo :=__VARINFO(inoStatus.State.ToolNo);
+			THIS^.Messenger.OnCondition(inoStatus.State.ToolNo <> _moveParams.ToolNo).Warning(_sb.Clear().Append('<#Waiting for signal: #>').Append(_varInfo.Symbol).ToString());
+			_varInfo :=__VARINFO(inoStatus.State.WorkobjectNo);
+			THIS^.Messenger.OnCondition(inoStatus.State.WorkobjectNo <> _moveParams.WorkobjectNo).Warning(_sb.Clear().Append('<#Waiting for signal: #>').Append(_varInfo.Symbol).ToString());
+			_varInfo :=__VARINFO(inoStatus.State.PointNo);
+			THIS^.Messenger.OnCondition(inoStatus.State.PointNo <> _moveParams.PointNo).Warning(_sb.Clear().Append('<#Waiting for signal: #>').Append(_varInfo.Symbol).ToString());
+			_varInfo :=__VARINFO(inoStatus.State.UserSpecSpeed1);
+			THIS^.Messenger.OnCondition(inoStatus.State.UserSpecSpeed1 <> _moveParams.UserSpecSpeed1).Warning(_sb.Clear().Append('<#Waiting for signal: #>').Append(_varInfo.Symbol).ToString());
+			_varInfo :=__VARINFO(inoStatus.State.UserSpecSpeed2);
+			THIS^.Messenger.OnCondition(inoStatus.State.UserSpecSpeed2 <> _moveParams.UserSpecSpeed2).Warning(_sb.Clear().Append('<#Waiting for signal: #>').Append(_varInfo.Symbol).ToString());
+			THIS^.Messenger.OnCondition(NOT TcoAbstractions.CoordinatesAreEqual(inoStatus.State.Coordinates,_moveParams.Coordinates,0.01,0.01,0.01,0.01,0.01,0.01)).Warning('<#Waiting for the movement parameters to be mirrored back.#>');
+		END_IF
+		IF inoStatus.State.GlobalSpeed = _moveParams.GlobalSpeed AND
+			inoStatus.State.ToolNo = _moveParams.ToolNo AND
+			inoStatus.State.WorkobjectNo = _moveParams.WorkobjectNo AND
+			inoStatus.State.PointNo = _moveParams.PointNo AND
+			inoStatus.State.UserSpecSpeed1 = _moveParams.UserSpecSpeed1 AND
+			inoStatus.State.UserSpecSpeed2 = _moveParams.UserSpecSpeed2 AND
+			TcoAbstractions.CoordinatesAreEqual(inoStatus.State.Coordinates,_moveParams.Coordinates,0.01,0.01,0.01,0.01,0.01,0.01) THEN
+			_progress := _progress + 1;
+		END_IF
+	END_IF
+
+	IF _progress = 6 THEN
+		// AX step 5: acknowledging of the movement parameters
+		inoControl.ActionNo := 253;
+		THIS^.Messenger.OnCondition(_infoTimer.Q).Warning('<#Waiting for the robot to confirm action number 253 (parameters acknowledged).#>');
+		IF inoControl.ActionNo = inoStatus.State.ActionNo THEN
+			_progress := _progress + 1;
+		END_IF
+	END_IF
+
+	IF _progress = 7 THEN
+		// AX step 6: waiting for the movement to be finished
+		inoControl.ActionNo := _moveParams.ActionNo;
+		THIS^.Messenger.OnCondition(_infoTimer.Q).Info(CONCAT('<#Moving to position ID#>: ', BYTE_TO_STRING(_moveParams.ActionNo)));
+		IF inoControl.ActionNo = inoStatus.State.ActionNo THEN
+			_progress := _progress + 1;
+		END_IF
+	END_IF
+
+	IF _progress = 8 THEN
+		// AX step 7: acknowledging of the finished movement
+		inoControl.ActionNo := 255;
+		THIS^.Messenger.OnCondition(_infoTimer.Q).Warning('<#Waiting for the robot to confirm action number 255 (movement finished).#>');
+		IF inoControl.ActionNo = inoStatus.State.ActionNo THEN
+			_progress := _progress + 1;
+		END_IF
+	END_IF
+
+	IF _progress = 9 THEN
+		DoneWhen(TRUE);
+	END_IF
+
+	CallTimers(TRUE);
+	THIS^.ThrowWhen(_errorTimer.Q);
+END_IF
+
+IF THIS^.Error AND NOT _errorMessage.Pinned THEN
+	THIS^.Restore();
+END_IF]]></ST>
+    </Implementation>
+    <Method Name="InvokeWithParams" Id="{d3dae2a1-48fb-44eb-9d4c-40415d3023e9}">
+      <Declaration><![CDATA[METHOD INTERNAL InvokeWithParams : ITcoTaskStatus
+VAR_INPUT
+    inMoveParams : TcoAbstractions.TcoRoboticsMovementsParams;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_moveParams := inMoveParams;
+InvokeWithParams := THIS^.Invoke();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{861dbed8-567d-42c1-868e-53c99427ae1b}">
+      <Declaration><![CDATA[METHOD PUBLIC FB_init : BOOL
+VAR_INPUT
+    bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+    bInCopyCode : BOOL; // if TRUE, the instance afterwards gets moved into the copy code (online change)
+    ParentObject : ITcoObject;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnAbort" Id="{e11c8bbd-a29b-40f7-aa1a-805ac0420ab6}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Executes when task is aborted.
+		</summary>			
+	</docu>	
+~*)
+METHOD PROTECTED OnAbort
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF __ISVALIDREF(inoStatus) THEN THIS^.inoStatus.ActionDescription := '<#Start movements was aborted.#>'; END_IF;
+IF __ISVALIDREF(inoControl) THEN
+	inoControl.MoveEnable := FALSE;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnDone" Id="{48cf2c5c-56e7-4fa4-a078-18c0cd9631fd}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Executes when task reaches the ```Done``` state .
+		</summary>			
+	</docu>	
+~*)
+METHOD PROTECTED OnDone
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF __ISVALIDREF(inoStatus) THEN THIS^.inoStatus.ActionDescription := '<#Start movements finished successfully.#>'; END_IF;
+_progress := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnError" Id="{99c13059-6f9d-4e02-8983-ed2d5f13b761}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Executes when task reaches the ```Error``` state.
+		</summary>			
+	</docu>	
+~*)
+METHOD PROTECTED OnError
+VAR
+	description: STRING;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[description := '<#Start movements finished with error.#>';
+IF __ISVALIDREF(inoStatus) THEN THIS^.inoStatus.ActionDescription := description; END_IF;
+THIS^._errorMessage.Error(_sb.Clear().Append(description).Append(' To restore acknowledge this alarm.').ToString()).Pin();
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnStart" Id="{31a0715e-f987-477b-b73e-7f88195fa484}">
+      <Declaration><![CDATA[METHOD PROTECTED OnStart
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF __ISVALIDREF(inoStatus) THEN THIS^.inoStatus.ActionDescription := '<#Start movements started.#>'; END_IF;
+CallTimers(FALSE);
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Restore" Id="{01fea41e-61f5-4122-a5f2-bb52a63b827d}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Restores this instance to the Ready state. Can be called explicitly or from within one of the restore mechanisms.
+			<para>
+				See also <see cref="PlcDocu.TcoCore.TcoTask.AutoRestorable()"/>
+			</para>
+		</summary>
+	</docu>
+~*)
+METHOD Restore : ITcoRestorable]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.Restore();]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

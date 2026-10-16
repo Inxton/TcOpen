@@ -480,4 +480,136 @@
   <data name="___OUT__" xml:space="preserve">
     <value>OUT</value>
   </data>
+  <data name="____is_OFF__" xml:space="preserve">
+    <value> je vypnutý</value>
+  </data>
+  <data name="___CutEnableDrives__CUT_ENABLE_DRIVES___" xml:space="preserve">
+    <value>CutEnableDrives [CUT_ENABLE_DRIVES]</value>
+  </data>
+  <data name="___NormalStop__NORMAL_STOP_ACTIVE___" xml:space="preserve">
+    <value>NormalStop [NORMAL_STOP_ACTIVE]</value>
+  </data>
+  <data name="___Data_from_robot__" xml:space="preserve">
+    <value>Data z robota</value>
+  </data>
+  <data name="___Data_to_robot__" xml:space="preserve">
+    <value>Data do robota</value>
+  </data>
+  <data name="___Local_emergency_stop_active__" xml:space="preserve">
+    <value>Aktivní lokální nouzové zastavení</value>
+  </data>
+  <data name="___Local_emergency_stop_OK__" xml:space="preserve">
+    <value>Lokální nouzové zastavení OK</value>
+  </data>
+  <data name="___Reset_all_outputs__" xml:space="preserve">
+    <value>Reset všech výstupů</value>
+  </data>
+  <data name="___Robot_in_manual_mode__MoveEnable_is_set_on_entering_manual_mode___" xml:space="preserve">
+    <value>Robot v ručním režimu. MoveEnable je nastaven při přechodu do ručního režimu!</value>
+  </data>
+  <data name="___Waiting_for_signal____" xml:space="preserve">
+    <value>Čekání na signál: </value>
+  </data>
+  <data name="___Waiting_for_the_movement_parameters_to_be_mirrored_back___" xml:space="preserve">
+    <value>Čekání na zrcadlení parametrů pohybu zpět.</value>
+  </data>
+  <data name="___Waiting_for_the_robot_to_confirm_action_number_253__parameters_acknowledged____" xml:space="preserve">
+    <value>Čekání na potvrzení čísla akce 253 robotem (parametry potvrzeny).</value>
+  </data>
+  <data name="___Waiting_for_the_robot_to_confirm_action_number_254__parameters_sent____" xml:space="preserve">
+    <value>Čekání na potvrzení čísla akce 254 robotem (parametry odeslány).</value>
+  </data>
+  <data name="___Waiting_for_the_robot_to_confirm_action_number_255__movement_finished____" xml:space="preserve">
+    <value>Čekání na potvrzení čísla akce 255 robotem (pohyb dokončen).</value>
+  </data>
+  <data name="___Start_at_main_finished_successfully___" xml:space="preserve">
+    <value>Spustit od main úspěšně dokončeno.</value>
+  </data>
+  <data name="___Start_at_main_finished_with_error___" xml:space="preserve">
+    <value>Spustit od main skončilo s chybou.</value>
+  </data>
+  <data name="___Start_at_main_started___" xml:space="preserve">
+    <value>Spustit od main spuštěno.</value>
+  </data>
+  <data name="___Start_at_main_was_aborted___" xml:space="preserve">
+    <value>Spustit od main bylo přerušeno.</value>
+  </data>
+  <data name="___Start_motors_finished_successfully___" xml:space="preserve">
+    <value>Spuštění motorů úspěšně dokončeno.</value>
+  </data>
+  <data name="___Start_motors_was_aborted___" xml:space="preserve">
+    <value>Spuštění motorů bylo přerušeno.</value>
+  </data>
+  <data name="___Start_motors__program_and_movements_started___" xml:space="preserve">
+    <value>Spuštění motorů, programu a pohybů spuštěno.</value>
+  </data>
+  <data name="___Start_motors__program_and_movements_was_aborted___" xml:space="preserve">
+    <value>Spuštění motorů, programu a pohybů bylo přerušeno.</value>
+  </data>
+  <data name="___Start_movements_started___" xml:space="preserve">
+    <value>Zahájení pohybů spuštěno.</value>
+  </data>
+  <data name="___Start_movements_was_aborted___" xml:space="preserve">
+    <value>Zahájení pohybů bylo přerušeno.</value>
+  </data>
+  <data name="___Start_program_finished_successfully___" xml:space="preserve">
+    <value>Spustit program úspěšně dokončeno.</value>
+  </data>
+  <data name="___Start_program_finished_with_error___" xml:space="preserve">
+    <value>Spustit program skončilo s chybou.</value>
+  </data>
+  <data name="___Start_program_started___" xml:space="preserve">
+    <value>Spustit program spuštěno.</value>
+  </data>
+  <data name="___Start_program_was_aborted___" xml:space="preserve">
+    <value>Spustit program bylo přerušeno.</value>
+  </data>
+  <data name="___Stop_motors_finished_successfully___" xml:space="preserve">
+    <value>Zastavení motorů úspěšně dokončeno.</value>
+  </data>
+  <data name="___Stop_motors_was_aborted___" xml:space="preserve">
+    <value>Zastavení motorů bylo přerušeno.</value>
+  </data>
+  <data name="___Stop_movements_and_program_finished_successfully___" xml:space="preserve">
+    <value>Zastavení pohybů a programu úspěšně dokončeno.</value>
+  </data>
+  <data name="___Stop_movements_and_program_was_aborted___" xml:space="preserve">
+    <value>Zastavení pohybů a programu bylo přerušeno.</value>
+  </data>
+  <data name="___Stop_movements_finished_successfully___" xml:space="preserve">
+    <value>Zastavení pohybů úspěšně dokončeno.</value>
+  </data>
+  <data name="___Stop_movements_finished_with_error___" xml:space="preserve">
+    <value>Zastavení pohybů skončilo s chybou.</value>
+  </data>
+  <data name="___Stop_movements_started___" xml:space="preserve">
+    <value>Zastavení pohybů spuštěno.</value>
+  </data>
+  <data name="___Stop_movements_was_aborted___" xml:space="preserve">
+    <value>Zastavení pohybů bylo přerušeno.</value>
+  </data>
+  <data name="___Stop_program_finished_successfully___" xml:space="preserve">
+    <value>Zastavení programu úspěšně dokončeno.</value>
+  </data>
+  <data name="___Stop_program_finished_with_error___" xml:space="preserve">
+    <value>Zastavení programu skončilo s chybou.</value>
+  </data>
+  <data name="___Stop_program_started___" xml:space="preserve">
+    <value>Zastavení programu spuštěno.</value>
+  </data>
+  <data name="___Stop_program_was_aborted___" xml:space="preserve">
+    <value>Zastavení programu bylo přerušeno.</value>
+  </data>
+  <data name="___Reset_all_outputs_finished_successfully___" xml:space="preserve">
+    <value>Reset všech výstupů úspěšně dokončeno.</value>
+  </data>
+  <data name="___Reset_all_outputs_finished_with_error___" xml:space="preserve">
+    <value>Reset všech výstupů skončilo s chybou.</value>
+  </data>
+  <data name="___Reset_all_outputs_started___" xml:space="preserve">
+    <value>Reset všech výstupů spuštěno.</value>
+  </data>
+  <data name="___Reset_all_outputs_was_aborted___" xml:space="preserve">
+    <value>Reset všech výstupů bylo přerušeno.</value>
+  </data>
 </root>

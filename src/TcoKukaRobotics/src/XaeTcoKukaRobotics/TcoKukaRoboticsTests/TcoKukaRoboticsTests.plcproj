@@ -42,6 +42,12 @@
     <Compile Include="Tests\TcoContext\WpfContext.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Tests\TcoKukaKss\eTcoKukaKssTests.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tests\TcoKukaKss\TcoKukaKssTestContext.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Tests\TcoKukaRobotics\eTcoKukaRoboticsSimpleTests.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -57,6 +63,7 @@
     <Folder Include="GVLs" />
     <Folder Include="Tests" />
     <Folder Include="Tests\TcoContext" />
+    <Folder Include="Tests\TcoKukaKss" />
     <Folder Include="Tests\TcoKukaRobotics" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />

@@ -1,0 +1,44 @@
+﻿<UserControl
+    x:Class="TcoKukaRobotics.TcoKukaKssEcat_v_9_3_xServiceView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:TcoKukaRobotics"
+    xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vortex="http://vortex.mts/xaml"
+    xmlns:p="clr-namespace:TcOpen.Inxton.TcoKukaRobotics.Wpf.Properties"
+    mc:Ignorable="d">
+    <d:UserControl.DataContext>
+        <local:TcoKukaKssEcat_v_9_3_xServiceViewModel />
+    </d:UserControl.DataContext>
+
+    <StackPanel Grid.ColumnSpan="2" Orientation="Vertical">
+        <TextBlock DataContext="{Binding Component}"  Margin="5" Style="{StaticResource MaterialDesignBody1TextBlock}" Visibility="{Binding _status.State.Error.Cyclic ,Converter={vortex:BooleanToVisibilityConverter }}"
+                   Foreground="{StaticResource OnErrors}" Background="{StaticResource Errors}" TextWrapping="WrapWithOverflow" Text="{Binding _status.State.EventId.Cyclic, Converter={local:TcoKrc4_v_5_x_xEventsDescriptionConverter}}"></TextBlock>
+
+        <!-- KSS 9.3 specific signals and tasks -->
+        <WrapPanel DataContext="{Binding Component}" Margin="5,0">
+            <WrapPanel.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignBody1TextBlock}">
+                    <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                </Style>
+            </WrapPanel.Resources>
+            <WrapPanel DataContext="{Binding _status.State.LocalEstopOk}" Visibility="{Binding Cyclic, Converter={vortex:BooleanToVisibilityConverter}, ConverterParameter=true}" Margin="5,0">
+                <materialdesign:PackIcon Kind="AlertBox" Foreground="{StaticResource Errors}" VerticalAlignment="Center"/>
+                <TextBlock Text="{x:Static p:strings.LocalEstopNotOk}" Foreground="{StaticResource Errors}"/>
+            </WrapPanel>
+            <WrapPanel DataContext="{Binding _status.State.CutEnableDrives}" Visibility="{Binding Cyclic, Converter={vortex:BooleanToVisibilityConverter}, ConverterParameter=true}" Margin="5,0">
+                <materialdesign:PackIcon Kind="WarningBox" Foreground="{StaticResource Warning}" VerticalAlignment="Center"/>
+                <TextBlock Text="{x:Static p:strings.DrivesEnableCut}" Foreground="{StaticResource Warning}"/>
+            </WrapPanel>
+            <WrapPanel DataContext="{Binding _status.State.NormalStop}" Visibility="{Binding Cyclic, Converter={vortex:BooleanToVisibilityConverter}}" Margin="5,0">
+                <materialdesign:PackIcon Kind="WarningBox" Foreground="{StaticResource Warning}" VerticalAlignment="Center"/>
+                <TextBlock Text="{x:Static p:strings.NormalStopActive}" Foreground="{StaticResource Warning}"/>
+            </WrapPanel>
+            <vortex:RenderableContentControl Margin="5" DataContext="{Binding _resetAllOutputsTask}" />
+        </WrapPanel>
+
+        <local:TcoKukaRoboticsBaseServiceView DataContext="{Binding }"></local:TcoKukaRoboticsBaseServiceView>
+    </StackPanel>
+</UserControl>

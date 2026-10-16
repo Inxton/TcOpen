@@ -9,6 +9,12 @@ VAR
 	
 	 {attribute addProperty Name "<#Krc4 ECAT#>"}
     _robot2 : TcoKukaRobotics.TcoKrc4_Ecat_v_5_x_x(THIS^);
+
+	{attribute addProperty Name "<#KSS 9.3 PN#>"}
+    _robot3 : TcoKukaRobotics.TcoKukaKssPn_v_9_3_x(THIS^);
+
+	{attribute addProperty Name "<#KSS 9.3 ECAT#>"}
+    _robot4 : TcoKukaRobotics.TcoKukaKssEcat_v_9_3_x(THIS^);
 	
 	_sequence1      : TcoCore.TcoSequence(THIS^, eRestoreMode.None);
     _observer       : TcoCore.TcoSequencerObserver(THIS^);
@@ -36,12 +42,18 @@ METHOD PROTECTED Main]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF _serviceModeActive THEN
    	_robot1.Service();
+	_robot2.Service();
+	_robot3.Service();
+	_robot4.Service();
  
 
 
 END_IF
 _robot1(
     inoData := GVL.Robot1);
+_robot2(inoData := GVL.Robot2);
+_robot3(inoData := GVL.Robot3);
+_robot4(inoData := GVL.Robot4);
 
 
 
