@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="TcoKukaKssEcat_IO_v_9_3_x" Id="{8102182b-760e-4df6-b542-276a13f1362b}">
+    <Declaration><![CDATA[TYPE TcoKukaKssEcat_IO_v_9_3_x :
+STRUCT
+	{attribute addProperty Name "<#IN#>"}
+	In : TcoKukaKss_Inputs_v_9_3_x;
+	{attribute addProperty Name "<#OUT#>"}
+	Out : TcoKukaKss_Outputs_v_9_3_x;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

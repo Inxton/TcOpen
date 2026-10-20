@@ -48,6 +48,72 @@
     <Compile Include="DUTs\TcoKukaRobotics_Status_v_5_x_x.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\Kss\TcoKukaKss_Config_v_9_3_x.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\Kss\TcoKukaKss_Control_v_9_3_x.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\Kss\TcoKukaKss_State_v_9_3_x.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\Kss\TcoKukaKss_Status_v_9_3_x.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\KSS\IO\TcoKukaKssEcat_IO_v_9_3_x.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\KSS\IO\TcoKukaKssPn_IO_v_9_3_x.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\KSS\IO\TcoKukaKss_Inputs_v_9_3_x.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\KSS\IO\TcoKukaKss_Outputs_v_9_3_x.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\KSS\TcoKukaKssEcat_v_9_3_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\KSS\TcoKukaKssPn_v_9_3_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RoboticsTasks\Kss_v_9_3_x\TcoKukaKssTask_v_9_3_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RoboticsTasks\Kss_v_9_3_x\TcoKukaKss_ResetAllOutputsTask_v_9_3_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RoboticsTasks\Kss_v_9_3_x\TcoKukaKss_StartAtMainTask_v_9_3_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RoboticsTasks\Kss_v_9_3_x\TcoKukaKss_StartMotorsAndProgramTask_v_9_3_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RoboticsTasks\Kss_v_9_3_x\TcoKukaKss_StartMotorsProgramAndMovementsTask_v_9_3_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RoboticsTasks\Kss_v_9_3_x\TcoKukaKss_StartMotorsTask_v_9_3_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RoboticsTasks\Kss_v_9_3_x\TcoKukaKss_StartMovementsTask_v_9_3_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RoboticsTasks\Kss_v_9_3_x\TcoKukaKss_StartProgramTask_v_9_3_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RoboticsTasks\Kss_v_9_3_x\TcoKukaKss_StopMotorsTask_v_9_3_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RoboticsTasks\Kss_v_9_3_x\TcoKukaKss_StopMovementsAndProgramTask_v_9_3_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RoboticsTasks\Kss_v_9_3_x\TcoKukaKss_StopMovementsTask_v_9_3_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RoboticsTasks\Kss_v_9_3_x\TcoKukaKss_StopProgramTask_v_9_3_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
@@ -104,6 +170,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="DUTs\Kss" />
+    <Folder Include="POUs\Prototypes\KSS" />
+    <Folder Include="POUs\Prototypes\KSS\IO" />
+    <Folder Include="POUs\Prototypes\RoboticsTasks\Kss_v_9_3_x" />
     <Folder Include="DUTs" />
     <Folder Include="GVLs" />
     <Folder Include="POUs\Conversions" />

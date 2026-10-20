@@ -122,5 +122,32 @@ namespace TcOpen.Inxton.TcoKukaRobotics.Wpf.Properties {
                 return ResourceManager.GetString("SafetyOk", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Local emergency stop!.
+        /// </summary>
+        public static string LocalEstopNotOk {
+            get {
+                return ResourceManager.GetString("LocalEstopNotOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drives enable cut!.
+        /// </summary>
+        public static string DrivesEnableCut {
+            get {
+                return ResourceManager.GetString("DrivesEnableCut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Normal stop active.
+        /// </summary>
+        public static string NormalStopActive {
+            get {
+                return ResourceManager.GetString("NormalStopActive", resourceCulture);
+            }
+        }
     }
 }

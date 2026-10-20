@@ -480,4 +480,136 @@
   <data name="___OUT__" xml:space="preserve">
     <value>OUT</value>
   </data>
+  <data name="____is_OFF__" xml:space="preserve">
+    <value> ist AUS</value>
+  </data>
+  <data name="___CutEnableDrives__CUT_ENABLE_DRIVES___" xml:space="preserve">
+    <value>CutEnableDrives [CUT_ENABLE_DRIVES]</value>
+  </data>
+  <data name="___NormalStop__NORMAL_STOP_ACTIVE___" xml:space="preserve">
+    <value>NormalStop [NORMAL_STOP_ACTIVE]</value>
+  </data>
+  <data name="___Data_from_robot__" xml:space="preserve">
+    <value>Daten vom Roboter</value>
+  </data>
+  <data name="___Data_to_robot__" xml:space="preserve">
+    <value>Daten zum Roboter</value>
+  </data>
+  <data name="___Local_emergency_stop_active__" xml:space="preserve">
+    <value>Lokaler Not-Halt aktiv</value>
+  </data>
+  <data name="___Local_emergency_stop_OK__" xml:space="preserve">
+    <value>Lokaler Not-Halt OK</value>
+  </data>
+  <data name="___Reset_all_outputs__" xml:space="preserve">
+    <value>Alle Ausgänge zurücksetzen</value>
+  </data>
+  <data name="___Robot_in_manual_mode__MoveEnable_is_set_on_entering_manual_mode___" xml:space="preserve">
+    <value>Roboter im Handbetrieb. MoveEnable wird beim Wechsel in den Handbetrieb gesetzt!</value>
+  </data>
+  <data name="___Waiting_for_signal____" xml:space="preserve">
+    <value>Warten auf Signal: </value>
+  </data>
+  <data name="___Waiting_for_the_movement_parameters_to_be_mirrored_back___" xml:space="preserve">
+    <value>Warten auf Rückspiegelung der Bewegungsparameter.</value>
+  </data>
+  <data name="___Waiting_for_the_robot_to_confirm_action_number_253__parameters_acknowledged____" xml:space="preserve">
+    <value>Warten auf Bestätigung der Aktionsnummer 253 durch den Roboter (Parameter quittiert).</value>
+  </data>
+  <data name="___Waiting_for_the_robot_to_confirm_action_number_254__parameters_sent____" xml:space="preserve">
+    <value>Warten auf Bestätigung der Aktionsnummer 254 durch den Roboter (Parameter gesendet).</value>
+  </data>
+  <data name="___Waiting_for_the_robot_to_confirm_action_number_255__movement_finished____" xml:space="preserve">
+    <value>Warten auf Bestätigung der Aktionsnummer 255 durch den Roboter (Bewegung beendet).</value>
+  </data>
+  <data name="___Start_at_main_finished_successfully___" xml:space="preserve">
+    <value>Start am Main erfolgreich abgeschlossen.</value>
+  </data>
+  <data name="___Start_at_main_finished_with_error___" xml:space="preserve">
+    <value>Start am Main mit Fehler beendet.</value>
+  </data>
+  <data name="___Start_at_main_started___" xml:space="preserve">
+    <value>Start am Main gestartet.</value>
+  </data>
+  <data name="___Start_at_main_was_aborted___" xml:space="preserve">
+    <value>Start am Main wurde abgebrochen.</value>
+  </data>
+  <data name="___Start_motors_finished_successfully___" xml:space="preserve">
+    <value>Motoren starten erfolgreich abgeschlossen.</value>
+  </data>
+  <data name="___Start_motors_was_aborted___" xml:space="preserve">
+    <value>Motoren starten wurde abgebrochen.</value>
+  </data>
+  <data name="___Start_motors__program_and_movements_started___" xml:space="preserve">
+    <value>Motoren, Programm und Bewegungen starten gestartet.</value>
+  </data>
+  <data name="___Start_motors__program_and_movements_was_aborted___" xml:space="preserve">
+    <value>Motoren, Programm und Bewegungen starten wurde abgebrochen.</value>
+  </data>
+  <data name="___Start_movements_started___" xml:space="preserve">
+    <value>Bewegungen starten gestartet.</value>
+  </data>
+  <data name="___Start_movements_was_aborted___" xml:space="preserve">
+    <value>Bewegungen starten wurde abgebrochen.</value>
+  </data>
+  <data name="___Start_program_finished_successfully___" xml:space="preserve">
+    <value>Programm starten erfolgreich abgeschlossen.</value>
+  </data>
+  <data name="___Start_program_finished_with_error___" xml:space="preserve">
+    <value>Programm starten mit Fehler beendet.</value>
+  </data>
+  <data name="___Start_program_started___" xml:space="preserve">
+    <value>Programm starten gestartet.</value>
+  </data>
+  <data name="___Start_program_was_aborted___" xml:space="preserve">
+    <value>Programm starten wurde abgebrochen.</value>
+  </data>
+  <data name="___Stop_motors_finished_successfully___" xml:space="preserve">
+    <value>Motoren anhalten erfolgreich abgeschlossen.</value>
+  </data>
+  <data name="___Stop_motors_was_aborted___" xml:space="preserve">
+    <value>Motoren anhalten wurde abgebrochen.</value>
+  </data>
+  <data name="___Stop_movements_and_program_finished_successfully___" xml:space="preserve">
+    <value>Bewegungen und Programm anhalten erfolgreich abgeschlossen.</value>
+  </data>
+  <data name="___Stop_movements_and_program_was_aborted___" xml:space="preserve">
+    <value>Bewegungen und Programm anhalten wurde abgebrochen.</value>
+  </data>
+  <data name="___Stop_movements_finished_successfully___" xml:space="preserve">
+    <value>Bewegungen anhalten erfolgreich abgeschlossen.</value>
+  </data>
+  <data name="___Stop_movements_finished_with_error___" xml:space="preserve">
+    <value>Bewegungen anhalten mit Fehler beendet.</value>
+  </data>
+  <data name="___Stop_movements_started___" xml:space="preserve">
+    <value>Bewegungen anhalten gestartet.</value>
+  </data>
+  <data name="___Stop_movements_was_aborted___" xml:space="preserve">
+    <value>Bewegungen anhalten wurde abgebrochen.</value>
+  </data>
+  <data name="___Stop_program_finished_successfully___" xml:space="preserve">
+    <value>Programm anhalten erfolgreich abgeschlossen.</value>
+  </data>
+  <data name="___Stop_program_finished_with_error___" xml:space="preserve">
+    <value>Programm anhalten mit Fehler beendet.</value>
+  </data>
+  <data name="___Stop_program_started___" xml:space="preserve">
+    <value>Programm anhalten gestartet.</value>
+  </data>
+  <data name="___Stop_program_was_aborted___" xml:space="preserve">
+    <value>Programm anhalten wurde abgebrochen.</value>
+  </data>
+  <data name="___Reset_all_outputs_finished_successfully___" xml:space="preserve">
+    <value>Alle Ausgänge zurücksetzen erfolgreich abgeschlossen.</value>
+  </data>
+  <data name="___Reset_all_outputs_finished_with_error___" xml:space="preserve">
+    <value>Alle Ausgänge zurücksetzen mit Fehler beendet.</value>
+  </data>
+  <data name="___Reset_all_outputs_started___" xml:space="preserve">
+    <value>Alle Ausgänge zurücksetzen gestartet.</value>
+  </data>
+  <data name="___Reset_all_outputs_was_aborted___" xml:space="preserve">
+    <value>Alle Ausgänge zurücksetzen wurde abgebrochen.</value>
+  </data>
 </root>

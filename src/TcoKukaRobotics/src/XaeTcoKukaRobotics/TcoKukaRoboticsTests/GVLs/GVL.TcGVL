@@ -4,6 +4,9 @@
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL
 	Robot1	:	TcoKukaRobotics.TcoKrc4_IO_v_5_x_x;
+	Robot2	:	TcoKukaRobotics.TcoKrc4_IO_v_5_x_x;
+	Robot3	:	TcoKukaRobotics.TcoKukaKssPn_IO_v_9_3_x;
+	Robot4	:	TcoKukaRobotics.TcoKukaKssEcat_IO_v_9_3_x;
 END_VAR
 ]]></Declaration>
   </GVL>

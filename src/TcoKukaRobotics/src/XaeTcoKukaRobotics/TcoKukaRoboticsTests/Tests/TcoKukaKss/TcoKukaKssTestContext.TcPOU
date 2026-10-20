@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoKukaKssTestContext" Id="{c55b9b38-812e-4504-8719-444c3fc6c7a0}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Test context of TcoKukaKssPn_v_9_3_x. _sim holds the signals of the robot side and is written into the
+			input image every cycle. With _simulate = TRUE a minimal KSS 9.3 controller model reacts to the outputs
+			(interface, drives, error acknowledge, program start, start at main, mirroring of the movement handshake).
+		</summary>
+	</docu>
+~*)
+FUNCTION_BLOCK TcoKukaKssTestContext EXTENDS TcoCore._internals_TcoContext
+VAR
+	_sut : TcoKukaRobotics.TcoKukaKssPn_v_9_3_x(THIS^);
+	_io : TcoKukaRobotics.TcoKukaKssPn_IO_v_9_3_x;
+	_sim : TcoKukaRobotics.TcoKukaKss_State_v_9_3_x;
+	_simulate : BOOL;
+	_simProActiveBlocked : BOOL;
+	_moveParams : TcoAbstractions.TcoRoboticsMovementsParams;
+	_stopType : TcoAbstractions.eTcoRoboticsStopType;
+	_drivesOnSeen : BOOL;
+	_externalStartSeen : BOOL;
+	_taskDone : BOOL;
+	_taskError : BOOL;
+END_VAR
+VAR
+	{attribute 'hide'}
+	_i : INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Main" Id="{c601809f-0e63-4f92-9b35-e6ce6196446e}">
+      <Declaration><![CDATA[METHOD PROTECTED Main
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[//*************ROBOT SIMULATOR************
+IF _simulate THEN
+	_sim.InterfaceActivated := _io.Out.Outputs[0].5;
+	IF _io.Out.Outputs[0].2 THEN
+		_sim.StopMess := FALSE;
+	END_IF
+	IF NOT _io.Out.Outputs[0].3 OR NOT _sim.CutEnableDrives OR NOT _sim.AlarmStopActive THEN
+		_sim.DrivesReady := FALSE;
+	ELSIF _io.Out.Outputs[0].4 THEN
+		_sim.DrivesReady := TRUE;
+	END_IF
+	_sim.RcReady := _sim.DrivesReady AND NOT _sim.StopMess;
+	IF NOT _sim.RcReady OR _sim.NormalStop THEN
+		_sim.ProActive := FALSE;
+	ELSIF _io.Out.Outputs[0].0 AND NOT _simProActiveBlocked THEN
+		_sim.ProActive := TRUE;
+	END_IF
+	IF _io.Out.Outputs[0].6 THEN
+		_sim.PpMoved := TRUE;
+	END_IF
+	_sim.RobotStopped := NOT _io.Out.Outputs[0].1;
+END_IF
+
+//*************INPUT IMAGE****************
+_io.In.Inputs[0].0 := _sim.RcReady;
+_io.In.Inputs[0].1 := _sim.AlarmStopActive;
+_io.In.Inputs[0].2 := _sim.UserSafetySwitchClosed;
+_io.In.Inputs[0].3 := _sim.DrivesReady;
+_io.In.Inputs[0].4 := _sim.RobotCalibrated;
+_io.In.Inputs[0].5 := _sim.InterfaceActivated;
+_io.In.Inputs[0].6 := _sim.StopMess;
+_io.In.Inputs[0].7 := _sim.RobotStopped;
+_io.In.Inputs[1].0 := _sim.InHome;
+_io.In.Inputs[1].1 := _sim.Manual;
+_io.In.Inputs[1].2 := _sim.LocalEstopOk;
+_io.In.Inputs[1].3 := _sim.ExternalAutomatic;
+_io.In.Inputs[1].4 := _sim.ProActive;
+_io.In.Inputs[1].5 := _sim.PpMoved;
+_io.In.Inputs[1].6 := _sim.Error;
+_io.In.Inputs[1].7 := _sim.ProgramMoveActive;
+_io.In.Inputs[4].0 := _sim.NormalStop;
+_io.In.Inputs[4].1 := _sim.CutEnableDrives;
+IF _simulate THEN
+	// the robot mirrors action number, movement parameters and coordinates
+	FOR _i := 5 TO 43 DO
+		_io.In.Inputs[_i] := _io.Out.Outputs[_i];
+	END_FOR
+ELSE
+	_io.In.Inputs[5] := _sim.Zone;
+	_io.In.Inputs[6] := _sim.InPosition;
+	_io.In.Inputs[7] := _sim.ActionNo;
+END_IF
+_io.In.Inputs[44] := UDINT_TO_BYTE(_sim.EventId);
+_io.In.Inputs[45] := UDINT_TO_BYTE(SHR(_sim.EventId, 8));
+_io.In.Inputs[46] := UDINT_TO_BYTE(SHR(_sim.EventId, 16));
+_io.In.Inputs[47] := UDINT_TO_BYTE(SHR(_sim.EventId, 24));
+FOR _i := 0 TO 15 DO
+	_io.In.Inputs[48 + _i] := _sim.DataFromRobot[_i];
+END_FOR
+
+_sut(inoData := _io);
+
+_drivesOnSeen := _drivesOnSeen OR _io.Out.Outputs[0].4;
+_externalStartSeen := _externalStartSeen OR _io.Out.Outputs[0].0;
+
+CASE _testId OF
+	eTcoKukaKssTests.Restore:
+		_sut.Restore();
+		_sut._messenger.Clear();
+		_drivesOnSeen := FALSE;
+		_externalStartSeen := FALSE;
+		_taskDone := FALSE;
+		_taskError := FALSE;
+		ProbeDoneWhen(TRUE);
+	eTcoKukaKssTests.Run:
+		;
+	eTcoKukaKssTests.StartMotors:
+		_taskDone := _sut.StartMotors().Done;
+		_taskError := _sut.StartMotorsTask.Error;
+		ProbeDoneWhen(_taskDone OR _taskError);
+	eTcoKukaKssTests.StartMotorsAndProgram:
+		_taskDone := _sut.StartMotorsAndProgram().Done;
+		_taskError := _sut.StartMotorsAndProgramTask.Error;
+		ProbeDoneWhen(_taskDone OR _taskError);
+	eTcoKukaKssTests.StartProgram:
+		_taskDone := _sut.StartProgram().Done;
+		_taskError := _sut.StartProgramTask.Error;
+		ProbeDoneWhen(_taskDone OR _taskError);
+	eTcoKukaKssTests.StartAtMain:
+		_taskDone := _sut.StartAtMain().Done;
+		_taskError := _sut.StartAtMainTask.Error;
+		ProbeDoneWhen(_taskDone OR _taskError);
+	eTcoKukaKssTests.StartMovements:
+		_taskDone := _sut.StartMovements(_moveParams).Done;
+		_taskError := _sut.StartMovementsTask.Error;
+		ProbeDoneWhen(_taskDone OR _taskError);
+	eTcoKukaKssTests.StopMotors:
+		_taskDone := _sut.StopMotors().Done;
+		_taskError := _sut.StopMotorsTask.Error;
+		ProbeDoneWhen(_taskDone OR _taskError);
+	eTcoKukaKssTests.StopMovements:
+		_taskDone := _sut.StopMovements(_stopType).Done;
+		_taskError := _sut.StopMovementsTask.Error;
+		ProbeDoneWhen(_taskDone OR _taskError);
+	eTcoKukaKssTests.ResetAllOutputs:
+		_taskDone := _sut.ResetAllOutputs().Done;
+		_taskError := _sut.ResetAllOutputsTask.Error;
+		ProbeDoneWhen(_taskDone OR _taskError);
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoKukaKss_StartAtMainTask_v_9_3_x" Id="{fd8331db-62dc-47b2-9d98-ac0a16ec5900}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK TcoKukaKss_StartAtMainTask_v_9_3_x EXTENDS TcoKukaKssTask_v_9_3_x
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF Execute() THEN
+	_blink(inOnTime:=T#500MS,inOffTime:=T#500MS);
+
+	IF _progress = 0 THEN
+		IF CheckReferences() THEN
+			_progress := _progress + 1;
+		END_IF
+	END_IF
+
+	IF _progress = 1 THEN
+		// AX step 0: pulse StartAtMain until the program pointer moves
+		inoControl.MoveEnable := TRUE;
+		inoControl.DrivesOff := TRUE;
+		inoControl.ActionNo := 255;
+		inoControl.ErrorConfirmation := inoStatus.State.StopMess AND NOT _blink.outQ;
+		inoControl.StartAtMain := NOT inoStatus.State.PpMoved AND _blink.outQ;
+		_varInfo :=__VARINFO(inoStatus.State.PpMoved);
+		THIS^.Messenger.OnCondition(_infoTimer.Q AND NOT inoStatus.State.PpMoved).Warning(_sb.Clear().Append('<#Waiting program pointer changed! #>').Append(_varInfo.Symbol).ToString());
+		IF inoStatus.State.PpMoved THEN
+			inoControl.StartAtMain := FALSE;
+			_progress := _progress + 1;
+		END_IF
+	END_IF
+
+	IF _progress = 2 THEN
+		DoneWhen(TRUE);
+	END_IF
+
+	CallTimers(TRUE);
+	THIS^.ThrowWhen(_errorTimer.Q);
+END_IF
+
+IF THIS^.Error AND NOT _errorMessage.Pinned THEN
+	THIS^.Restore();
+END_IF]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{8ac3dd0c-f857-474b-9b21-f7f8b44d2b8f}">
+      <Declaration><![CDATA[METHOD PUBLIC FB_init : BOOL
+VAR_INPUT
+    bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+    bInCopyCode : BOOL; // if TRUE, the instance afterwards gets moved into the copy code (online change)
+    ParentObject : ITcoObject;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnAbort" Id="{f11d9f32-90be-4cfb-afbe-953524d630e4}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Executes when task is aborted.
+		</summary>			
+	</docu>	
+~*)
+METHOD PROTECTED OnAbort
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF __ISVALIDREF(inoStatus) THEN THIS^.inoStatus.ActionDescription := '<#Start at main was aborted.#>'; END_IF;
+IF __ISVALIDREF(inoControl) THEN
+	inoControl.StartAtMain := FALSE;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnDone" Id="{5af26343-de00-404d-bb2e-5e518735b259}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Executes when task reaches the ```Done``` state .
+		</summary>			
+	</docu>	
+~*)
+METHOD PROTECTED OnDone
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF __ISVALIDREF(inoStatus) THEN THIS^.inoStatus.ActionDescription := '<#Start at main finished successfully.#>'; END_IF;
+_progress := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnError" Id="{3ce99f99-243e-46f1-9c0c-615502374f60}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Executes when task reaches the ```Error``` state.
+		</summary>			
+	</docu>	
+~*)
+METHOD PROTECTED OnError
+VAR
+	description: STRING;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[description := '<#Start at main finished with error.#>';
+IF __ISVALIDREF(inoStatus) THEN THIS^.inoStatus.ActionDescription := description; END_IF;
+THIS^._errorMessage.Error(_sb.Clear().Append(description).Append(' To restore acknowledge this alarm.').ToString()).Pin();
+IF __ISVALIDREF(inoControl) THEN
+	inoControl.StartAtMain := FALSE;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnStart" Id="{52cfaaac-2da5-4666-9b2e-0c2fd9358574}">
+      <Declaration><![CDATA[METHOD PROTECTED OnStart
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF __ISVALIDREF(inoStatus) THEN THIS^.inoStatus.ActionDescription := '<#Start at main started.#>'; END_IF;
+CallTimers(FALSE);
+IF __ISVALIDREF(inoControl) THEN
+	inoControl.StartAtMain := FALSE;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Restore" Id="{ce9bbc6a-e243-420b-bce0-c4e38fcf7b00}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Restores this instance to the Ready state. Can be called explicitly or from within one of the restore mechanisms.
+			<para>
+				See also <see cref="PlcDocu.TcoCore.TcoTask.AutoRestorable()"/>
+			</para>
+		</summary>
+	</docu>
+~*)
+METHOD Restore : ITcoRestorable]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.Restore();]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>
