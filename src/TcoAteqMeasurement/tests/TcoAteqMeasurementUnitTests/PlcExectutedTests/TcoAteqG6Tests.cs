@@ -45,7 +45,7 @@ namespace TcoAteqMeasurementUnitTests.PlcExecutedTests
 
         private ushort Command => sut._sut._control.Command.Synchron;
 
-        private void Run(eTcoAteqG6Tests test) => sut.ExecuteProbeRun((int)test);
+        private void Run(eTcoAteqG6Tests test) => sut.ExecuteProbeRun((ulong)test);
 
         private void AssertDone()
         {
@@ -478,7 +478,7 @@ namespace TcoAteqMeasurementUnitTests.PlcExecutedTests
         public void SingleParameterIsQueried()
         {
             HealthyInstrument();
-            sut._parameter.Synchron = (ushort)eTcoAteqG6_ParameterId_v_3_5_x.TestFail;
+            sut._parameter.Synchron = (short)eTcoAteqG6_ParameterId_v_3_5_x.TestFail;
             Run(eTcoAteqG6Tests.ReadParameter);
 
             AssertDone();
