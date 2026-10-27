@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_GetInt_v_3_5_x" Id="{82102772-cd2c-4d73-a9ad-ecd92f892618}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Little-endian INT at inOffset.
+		</summary>
+	</docu>
+~*)
+FUNCTION TcoAteqG6_GetInt_v_3_5_x : INT
+VAR_INPUT
+	inOffset : INT;
+END_VAR
+VAR_IN_OUT
+	inoImage : ARRAY[0..255] OF BYTE;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[TcoAteqG6_GetInt_v_3_5_x := WORD_TO_INT(TcoAteqG6_GetWord_v_3_5_x(inOffset := inOffset, inoImage := inoImage));]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

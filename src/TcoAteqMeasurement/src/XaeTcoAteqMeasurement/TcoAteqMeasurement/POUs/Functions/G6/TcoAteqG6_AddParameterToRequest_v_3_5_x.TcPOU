@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_AddParameterToRequest_v_3_5_x" Id="{afd4428c-82cb-4ffb-965e-cb938cbe0d23}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Appends a parameter identifier to the request. Returns FALSE when the request is full (35).
+		</summary>
+	</docu>
+~*)
+FUNCTION TcoAteqG6_AddParameterToRequest_v_3_5_x : BOOL
+VAR_INPUT
+	inParameter : eTcoAteqG6_ParameterId_v_3_5_x;
+END_VAR
+VAR_IN_OUT
+	inoRequest : TcoAteqG6_ParameterRequest_v_3_5_x;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF inoRequest.Count < 0 OR inoRequest.Count >= 35 THEN
+	RETURN;
+END_IF
+inoRequest.Ids[inoRequest.Count] := TO_UINT(inParameter);
+inoRequest.Count := inoRequest.Count + 1;
+TcoAteqG6_AddParameterToRequest_v_3_5_x := TRUE;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

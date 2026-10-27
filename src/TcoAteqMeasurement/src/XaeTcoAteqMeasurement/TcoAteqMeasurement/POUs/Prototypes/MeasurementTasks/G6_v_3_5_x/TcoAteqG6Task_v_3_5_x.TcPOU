@@ -1,0 +1,374 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6Task_v_3_5_x" Id="{9660684f-bc06-4921-8100-c0b523e3ccdb}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Base of every ATEQ G6 command task. Owns the command handshake (manual p. 56):
+			own echo low -> raise the command bit (single rising edge) -> acknowledged (error word FFFFh or echo set) ->
+			completed (error word <> FFFFh; 0 = ok, otherwise failed) -> drop the command bit -> echo low.
+			Every wait is bounded by Config.CommandTimeout. The command bit is always dropped on done, error, abort and
+			restore - the instrument only reacts to rising edges, so a bit left high would make it miss the next command.
+		</summary>
+	</docu>
+~*)
+FUNCTION_BLOCK PUBLIC ABSTRACT TcoAteqG6Task_v_3_5_x EXTENDS TcoCore.TcoTask
+VAR_IN_OUT
+	inoConfig : TcoAteqG6_Config_v_3_5_x;
+	inoControl : TcoAteqG6_Control_v_3_5_x;
+	inoStatus : TcoAteqG6_Status_v_3_5_x;
+	inoImage : ARRAY[0..255] OF BYTE;
+END_VAR
+VAR
+	_errorMessage : TcoCore.TcoMessenger(THIS^);
+	{attribute 'hide'}
+	_progress : INT := 0;
+	{attribute 'hide'}
+	_hsStep : INT := 0;
+	{attribute 'hide'}
+	_activeMask : WORD;
+	{attribute 'hide'}
+	_cycleRunningSeen : BOOL;
+	{attribute 'hide'}
+	_failText : STRING(254);
+	{attribute 'hide'}
+	_stepTimer : TON;
+	{attribute 'hide'}
+	_hsTimer : TON;
+	{attribute 'hide'}
+	_infoTimer : TON;
+	{attribute 'hide'}
+	_errorTimer : TON;
+	{attribute 'hide'}
+	_varInfo : __SYSTEM.VAR_INFO;
+	{attribute 'hide'}
+	_sb : TcoCore.StringBuilder;
+END_VAR
+VAR CONSTANT
+	MASK_RESET : WORD := 16#0001;
+	MASK_START : WORD := 16#0002;
+	MASK_SPECIAL_CYCLE : WORD := 16#0006; // Start + Special cycle, sent together
+	MASK_PROGRAM_SELECTION : WORD := 16#0008;
+	MASK_READ_PARAMETERS : WORD := 16#0020;
+	MASK_READ_LAST_RESULT : WORD := 16#8000;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="CallTimers" Id="{60f21538-4d86-44be-a54f-b12c77164b32}">
+      <Declaration><![CDATA[METHOD CallTimers
+VAR_INPUT
+	inValue : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF __ISVALIDREF(inoConfig) AND THIS^.inoConfig.ErrorTime <> T#0S OR NOT inValue THEN
+	_errorTimer(IN := inValue, PT := THIS^.inoConfig.ErrorTime);
+END_IF
+IF __ISVALIDREF(inoConfig) AND THIS^.inoConfig.InfoTime <> T#0S OR NOT inValue THEN
+	_infoTimer(IN := inValue, PT := THIS^.inoConfig.InfoTime);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="CheckReferences" Id="{83e53292-0682-483d-9e6e-a3e03bd2ffe8}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Checks the references to the config, control, status and input image. Returns TRUE when all of them are valid.
+		</summary>
+	</docu>
+~*)
+METHOD PROTECTED CheckReferences : BOOL]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT __ISVALIDREF(inoControl) THEN
+	_varInfo := __VARINFO(inoControl);
+	Messenger.Programming(_sb.Clear().Append('<#Invalid reference: #>').Append(_varInfo.Symbol).ToString()).Pin();
+ELSIF NOT __ISVALIDREF(inoConfig) THEN
+	_varInfo := __VARINFO(inoConfig);
+	Messenger.Programming(_sb.Clear().Append('<#Invalid reference: #>').Append(_varInfo.Symbol).ToString()).Pin();
+ELSIF NOT __ISVALIDREF(inoStatus) THEN
+	_varInfo := __VARINFO(inoStatus);
+	Messenger.Programming(_sb.Clear().Append('<#Invalid reference: #>').Append(_varInfo.Symbol).ToString()).Pin();
+ELSIF NOT __ISVALIDREF(inoImage) THEN
+	_varInfo := __VARINFO(inoImage);
+	Messenger.Programming(_sb.Clear().Append('<#Invalid reference: #>').Append(_varInfo.Symbol).ToString()).Pin();
+ELSE
+	CheckReferences := TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="CommandTimeout" Id="{1e873df3-aba9-4a6c-9c53-2ffc2e0beddd}">
+      <Declaration><![CDATA[METHOD PROTECTED CommandTimeout : TIME]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF __ISVALIDREF(inoConfig) AND THIS^.inoConfig.CommandTimeout > T#0S THEN
+	CommandTimeout := THIS^.inoConfig.CommandTimeout;
+ELSE
+	CommandTimeout := T#5S;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="CycleTimeout" Id="{666a837d-e8af-48c9-a6b9-c083abf95533}">
+      <Declaration><![CDATA[METHOD PROTECTED CycleTimeout : TIME]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF __ISVALIDREF(inoConfig) AND THIS^.inoConfig.CycleTimeout > T#0S THEN
+	CycleTimeout := THIS^.inoConfig.CycleTimeout;
+ELSE
+	CycleTimeout := T#60S;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Fail" Id="{a7dba563-1df5-4821-9f6f-e3a6da3b35ec}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Puts the task into error with the text inText, keeps the command error word and drops the command bit.
+		</summary>
+	</docu>
+~*)
+METHOD PROTECTED Fail
+VAR_INPUT
+	inText : STRING(254);
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_failText := inText;
+IF __ISVALIDREF(inoStatus) THEN
+	THIS^.inoStatus.LastCommandError := THIS^.inoStatus.State.Error.Raw;
+END_IF
+ReleaseCommand();
+_hsStep := 0;
+THIS^.ThrowWhen(TRUE);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GoTo" Id="{9f081554-d98c-4cb3-9ce5-d991d2f9c7b9}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Moves to inStep and restarts the step timer.
+		</summary>
+	</docu>
+~*)
+METHOD PROTECTED GoTo
+VAR_INPUT
+	inStep : INT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_stepTimer(IN := FALSE);
+_progress := inStep;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Handshake" Id="{25e6c79d-c58e-47ac-9c40-39e677911c36}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Runs one command handshake for inMask. Returns TRUE in the cycle the handshake finished successfully;
+			on any failure the task is put into error.
+		</summary>
+	</docu>
+~*)
+METHOD PROTECTED Handshake : BOOL
+VAR_INPUT
+	inMask : WORD;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// 0: the instrument must not still echo this command (previous one not released)
+IF _hsStep = 0 THEN
+	_hsTimer(IN := TRUE, PT := CommandTimeout());
+	IF (inoStatus.State.Echo.Raw AND inMask) = 0 THEN
+		_hsTimer(IN := FALSE);
+		_hsStep := 1;
+	ELSIF _hsTimer.Q THEN
+		Fail('<#Instrument still echoes the previous command. Reset the instrument, then restore the component.#>');
+		RETURN;
+	END_IF
+END_IF
+
+// 1: raise the command bit - a single rising edge
+IF _hsStep = 1 THEN
+	_activeMask := inMask;
+	inoControl.Command := inoControl.Command OR inMask;
+	_hsStep := 2;
+END_IF
+
+// 2: acknowledged - command running (FFFFh) or already echoed
+IF _hsStep = 2 THEN
+	_hsTimer(IN := TRUE, PT := CommandTimeout());
+	IF inoStatus.State.Error.Raw = 16#FFFF OR (inoStatus.State.Echo.Raw AND inMask) = inMask THEN
+		_hsTimer(IN := FALSE);
+		_hsStep := 3;
+	ELSIF _hsTimer.Q THEN
+		Fail('<#Command was not acknowledged by the instrument. Check the PROFINET connection and fieldbus mode 5 Standard.#>');
+		RETURN;
+	END_IF
+END_IF
+
+// 3: completed - error word left FFFFh; 0 = success, anything else = failed
+IF _hsStep = 3 THEN
+	_hsTimer(IN := TRUE, PT := CommandTimeout());
+	IF inoStatus.State.Error.Raw <> 16#FFFF AND (inoStatus.State.Echo.Raw AND inMask) = inMask THEN
+		_hsTimer(IN := FALSE);
+		IF inoStatus.State.Error.Raw <> 0 THEN
+			Fail('<#Instrument reported a command error. See LastCommandError: the set bit names the failed command.#>');
+			RETURN;
+		END_IF
+		_hsStep := 4;
+	ELSIF _hsTimer.Q THEN
+		Fail('<#Command was not completed by the instrument. Check the instrument display for a running menu or alarm.#>');
+		RETURN;
+	END_IF
+END_IF
+
+// 4: drop the command bit
+IF _hsStep = 4 THEN
+	ReleaseCommand();
+	_hsStep := 5;
+END_IF
+
+// 5: echo released
+IF _hsStep = 5 THEN
+	_hsTimer(IN := TRUE, PT := CommandTimeout());
+	IF (inoStatus.State.Echo.Raw AND inMask) = 0 THEN
+		_hsTimer(IN := FALSE);
+		_hsStep := 0;
+		Handshake := TRUE;
+	ELSIF _hsTimer.Q THEN
+		Fail('<#Instrument did not release the command echo. Reset the instrument, then restore the component.#>');
+		RETURN;
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ObserveCycle" Id="{75d73e1d-6ce6-49e2-911a-a99f1308fbfe}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Waits for a full cycle after a start command: CycleEnd must be seen FALSE (cycle running, within
+			Config.CommandTimeout of the start) and then TRUE again (within Config.CycleTimeout). Call it every cycle from
+			the moment the start bit is raised, so a cycle that starts during the handshake is not missed.
+			Returns TRUE when the cycle ended.
+		</summary>
+	</docu>
+~*)
+METHOD PROTECTED ObserveCycle : BOOL
+VAR_INPUT
+	inWaiting : BOOL; // FALSE while the start handshake is still running
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT inoStatus.State.StatusBits.CycleEnd THEN
+	_cycleRunningSeen := TRUE;
+END_IF
+IF NOT inWaiting THEN
+	RETURN;
+END_IF
+IF NOT _cycleRunningSeen THEN
+	IF StepElapsed(CommandTimeout()) THEN
+		Fail('<#Test cycle did not start. Check the instrument for alarms and that the program is valid.#>');
+	END_IF
+ELSIF inoStatus.State.StatusBits.CycleEnd THEN
+	ObserveCycle := TRUE;
+ELSIF StepElapsed(CycleTimeout()) THEN
+	Fail('<#Test cycle did not end within Config.CycleTimeout.#>');
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ReleaseCommand" Id="{71afe29c-6af0-42ee-a385-4efb47ae01bd}">
+      <Declaration><![CDATA[METHOD PROTECTED ReleaseCommand]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF __ISVALIDREF(inoControl) AND _activeMask <> 0 THEN
+	THIS^.inoControl.Command := THIS^.inoControl.Command AND NOT _activeMask;
+END_IF
+_activeMask := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="StepElapsed" Id="{0998acba-91d2-44a7-a4aa-8d8d53de33e3}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			TRUE when the current step has been active longer than inLimit.
+		</summary>
+	</docu>
+~*)
+METHOD PROTECTED StepElapsed : BOOL
+VAR_INPUT
+	inLimit : TIME;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_stepTimer(IN := TRUE, PT := inLimit);
+StepElapsed := _stepTimer.Q;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Supervise" Id="{056cea6d-5bf7-4f47-bbfc-f2aa8aa7a569}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Per-cycle bookkeeping: progress information after Config.InfoTime and the optional task timeout Config.ErrorTime.
+		</summary>
+	</docu>
+~*)
+METHOD PROTECTED Supervise]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CallTimers(TRUE);
+THIS^.Messenger.OnCondition(_infoTimer.Q).Info(inoStatus.ActionDescription);
+IF _errorTimer.Q THEN
+	Fail('<#Task time exceeded (Config.ErrorTime).#>');
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnAbort" Id="{77170bed-925b-4ce7-bdc8-811da23a608a}">
+      <Declaration><![CDATA[METHOD PROTECTED OnAbort]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ReleaseCommand();
+_hsStep := 0;
+IF __ISVALIDREF(inoStatus) THEN THIS^.inoStatus.ActionDescription := '<#Command was aborted.#>'; END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnDone" Id="{e1f8c08a-9a88-4055-a4c0-60d5b1008535}">
+      <Declaration><![CDATA[METHOD PROTECTED OnDone]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ReleaseCommand();
+_progress := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnError" Id="{cd49c8db-c129-480f-87c7-25d5ba7067ad}">
+      <Declaration><![CDATA[METHOD PROTECTED OnError]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ReleaseCommand();
+IF __ISVALIDREF(inoStatus) THEN THIS^.inoStatus.ActionDescription := _failText; END_IF
+THIS^._errorMessage.Error(_sb.Clear().Append(_failText).Append('<# To restore acknowledge this alarm.#>').ToString()).Pin();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnStart" Id="{acea2944-ec8b-41ed-a893-d94ab8bc10fe}">
+      <Declaration><![CDATA[METHOD PROTECTED OnStart]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ReleaseCommand();
+_progress := 0;
+_hsStep := 0;
+_cycleRunningSeen := FALSE;
+_failText := '';
+_stepTimer(IN := FALSE);
+_hsTimer(IN := FALSE);
+CallTimers(FALSE);
+IF __ISVALIDREF(inoStatus) THEN THIS^.inoStatus.LastCommandError := 0; END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Restore" Id="{91634f46-941d-463a-921f-62d82f7dfecf}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Restores this instance to the Ready state and drops its command bit.
+		</summary>
+	</docu>
+~*)
+METHOD Restore : ITcoRestorable]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.Restore();
+ReleaseCommand();
+_progress := 0;
+_hsStep := 0;
+_stepTimer(IN := FALSE);
+_hsTimer(IN := FALSE);
+CallTimers(FALSE);
+Messenger.UnPin();
+_errorMessage.UnPin();]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

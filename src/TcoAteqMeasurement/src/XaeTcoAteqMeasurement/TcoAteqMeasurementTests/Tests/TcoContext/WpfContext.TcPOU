@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="WpfContext" Id="{709b0734-c343-4049-95ac-3cd974324b35}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK WpfContext EXTENDS TcoCore.TcoContext
+VAR
+	_serviceModeActive : BOOL;
+	{attribute addProperty Name "<#ATEQ G6 PN#>"}
+	_ateq1 : TcoAteqMeasurement.TcoAteqG6Pn_v_3_5_x(THIS^);
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Main" Id="{b0a973f4-4a76-4e63-b5c5-67f57600aa25}">
+      <Declaration><![CDATA[METHOD PROTECTED Main]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _serviceModeActive THEN
+	_ateq1.Service();
+END_IF
+_ateq1(inoData := GVL.Ateq1);]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

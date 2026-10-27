@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_ClearParameterRequest_v_3_5_x" Id="{6791b5a3-76d9-47bc-a833-ff921690e5a6}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Clears a parameter request.
+		</summary>
+	</docu>
+~*)
+FUNCTION TcoAteqG6_ClearParameterRequest_v_3_5_x : BOOL
+VAR_IN_OUT
+	inoRequest : TcoAteqG6_ParameterRequest_v_3_5_x;
+END_VAR
+VAR
+	i : INT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[inoRequest.Count := 0;
+FOR i := 0 TO 34 DO
+	inoRequest.Ids[i] := 0;
+END_FOR
+TcoAteqG6_ClearParameterRequest_v_3_5_x := TRUE;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

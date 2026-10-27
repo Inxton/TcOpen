@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_GetWord_v_3_5_x" Id="{92ba307d-f69a-489e-94a5-dabef4bef0e1}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Little-endian WORD at inOffset (ATEQ fieldbus data: least significant byte first).
+		</summary>
+	</docu>
+~*)
+FUNCTION TcoAteqG6_GetWord_v_3_5_x : WORD
+VAR_INPUT
+	inOffset : INT;
+END_VAR
+VAR_IN_OUT
+	inoImage : ARRAY[0..255] OF BYTE;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[TcoAteqG6_GetWord_v_3_5_x := SHL(BYTE_TO_WORD(inoImage[inOffset + 1]), 8) OR BYTE_TO_WORD(inoImage[inOffset]);]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

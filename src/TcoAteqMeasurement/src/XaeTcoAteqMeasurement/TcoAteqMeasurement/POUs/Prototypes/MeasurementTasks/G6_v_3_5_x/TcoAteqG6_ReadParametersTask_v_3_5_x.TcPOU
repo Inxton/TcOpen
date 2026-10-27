@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_ReadParametersTask_v_3_5_x" Id="{69a01ed1-3db5-4097-b163-22b83074ce78}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Read parameters (command bit 5) of the currently selected program: sends Control.ParameterRequest and decodes the response into Status.Parameters. With the map-to-preset flag the list is also mapped onto Status.ParameterSet. Control.QueryParameter is looked up after every read. Read-only - this component never writes parameters.
+		</summary>
+	</docu>
+~*)
+FUNCTION_BLOCK TcoAteqG6_ReadParametersTask_v_3_5_x EXTENDS TcoAteqG6Task_v_3_5_x
+VAR
+	{attribute addProperty Name "<#Map to preset#>"}
+	{attribute clr [ReadOnly()]}
+	_mapToPreset : BOOL;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF Execute() THEN
+	IF CheckReferences() THEN
+		// AX step 0: valid request
+		IF _progress = 0 THEN
+			inoStatus.ActionDescription := '<#Checking parameter request#>';
+			IF TcoAteqG6_IsParameterRequestValid_v_3_5_x(inoRequest := inoControl.ParameterRequest) THEN
+				GoTo(10);
+			ELSE
+				Fail('<#Number of requested parameters out of range (1-35).#>');
+			END_IF
+		END_IF
+
+		// AX step 10: read and decode
+		IF _progress = 10 THEN
+			inoStatus.ActionDescription := '<#Reading parameters#>';
+			IF Handshake(MASK_READ_PARAMETERS) THEN
+				TcoAteqG6_DecodeParameterList_v_3_5_x(inOffset := 16#20,
+					inCount := inoControl.ParameterRequest.Count,
+					inoImage := inoImage,
+					inoList := inoStatus.Parameters);
+				IF _mapToPreset THEN
+					TcoAteqG6_MapPresetParameters_v_3_5_x(inoList := inoStatus.Parameters, inoSet := inoStatus.ParameterSet);
+				END_IF
+				TcoAteqG6_QueryParameter_v_3_5_x(inParameter := inoControl.QueryParameter,
+					inoList := inoStatus.Parameters,
+					inoQuery := inoStatus.ParameterQuery);
+				GoTo(100);
+			END_IF
+		END_IF
+
+		// AX step 100
+		IF _progress = 100 THEN
+			inoStatus.ActionDescription := '<#Parameters read#>';
+			DoneWhen(TRUE);
+		END_IF
+		Supervise();
+	END_IF
+END_IF
+
+IF THIS^.Error AND NOT _errorMessage.Pinned THEN
+	THIS^.Restore();
+END_IF]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{6bedfb83-0fab-408e-ba99-871b94e2be02}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	ParentObject : ITcoObject;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="InvokeWithParams" Id="{690c1403-e11a-4176-8ae4-9936c6ed6f04}">
+      <Declaration><![CDATA[METHOD INTERNAL InvokeWithParams : ITcoTaskStatus
+VAR_INPUT
+	inMapToPreset : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT THIS^.Busy THEN
+	_mapToPreset := inMapToPreset;
+END_IF
+InvokeWithParams := THIS^.Invoke();]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

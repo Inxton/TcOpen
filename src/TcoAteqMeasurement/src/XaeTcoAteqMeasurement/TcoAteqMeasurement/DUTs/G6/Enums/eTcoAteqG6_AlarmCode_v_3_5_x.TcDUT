@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="eTcoAteqG6_AlarmCode_v_3_5_x" Id="{616e0902-2d12-492e-9fdb-7a40555eaf1d}">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Alarm code of the last result (exchange zone 26h). Codes that are not listed decode to Unknown.
+		</summary>
+	</docu>
+~*)
+{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE eTcoAteqG6_AlarmCode_v_3_5_x :
+(
+	Unknown := -1,
+	NoAlarm := 0,
+	PressureSwitchTooHigh := 1,
+	PressureSwitchTooLow := 2,
+	LargeLeakOnTest := 3,
+	LargeLeakOnReference := 4,
+	SensorOutOfOrder := 7,
+	PressureTooHigh := 43,
+	PressureTooLow := 44,
+	PiezoSensorOutOfOrder := 45,
+	DumpError := 46,
+	CalibrationDrift := 47,
+	AtmosphericPressureError := 73,
+	TemperatureError := 74
+) INT;
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

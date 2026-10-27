@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_ToStep_v_3_5_x" Id="{2c33c8e4-8925-4952-90cb-cf285833c896}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Step word to step.
+		</summary>
+	</docu>
+~*)
+FUNCTION TcoAteqG6_ToStep_v_3_5_x : eTcoAteqG6_Step_v_3_5_x
+VAR_INPUT
+	inRaw : INT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE inRaw OF
+	-1: TcoAteqG6_ToStep_v_3_5_x := eTcoAteqG6_Step_v_3_5_x.None;
+	0: TcoAteqG6_ToStep_v_3_5_x := eTcoAteqG6_Step_v_3_5_x.PreFill;
+	1: TcoAteqG6_ToStep_v_3_5_x := eTcoAteqG6_Step_v_3_5_x.Fill;
+	2: TcoAteqG6_ToStep_v_3_5_x := eTcoAteqG6_Step_v_3_5_x.ZeroDiff;
+	3: TcoAteqG6_ToStep_v_3_5_x := eTcoAteqG6_Step_v_3_5_x.Stabilization;
+	4: TcoAteqG6_ToStep_v_3_5_x := eTcoAteqG6_Step_v_3_5_x.Test;
+	5: TcoAteqG6_ToStep_v_3_5_x := eTcoAteqG6_Step_v_3_5_x.Dump;
+ELSE
+	TcoAteqG6_ToStep_v_3_5_x := eTcoAteqG6_Step_v_3_5_x.Unknown;
+END_CASE]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

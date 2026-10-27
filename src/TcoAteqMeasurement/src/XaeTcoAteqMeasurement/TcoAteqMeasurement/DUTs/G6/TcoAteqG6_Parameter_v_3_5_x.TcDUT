@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="TcoAteqG6_Parameter_v_3_5_x" Id="{4fa612bf-980c-425c-83c4-31a4fbd81f87}">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			One parameter of the "Read parameters" response.
+		</summary>
+	</docu>
+~*)
+TYPE TcoAteqG6_Parameter_v_3_5_x :
+STRUCT
+	{attribute addProperty Name "<#Identifier#>"}
+	Id : UINT;
+	{attribute addProperty Name "<#Value#>"}
+	Value : REAL;
+	{attribute addProperty Name "<#Value (raw x1000)#>"}
+	Raw : DINT;
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

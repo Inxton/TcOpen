@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="TcoAteqG6_Control_v_3_5_x" Id="{e8103527-672d-4a0d-b452-46a92694033a}">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Output data: 00h command word, 06h program number (0-based on the bus), 08h special cycle id, 09h special cycle instruction, 20h parameter request. The whole output image is rewritten every cycle.
+		</summary>
+	</docu>
+~*)
+TYPE TcoAteqG6_Control_v_3_5_x :
+STRUCT
+	{attribute addProperty Name "<#Command word#>"}
+	Command : WORD;
+	{attribute addProperty Name "<#Command bits#>"}
+	CommandBits : TcoAteqG6_CommandBits_v_3_5_x;
+	{attribute addProperty Name "<#Program number (as displayed, 1-128)#>"}
+	ProgramNumber : INT;
+	{attribute addProperty Name "<#Special cycle#>"}
+	SpecialCycle : eTcoAteqG6_SpecialCycle_v_3_5_x;
+	{attribute addProperty Name "<#Special cycle instruction#>"}
+	SpecialCycleInstruction : BYTE;
+	{attribute addProperty Name "<#Parameter request#>"}
+	ParameterRequest : TcoAteqG6_ParameterRequest_v_3_5_x;
+	{attribute addProperty Name "<#Selected parameter#>"}
+	QueryParameter : eTcoAteqG6_ParameterId_v_3_5_x;
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>
