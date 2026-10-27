@@ -267,6 +267,9 @@
   <data name="___Start_movements_stared___" xml:space="preserve">
     <value>Spouštěcí pohyby zíraly.</value>
   </data>
+  <data name="___Start_program_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>Spuštění programu bylo přerušeno, přestože ještě nebylo dokončeno!</value>
+  </data>
   <data name="___Stop_program_was_aborted__while_not_yet_completed___" xml:space="preserve">
     <value>Program Stop byl přerušen, přestože ještě nebyl dokončen!</value>
   </data>
@@ -275,6 +278,9 @@
   </data>
   <data name="___Stopping_program_with_error___" xml:space="preserve">
     <value>Zastavení programu s chybou.</value>
+  </data>
+  <data name="___Starting_program_started___" xml:space="preserve">
+    <value>Spouštění programu zahájeno.</value>
   </data>
   <data name="___Stopping_program_started___" xml:space="preserve">
     <value>Zastavení spuštěného programu.</value>
