@@ -125,7 +125,6 @@
       "src\\TcoAteqMeasurement\\src\\TcoAteqMeasurementConnector\\TcoAteqMeasurementConnector.csproj",
       "src\\TcoAteqMeasurement\\tests\\TcoAteqMeasurementTestsConnector\\TcoAteqMeasurementTestsConnector.csproj",
       "src\\TcoAteqMeasurement\\tests\\TcoAteqMeasurementUnitTests\\TcoAteqMeasurementUnitTests.csproj",
-      "src\\TcoAteqMeasurement\\tests\\TcoAteqMeasurement.Wpf.Sandbox\\TcoAteqMeasurement.Wpf.Sandbox.csproj",
       "src\\TcoUrRobotics\\src\\TcoUrRobotics.Wpf\\TcOpen.Inxton.TcoUrRobotics.Wpf.csproj",
       "src\\TcoUrRobotics\\src\\TcoUrRoboticsConnector\\TcoUrRoboticsConnector.csproj",
       "src\\TcoUrRobotics\\tests\\TcoUrRoboticsTestsConnector\\TcoUrRoboticsTestsConnector.csproj",
