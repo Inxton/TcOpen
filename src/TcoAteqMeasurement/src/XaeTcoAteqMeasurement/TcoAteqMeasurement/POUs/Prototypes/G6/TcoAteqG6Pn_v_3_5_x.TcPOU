@@ -1,0 +1,447 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6Pn_v_3_5_x" Id="{f76e1e27-3944-4388-8dac-72e45e571e35}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			ATEQ G6 leak tester (G6 Series - Profinet, fieldbus software 3.5, fieldbus mode 5 "Standard"), PN.
+			The interface uses 4 input modules of 64 bytes (slots 1-4) and 4 output modules of 64 bytes (slots 5-8);
+			they are mapped to one 256-byte input image and one 256-byte output image. All data are little-endian,
+			measured values and parameters are LONG x1000, program numbers are 0-based on the bus and 1-based here.
+			Commands use the ATEQ handshake (command bit -> echo -> error word -> release), see TcoAteqG6Task_v_3_5_x.
+			Ported from AXOpen AxoG6 v_3_5_x; the hardware-ID bootstrap and the numeric error codes are not ported.
+		</summary>
+	</docu>
+~*)
+FUNCTION_BLOCK TcoAteqG6Pn_v_3_5_x EXTENDS TcoIo.TcoPnIoComponent
+VAR_INPUT
+	inEnable : BOOL;
+END_VAR
+VAR_IN_OUT
+	inoData : TcoAteqG6Pn_IO_v_3_5_x;
+END_VAR
+VAR
+	{attribute addProperty Name "<#Status#>"}
+	{attribute clr [ReadOnly()]}
+	_status : TcoAteqG6_Status_v_3_5_x;
+	{attribute addProperty Name "<#Control#>"}
+	_control : TcoAteqG6_Control_v_3_5_x;
+	{attribute addProperty Name "<#Config#>"}
+	_config : TcoAteqG6_Config_v_3_5_x;
+	{attribute addProperty Name "<#PN Error#>"}
+	{attribute clr [ReadOnly()]}
+	_busError : BOOL;
+END_VAR
+VAR
+	{attribute addProperty Name "<#Reset#>"}
+	_resetTask : TcoAteqG6_ResetTask_v_3_5_x(THIS^);
+
+	{attribute addProperty Name "<#Select program#>"}
+	_selectProgramTask : TcoAteqG6_SelectProgramTask_v_3_5_x(THIS^);
+
+	{attribute addProperty Name "<#Start test cycle#>"}
+	_startCycleTask : TcoAteqG6_StartCycleTask_v_3_5_x(THIS^);
+
+	{attribute addProperty Name "<#Read last result#>"}
+	_readLastResultTask : TcoAteqG6_ReadLastResultTask_v_3_5_x(THIS^);
+
+	{attribute addProperty Name "<#Start special cycle#>"}
+	_specialCycleTask : TcoAteqG6_SpecialCycleTask_v_3_5_x(THIS^);
+
+	{attribute addProperty Name "<#Read parameters#>"}
+	_readParametersTask : TcoAteqG6_ReadParametersTask_v_3_5_x(THIS^);
+
+	{attribute addProperty Name "<#Restore#>"}
+	_restoreTask : TcoCore.TcoTask(THIS^);
+END_VAR
+VAR
+	{attribute 'hide'}
+	_inputImage : ARRAY[0..255] OF BYTE;
+	{attribute 'hide'}
+	_outputImage : ARRAY[0..255] OF BYTE;
+	{attribute 'hide'}
+	_sb : TcoCore.StringBuilder;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF NOT __ISVALIDREF(inoData) THEN
+	Messenger.Post('Invalid reference', TcoCore.eMessageCategory.ProgrammingError);
+	RETURN;
+END_IF
+
+SUPER^(inPnIoBoxState := THIS^.inoData.PnIoBoxState, inPnIoBoxDiag := THIS^.inoData.PnIoBoxDiag);
+_busError := NOT _profinetReady;
+
+UpdateStatus();
+
+// Reset is never blocked and aborts any other running command
+_resetTask.Enabled := TRUE;
+IF _resetTask.Busy THEN
+	AbortCommandTasks();
+END_IF
+_resetTask(inoConfig := _config, inoControl := _control, inoStatus := _status, inoImage := _inputImage);
+
+// one command at a time: every other command is disabled while any command task is busy
+_selectProgramTask.Enabled := NOT (_resetTask.Busy OR _startCycleTask.Busy OR _readLastResultTask.Busy OR _specialCycleTask.Busy OR _readParametersTask.Busy);
+_selectProgramTask(inoConfig := _config, inoControl := _control, inoStatus := _status, inoImage := _inputImage);
+
+_startCycleTask.Enabled := NOT (_resetTask.Busy OR _selectProgramTask.Busy OR _readLastResultTask.Busy OR _specialCycleTask.Busy OR _readParametersTask.Busy);
+_startCycleTask(inoConfig := _config, inoControl := _control, inoStatus := _status, inoImage := _inputImage);
+
+_readLastResultTask.Enabled := NOT (_resetTask.Busy OR _selectProgramTask.Busy OR _startCycleTask.Busy OR _specialCycleTask.Busy OR _readParametersTask.Busy);
+_readLastResultTask(inoConfig := _config, inoControl := _control, inoStatus := _status, inoImage := _inputImage);
+
+_specialCycleTask.Enabled := NOT (_resetTask.Busy OR _selectProgramTask.Busy OR _startCycleTask.Busy OR _readLastResultTask.Busy OR _readParametersTask.Busy);
+_specialCycleTask(inoConfig := _config, inoControl := _control, inoStatus := _status, inoImage := _inputImage);
+
+_readParametersTask.Enabled := NOT (_resetTask.Busy OR _selectProgramTask.Busy OR _startCycleTask.Busy OR _readLastResultTask.Busy OR _specialCycleTask.Busy);
+_readParametersTask(inoConfig := _config, inoControl := _control, inoStatus := _status, inoImage := _inputImage);
+
+//*************RESTORE********************
+_restoreTask.Enabled := TRUE;
+IF _restoreTask.Execute() THEN
+	Restore();
+	_restoreTask.DoneWhen(TRUE);
+END_IF
+//****************************************
+
+UpdateControl();]]></ST>
+    </Implementation>
+    <Folder Name="Operations" Id="{409b8386-b57d-4609-9b10-10e7997e8582}" />
+    <Folder Name="Task" Id="{0ccfc798-6aa2-465e-a180-e4b7a21f2674}" />
+    <Property Name="Config" Id="{9349ab71-91c9-4307-b170-5590be2f2a85}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Gets the configuration of the instrument.
+		</summary>
+	</docu>
+~*)
+PROPERTY Config : REFERENCE TO TcoAteqG6_Config_v_3_5_x]]></Declaration>
+      <Get Name="Get" Id="{623c09fb-c1ab-4a44-8304-1725e65d650c}">
+        <Declaration><![CDATA[]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Config REF= _config;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Control" Id="{6ae9ac10-5083-4bcf-86a0-db25b2137b4b}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Control : REFERENCE TO TcoAteqG6_Control_v_3_5_x]]></Declaration>
+      <Get Name="Get" Id="{883fa65f-400d-4035-9704-da116f33865b}">
+        <Declaration><![CDATA[]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Control REF= _control;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Status" Id="{b9683a8f-36dc-418e-ae63-1092730fe723}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Gets the status of the instrument (live state, last result, parameters).
+		</summary>
+	</docu>
+~*)
+PROPERTY Status : REFERENCE TO TcoAteqG6_Status_v_3_5_x]]></Declaration>
+      <Get Name="Get" Id="{755dff8a-1f74-4378-9d5a-bf5dc630c3af}">
+        <Declaration><![CDATA[]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Status REF= _status;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="FB_init" Id="{4283b6ab-1bec-43bf-9a47-c9a81b117bec}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	ParentObject : ITcoObject;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="AbortCommandTasks" Id="{ba0fd810-e113-4153-aeea-0527768501a9}">
+      <Declaration><![CDATA[METHOD INTERNAL AbortCommandTasks]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_selectProgramTask.Abort();
+_startCycleTask.Abort();
+_readLastResultTask.Abort();
+_specialCycleTask.Abort();
+_readParametersTask.Abort();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="CommandTaskBusy" Id="{c11bdf2f-7907-4037-9a6c-9e67f1f0c1af}">
+      <Declaration><![CDATA[METHOD INTERNAL CommandTaskBusy : BOOL]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CommandTaskBusy := _resetTask.Busy OR _selectProgramTask.Busy OR _startCycleTask.Busy OR _readLastResultTask.Busy OR _specialCycleTask.Busy OR _readParametersTask.Busy;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Restore" Id="{532b66c6-eb6b-409f-9a9f-5ef69b399d6f}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Restores this instance to the Ready state. Can be called explicitly or from within one of the restore mechanisms.
+		</summary>
+	</docu>
+~*)
+METHOD Restore : ITcoRestorable]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[RestoreTasks();
+_control.Command := 0;
+_status.LastCommandError := 0;
+_status.ActionDescription := '<#Restore has been executed.#>';]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RestoreTasks" Id="{7196b3ab-e180-4869-9ad0-1df475e2b781}">
+      <Declaration><![CDATA[METHOD INTERNAL RestoreTasks]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_resetTask.Restore();
+_selectProgramTask.Restore();
+_startCycleTask.Restore();
+_readLastResultTask.Restore();
+_specialCycleTask.Restore();
+_readParametersTask.Restore();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ServiceMode" Id="{c3c0494e-dcb8-4e53-8979-4729b663aaad}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Custom service (manual, maintenance) logic.
+		</summary>
+	</docu>
+~*)
+METHOD PROTECTED ServiceMode]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="UpdateStatus" Id="{7b40835e-2b7a-4f68-80ae-8e984f0b85e1}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Copies the 4 input modules into the 256-byte input image and decodes the live state.
+		</summary>
+	</docu>
+~*)
+METHOD INTERNAL UpdateStatus]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[MEMCPY(destAddr := ADR(_inputImage[0]), srcAddr := ADR(inoData.In.In1), n := 64);
+MEMCPY(destAddr := ADR(_inputImage[64]), srcAddr := ADR(inoData.In.In2), n := 64);
+MEMCPY(destAddr := ADR(_inputImage[128]), srcAddr := ADR(inoData.In.In3), n := 64);
+MEMCPY(destAddr := ADR(_inputImage[192]), srcAddr := ADR(inoData.In.In4), n := 64);
+
+TcoAteqG6_DecodeState_v_3_5_x(inoImage := _inputImage, inoState := _status.State);
+_status.Ready := _status.State.StatusBits.CycleEnd AND NOT _status.State.CommandRunning;
+_status.LastPass := _status.LastResult.Valid AND _status.LastResult.Pass;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="UpdateControl" Id="{709738b1-180a-4181-acee-2f15c810f894}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Encodes the control data into the 256-byte output image and copies it to the 4 output modules.
+		</summary>
+	</docu>
+~*)
+METHOD INTERNAL UpdateControl]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TcoAteqG6_EncodeControl_v_3_5_x(inoControl := _control, inoImage := _outputImage);
+
+MEMCPY(destAddr := ADR(inoData.Out.Out1), srcAddr := ADR(_outputImage[0]), n := 64);
+MEMCPY(destAddr := ADR(inoData.Out.Out2), srcAddr := ADR(_outputImage[64]), n := 64);
+MEMCPY(destAddr := ADR(inoData.Out.Out3), srcAddr := ADR(_outputImage[128]), n := 64);
+MEMCPY(destAddr := ADR(inoData.Out.Out4), srcAddr := ADR(_outputImage[192]), n := 64);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Reset" Id="{fe454127-c1b0-404a-b552-ae66a4106910}" FolderPath="Operations\">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Resets the instrument. Aborts any other running command.
+		</summary>
+	</docu>
+~*)
+METHOD PUBLIC Reset : TcoCore.ITcoTaskStatus]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[AbortCommandTasks();
+Reset := _resetTask.Invoke();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SelectProgram" Id="{09642407-a3a5-41f8-93cc-7575afe07cc9}" FolderPath="Operations\">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Selects program inProgram (1-128, as shown on the instrument display).
+		</summary>
+	</docu>
+~*)
+METHOD PUBLIC SelectProgram : TcoCore.ITcoTaskStatus
+VAR_INPUT
+	inProgram : INT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _selectProgramTask.Busy OR NOT CommandTaskBusy() THEN
+	_control.ProgramNumber := inProgram;
+END_IF
+SelectProgram := _selectProgramTask.Invoke();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="StartCycle" Id="{83aa4c99-ceb2-4bef-8fa9-d79630afb660}" FolderPath="Operations\">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Runs a complete test cycle on program inProgram (1-128) and reads its result into Status.LastResult.
+		</summary>
+	</docu>
+~*)
+METHOD PUBLIC StartCycle : TcoCore.ITcoTaskStatus
+VAR_INPUT
+	inProgram : INT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _startCycleTask.Busy OR NOT CommandTaskBusy() THEN
+	_control.ProgramNumber := inProgram;
+END_IF
+StartCycle := _startCycleTask.Invoke();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ReadLastResult" Id="{4ef22fb0-e661-4ebe-b540-5c6e7688818c}" FolderPath="Operations\">
+      <Declaration><![CDATA[METHOD PUBLIC ReadLastResult : TcoCore.ITcoTaskStatus]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ReadLastResult := _readLastResultTask.Invoke();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SpecialCycle" Id="{2e4da26a-cd6d-4b1c-bfaa-1a86c6d55699}" FolderPath="Operations\">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Runs special cycle inSpecialCycle with instruction inInstruction on the currently selected program.
+		</summary>
+	</docu>
+~*)
+METHOD PUBLIC SpecialCycle : TcoCore.ITcoTaskStatus
+VAR_INPUT
+	inSpecialCycle : eTcoAteqG6_SpecialCycle_v_3_5_x;
+	inInstruction : BYTE;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _specialCycleTask.Busy OR NOT CommandTaskBusy() THEN
+	_control.SpecialCycle := inSpecialCycle;
+	_control.SpecialCycleInstruction := inInstruction;
+END_IF
+SpecialCycle := _specialCycleTask.Invoke();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ReadParameters" Id="{8c20af44-380b-4bbd-9d1e-866c94a53e0f}" FolderPath="Operations\">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Reads the parameters listed in inoRequest (1-35 identifiers) into Status.Parameters.
+		</summary>
+	</docu>
+~*)
+METHOD PUBLIC ReadParameters : TcoCore.ITcoTaskStatus
+VAR_IN_OUT
+	inoRequest : TcoAteqG6_ParameterRequest_v_3_5_x;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _readParametersTask.Busy OR NOT CommandTaskBusy() THEN
+	_control.ParameterRequest := inoRequest;
+END_IF
+ReadParameters := _readParametersTask.InvokeWithParams(inMapToPreset := FALSE);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ReadPresetParameters" Id="{4b21aaa7-43d0-4014-9488-272ef7fdfd4f}" FolderPath="Operations\">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Reads the preset parameters (times, test type, fill levels, reject levels) into Status.ParameterSet.
+		</summary>
+	</docu>
+~*)
+METHOD PUBLIC ReadPresetParameters : TcoCore.ITcoTaskStatus]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _readParametersTask.Busy OR NOT CommandTaskBusy() THEN
+	TcoAteqG6_BuildPresetRequest_v_3_5_x(inoRequest := _control.ParameterRequest);
+END_IF
+ReadPresetParameters := _readParametersTask.InvokeWithParams(inMapToPreset := TRUE);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ReadParameter" Id="{ab2c1ab5-e027-4ab3-be99-3ccccecb8cf8}" FolderPath="Operations\">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Reads one parameter; the value is in Status.ParameterQuery.
+		</summary>
+	</docu>
+~*)
+METHOD PUBLIC ReadParameter : TcoCore.ITcoTaskStatus
+VAR_INPUT
+	inParameter : eTcoAteqG6_ParameterId_v_3_5_x;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _readParametersTask.Busy OR NOT CommandTaskBusy() THEN
+	TcoAteqG6_ClearParameterRequest_v_3_5_x(inoRequest := _control.ParameterRequest);
+	TcoAteqG6_AddParameterToRequest_v_3_5_x(inParameter := inParameter, inoRequest := _control.ParameterRequest);
+	_control.QueryParameter := inParameter;
+END_IF
+ReadParameter := _readParametersTask.InvokeWithParams(inMapToPreset := FALSE);]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="ResetTask" Id="{def466cd-a1e0-400d-b318-bebe67500ee3}" FolderPath="Task\">
+      <Declaration><![CDATA[PROPERTY ResetTask : TcoCore.ITcoTaskStatus]]></Declaration>
+      <Get Name="Get" Id="{79541a9b-5fe0-4dd0-aaaf-759e8bf6c89f}">
+        <Declaration><![CDATA[]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[ResetTask := _resetTask;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="SelectProgramTask" Id="{69aa77e6-d493-4bee-89bd-47eca01b95a1}" FolderPath="Task\">
+      <Declaration><![CDATA[PROPERTY SelectProgramTask : TcoCore.ITcoTaskStatus]]></Declaration>
+      <Get Name="Get" Id="{f6c47789-4d73-4fd9-a94a-c9027dcfc43f}">
+        <Declaration><![CDATA[]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[SelectProgramTask := _selectProgramTask;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="StartCycleTask" Id="{0da3b4b2-266c-4748-9374-e60183cdaaea}" FolderPath="Task\">
+      <Declaration><![CDATA[PROPERTY StartCycleTask : TcoCore.ITcoTaskStatus]]></Declaration>
+      <Get Name="Get" Id="{f64ee0cd-7977-4d86-8c11-4defd9b4db96}">
+        <Declaration><![CDATA[]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[StartCycleTask := _startCycleTask;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="ReadLastResultTask" Id="{b3dbf803-7066-4ee6-a186-1d58f335870c}" FolderPath="Task\">
+      <Declaration><![CDATA[PROPERTY ReadLastResultTask : TcoCore.ITcoTaskStatus]]></Declaration>
+      <Get Name="Get" Id="{37d87806-b3b0-4f8e-8d26-ac2a5ea96530}">
+        <Declaration><![CDATA[]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[ReadLastResultTask := _readLastResultTask;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="SpecialCycleTask" Id="{e3cc4ddc-283d-4d5b-a9b5-19abbad95bbc}" FolderPath="Task\">
+      <Declaration><![CDATA[PROPERTY SpecialCycleTask : TcoCore.ITcoTaskStatus]]></Declaration>
+      <Get Name="Get" Id="{8dffbe2c-1c19-4563-9421-54643ab896ed}">
+        <Declaration><![CDATA[]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[SpecialCycleTask := _specialCycleTask;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="ReadParametersTask" Id="{ad5af6a0-63b9-4ac9-8c5c-2c7d79b64fba}" FolderPath="Task\">
+      <Declaration><![CDATA[PROPERTY ReadParametersTask : TcoCore.ITcoTaskStatus]]></Declaration>
+      <Get Name="Get" Id="{92af4ff1-36ea-4c64-a316-840c61bdff1b}">
+        <Declaration><![CDATA[]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[ReadParametersTask := _readParametersTask;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>

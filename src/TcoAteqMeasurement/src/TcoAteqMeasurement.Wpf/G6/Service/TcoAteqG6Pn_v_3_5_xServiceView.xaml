@@ -1,0 +1,104 @@
+﻿<UserControl
+    x:Class="TcoAteqMeasurement.TcoAteqG6Pn_v_3_5_xServiceView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:TcoAteqMeasurement"
+    xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vortex="http://vortex.mts/xaml"
+    xmlns:p="clr-namespace:TcOpen.Inxton.TcoAteqMeasurement.Wpf.Properties"
+    mc:Ignorable="d">
+    <d:UserControl.DataContext>
+        <local:TcoAteqG6Pn_v_3_5_xServiceViewModel />
+    </d:UserControl.DataContext>
+
+    <vortex:TcoComponentView>
+        <vortex:TcoComponentView.ComponentHeader>
+            <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Left" DataContext="{Binding Component}">
+                <WrapPanel.Resources>
+                    <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignBody1TextBlock}">
+                        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                    </Style>
+                </WrapPanel.Resources>
+
+                <WrapPanel DataContext="{Binding _status.Ready}" Visibility="{Binding Cyclic, Converter={vortex:BooleanToVisibilityConverter}}" Margin="5,0">
+                    <materialdesign:PackIcon Kind="CheckBox" Foreground="{StaticResource Notification}" VerticalAlignment="Center"/>
+                    <TextBlock Text="{x:Static p:strings.Ready}" Foreground="{StaticResource Notification}"/>
+                </WrapPanel>
+                <WrapPanel DataContext="{Binding _status.Ready}" Visibility="{Binding Cyclic, Converter={vortex:BooleanToVisibilityConverter}, ConverterParameter=true}" Margin="5,0">
+                    <materialdesign:PackIcon Kind="WarningBox" Foreground="{StaticResource Warning}" VerticalAlignment="Center"/>
+                    <TextBlock Text="{x:Static p:strings.NotReady}" Foreground="{StaticResource Warning}"/>
+                </WrapPanel>
+                <WrapPanel DataContext="{Binding _status.State.CommandRunning}" Visibility="{Binding Cyclic, Converter={vortex:BooleanToVisibilityConverter}}" Margin="5,0">
+                    <materialdesign:PackIcon Kind="ProgressClock" Foreground="{StaticResource Notification}" VerticalAlignment="Center"/>
+                    <TextBlock Text="{x:Static p:strings.CommandRunning}" Foreground="{StaticResource Notification}"/>
+                </WrapPanel>
+                <WrapPanel Margin="5,0">
+                    <TextBlock Text="{x:Static p:strings.Program}"/>
+                    <TextBlock Margin="5,0" Text="{Binding _status.State.CurrentProgram.Cyclic}"/>
+                </WrapPanel>
+                <WrapPanel DataContext="{Binding _status.LastPass}" Visibility="{Binding Cyclic, Converter={vortex:BooleanToVisibilityConverter}}" Margin="5,0">
+                    <materialdesign:PackIcon Kind="CheckDecagram" Foreground="{StaticResource Notification}" VerticalAlignment="Center"/>
+                    <TextBlock Text="{x:Static p:strings.Pass}" Foreground="{StaticResource Notification}"/>
+                </WrapPanel>
+                <WrapPanel DataContext="{Binding _status.LastResult.FailTest}" Visibility="{Binding Cyclic, Converter={vortex:BooleanToVisibilityConverter}}" Margin="5,0">
+                    <materialdesign:PackIcon Kind="CloseOctagon" Foreground="{StaticResource Errors}" VerticalAlignment="Center"/>
+                    <TextBlock Text="{x:Static p:strings.FailTestPart}" Foreground="{StaticResource Errors}"/>
+                </WrapPanel>
+                <WrapPanel DataContext="{Binding _status.LastResult.FailReference}" Visibility="{Binding Cyclic, Converter={vortex:BooleanToVisibilityConverter}}" Margin="5,0">
+                    <materialdesign:PackIcon Kind="CloseOctagon" Foreground="{StaticResource Errors}" VerticalAlignment="Center"/>
+                    <TextBlock Text="{x:Static p:strings.FailReferencePart}" Foreground="{StaticResource Errors}"/>
+                </WrapPanel>
+                <WrapPanel DataContext="{Binding _status.State.StatusBits.Alarm}" Visibility="{Binding Cyclic, Converter={vortex:BooleanToVisibilityConverter}}" Margin="5,0">
+                    <materialdesign:PackIcon Kind="AlertBox" Foreground="{StaticResource Errors}" VerticalAlignment="Center"/>
+                    <TextBlock Text="{x:Static p:strings.InstrumentAlarm}" Foreground="{StaticResource Errors}"/>
+                </WrapPanel>
+                <WrapPanel DataContext="{Binding _busError}" Visibility="{Binding Cyclic, Converter={vortex:BooleanToVisibilityConverter}}" Margin="5,0">
+                    <materialdesign:PackIcon Kind="AlertBox" Foreground="{StaticResource Errors}" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding AttributeName}" Foreground="{StaticResource Errors}"/>
+                </WrapPanel>
+                <TextBlock Margin="5,0" Text="{Binding _status.ActionDescription.Cyclic}"/>
+
+                <vortex:RenderableContentControl Margin="5" DataContext="{Binding _restoreTask}" PresentationType="Base" />
+            </WrapPanel>
+        </vortex:TcoComponentView.ComponentHeader>
+
+        <vortex:TcoComponentView.ComponentDetails>
+            <Grid DataContext="{Binding Component}">
+                <Grid.Resources>
+                    <Style TargetType="GroupBox" BasedOn="{StaticResource MaterialDesignCardGroupBox}">
+                        <Setter Property="Margin" Value="5,0,0,5"></Setter>
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <GroupBox Grid.Column="0" Padding="10" DataContext="{Binding _status}" Header="{Binding AttributeName}">
+                    <vortex:RenderableContentControl DataContext="{Binding}" PresentationType="DisplaySlim" />
+                </GroupBox>
+
+                <WrapPanel Grid.Column="1">
+                    <GroupBox Padding="10" Header="{x:Static p:strings.Commands}">
+                        <WrapPanel Orientation="Vertical">
+                            <vortex:RenderableContentControl Margin="5" DataContext="{Binding _resetTask}" />
+                            <vortex:RenderableContentControl Margin="5" DataContext="{Binding _selectProgramTask}" />
+                            <vortex:RenderableContentControl Margin="5" DataContext="{Binding _startCycleTask}" />
+                            <vortex:RenderableContentControl Margin="5" DataContext="{Binding _readLastResultTask}" />
+                            <vortex:RenderableContentControl Margin="5" DataContext="{Binding _specialCycleTask}" />
+                            <vortex:RenderableContentControl Margin="5" DataContext="{Binding _readParametersTask}" />
+                        </WrapPanel>
+                    </GroupBox>
+                    <GroupBox Header="{Binding _control.AttributeName}">
+                        <vortex:RenderableContentControl DataContext="{Binding _control}" PresentationType="ControlSlim" />
+                    </GroupBox>
+                    <GroupBox Header="{Binding _config.AttributeName}">
+                        <vortex:RenderableContentControl DataContext="{Binding _config}" PresentationType="ControlSlim" />
+                    </GroupBox>
+                </WrapPanel>
+            </Grid>
+        </vortex:TcoComponentView.ComponentDetails>
+    </vortex:TcoComponentView>
+</UserControl>

@@ -39,6 +39,7 @@
       "src\\TcoMitsubishiRobotics\\src\\XaeTcoMitsubishiRobotics\\XaeTcoMitsubishiRobotics.tsproj",
       
       "src\\TcoAimTtiPowerSupply\\src\\XaeTcoAimTtiPowerSupply\\XaeTcoAimTtiPowerSupply.tsproj",
+      "src\\TcoAteqMeasurement\\src\\XaeTcoAteqMeasurement\\XaeTcoAteqMeasurement.tsproj",
 
       "src\\TcoUrRobotics\\src\\XaeTcoUrRobotics\\XaeTcoUrRobotics.tsproj",
 

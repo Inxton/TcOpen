@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_EncodeControl_v_3_5_x" Id="{aa8f7ba3-6504-4587-a6b1-ca8abaf0db68}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Encodes the control data into the 256-byte output image (00h command, 06h program, 08h/09h special cycle, 20h parameter request).
+		</summary>
+	</docu>
+~*)
+FUNCTION TcoAteqG6_EncodeControl_v_3_5_x : BOOL
+VAR_IN_OUT
+	inoControl : TcoAteqG6_Control_v_3_5_x;
+	inoImage : ARRAY[0..255] OF BYTE;
+END_VAR
+VAR
+	i : INT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// the whole output image is rewritten every cycle
+FOR i := 0 TO 255 DO
+	inoImage[i] := 0;
+END_FOR
+TcoAteqG6_DecodeCommandBits_v_3_5_x(inValue := inoControl.Command, inoBits := inoControl.CommandBits);
+TcoAteqG6_SetWord_v_3_5_x(inOffset := 16#00, inValue := inoControl.Command, inoImage := inoImage);
+// program number: 1-based in the component, 0-based on the bus
+IF inoControl.ProgramNumber >= 1 THEN
+	TcoAteqG6_SetWord_v_3_5_x(inOffset := 16#06, inValue := INT_TO_WORD(inoControl.ProgramNumber - 1), inoImage := inoImage);
+END_IF
+inoImage[16#08] := TcoAteqG6_SpecialCycleToByte_v_3_5_x(inoControl.SpecialCycle);
+inoImage[16#09] := inoControl.SpecialCycleInstruction;
+// 20h: parameter request - count, then 35 identifiers (22h..67h)
+TcoAteqG6_SetWord_v_3_5_x(inOffset := 16#20, inValue := INT_TO_WORD(inoControl.ParameterRequest.Count), inoImage := inoImage);
+FOR i := 0 TO 34 DO
+	TcoAteqG6_SetWord_v_3_5_x(inOffset := 16#22 + 2 * i, inValue := UINT_TO_WORD(inoControl.ParameterRequest.Ids[i]), inoImage := inoImage);
+END_FOR
+TcoAteqG6_EncodeControl_v_3_5_x := TRUE;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="TcoAteqG6_ParameterSet_v_3_5_x" Id="{d844a7b2-a644-4690-b45f-12bda8c78510}">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Typed view of the commonly used program parameters (manual p. 43), filled by ReadPresetParameters.
+		</summary>
+	</docu>
+~*)
+TYPE TcoAteqG6_ParameterSet_v_3_5_x :
+STRUCT
+	{attribute addProperty Name "<#Fill time [s]#>"}
+	FillTime : REAL;
+	{attribute addProperty Name "<#Stabilization time [s]#>"}
+	StabTime : REAL;
+	{attribute addProperty Name "<#Test time [s]#>"}
+	TestTime : REAL;
+	{attribute addProperty Name "<#Dump time [s]#>"}
+	DumpTime : REAL;
+	{attribute addProperty Name "<#Test type#>"}
+	TestType : eTcoAteqG6_TestType_v_3_5_x;
+	{attribute addProperty Name "<#Minimum fill pressure#>"}
+	MinFill : REAL;
+	{attribute addProperty Name "<#Maximum fill pressure#>"}
+	MaxFill : REAL;
+	{attribute addProperty Name "<#Pressure unit#>"}
+	PressureUnit : eTcoAteqG6_Unit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.Unknown;
+	{attribute addProperty Name "<#Test part reject level#>"}
+	TestFail : REAL;
+	{attribute addProperty Name "<#Reference part reject level#>"}
+	RefFail : REAL;
+	{attribute addProperty Name "<#Fill set point#>"}
+	SetFill : REAL;
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_StartCycleTask_v_3_5_x" Id="{7c97086a-7691-4680-bbad-ded80a962b15}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Complete test cycle on Control.ProgramNumber: select the program, start, wait for the cycle to run and end, then read the last result. A result whose program number differs from the requested one is refused as stale. The results FIFO is never reset.
+		</summary>
+	</docu>
+~*)
+FUNCTION_BLOCK TcoAteqG6_StartCycleTask_v_3_5_x EXTENDS TcoAteqG6Task_v_3_5_x]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF Execute() THEN
+	IF CheckReferences() THEN
+		// AX step 0: preconditions - valid program, instrument at rest (cycle end)
+		IF _progress = 0 THEN
+			inoStatus.ActionDescription := '<#Waiting for instrument ready#>';
+			IF inoControl.ProgramNumber < 1 OR inoControl.ProgramNumber > 128 THEN
+				Fail('<#Program number out of range (1-128). Pass the program number as shown on the instrument display.#>');
+			ELSIF inoStatus.State.StatusBits.CycleEnd THEN
+				GoTo(10);
+			ELSIF StepElapsed(CommandTimeout()) THEN
+				Fail('<#Instrument is not ready (no cycle end). Wait for the running cycle to finish or reset the instrument.#>');
+			END_IF
+		END_IF
+
+		// AX step 10: select the program
+		IF _progress = 10 THEN
+			inoStatus.ActionDescription := '<#Selecting program#>';
+			IF Handshake(MASK_PROGRAM_SELECTION) THEN
+				GoTo(20);
+			END_IF
+		END_IF
+
+		// AX step 20: the instrument reports the requested program
+		IF _progress = 20 THEN
+			inoStatus.ActionDescription := '<#Verifying selected program#>';
+			IF inoStatus.State.CurrentProgram = inoControl.ProgramNumber THEN
+				_cycleRunningSeen := FALSE;
+				GoTo(30);
+			ELSIF StepElapsed(CommandTimeout()) THEN
+				Fail('<#Instrument did not switch to the requested program. Check that the program exists on the instrument.#>');
+			END_IF
+		END_IF
+
+		// AX step 30: start; the cycle may already begin while the handshake runs
+		IF _progress = 30 THEN
+			inoStatus.ActionDescription := '<#Starting test cycle#>';
+			ObserveCycle(inWaiting := FALSE);
+			IF Handshake(MASK_START) THEN
+				GoTo(40);
+			END_IF
+		END_IF
+
+		// AX step 40: cycle runs (cycle end FALSE) and ends (cycle end TRUE)
+		IF _progress = 40 THEN
+			inoStatus.ActionDescription := '<#Test cycle running#>';
+			IF ObserveCycle(inWaiting := TRUE) THEN
+				GoTo(50);
+			END_IF
+		END_IF
+
+		// AX step 50: read the last result
+		IF _progress = 50 THEN
+			inoStatus.ActionDescription := '<#Reading last result#>';
+			IF Handshake(MASK_READ_LAST_RESULT) THEN
+				TcoAteqG6_DecodeLastResult_v_3_5_x(inoImage := inoImage, inoResult := inoStatus.LastResult);
+				GoTo(60);
+			END_IF
+		END_IF
+
+		// AX step 60: the result belongs to this cycle's program
+		IF _progress = 60 THEN
+			IF inoStatus.LastResult.ProgramNo = inoControl.ProgramNumber THEN
+				GoTo(100);
+			ELSE
+				inoStatus.LastResult.Valid := FALSE;
+				Fail('<#Last result does not belong to the requested program. A stale result was read.#>');
+			END_IF
+		END_IF
+
+		// AX step 100
+		IF _progress = 100 THEN
+			inoStatus.ActionDescription := '<#Test cycle finished#>';
+			DoneWhen(TRUE);
+		END_IF
+		Supervise();
+	END_IF
+END_IF
+
+IF THIS^.Error AND NOT _errorMessage.Pinned THEN
+	THIS^.Restore();
+END_IF]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{06c21643-829a-47e3-b8fb-f018ae4d35ad}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	ParentObject : ITcoObject;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnStart" Id="{1efb0af7-b3a3-4c9c-b511-03f57bee1526}">
+      <Declaration><![CDATA[METHOD PROTECTED OnStart]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.OnStart();
+IF __ISVALIDREF(inoStatus) THEN
+	TcoAteqG6_ClearLastResult_v_3_5_x(inoResult := THIS^.inoStatus.LastResult);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

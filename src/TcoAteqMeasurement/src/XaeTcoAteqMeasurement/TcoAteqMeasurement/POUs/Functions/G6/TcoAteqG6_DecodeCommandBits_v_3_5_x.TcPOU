@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_DecodeCommandBits_v_3_5_x" Id="{1d220c74-ee09-4857-9369-df40ea4b7bc6}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Bit view of a command, echo or error word.
+		</summary>
+	</docu>
+~*)
+FUNCTION TcoAteqG6_DecodeCommandBits_v_3_5_x : BOOL
+VAR_INPUT
+	inValue : WORD;
+END_VAR
+VAR_IN_OUT
+	inoBits : TcoAteqG6_CommandBits_v_3_5_x;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[inoBits.Raw := inValue;
+inoBits.Reset := inValue.0;
+inoBits.Start := inValue.1;
+inoBits.SpecialCycle := inValue.2;
+inoBits.ProgramSelection := inValue.3;
+inoBits.ReadFifo := inValue.4;
+inoBits.ReadParameters := inValue.5;
+inoBits.WriteParameters := inValue.6;
+inoBits.ResetFifo := inValue.7;
+inoBits.ReadInstrumentConfiguration := inValue.8;
+inoBits.ReadConfigurationBits := inValue.9;
+inoBits.ReadFunctionBits := inValue.10;
+inoBits.WriteConfigurationBits := inValue.11;
+inoBits.WriteFunctionBits := inValue.12;
+inoBits.ReadProgramName := inValue.13;
+inoBits.WriteProgramName := inValue.14;
+inoBits.ReadLastResult := inValue.15;
+TcoAteqG6_DecodeCommandBits_v_3_5_x := TRUE;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

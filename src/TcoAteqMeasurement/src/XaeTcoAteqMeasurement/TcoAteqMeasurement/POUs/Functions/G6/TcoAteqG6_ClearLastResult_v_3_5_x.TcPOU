@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_ClearLastResult_v_3_5_x" Id="{232211ac-6fdf-46a0-b664-184a3eb95487}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Clears the last result (Valid = FALSE).
+		</summary>
+	</docu>
+~*)
+FUNCTION TcoAteqG6_ClearLastResult_v_3_5_x : BOOL
+VAR_IN_OUT
+	inoResult : TcoAteqG6_LastResult_v_3_5_x;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[inoResult.Valid := FALSE;
+inoResult.ProgramNo := 0;
+inoResult.TestTypeRaw := 0;
+inoResult.Pass := FALSE;
+inoResult.FailTest := FALSE;
+inoResult.FailReference := FALSE;
+inoResult.Alarm := FALSE;
+inoResult.PressureError := FALSE;
+inoResult.Recoverable := FALSE;
+inoResult.CalibrationError := FALSE;
+inoResult.CalibrationCheckError := FALSE;
+inoResult.AtrFault := FALSE;
+inoResult.RelayImageRaw := 0;
+inoResult.AlarmCode := eTcoAteqG6_AlarmCode_v_3_5_x.NoAlarm;
+inoResult.AlarmCodeRaw := 0;
+TcoAteqG6_ClearMeasurement_v_3_5_x(inoMeasurement := inoResult.Measurement);
+TcoAteqG6_ClearLastResult_v_3_5_x := TRUE;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_SpecialCycleTask_v_3_5_x" Id="{9decacee-9acb-4032-b4f3-4b56a94608d1}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Special cycle Control.SpecialCycle (id at output 08h, instruction at 09h), started with the Start and Special cycle bits together (manual pp. 58-59), then waits for the cycle end. Runs on the currently selected program.
+		</summary>
+	</docu>
+~*)
+FUNCTION_BLOCK TcoAteqG6_SpecialCycleTask_v_3_5_x EXTENDS TcoAteqG6Task_v_3_5_x]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF Execute() THEN
+	IF CheckReferences() THEN
+		// AX step 0: preconditions - special cycle selected, instrument at rest
+		IF _progress = 0 THEN
+			inoStatus.ActionDescription := '<#Waiting for instrument ready#>';
+			IF inoControl.SpecialCycle = eTcoAteqG6_SpecialCycle_v_3_5_x.None THEN
+				Fail('<#No special cycle selected.#>');
+			ELSIF inoStatus.State.StatusBits.CycleEnd THEN
+				_cycleRunningSeen := FALSE;
+				GoTo(10);
+			ELSIF StepElapsed(CommandTimeout()) THEN
+				Fail('<#Instrument is not ready (no cycle end). Wait for the running cycle to finish or reset the instrument.#>');
+			END_IF
+		END_IF
+
+		// AX step 10: start the special cycle
+		IF _progress = 10 THEN
+			inoStatus.ActionDescription := '<#Starting special cycle#>';
+			ObserveCycle(inWaiting := FALSE);
+			IF Handshake(MASK_SPECIAL_CYCLE) THEN
+				GoTo(20);
+			END_IF
+		END_IF
+
+		// AX step 20: cycle runs and ends
+		IF _progress = 20 THEN
+			inoStatus.ActionDescription := '<#Special cycle running#>';
+			IF ObserveCycle(inWaiting := TRUE) THEN
+				GoTo(100);
+			END_IF
+		END_IF
+
+		// AX step 100
+		IF _progress = 100 THEN
+			inoStatus.ActionDescription := '<#Special cycle finished#>';
+			DoneWhen(TRUE);
+		END_IF
+		Supervise();
+	END_IF
+END_IF
+
+IF THIS^.Error AND NOT _errorMessage.Pinned THEN
+	THIS^.Restore();
+END_IF]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{ccca67b8-df2c-45a0-8565-9c3a2f1556a6}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	ParentObject : ITcoObject;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

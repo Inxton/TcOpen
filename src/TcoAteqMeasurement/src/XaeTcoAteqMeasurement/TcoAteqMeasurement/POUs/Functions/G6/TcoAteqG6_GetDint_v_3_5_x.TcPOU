@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_GetDint_v_3_5_x" Id="{432e86b8-c573-4aac-863d-40e70bf387a5}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Little-endian LONG at inOffset (least significant word first).
+		</summary>
+	</docu>
+~*)
+FUNCTION TcoAteqG6_GetDint_v_3_5_x : DINT
+VAR_INPUT
+	inOffset : INT;
+END_VAR
+VAR_IN_OUT
+	inoImage : ARRAY[0..255] OF BYTE;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[TcoAteqG6_GetDint_v_3_5_x := DWORD_TO_DINT(SHL(BYTE_TO_DWORD(inoImage[inOffset + 3]), 24)
+	OR SHL(BYTE_TO_DWORD(inoImage[inOffset + 2]), 16)
+	OR SHL(BYTE_TO_DWORD(inoImage[inOffset + 1]), 8)
+	OR BYTE_TO_DWORD(inoImage[inOffset]));]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

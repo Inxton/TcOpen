@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_SpecialCycleToByte_v_3_5_x" Id="{d3e3ef98-5910-48ed-bb3f-ecab0ff1a328}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Special cycle to its id byte (output 08h).
+		</summary>
+	</docu>
+~*)
+FUNCTION TcoAteqG6_SpecialCycleToByte_v_3_5_x : BYTE
+VAR_INPUT
+	inValue : eTcoAteqG6_SpecialCycle_v_3_5_x;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE inValue OF
+	eTcoAteqG6_SpecialCycle_v_3_5_x.AtrLearning: TcoAteqG6_SpecialCycleToByte_v_3_5_x := 1;
+	eTcoAteqG6_SpecialCycle_v_3_5_x.CustomUnitLearn: TcoAteqG6_SpecialCycleToByte_v_3_5_x := 4;
+	eTcoAteqG6_SpecialCycle_v_3_5_x.CustomUnitCheck: TcoAteqG6_SpecialCycleToByte_v_3_5_x := 5;
+	eTcoAteqG6_SpecialCycle_v_3_5_x.PiezoAutoZero: TcoAteqG6_SpecialCycleToByte_v_3_5_x := 9;
+	eTcoAteqG6_SpecialCycle_v_3_5_x.RegulatorAdjust: TcoAteqG6_SpecialCycleToByte_v_3_5_x := 13;
+	eTcoAteqG6_SpecialCycle_v_3_5_x.CapillaryTemperatureCheck: TcoAteqG6_SpecialCycleToByte_v_3_5_x := 25;
+	eTcoAteqG6_SpecialCycle_v_3_5_x.TemperatureCheck: TcoAteqG6_SpecialCycleToByte_v_3_5_x := 26;
+	eTcoAteqG6_SpecialCycle_v_3_5_x.AtmPressureCheck: TcoAteqG6_SpecialCycleToByte_v_3_5_x := 27;
+	eTcoAteqG6_SpecialCycle_v_3_5_x.P1SensorCheck: TcoAteqG6_SpecialCycleToByte_v_3_5_x := 28;
+	eTcoAteqG6_SpecialCycle_v_3_5_x.Flow1Check: TcoAteqG6_SpecialCycleToByte_v_3_5_x := 29;
+	eTcoAteqG6_SpecialCycle_v_3_5_x.Flow2Check: TcoAteqG6_SpecialCycleToByte_v_3_5_x := 30;
+	eTcoAteqG6_SpecialCycle_v_3_5_x.LinePressureSensorCheck: TcoAteqG6_SpecialCycleToByte_v_3_5_x := 31;
+ELSE
+	TcoAteqG6_SpecialCycleToByte_v_3_5_x := 0;
+END_CASE]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

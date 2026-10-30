@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_ToEngineering_v_3_5_x" Id="{dbb2082d-2d38-4fd0-b6af-01411253e50b}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Fixed-point LONG (x1000) to engineering value.
+		</summary>
+	</docu>
+~*)
+FUNCTION TcoAteqG6_ToEngineering_v_3_5_x : REAL
+VAR_INPUT
+	inRaw : DINT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[TcoAteqG6_ToEngineering_v_3_5_x := DINT_TO_REAL(inRaw) / 1000.0;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

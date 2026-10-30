@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="TcoAteqG6_LastResult_v_3_5_x" Id="{4d587c4d-64e8-45db-be67-f6da12c91612}">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Last result, decoded from the exchange zone (20h..37h) after the "Read last result" command. Valid = no alarm.
+		</summary>
+	</docu>
+~*)
+TYPE TcoAteqG6_LastResult_v_3_5_x :
+STRUCT
+	{attribute addProperty Name "<#Valid#>"}
+	Valid : BOOL;
+	{attribute addProperty Name "<#Program#>"}
+	ProgramNo : INT;
+	{attribute addProperty Name "<#Test type (raw)#>"}
+	TestTypeRaw : INT;
+	{attribute addProperty Name "<#Pass#>"}
+	Pass : BOOL;
+	{attribute addProperty Name "<#Fail test part (maximum flow reject)#>"}
+	FailTest : BOOL;
+	{attribute addProperty Name "<#Fail reference part (minimum flow reject)#>"}
+	FailReference : BOOL;
+	{attribute addProperty Name "<#Alarm#>"}
+	Alarm : BOOL;
+	{attribute addProperty Name "<#Pressure error (unverified)#>"}
+	PressureError : BOOL;
+	{attribute addProperty Name "<#Part recoverable (unverified)#>"}
+	Recoverable : BOOL;
+	{attribute addProperty Name "<#Calibration error (unverified)#>"}
+	CalibrationError : BOOL;
+	{attribute addProperty Name "<#Calibration check error (unverified)#>"}
+	CalibrationCheckError : BOOL;
+	{attribute addProperty Name "<#ATR fault (unverified)#>"}
+	AtrFault : BOOL;
+	{attribute addProperty Name "<#Relay image (raw)#>"}
+	RelayImageRaw : WORD;
+	{attribute addProperty Name "<#Alarm code#>"}
+	AlarmCode : eTcoAteqG6_AlarmCode_v_3_5_x;
+	{attribute addProperty Name "<#Alarm code (raw)#>"}
+	AlarmCodeRaw : INT;
+	{attribute addProperty Name "<#Measurement#>"}
+	Measurement : TcoAteqG6_Measurement_v_3_5_x;
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

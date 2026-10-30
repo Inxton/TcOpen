@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_DecodeLastResult_v_3_5_x" Id="{c69b29e7-4605-4dfd-b1c5-d712e9092df9}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Decodes the last result from the exchange zone (20h program, 22h test type, 24h relay image, 26h alarm code, 28h..37h measurement). Relay bits 4..8 are not verified on hardware.
+		</summary>
+	</docu>
+~*)
+FUNCTION TcoAteqG6_DecodeLastResult_v_3_5_x : BOOL
+VAR_IN_OUT
+	inoImage : ARRAY[0..255] OF BYTE;
+	inoResult : TcoAteqG6_LastResult_v_3_5_x;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[inoResult.ProgramNo := TcoAteqG6_GetInt_v_3_5_x(inOffset := 16#20, inoImage := inoImage) + 1;
+inoResult.TestTypeRaw := TcoAteqG6_GetInt_v_3_5_x(inOffset := 16#22, inoImage := inoImage);
+inoResult.RelayImageRaw := TcoAteqG6_GetWord_v_3_5_x(inOffset := 16#24, inoImage := inoImage);
+inoResult.Pass := inoResult.RelayImageRaw.0;
+inoResult.FailTest := inoResult.RelayImageRaw.1;
+inoResult.FailReference := inoResult.RelayImageRaw.2;
+inoResult.Alarm := inoResult.RelayImageRaw.3;
+inoResult.PressureError := inoResult.RelayImageRaw.4;
+inoResult.Recoverable := inoResult.RelayImageRaw.5;
+inoResult.CalibrationError := inoResult.RelayImageRaw.6;
+inoResult.CalibrationCheckError := inoResult.RelayImageRaw.7;
+inoResult.AtrFault := inoResult.RelayImageRaw.8;
+inoResult.AlarmCodeRaw := TcoAteqG6_GetInt_v_3_5_x(inOffset := 16#26, inoImage := inoImage);
+inoResult.AlarmCode := TcoAteqG6_ToAlarmCode_v_3_5_x(inoResult.AlarmCodeRaw);
+TcoAteqG6_DecodeMeasurement_v_3_5_x(inOffset := 16#28, inoImage := inoImage, inoMeasurement := inoResult.Measurement);
+inoResult.Valid := NOT inoResult.Alarm;
+TcoAteqG6_DecodeLastResult_v_3_5_x := TRUE;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

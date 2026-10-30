@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6TestContext" Id="{acc4bae3-d169-46fb-a38c-f97b26380685}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Test context of TcoAteqG6Pn_v_3_5_x. _inImage is the input image of the instrument: written by the simulator
+			when _simulate = TRUE, otherwise directly by the test. _outImage is what the component put on the wire.
+		</summary>
+	</docu>
+~*)
+FUNCTION_BLOCK TcoAteqG6TestContext EXTENDS TcoCore._internals_TcoContext
+VAR
+	_sut : TcoAteqMeasurement.TcoAteqG6Pn_v_3_5_x(THIS^);
+	_io : TcoAteqMeasurement.TcoAteqG6Pn_IO_v_3_5_x;
+	_sim : TcoAteqG6Simulator;
+	_simulate : BOOL;
+	_inImage : ARRAY[0..255] OF BYTE;
+	_outImage : ARRAY[0..255] OF BYTE;
+	_program : INT;
+	_specialCycle : TcoAteqMeasurement.eTcoAteqG6_SpecialCycle_v_3_5_x;
+	_instruction : BYTE;
+	_parameter : TcoAteqMeasurement.eTcoAteqG6_ParameterId_v_3_5_x;
+	_request : TcoAteqMeasurement.TcoAteqG6_ParameterRequest_v_3_5_x;
+	_taskDone : BOOL;
+	_taskError : BOOL;
+	_startCycleBusy : BOOL;
+	_selectProgramBusy : BOOL;
+	_resetBusy : BOOL;
+END_VAR
+VAR
+	{attribute 'hide'}
+	_i : INT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Main" Id="{9a21849b-9c5b-4da1-9b38-f39443e1b6bf}">
+      <Declaration><![CDATA[METHOD PROTECTED Main]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[//*************INSTRUMENT SIMULATOR*******
+IF _simulate THEN
+	_sim.Step(inoOut := _outImage, inoIn := _inImage);
+END_IF
+
+//*************INPUT IMAGE****************
+MEMCPY(destAddr := ADR(_io.In.In1), srcAddr := ADR(_inImage[0]), n := 64);
+MEMCPY(destAddr := ADR(_io.In.In2), srcAddr := ADR(_inImage[64]), n := 64);
+MEMCPY(destAddr := ADR(_io.In.In3), srcAddr := ADR(_inImage[128]), n := 64);
+MEMCPY(destAddr := ADR(_io.In.In4), srcAddr := ADR(_inImage[192]), n := 64);
+
+CASE _testId OF
+	eTcoAteqG6Tests.Restore:
+		_sut.Restore();
+		_sut._messenger.Clear();
+		_sim.Reset();
+		FOR _i := 0 TO 255 DO
+			_inImage[_i] := 0;
+		END_FOR
+		_taskDone := FALSE;
+		_taskError := FALSE;
+		ProbeDoneWhen(TRUE);
+	eTcoAteqG6Tests.Run:
+		;
+	eTcoAteqG6Tests.Reset:
+		_taskDone := _sut.Reset().Done;
+		_taskError := _sut.ResetTask.Error;
+		ProbeDoneWhen(_taskDone OR _taskError);
+	eTcoAteqG6Tests.SelectProgram:
+		_taskDone := _sut.SelectProgram(_program).Done;
+		_taskError := _sut.SelectProgramTask.Error;
+		ProbeDoneWhen(_taskDone OR _taskError);
+	eTcoAteqG6Tests.StartCycle:
+		_taskDone := _sut.StartCycle(_program).Done;
+		_taskError := _sut.StartCycleTask.Error;
+		ProbeDoneWhen(_taskDone OR _taskError);
+	eTcoAteqG6Tests.ReadLastResult:
+		_taskDone := _sut.ReadLastResult().Done;
+		_taskError := _sut.ReadLastResultTask.Error;
+		ProbeDoneWhen(_taskDone OR _taskError);
+	eTcoAteqG6Tests.SpecialCycle:
+		_taskDone := _sut.SpecialCycle(_specialCycle, _instruction).Done;
+		_taskError := _sut.SpecialCycleTask.Error;
+		ProbeDoneWhen(_taskDone OR _taskError);
+	eTcoAteqG6Tests.ReadParameters:
+		_taskDone := _sut.ReadParameters(_request).Done;
+		_taskError := _sut.ReadParametersTask.Error;
+		ProbeDoneWhen(_taskDone OR _taskError);
+	eTcoAteqG6Tests.ReadPresetParameters:
+		_taskDone := _sut.ReadPresetParameters().Done;
+		_taskError := _sut.ReadParametersTask.Error;
+		ProbeDoneWhen(_taskDone OR _taskError);
+	eTcoAteqG6Tests.ReadParameter:
+		_taskDone := _sut.ReadParameter(_parameter).Done;
+		_taskError := _sut.ReadParametersTask.Error;
+		ProbeDoneWhen(_taskDone OR _taskError);
+	eTcoAteqG6Tests.InvokeStartCycle:
+		_sut.StartCycle(_program);
+		ProbeDoneWhen(TRUE);
+	eTcoAteqG6Tests.InvokeSelectProgram:
+		_sut.SelectProgram(_program);
+		ProbeDoneWhen(TRUE);
+	eTcoAteqG6Tests.InvokeReset:
+		_sut.Reset();
+		ProbeDoneWhen(TRUE);
+END_CASE
+
+_sut(inoData := _io);
+
+//*************OUTPUT IMAGE***************
+MEMCPY(destAddr := ADR(_outImage[0]), srcAddr := ADR(_io.Out.Out1), n := 64);
+MEMCPY(destAddr := ADR(_outImage[64]), srcAddr := ADR(_io.Out.Out2), n := 64);
+MEMCPY(destAddr := ADR(_outImage[128]), srcAddr := ADR(_io.Out.Out3), n := 64);
+MEMCPY(destAddr := ADR(_outImage[192]), srcAddr := ADR(_io.Out.Out4), n := 64);
+
+_startCycleBusy := _sut.StartCycleTask.Busy;
+_selectProgramBusy := _sut.SelectProgramTask.Busy;
+_resetBusy := _sut.ResetTask.Busy;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

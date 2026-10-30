@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_ClearMeasurement_v_3_5_x" Id="{12961016-e0cf-4db1-87b4-a3f7712c1b97}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Clears a measurement.
+		</summary>
+	</docu>
+~*)
+FUNCTION TcoAteqG6_ClearMeasurement_v_3_5_x : BOOL
+VAR_IN_OUT
+	inoMeasurement : TcoAteqG6_Measurement_v_3_5_x;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[inoMeasurement.Pressure := 0.0;
+inoMeasurement.PressureUnit := eTcoAteqG6_Unit_v_3_5_x.Unknown;
+inoMeasurement.Flow := 0.0;
+inoMeasurement.FlowUnit := eTcoAteqG6_Unit_v_3_5_x.Unknown;
+inoMeasurement.PressureRaw := 0;
+inoMeasurement.PressureUnitRaw := 0;
+inoMeasurement.FlowRaw := 0;
+inoMeasurement.FlowUnitRaw := 0;
+TcoAteqG6_ClearMeasurement_v_3_5_x := TRUE;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

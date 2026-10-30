@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="TcoAteqG6_State_v_3_5_x" Id="{64c2cf96-1dff-4e46-841d-531ced73fe77}">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Decoded input image: 00h echo, 02h error word (FFFFh = command running), 06h program (0-based on the bus), 08h results in FIFO, 0Ah test type, 0Ch status bits, 0Eh step, 10h..1Fh real-time pressure/flow.
+		</summary>
+	</docu>
+~*)
+TYPE TcoAteqG6_State_v_3_5_x :
+STRUCT
+	{attribute addProperty Name "<#Command echo#>"}
+	Echo : TcoAteqG6_CommandBits_v_3_5_x;
+	{attribute addProperty Name "<#Command error#>"}
+	Error : TcoAteqG6_CommandBits_v_3_5_x;
+	{attribute addProperty Name "<#Command running#>"}
+	CommandRunning : BOOL;
+	{attribute addProperty Name "<#Current program#>"}
+	CurrentProgram : INT;
+	{attribute addProperty Name "<#Results in FIFO#>"}
+	ResultsInFifo : INT;
+	{attribute addProperty Name "<#Test type (raw)#>"}
+	TestTypeRaw : INT;
+	{attribute addProperty Name "<#Status#>"}
+	StatusBits : TcoAteqG6_StatusBits_v_3_5_x;
+	{attribute addProperty Name "<#Step#>"}
+	Step : eTcoAteqG6_Step_v_3_5_x := eTcoAteqG6_Step_v_3_5_x.None;
+	{attribute addProperty Name "<#Step (raw)#>"}
+	StepRaw : INT;
+	{attribute addProperty Name "<#Real time#>"}
+	RealTime : TcoAteqG6_Measurement_v_3_5_x;
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>
