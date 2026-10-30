@@ -9167,7 +9167,7 @@ Bit1: Value bigger/equal Limit2]]></Comment>
 									<Box Id="26" BoxType="9099">
 										<Name>Term 26 (EL1819)</Name>
 										<ImageId>7</ImageId>
-										<EtherCAT SlaveType="1" PdiType="#x0104" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x071b3052" RevisionNo="#x00120000" RepeatSupport="true" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="µs" Desc="EL1819" PortABoxInfo="#x01000019">
+										<EtherCAT SlaveType="1" PdiType="#x0104" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x071b3052" RevisionNo="#x00120000" RepeatSupport="true" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL1819 16Ch. Dig. Input 24V, 10µs" Desc="EL1819" PortABoxInfo="#x01000019">
 											<SyncMan>001002000000010004000000000000000200001000010000</SyncMan>
 											<Fmmu>0000000000000000001000010100000002000000000000000000000000000000</Fmmu>
 											<SuName>Row_3</SuName>
@@ -9256,7 +9256,7 @@ Bit1: Value bigger/equal Limit2]]></Comment>
 									<Box Id="27" BoxType="9099">
 										<Name>Term 27 (EL1819)</Name>
 										<ImageId>7</ImageId>
-										<EtherCAT SlaveType="1" PdiType="#x0104" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x071b3052" RevisionNo="#x00120000" RepeatSupport="true" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="µs" Desc="EL1819" PortABoxInfo="#x0100001a">
+										<EtherCAT SlaveType="1" PdiType="#x0104" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x071b3052" RevisionNo="#x00120000" RepeatSupport="true" PortPhys="51" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL1819 16Ch. Dig. Input 24V, 10µs" Desc="EL1819" PortABoxInfo="#x0100001a">
 											<SyncMan>001002000000010004000000000000000200001000010000</SyncMan>
 											<Fmmu>0000000000000000001000010100000002000000000000000000000000000000</Fmmu>
 											<SuName>Row_3</SuName>
