@@ -16,21 +16,34 @@
   $testTargetAmsId = ([System.Environment]::GetEnvironmentVariable('Tc3Target'))
   $testingStrength = 0
   $doesNeedVs = $true
+  # starts VS for Vortex builder without UI (no IDE window); $false opens the IDE as before
+  $headlessVs = $true
+  # local dev: keeps generated/compiled outputs and builds PLC projects instead of rebuilding them
+  $incremental = $false
+  # continues after the last successfully completed step of the previous run (state in _Vortex\build.state.json)
+  $resume = $false
+  $buildStateFile = "$baseDir\_Vortex\build.state.json"
   }
 
 
 
-task default -depends Init, BuildScripts, Start, Clean, Check-Target-License, NugetRestore, CopyInxton, RemovePinnedVersion, DisableDevices, SetPlcCpuCores, GitVersion, `
+task default -depends Init, BuildScripts, Start, Clean, Check-Target-License, NugetRestore, CopyInxton, FindTsProjects, RemovePinnedVersion, DisableDevices, SetPlcCpuCores, GitVersion, `
               OpenVisualStudio, BuildWithInxtonBuilder, Build, CloseVs, CopyPlcLibs, Tests, ClearPackages, CreatePackages, PublishPackages, Finish
 
 
 FormatTaskName (("="*25) + " [ {0} ] " + ("="*25))
+
+# only reached when the task action succeeded
+TaskTearDown {
+  Complete-BuildStep $buildStateFile $psake.context.Peek().currentTaskName
+}
 
 task Init {
   Write-Host "Setting location to $baseDir"
   Set-Location $baseDir  
   $psake.context.Peek().properties
   $properties
+  Initialize-BuildState $buildStateFile $resume $buildConfig
 }
 
 
@@ -45,17 +58,24 @@ task Start {
   #Assert $gitOK "[📩] Please commit your changes before running build"
 } 
 
-task Clean {
-  Write-Host "Clean obj bin"
-  CleanObjBin
-  RemoveTcBins
-  RemoveTcProjBins
-  RemoveGenerated
-
-  if($doesNeedVs)  
+task Clean -precondition { Test-BuildStepPending $buildStateFile "Clean" } {
+  if($incremental)
   {
-    RemoveMeta
-  } 
+    Write-Host "Incremental build: skipping clean"
+  }
+  else
+  {
+    Write-Host "Clean obj bin"
+    CleanObjBin
+    RemoveTcBins
+    RemoveTcProjBins
+    RemoveGenerated
+
+    if($doesNeedVs)
+    {
+      RemoveMeta
+    }
+  }
 
   mkdir .\_Vortex\builder -ErrorAction SilentlyContinue 
   mkdir .\.nuget -ErrorAction SilentlyContinue 
@@ -78,15 +98,12 @@ task Check-Target-License `
 }
 
  
-task NugetRestore {
+task NugetRestore -precondition { Test-BuildStepPending $buildStateFile "NugetRestore" } {
+   # packages are restored by msbuild -restore in Build task
    EnsureNuget
+}
 
-   exec{
-       & $dotnet restore TcOpen.build.slnf
-   }
-} 
-
-task CopyInxton -continueOnError {
+task CopyInxton -continueOnError -precondition { Test-BuildStepPending $buildStateFile "CopyInxton" } {
   exec {
       & $dotnet build `
         .\src\TcoCore\tests\TcoDummyTest\TcoDummyTest.csproj `
@@ -96,21 +113,27 @@ task CopyInxton -continueOnError {
   }
 }
 
+task FindTsProjects `
+  -description "Scan repository for tsproj files once for following tasks" `
+{
+  $script:tsProjects = (Get-ChildItem .\ -recurse "*.tsproj" |  % { $_.FullName })
+}
+
 task RemovePinnedVersion `
+  -precondition { Test-BuildStepPending $buildStateFile "RemovePinnedVersion" } `
   -description "Remove pinned to version if found in any tsproj" `
 {
-  $tsProjects = (Get-ChildItem .\ -recurse "*.tsproj" |  % { $_.FullName })
-  foreach ($tsProject in $tsProjects)
+  foreach ($tsProject in $script:tsProjects)
   {
     RemovePinVersion($tsProject)
   }
 }
 
 task DisableDevices `
+  -precondition { Test-BuildStepPending $buildStateFile "DisableDevices" } `
   -description "Disable any device if found in any tsproj" `
 {
-  $tsProjects = (Get-ChildItem .\ -recurse "*.tsproj" |  % { $_.FullName })
-  foreach ($tsProject in $tsProjects)
+  foreach ($tsProject in $script:tsProjects)
   {
     DisableDevices($tsProject)
   }
@@ -118,10 +141,9 @@ task DisableDevices `
 
 task SetPlcCpuCores `
   -description "Will set 1 shared 1 isolated core to every tsproj" `
-  -precondition { Is-AMS-Id-Local $testTargetAmsId } `
+  -precondition { (Is-AMS-Id-Local $testTargetAmsId) -and (Test-BuildStepPending $buildStateFile "SetPlcCpuCores") } `
 {
-  $tsProjects = (Get-ChildItem .\ -recurse "*.tsproj" |  % { $_.FullName })
-  foreach ($tsProject in $tsProjects)
+  foreach ($tsProject in $script:tsProjects)
   {
     Remove-TargetNetId($tsProject)
     if (Has-RT-Isolated-Core $tsProject -or $tsProject.Contains("XAEVortexBase"))
@@ -179,55 +201,92 @@ task OpenVisualStudio {
 }
 
 
-task BuildWithInxtonBuilder {
+task BuildWithInxtonBuilder -precondition { Test-BuildStepPending $buildStateFile "BuildWithInxtonBuilder" } {
 
-  if($doesNeedVs)
+  # one builder run per component (dependencies first), each completed component is checkpointed
+  $components = Get-SlnfComponents .\TcOpen.plc.slnf | Where-Object { $_.Projects -like '*.tsproj' }
+  foreach($component in $components)
   {
-    $command = ".\_Vortex\builder\vortex.compiler.console.exe -s .\TcOpen.plc.slnf"
-  }
-  else
-  {
-    $command = ".\_Vortex\builder\vortex.compiler.console.exe -s .\TcOpen.plc.slnf -n false"
-  }
-  Write-Host $command
-   exec { 
-      try{Get-Process devenv | Stop-Process -ErrorAction SilentlyContinue} catch{}
-      if($doesNeedVs)
+    $step = "BuildWithInxtonBuilder:$($component.Name)"
+    if(-not (Test-BuildStepPending $buildStateFile $step)) { continue }
+
+    $slnf = New-PartialSlnf .\TcOpen.plc.slnf $component.Projects $component.Name .\_Vortex\slnf
+    $command = ".\_Vortex\builder\vortex.compiler.console.exe -s `"$slnf`""
+    Write-Host $command -ForegroundColor Cyan
+    exec {
+      $hiddenVs = $null
+      try
       {
-        Start-Process .\TcOpen.plc.slnf
-      }      
-      cmd /c $command
-      try{Get-Process devenv | Stop-Process -ErrorAction SilentlyContinue}catch{}
-  }  -maxRetries 3       
-}
+        if($doesNeedVs)
+        {
+          if($headlessVs)
+          {
+            $hiddenVs = Start-HiddenVs $slnf
+          }
+          else
+          {
+            Stop-AllVs
+            Start-Process $slnf
+          }
+        }
+        cmd /c $command
+      }
+      finally
+      {
+        if($hiddenVs) { Stop-HiddenVs $hiddenVs }
+        elseif($doesNeedVs) { Stop-AllVs }
+      }
+    }  -maxRetries 3
 
-task Build {
-  #/consoleloggerparameters:ErrorsOnly  
-  Write-Host $command
-  exec{
-     & $msbuild .\TcOpen.build.slnf `
-        /p:Configuration=$buildConfig `
-        -noWarn:"CS1591;CS0067;CS0108;CS1570" `
-        /consoleloggerparameters:ErrorsOnly `
-        -v:$msbuildVerbosity    
-  } -maxRetries 3  
-
-   $command = "`"$devenv`" .\TcOpen.test.build.plc.slnf /Rebuild " + "`"$buildConfig|TwinCAT RT (x64)`""
-
-    exec{
-        & $devenv .\TcOpen.test.build.plc.slnf /Rebuild "$buildConfig|TwinCAT RT (x64)"
-        #cmd /c $command
-    }  -maxRetries 2   
-}
-
-
-task CloseVs {
-  exec{
-   try{Get-Process devenv | Stop-Process -ErrorAction SilentlyContinue} catch{}
+    Complete-BuildStep $buildStateFile $step
   }
 }
 
-task CopyPlcLibs {
+task Build -precondition { Test-BuildStepPending $buildStateFile "Build" } {
+  #/consoleloggerparameters:ErrorsOnly
+  if(Test-BuildStepPending $buildStateFile "Build:DotNet")
+  {
+    exec{
+       & $msbuild .\TcOpen.build.slnf `
+          -restore `
+          /m `
+          /nr:false `
+          /p:Configuration=$buildConfig `
+          -noWarn:"CS1591;CS0067;CS0108;CS1570" `
+          /consoleloggerparameters:ErrorsOnly `
+          -v:$msbuildVerbosity
+    } -maxRetries 3
+    Complete-BuildStep $buildStateFile "Build:DotNet"
+  }
+
+  $plcBuildAction = if($incremental) { "/Build" } else { "/Rebuild" }
+
+  # one devenv run per plc project, each completed project is checkpointed
+  $tsProjects = (Get-Content .\TcOpen.test.build.plc.slnf -Raw | ConvertFrom-Json).solution.projects
+  foreach($tsProject in $tsProjects)
+  {
+    $name = [System.IO.Path]::GetFileNameWithoutExtension($tsProject)
+    $step = "Build:Plc:$name"
+    if(-not (Test-BuildStepPending $buildStateFile $step)) { continue }
+
+    $slnf = New-PartialSlnf .\TcOpen.test.build.plc.slnf @($tsProject) "plc.$name" .\_Vortex\slnf
+    Write-Host "$plcBuildAction $tsProject" -ForegroundColor Cyan
+    exec{
+        & $devenv $slnf $plcBuildAction "$buildConfig|TwinCAT RT (x64)"
+    }  -maxRetries 2
+
+    Complete-BuildStep $buildStateFile $step
+  }
+}
+
+
+task CloseVs -precondition { -not $headlessVs -and (Test-BuildStepPending $buildStateFile "CloseVs") } {
+  exec{
+   Stop-AllVs
+  }
+}
+
+task CopyPlcLibs -precondition { Test-BuildStepPending $buildStateFile "CopyPlcLibs" } {
   $slnfPath = ".\TcOpen.plc.slnf"
   $slnf = Get-Content $slnfPath | ConvertFrom-Json
   $slnfDir = [System.IO.Path]::GetDirectoryName($slnfPath)
@@ -287,7 +346,10 @@ task Tests -precondition { return $isTestingEnabled } {
 
 
       if($tier -le $testingStrength)
-      {      
+      {
+        # tests are checkpointed per project, a resumed run continues with the failed one
+        if(-not (Test-BuildStepPending $buildStateFile "Tests:$projName")) { continue }
+
         Write-Host '--------------------------------------------' -ForegroundColor Cyan
         Write-Host "Running test for $testProjectOrSolution | plc: $xaeProjectFolder" -ForegroundColor Cyan
         Write-Host '--------------------------------------------' -ForegroundColor Cyan
@@ -315,7 +377,9 @@ task Tests -precondition { return $isTestingEnabled } {
             -l:"trx;LogFileName=$LogFileName" `
             --no-build `
             --no-restore
-        } -maxRetries 2    
+        } -maxRetries 2
+
+        Complete-BuildStep $buildStateFile "Tests:$projName"
 
        
       }
@@ -329,7 +393,7 @@ task Tests -precondition { return $isTestingEnabled } {
 
 
 task ClearPackages `
-  -precondition { $publishNugets } `
+  -precondition { $publishNugets -and (Test-BuildStepPending $buildStateFile "ClearPackages") } `
 {
   mkdir nugets -ErrorAction SilentlyContinue
   mkdir nugets\dependants -ErrorAction SilentlyContinue
@@ -337,7 +401,7 @@ task ClearPackages `
 }
 
 task CreatePackages `
-  -precondition { $packNugets } `
+  -precondition { $packNugets -and (Test-BuildStepPending $buildStateFile "CreatePackages") } `
 {
   $semVer = $script:gitVersion.SemVer
   exec { 
@@ -353,12 +417,14 @@ task CreatePackages `
     }
 }
 
-task PublishPackages -precondition {return $publishNugets} {
+task PublishPackages -precondition { $publishNugets -and (Test-BuildStepPending $buildStateFile "PublishPackages") } {
   Write-Host "About to" 
   PushNugets -folderWithNugets .\nugets -token $nugetToken -source $nugetSource
 }
 
 task Finish {
+  # whole build succeeded, next run starts from the beginning
+  Clear-BuildState $buildStateFile
   Write-Host "Done"
 } 
 
