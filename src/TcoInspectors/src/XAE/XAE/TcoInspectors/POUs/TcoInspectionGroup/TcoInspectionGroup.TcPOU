@@ -535,21 +535,19 @@ END_IF
 
 		
 CASE _currentRunResult.Result OF
-	eOverallResult.NoAction:
+	eOverallResult.NoAction,
 		;
 	eOverallResult.Passed:
 		;
 	eOverallResult.Failed:
 	
 		_refOverallResult.Result		:= eOverallResult.Failed;
-		_refOverallResult.Failures		:= _currentRunResult.Failures;
-		_refOverallResult.ErrorCodes	:= _currentRunResult.ErrorCodes;
 END_CASE
 
 
 IF(_done) THEN
-	_refOverallResult.Failures :=concat( _originalOverallResult.Failures,_refOverallResult.Failures);
-	_refOverallResult.ErrorCodes :=concat( _originalOverallResult.ErrorCodes,_refOverallResult.ErrorCodes);
+	_refOverallResult.Failures :=concat( _originalOverallResult.Failures,_currentRunResult.Failures);
+	_refOverallResult.ErrorCodes :=concat( _originalOverallResult.ErrorCodes,_currentRunResult.ErrorCodes);
 	_overallResult := _refOverallResult;
 	
 END_IF;	
