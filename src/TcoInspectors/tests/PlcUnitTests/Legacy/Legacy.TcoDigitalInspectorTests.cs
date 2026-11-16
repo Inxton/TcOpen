@@ -15,7 +15,7 @@ namespace Legacy.TcoInspectorsUnitTests
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
-            Entry.TcoInspectorsTests.Connector.BuildAndStart().ReadWriteCycleDelay = 100;
+            global::TcoInspectorsUnitTests.ConnectorOnce.Start();
             container = Entry.TcoInspectorsTests.MAIN._legacyDigitalInspectorTests;
         }
 
