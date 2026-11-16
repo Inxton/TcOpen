@@ -21,6 +21,7 @@ namespace TcoCore.PexTests
         }
        
         [Test()]
+        [SetCulture("en-US")]
         public void ToStringTest()
         {
             var plainTcoMessage = new PlainTcoMessage() { Text = "Hey", Category = (short)eMessageCategory.Critical };
