@@ -8,29 +8,29 @@
     <NoWarn>$(NoWarn);NU1507</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="coverlet.collector" Version="3.0.2" />
+    <PackageVersion Include="coverlet.collector" Version="6.0.4" />
     <PackageVersion Include="FlaUI.UIA3" Version="3.2.0" />
     <PackageVersion Include="Inxton.iXlinker" Version="0.1.4-alpha.100" />
     <PackageVersion Include="Inxton.Package.Vortex.Core" Version="2.0.0" />
     <PackageVersion Include="Inxton.Package.Vortex.Essentials" Version="2.0.0" />
     <PackageVersion Include="Inxton.Package.Vortex.Essentials.Wpf" Version="2.0.0" />
     <PackageVersion Include="Inxton.vortex.compiler.console" Version="2.0.0" />
-    <PackageVersion Include="JunitXml.TestLogger" Version="3.0.114" />
+    <PackageVersion Include="JunitXml.TestLogger" Version="3.1.12" />
     <PackageVersion Include="MaterialDesignThemes" Version="4.6.1" />
     <PackageVersion Include="MdXaml" Version="1.10.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageVersion Include="Microsoft.Extensions.Identity.Stores" Version="5.0.7" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.2" />
     <PackageVersion Include="Microsoft.Web.WebView2" Version="1.0.2365.46" />
     <PackageVersion Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
     <PackageVersion Include="MongoDB.Bson" Version="2.19.0" />
     <PackageVersion Include="MongoDB.Driver" Version="2.19.0" />
     <PackageVersion Include="MongoDB.Driver.Core" Version="2.19.0" />
     <PackageVersion Include="MQTTnet" Version="3.1.1" />
-    <PackageVersion Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageVersion Include="Novell.Directory.Ldap.NETStandard2_0" Version="3.1.0" />
-    <PackageVersion Include="NUnit" Version="3.13.3" />
-    <PackageVersion Include="NUnit3TestAdapter" Version="3.17.0" />
+    <PackageVersion Include="NUnit" Version="3.14.0" />
+    <PackageVersion Include="NUnit3TestAdapter" Version="4.6.0" />
     <PackageVersion Include="RavenDB.Client" Version="5.3.101" />
     <PackageVersion Include="RavenDB.Embedded" Version="5.3.102" />
     <PackageVersion Include="RavenDB.TestDriver" Version="5.3.101" />
