@@ -7,12 +7,12 @@
 
 
 	<ItemGroup>
-		<PackageReference Include="Newtonsoft.Json" />
-		<PackageReference Include="nunit" />
-		<PackageReference Include="JunitXml.TestLogger" />
-	<PackageReference Include="NUnit3TestAdapter" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" />		
-		<PackageReference Include="RavenDB.TestDriver" /> 
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="nunit" Version="3.14.0" />
+		<PackageReference Include="JunitXml.TestLogger" Version="3.1.12" />
+	<PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.2" />		
+		<PackageReference Include="RavenDB.TestDriver" Version="5.3.101" /> 
   </ItemGroup>
 
 	<ItemGroup>

@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MaterialDesignThemes" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.6.1" />
   </ItemGroup>
   
   <ItemGroup>

@@ -21,7 +21,7 @@
     <ProjectReference Include="..\..\..\TcoData\src\Repository\MongoDb\TcOpen.Inxton.MongoDb.csproj" />
     <ProjectReference Include="..\..\..\TcoData\src\Repository\RavenDb\TcOpen.Inxton.RavenDb\TcOpen.Inxton.RavenDb.csproj" />
     <ProjectReference Include="..\..\..\TcoData\src\Data\TcOpen.Inxton.Data.csproj" />
-    <PackageReference Include="RavenDB.Embedded" />
+    <PackageReference Include="RavenDB.Embedded" Version="5.3.102" />
   </ItemGroup>
 
 </Project>

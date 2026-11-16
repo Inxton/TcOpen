@@ -15,7 +15,7 @@
 	  <PackageIconUrl>https://avatars.githubusercontent.com/u/72873267?s=60&amp;v=4</PackageIconUrl>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Novell.Directory.Ldap.NETStandard2_0" />
+    <PackageReference Include="Novell.Directory.Ldap.NETStandard2_0" Version="3.1.0" />
     <ProjectReference Include="..\Abstractions\TcOpen.Inxton.Abstractions.csproj" />
     <ProjectReference Include="..\Security\TcOpen.Inxton.Local.Security.csproj" />
   </ItemGroup>

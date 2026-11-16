@@ -7,10 +7,10 @@
     <InformationalVersion>0.1.0-alpha.53+Branch.dev.Sha.6662dd7e1d36d938cbbe3105fbe0c73e099111d0</InformationalVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="nunit" />
-    <PackageReference Include="JunitXml.TestLogger" />
-	<PackageReference Include="NUnit3TestAdapter" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" />   
+    <PackageReference Include="nunit" Version="3.14.0" />
+    <PackageReference Include="JunitXml.TestLogger" Version="3.1.12" />
+	<PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.2" />   
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Tc.Prober\src\Tc.Prober\Tc.Prober.csproj" />

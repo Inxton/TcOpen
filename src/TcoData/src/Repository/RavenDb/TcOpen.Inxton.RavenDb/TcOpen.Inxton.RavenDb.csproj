@@ -15,7 +15,7 @@
     <PackageIconUrl>https://avatars.githubusercontent.com/u/72873267?s=60&amp;v=4</PackageIconUrl>	  
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="RavenDB.Client" />
+    <PackageReference Include="RavenDB.Client" Version="5.3.101" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Data\TcOpen.Inxton.Data.csproj" />
