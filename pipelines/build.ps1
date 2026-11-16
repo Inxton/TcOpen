@@ -15,6 +15,11 @@
   $devenv = ([System.Environment]::GetEnvironmentVariable('TcoDevenv'))
   $testTargetAmsId = ([System.Environment]::GetEnvironmentVariable('Tc3Target'))
   $testingStrength = 0
+  # target frameworks for test suites that need no PLC (tier 1), always run on all of them.
+  # net8.0-windows must be listed next to net8.0: 'dotnet test -f net8.0' silently skips WPF-dependent test projects.
+  $plcFreeTestFrameworks = "net48;net8.0;net8.0-windows"
+  # target frameworks for PLC-connected test suites (tier 2); nightly sets "net48;net8.0;net8.0-windows"
+  $plcTestFrameworks = "net48"
   $doesNeedVs = $true
   # starts VS for Vortex builder without UI (no IDE window); $false opens the IDE as before
   $headlessVs = $true
@@ -317,71 +322,85 @@ task Tests -precondition { return $isTestingEnabled } {
     Write-Host 'Building plc projects' -ForegroundColor Cyan
     Write-Host '--------------------------------------------' -ForegroundColor Cyan
             	
+    # Item1 test solution/project, Item2 PLC boot project to load ("" = none), Item3 testing strength,
+    # Item4 name, Item5 needs a PLC target (also true for suites relying on a PLC loaded by an earlier entry)
     $testProjects = @(
-                      [System.Tuple]::Create(".\src\TcOpen.Inxton\TcOpen.Inxton.slnf", "", 0, "TcOpen.Inxton"),                     
-                      [System.Tuple]::Create(".\src\TcoCore\TcoCoreUnitTests.slnf", "\src\TcoCore\src\XaeTcoCore\", 0, "TcoCore_L0"),      
-                      [System.Tuple]::Create(".\src\TcoCore\TcoCore_L1_Tests.slnf","", 1, "TcoCore_L1"),
-                      [System.Tuple]::Create(".\src\TcoCore\TcoCore_L2_Tests.slnf","", 2, "TcoCore_L2"),
-                      [System.Tuple]::Create(".\src\TcoUtilities\TcoUtilities.slnf", "\src\TcoUtilities\src\XAE\XAE\", 1, "TcoUtilities"),
-                      [System.Tuple]::Create(".\src\TcoInspectors\TcoInspectors.slnf", "\src\TcoInspectors\src\XAE\XAE\", 1, "TcoInspectors"),                      
-                      [System.Tuple]::Create(".\src\TcoElements\TcoElements.slnf", ".\src\TcoElements\src\XAE\XAE\", 1, "TcoElements"),
-                      [System.Tuple]::Create(".\src\TcoIo\TcoIo.slnf", "src\TcoIo\src\XAE\XAE\", 1, "TcoIo"),
-                      [System.Tuple]::Create(".\src\TcoPneumatics\TcoPneumatics.slnf", "\src\TcoPneumatics\src\XaeTcoPneumatics\", 1, "TcoPneumatics"),
-                      [System.Tuple]::Create(".\src\TcoDrivesBeckhoff\TcoDrivesBeckhoff.slnf", "\src\TcoDrivesBeckhoff\src\XaeTcoDrivesBeckhoff\", 1, "TcoDrivesBeckhoff"),
-                      [System.Tuple]::Create(".\src\TcoData\TcoData.slnf", "\src\TcoData\src\XAE\XAE\", 1, "TcoData"),
-                      [System.Tuple]::Create(".\src\IntegrationProjects\IntegrationProjects.slnf", "\src\IntegrationProjects\src\XAE\XAE\", 0, "Integration"),
-                      [System.Tuple]::Create(".\src\Serilog.Sinks.MQTT\Serilog.Sinks.MQTT.slnf", "", 1, "Serilog.Sinks.MQTT")                      
+                      [System.Tuple]::Create(".\src\TcOpen.Inxton\TcOpen.Inxton.slnf", "", 0, "TcOpen.Inxton", $false),
+                      [System.Tuple]::Create(".\src\TcoData\tests\TcoData.Repository.Unit.Tests\TcoData.Repository.Unit.Tests.csproj", "", 0, "TcoData.Unit", $false),
+                      [System.Tuple]::Create(".\src\TcoCore\TcoCoreUnitTests.slnf", "\src\TcoCore\src\XaeTcoCore\", 0, "TcoCore_L0", $true),
+                      [System.Tuple]::Create(".\src\TcoCore\TcoCore_L1_Tests.slnf","", 1, "TcoCore_L1", $true),
+                      [System.Tuple]::Create(".\src\TcoCore\TcoCore_L2_Tests.slnf","", 2, "TcoCore_L2", $true),
+                      [System.Tuple]::Create(".\src\TcoUtilities\TcoUtilities.slnf", "\src\TcoUtilities\src\XAE\XAE\", 1, "TcoUtilities", $true),
+                      [System.Tuple]::Create(".\src\TcoInspectors\TcoInspectors.slnf", "\src\TcoInspectors\src\XAE\XAE\", 1, "TcoInspectors", $true),
+                      [System.Tuple]::Create(".\src\TcoElements\TcoElements.slnf", ".\src\TcoElements\src\XAE\XAE\", 1, "TcoElements", $true),
+                      [System.Tuple]::Create(".\src\TcoIo\TcoIo.slnf", "src\TcoIo\src\XAE\XAE\", 1, "TcoIo", $true),
+                      [System.Tuple]::Create(".\src\TcoPneumatics\TcoPneumatics.slnf", "\src\TcoPneumatics\src\XaeTcoPneumatics\", 1, "TcoPneumatics", $true),
+                      [System.Tuple]::Create(".\src\TcoDrivesBeckhoff\TcoDrivesBeckhoff.slnf", "\src\TcoDrivesBeckhoff\src\XaeTcoDrivesBeckhoff\", 1, "TcoDrivesBeckhoff", $true),
+                      [System.Tuple]::Create(".\src\TcoData\TcoData.slnf", "\src\TcoData\src\XAE\XAE\", 1, "TcoData", $true),
+                      [System.Tuple]::Create(".\src\IntegrationProjects\IntegrationProjects.slnf", "\src\IntegrationProjects\src\XAE\XAE\", 0, "Integration", $true),
+                      [System.Tuple]::Create(".\src\Serilog.Sinks.MQTT\Serilog.Sinks.MQTT.slnf", "", 1, "Serilog.Sinks.MQTT", $false)
                     )
-                    # removed due to missing hardware  
-                    # [System.Tuple]::Create(".\src\TcoDrivesBeckhoff\TcoDrivesBeckhoff.slnf", "\src\TcoDrivesBeckhoff\src\XaeTcoDrivesBeckhoff\", -1, "TcoDrivesBeckhoff"),
+                    # removed due to missing hardware
+                    # [System.Tuple]::Create(".\src\TcoDrivesBeckhoff\TcoDrivesBeckhoff.slnf", "\src\TcoDrivesBeckhoff\src\XaeTcoDrivesBeckhoff\", -1, "TcoDrivesBeckhoff", $true),
 
     Write-Host "Running tests up to strength $testingStrength"
+    Write-Host "PLC-free suites on: $plcFreeTestFrameworks | PLC-connected suites on: $plcTestFrameworks"
 
-    foreach ($testProject in $testProjects) 
-    {  
-      $testProjectOrSolution =  $testProject.Item1;  
-      $xaeProjectFolder =  $testProject.Item2;           
+    foreach ($testProject in $testProjects)
+    {
+      $testProjectOrSolution =  $testProject.Item1;
+      $xaeProjectFolder =  $testProject.Item2;
       $tier =  $testProject.Item3;
       $projName = $testProject.Item4;
+      $needsPlc = $testProject.Item5;
+      $frameworks = if($needsPlc) { $plcTestFrameworks } else { $plcFreeTestFrameworks }
+      $frameworks = @($frameworks -split ';' | Where-Object { $_ -ne '' })
 
 
       if($tier -le $testingStrength)
       {
-        # tests are checkpointed per project, a resumed run continues with the failed one
-        if(-not (Test-BuildStepPending $buildStateFile "Tests:$projName")) { continue }
+        # tests are checkpointed per project and framework, a resumed run continues with the failed one
+        $pendingFrameworks = @($frameworks | Where-Object { Test-BuildStepPending $buildStateFile "Tests:${projName}:$_" })
+        if($pendingFrameworks.Count -eq 0) { continue }
 
         Write-Host '--------------------------------------------' -ForegroundColor Cyan
-        Write-Host "Running test for $testProjectOrSolution | plc: $xaeProjectFolder" -ForegroundColor Cyan
+        Write-Host "Running test for $testProjectOrSolution | plc: $xaeProjectFolder | frameworks: $($pendingFrameworks -join ', ')" -ForegroundColor Cyan
         Write-Host '--------------------------------------------' -ForegroundColor Cyan
 
-       
+
         if($xaeProjectFolder -ne "")
         {
-          exec{   
+          exec{
             Start-Sleep 1
             .\pipelines\utils\CleanupTargetBoot.ps1 $testTargetAmsId;
             Start-Sleep 1
-            $BootDir = $solutionDir + $xaeProjectFolder;               
-            .\pipelines\utils\Load-XaeProject.ps1 $testTargetAmsId $BootDir;                    
+            $BootDir = $solutionDir + $xaeProjectFolder;
+            .\pipelines\utils\Load-XaeProject.ps1 $testTargetAmsId $BootDir;
             Start-Sleep 1
-          }  -maxRetries 2    
+          }  -maxRetries 2
         }
 
 
-        $LogFileName = "TEST-$projName.xml"
-        exec{   
-          & $dotnet test $testProjectOrSolution `
-            -c $buildConfig `
-            -f net48 `
-            -v $msbuildVerbosity `
-            -l:"trx;LogFileName=$LogFileName" `
-            --no-build `
-            --no-restore
-        } -maxRetries 2
+        foreach ($framework in $pendingFrameworks)
+        {
+          $LogFileName = "TEST-$projName-$framework.xml"
+          # -m:1 runs the test projects of a filter one at a time: suites share one PLC target
+          # and fixed ports (embedded RavenDB on 8080), so parallel runs collide
+          exec{
+            & $dotnet test $testProjectOrSolution `
+              -c $buildConfig `
+              -f $framework `
+              -m:1 `
+              -v $msbuildVerbosity `
+              -l:"trx;LogFileName=$LogFileName" `
+              --no-build `
+              --no-restore
+          } -maxRetries 2
 
-        Complete-BuildStep $buildStateFile "Tests:$projName"
+          Complete-BuildStep $buildStateFile "Tests:${projName}:$framework"
+        }
 
-       
+
       }
       else {
         Write-Host '--------------------------------------------' -ForegroundColor Yellow
