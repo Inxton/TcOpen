@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFrameworks>$(TcoLibTargetFrameworks)</TargetFrameworks>
 	  <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 	  <!--NuGet properties-->
 	  <Authors>TcOpenGroup contributors</Authors>
