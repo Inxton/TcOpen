@@ -20,6 +20,11 @@ jobs:
           path: docu/TcOpen.Documentation
           token: ${{ secrets.TC_OPEN_GROUP_USER_PAT }}
       ###
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: docu/TcOpen/global.json
+      ###
       - name : Build TcOpen
         run: |
             cd docu/TcOpen
