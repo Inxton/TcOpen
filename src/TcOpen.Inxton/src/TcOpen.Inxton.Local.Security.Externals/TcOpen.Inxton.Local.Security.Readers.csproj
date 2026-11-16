@@ -15,7 +15,7 @@
 	  <PackageIconUrl>https://avatars.githubusercontent.com/u/72873267?s=60&amp;v=4</PackageIconUrl>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="System.IO.Ports" Version="6.0.0" />
+    <PackageReference Include="System.IO.Ports" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Security\TcOpen.Inxton.Local.Security.csproj" />

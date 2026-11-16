@@ -16,9 +16,9 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Inxton.Package.Vortex.Essentials" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="5.0.7" />
+    <PackageReference Include="Inxton.Package.Vortex.Essentials" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" />
   </ItemGroup>
   
   <ItemGroup>

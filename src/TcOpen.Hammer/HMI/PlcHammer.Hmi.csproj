@@ -7,8 +7,8 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Serilog.Sinks.Notepad" Version="2.0.0" />
-    <PackageReference Include="Serilog.Sinks.RichTextBox.Wpf" Version="1.1.0" />
+    <PackageReference Include="Serilog.Sinks.Notepad" />
+    <PackageReference Include="Serilog.Sinks.RichTextBox.Wpf" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Serilog.Sinks.MQTT\src\Serilog.Sinks.MQTT\Serilog.Sinks.MQTT.csproj" />

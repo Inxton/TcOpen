@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FlaUI.UIA3" Version="3.2.0" />
-    <PackageReference Include="NUnit" Version="3.12.0" />
-    <PackageReference Include="JunitXml.TestLogger" Version="2.1.10" />
-	<PackageReference Include="NUnit3TestAdapter" Version="3.16.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="FlaUI.UIA3" />
+    <PackageReference Include="NUnit" />
+    <PackageReference Include="JunitXml.TestLogger" />
+	<PackageReference Include="NUnit3TestAdapter" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
   </ItemGroup>
 
   <ItemGroup>
