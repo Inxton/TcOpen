@@ -12,7 +12,11 @@ namespace IntegrationProjectTests
         {
             var someAssemblyType = new Sandbox.IntegrationProjects.Wpf.App();
             var assembly = someAssemblyType.GetType().Assembly;
-            var app = FlaUI.Core.Application.Launch(assembly.Location);
+            // on .NET (Core) Assembly.Location is the .dll; the app is started through its .exe apphost next to it
+            var appPath = assembly.Location;
+            var exePath = System.IO.Path.ChangeExtension(appPath, ".exe");
+            if (System.IO.File.Exists(exePath)) appPath = exePath;
+            var app = FlaUI.Core.Application.Launch(appPath);
             using (var automation = new UIA3Automation())
             {
                 var window = app.GetMainWindow(automation);
