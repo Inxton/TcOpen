@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>net48;net5.0</TargetFrameworks>
+    <TargetFrameworks>$(TcoLibTargetFrameworks)</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <!--NuGet properties-->
     <PackageId>TcOpen.Inxton.Instructor</PackageId>

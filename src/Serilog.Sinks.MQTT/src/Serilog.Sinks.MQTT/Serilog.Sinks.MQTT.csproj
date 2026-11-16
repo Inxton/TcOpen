@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net48;net5.0</TargetFrameworks>
+    <TargetFrameworks>$(TcoLibTargetFrameworks)</TargetFrameworks>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

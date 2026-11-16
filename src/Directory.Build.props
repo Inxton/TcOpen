@@ -1,0 +1,12 @@
+<Project>
+  <!--
+    Shared target frameworks for TcOpen .NET projects.
+    Projects opt in with <TargetFrameworks>$(TcoLibTargetFrameworks)</TargetFrameworks>
+    or <TargetFrameworks>$(TcoWpfTargetFrameworks)</TargetFrameworks>.
+    Projects that are net48-only keep a literal TargetFramework.
+  -->
+  <PropertyGroup>
+    <TcoLibTargetFrameworks>net48;net8.0</TcoLibTargetFrameworks>
+    <TcoWpfTargetFrameworks>net48;net8.0-windows</TcoWpfTargetFrameworks>
+  </PropertyGroup>
+</Project>
