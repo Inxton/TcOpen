@@ -368,21 +368,22 @@ task Tests -precondition { return $isTestingEnabled } {
         Write-Host '--------------------------------------------' -ForegroundColor Cyan
 
 
-        if($xaeProjectFolder -ne "")
-        {
-          exec{
-            Start-Sleep 1
-            .\pipelines\utils\CleanupTargetBoot.ps1 $testTargetAmsId;
-            Start-Sleep 1
-            $BootDir = $solutionDir + $xaeProjectFolder;
-            .\pipelines\utils\Load-XaeProject.ps1 $testTargetAmsId $BootDir;
-            Start-Sleep 1
-          }  -maxRetries 2
-        }
-
-
         foreach ($framework in $pendingFrameworks)
         {
+          # the PLC program is (re)loaded for every framework: a suite run leaves PLC state behind
+          # (e.g. TcoDrivesBeckhoff axes), so a second run on the same PLC session is not a clean run
+          if($xaeProjectFolder -ne "")
+          {
+            exec{
+              Start-Sleep 1
+              .\pipelines\utils\CleanupTargetBoot.ps1 $testTargetAmsId;
+              Start-Sleep 1
+              $BootDir = $solutionDir + $xaeProjectFolder;
+              .\pipelines\utils\Load-XaeProject.ps1 $testTargetAmsId $BootDir;
+              Start-Sleep 1
+            }  -maxRetries 2
+          }
+
           $LogFileName = "TEST-$projName-$framework.xml"
           # -m:1 runs the test projects of a filter one at a time: suites share one PLC target
           # and fixed ports (embedded RavenDB on 8080), so parallel runs collide
