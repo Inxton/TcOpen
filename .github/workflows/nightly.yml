@@ -14,10 +14,12 @@ jobs:
         with :
           path : '.'
           fetch-depth: 0
-      - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v4
-        with:
-          global-json-file: global.json
+      # self-hosted agent: the .NET 8 SDK is installed on the machine (the runner account cannot
+      # install into C:\Program Files\dotnet); fails here if global.json finds no matching SDK
+      - name: Check .NET SDK
+        run: |
+          dotnet --version
+          dotnet --list-sdks
       - name: Run Psake
         env:         
           GH_TOKEN : ${{ secrets.GH_TOKEN  }}
