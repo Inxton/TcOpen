@@ -405,7 +405,30 @@ _robot3(inoData := GVL.Robot3);
 
 Device description: `GSDML-V2.46-ABB-Robotics-OmniCore-20260330.xml` (`.\src\TcoAbbRobotics\assets\` and `.\src\TcoAbbRobotics\src\TcoAbbRoboticsConnector\ddf\`). Module configuration: `DI 64 bytes` + `DO 64 bytes`.
 
-The task logic is the same as in `TcoOmnicore_v_1_x_x`. RobotWare 8 requires the PLC to hold write access before the controller accepts start commands; the tasks do not perform this handshake yet. The signals are available as `Control.WriteAccess` and `Status.State.WriteAccessAvailable`, `WriteAccess`, `RemoteAccess`, and must be handled by the application.
+### Starting and stopping the program
+
+RobotWare 8 accepts the start commands only from a control station that holds write access. The start tasks take and release write access themselves; the application only calls the task.
+
+Required controller configuration (topic *Controller*, type *Control Station*): *Motion Control* = `Yes`, *Implicit Write Access* = `No`. The system input *Write Access*, the system output *Write Access Status* and the start inputs must belong to the same control station. Remote access must be allowed on the FlexPendant.
+
+`StartProgram()` (continue) and `StartAtMain()` (start from the beginning):
+
+1. release the stop commands (`StopProgram`, `QuickStop`, `SoftStop`, `StopCycle`, `StopInstruction`) - the controller rejects a start while one of them is set
+2. wait for `AutoOn`; `StartAtMain` also waits until the program is stopped (`CycleOn` = 0), `StartProgram` is done at once when the program already runs
+3. wait for `RemoteAccess` and `WriteAccessAvailable`, set `Control.WriteAccess`, wait for `State.WriteAccess`
+4. wait for `MotorOnState`
+5. one start pulse of 200 ms (`StartProgram` or `StartAtMain`), wait for `CycleOn`
+6. reset `Control.WriteAccess`, wait for `State.WriteAccess` = 0
+
+`StartAtMain` is done when the program runs (`CycleOn`), not when the program pointer has moved (`PpMoved`) as in `TcoOmnicore_v_1_x_x`.
+
+`StartMotors()` does not need write access. It pulses `MotorOn` only when the safety circuit is closed (`SafetyOk`) and the controller is not in guard stop (`ResetState`). A guard stop can be left only by a safety reset, not by the PLC.
+
+`StartMotorsAndProgram()` resets the error and the emergency stop, takes write access, switches the motors on, sends the start pulse and releases write access. `MotorOnAndStart` is not used.
+
+The stop tasks (`StopProgram`, `StopMovements`, `StopMovementsAndProgram`, `StopMotors`) do not need write access. When a stop task starts, it resets the start commands and a write access request left by an interrupted start. Every stop task resets its stop commands when it is done, aborted or restored.
+
+The controller gives no feedback for a rejected command except an event log entry. Each waiting step therefore reports what it is waiting for; set `Config.ErrorTime` to let a task end with an error instead of waiting.
 
 ### Differences against `TcoOmnicore_v_1_x_x` (RobotWare 7)
 

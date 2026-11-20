@@ -23,10 +23,68 @@ VAR
 	_sb : TcoCore.StringBuilder;
 	{attribute 'hide'}
 	_blink:TcoUtilities.TcoBlinker(THIS^);
+	{attribute 'hide'}
+	_pulseTimer : TON;
+	{attribute 'hide'}
+	_active : BOOL;
+	{attribute 'hide'}
+	_writeAccessRequested : BOOL;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Method Name="AcquireWriteAccess" Id="{c73c921d-a5c6-40ad-a9c4-935108dd4c89}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Requests write access on the robot controller (RobotWare 8, explicit write access) and holds it.
+			Returns TRUE when the controller confirms that this control station holds write access.
+			Write access can be requested only when remote access is allowed and write access is available.
+		</summary>
+	</docu>
+~*)
+METHOD PROTECTED AcquireWriteAccess : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[AcquireWriteAccess := FALSE;
+
+IF inoControl.WriteAccess THEN
+	_writeAccessRequested := TRUE;
+	IF inoStatus.State.WriteAccess THEN
+		AcquireWriteAccess := TRUE;
+	ELSE
+		_varInfo := __VARINFO(inoStatus.State.WriteAccess);
+		THIS^.Messenger.OnCondition(_infoTimer.Q).Warning(_sb.Clear().Append('<#Waiting for write access to be granted! #>').Append(_varInfo.Symbol).ToString());
+	END_IF
+ELSIF NOT inoStatus.State.RemoteAccess THEN
+	_varInfo := __VARINFO(inoStatus.State.RemoteAccess);
+	THIS^.Messenger.OnCondition(_infoTimer.Q).Warning(_sb.Clear().Append('<#Remote access is not allowed on the robot controller! #>').Append(_varInfo.Symbol).ToString());
+ELSIF NOT inoStatus.State.WriteAccessAvailable THEN
+	_varInfo := __VARINFO(inoStatus.State.WriteAccessAvailable);
+	THIS^.Messenger.OnCondition(_infoTimer.Q).Warning(_sb.Clear().Append('<#Waiting for write access to be available! #>').Append(_varInfo.Symbol).ToString());
+ELSE
+	inoControl.WriteAccess := TRUE;
+	_writeAccessRequested := TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Activate" Id="{8f9e8a84-5051-4925-9166-4daa315c0b2b}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Marks this task as the owner of its command signals. To be called from OnStart.
+		</summary>
+	</docu>
+~*)
+METHOD PROTECTED Activate
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_active := TRUE;
+_writeAccessRequested := FALSE;
+_pulseTimer(IN := FALSE);
+CallTimers(FALSE);]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="CallTimers" Id="{ac15b7e4-b5b9-4f85-9299-fcde1ad09c8a}">
       <Declaration><![CDATA[METHOD CallTimers
 VAR_INPUT
@@ -42,6 +100,174 @@ _infoTimer(IN := inValue, PT := THIS^.inoConfig.InfoTime);
 END_IF;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="CheckReferences" Id="{cb811c03-5e44-43ea-adce-da572f77eba5}">
+      <Declaration><![CDATA[METHOD PROTECTED CheckReferences : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CheckReferences := FALSE;
+IF NOT __ISVALIDREF(inoControl) THEN
+	_varInfo :=__VARINFO(inoControl);
+	Messenger.Programming(_sb.Clear().Append('<#Invalid reference: #>').Append(_varInfo.Symbol).ToString()).Pin();
+ELSIF NOT __ISVALIDREF(inoConfig) THEN
+	_varInfo :=__VARINFO(inoConfig);
+	Messenger.Programming(_sb.Clear().Append('<#Invalid reference: #>').Append(_varInfo.Symbol).ToString()).Pin();
+ELSIF NOT __ISVALIDREF(inoStatus) THEN
+	_varInfo :=__VARINFO(inoStatus);
+	Messenger.Programming(_sb.Clear().Append('<#Invalid reference: #>').Append(_varInfo.Symbol).ToString()).Pin();
+ELSE
+	CheckReferences := TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Cleanup" Id="{9484f3a6-cfb0-4168-bcf7-4b6eb83366e6}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Releases the command signals and the write access this task has set. Does nothing when the task is not active,
+			so a finished task that is restored later does not disturb another running task.
+		</summary>
+	</docu>
+~*)
+METHOD PROTECTED Cleanup
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF __ISVALIDREF(inoControl) THEN
+	IF _active THEN
+		ReleaseCommands();
+	END_IF
+	IF _writeAccessRequested THEN
+		inoControl.WriteAccess := FALSE;
+	END_IF
+END_IF
+_active := FALSE;
+_writeAccessRequested := FALSE;
+_pulseTimer(IN := FALSE);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="MotorsOn" Id="{d29d901c-f336-4f66-91a0-749bb0a4f164}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Switches the motors on. Returns TRUE when the controller reports the motors on state.
+			Motors On does not need write access, but the safety circuit must be closed and the controller must not be in guard stop
+			(a guard stop can be left only by a safety reset, not by the PLC). _blink must be called by the task.
+		</summary>
+	</docu>
+~*)
+METHOD PROTECTED MotorsOn : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[MotorsOn := FALSE;
+inoControl.MotorOff := FALSE;
+
+IF inoStatus.State.MotorOnState THEN
+	inoControl.MotorOn := FALSE;
+	MotorsOn := TRUE;
+ELSIF NOT inoStatus.State.SafetyOk THEN
+	inoControl.MotorOn := FALSE;
+	_varInfo := __VARINFO(inoStatus.State.SafetyOk);
+	THIS^.Messenger.OnCondition(_infoTimer.Q).Warning(_sb.Clear().Append('<#Waiting for safety circuit to be closed! #>').Append(_varInfo.Symbol).ToString());
+ELSIF NOT inoStatus.State.ResetState THEN
+	inoControl.MotorOn := FALSE;
+	_varInfo := __VARINFO(inoStatus.State.ResetState);
+	THIS^.Messenger.OnCondition(_infoTimer.Q).Warning(_sb.Clear().Append('<#Safety reset is required on the robot controller! #>').Append(_varInfo.Symbol).ToString());
+ELSE
+	inoControl.MotorOn := _blink.outQ;
+	_varInfo := __VARINFO(inoStatus.State.MotorOnState);
+	THIS^.Messenger.OnCondition(_infoTimer.Q).Warning(_sb.Clear().Append('<# Waiting for signal: #>').Append(_varInfo.Symbol).ToString());
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Pulse" Id="{0011787b-b2ad-4327-8f16-339fe7cd0748}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Single command pulse of 200 ms (the controller needs more than 50 ms). Returns TRUE while the pulse is active.
+			The pulse is restarted by Activate, Cleanup or by resetting _pulseTimer.
+		</summary>
+	</docu>
+~*)
+METHOD PROTECTED Pulse : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_pulseTimer(IN := TRUE, PT := T#200MS);
+Pulse := NOT _pulseTimer.Q;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ReleaseCommands" Id="{b691007c-f57a-4fa7-b3ac-5b6129aab131}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Resets the command signals of this task. To be overridden in the task.
+		</summary>
+	</docu>
+~*)
+METHOD PROTECTED ReleaseCommands
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ReleaseStartCommands" Id="{cd0cc5c6-fb4c-41dc-be65-42980d64b056}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Resets the start commands and the write access request, no matter which task has set them.
+			Used by the stop tasks, so an interrupted start cannot leave write access taken.
+		</summary>
+	</docu>
+~*)
+METHOD PROTECTED ReleaseStartCommands
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF __ISVALIDREF(inoControl) THEN
+	inoControl.WriteAccess := FALSE;
+	inoControl.StartProgram := FALSE;
+	inoControl.StartAtMain := FALSE;
+	inoControl.MotorOn := FALSE;
+	inoControl.MotorOnAndStart := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ReleaseStopCommands" Id="{a1ade361-621d-456a-816d-1dcacab7da49}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Resets the stop commands. The controller rejects the start commands while a stop command is set.
+		</summary>
+	</docu>
+~*)
+METHOD PROTECTED ReleaseStopCommands
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[inoControl.StopProgram := FALSE;
+inoControl.QuickStop := FALSE;
+inoControl.SoftStop := FALSE;
+inoControl.StopCycle := FALSE;
+inoControl.StopInstruction := FALSE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ReleaseWriteAccess" Id="{21e7605b-ff81-4e0a-8994-ed0f4a69cbf4}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Releases write access. Returns TRUE when the controller confirms that write access is no longer held.
+		</summary>
+	</docu>
+~*)
+METHOD PROTECTED ReleaseWriteAccess : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[inoControl.WriteAccess := FALSE;
+ReleaseWriteAccess := NOT inoStatus.State.WriteAccess;
+IF ReleaseWriteAccess THEN
+	_writeAccessRequested := FALSE;
+ELSE
+	_varInfo := __VARINFO(inoStatus.State.WriteAccess);
+	THIS^.Messenger.OnCondition(_infoTimer.Q).Warning(_sb.Clear().Append('<#Waiting for write access to be released! #>').Append(_varInfo.Symbol).ToString());
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="Restore" Id="{5e8142e9-7317-4bb7-9a13-7d198b793c24}">
       <Declaration><![CDATA[(*~
 	<docu>
@@ -55,7 +281,8 @@ END_IF;]]></ST>
 ~*)
 METHOD Restore : ITcoRestorable]]></Declaration>
       <Implementation>
-        <ST><![CDATA[SUPER^.Restore();
+        <ST><![CDATA[Cleanup();
+SUPER^.Restore();
 _progress := 0;
 _timer(In:=FALSE);
 CallTimers(FALSE);

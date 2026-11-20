@@ -9,42 +9,54 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[
-
 IF Execute() THEN
-	_blink(inOnTime:=T#500MS,inOffTime:=T#500MS);
-
 	IF _progress = 0 THEN
-		IF NOT __ISVALIDREF(inoControl) THEN
-			_varInfo :=__VARINFO(inoControl);
-			Messenger.Programming(_sb.Clear().Append('<#Invalid reference: #>').Append(_varInfo.Symbol).ToString()).Pin();
-		ELSIF NOT __ISVALIDREF(inoConfig) THEN                                                  
-			_varInfo :=__VARINFO(inoConfig);                                                    
-			Messenger.Programming(_sb.Clear().Append('<#Invalid reference: #>').Append(_varInfo.Symbol).ToString()).Pin();
-		ELSIF NOT __ISVALIDREF(inoStatus) THEN                                                  
-			_varInfo :=__VARINFO(inoStatus);                                                    
-			Messenger.Programming(_sb.Clear().Append('<#Invalid reference: #>').Append(_varInfo.Symbol).ToString()).Pin();
-			ELSE
+		IF CheckReferences() THEN
 			_progress := _progress + 1;
 		END_IF
-
 	END_IF
 	IF _progress = 1 THEN
-		inoControl.StartProgram:=_blink.outQ;
-		_varInfo :=__VARINFO( inoStatus.State.CycleOn);                                                
-		THIS^.Messenger.OnCondition(_infoTimer.Q AND NOT inoStatus.State.CycleOn).Warning(_sb.Clear().Append('<#Waiting for program running signal! #>').Append(_varInfo.Symbol).ToString());
-		
-		
-		IF  inoStatus.State.CycleOn THEN
-				inoControl.StartProgram:=FALSE;
+		ReleaseStopCommands();
+		_varInfo :=__VARINFO( inoStatus.State.AutoOn);
+		THIS^.Messenger.OnCondition(_infoTimer.Q AND NOT inoStatus.State.AutoOn).Warning(_sb.Clear().Append('<#Waiting for Auto signal! #>').Append(_varInfo.Symbol).ToString());
+		IF inoStatus.State.CycleOn THEN
+			// the program is already running
+			_progress := 6;
+		ELSIF inoStatus.State.AutoOn THEN
+			_progress := _progress + 1;
 		END_IF
-	END_IF;		
-	
-	
+	END_IF
+	IF _progress = 2 THEN
+		IF AcquireWriteAccess() THEN
+			_progress := _progress + 1;
+		END_IF
+	END_IF
+	IF _progress = 3 THEN
+		_varInfo :=__VARINFO( inoStatus.State.MotorOnState);
+		THIS^.Messenger.OnCondition(_infoTimer.Q AND NOT inoStatus.State.MotorOnState).Warning(_sb.Clear().Append('<#Waiting for motors are On! #>').Append(_varInfo.Symbol).ToString());
+		IF inoStatus.State.MotorOnState THEN
+			_pulseTimer(IN := FALSE);
+			_progress := _progress + 1;
+		END_IF
+	END_IF
+	IF _progress = 4 THEN
+		// one pulse; the controller accepts it only with write access held and the stop commands released
+		inoControl.StartProgram := Pulse();
+		_varInfo :=__VARINFO( inoStatus.State.CycleOn);
+		THIS^.Messenger.OnCondition(_infoTimer.Q AND NOT inoStatus.State.CycleOn).Warning(_sb.Clear().Append('<#Waiting for program running signal! #>').Append(_varInfo.Symbol).ToString());
+		IF inoStatus.State.CycleOn AND NOT inoControl.StartProgram THEN
+			_progress := _progress + 1;
+		END_IF
+	END_IF
+	IF _progress = 5 THEN
+		IF ReleaseWriteAccess() THEN
+			_progress := _progress + 1;
+		END_IF
+	END_IF
 
-    DoneWhen(inoStatus.State.CycleOn );
-    CallTimers(TRUE);
-	
-	THIS^.ThrowWhen(_errorTimer.Q OR inoStatus.State.Error);
+	DoneWhen(_progress = 6);
+	CallTimers(TRUE);
+	THIS^.ThrowWhen(_errorTimer.Q OR (_progress > 0 AND_THEN inoStatus.State.Error));
 END_IF
 
 IF  THIS^.Error AND NOT _errorMessage.Pinned THEN
@@ -84,7 +96,8 @@ InvokeWithParams := THIS^.Invoke();]]></ST>
 METHOD PROTECTED OnAbort
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN   THIS^.inoStatus.ActionDescription := '<#Stop program was aborted, while not yet completed!#>';END_IF; 
+        <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN   THIS^.inoStatus.ActionDescription := '<#Start program was aborted, while not yet completed!#>';END_IF; 
+Cleanup();
 ]]></ST>
       </Implementation>
     </Method>
@@ -99,7 +112,8 @@ METHOD PROTECTED OnAbort
 METHOD PROTECTED OnDone
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN  THIS^.inoStatus.ActionDescription := '<#Stop program was completed successfully.#>';END_IF; 
+        <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN  THIS^.inoStatus.ActionDescription := '<#Start program was completed successfully.#>';END_IF; 
+Cleanup();
 _progress:=0;]]></ST>
       </Implementation>
     </Method>
@@ -116,8 +130,9 @@ VAR
 	description: STRING;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[THIS^.inoStatus.ActionDescription := '<#Stopping program with error.#>'; 
+        <ST><![CDATA[description := '<#Start program finished with error.#>';
 IF  __ISVALIDREF(inoStatus) THEN   THIS^.inoStatus.ActionDescription := description; END_IF;
+Cleanup();
 THIS^._errorMessage.Error(_sb.Clear().Append(description).Append(' To restore acknowledge this alarm.').ToString()).Pin();]]></ST>
       </Implementation>
     </Method>
@@ -125,8 +140,15 @@ THIS^._errorMessage.Error(_sb.Clear().Append(description).Append(' To restore ac
       <Declaration><![CDATA[METHOD PROTECTED OnStart 
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN  THIS^.inoStatus.ActionDescription := '<#Stopping program started.#>'; END_IF; 
-CallTimers(FALSE);]]></ST>
+        <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN  THIS^.inoStatus.ActionDescription := '<#Start program started.#>'; END_IF; 
+Activate();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ReleaseCommands" Id="{848eab84-d460-470a-984a-2baa0d26485c}">
+      <Declaration><![CDATA[METHOD PROTECTED ReleaseCommands
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[inoControl.StartProgram := FALSE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Restore" Id="{65fc6533-3b81-4adc-8bbc-0b31d4da1dee}">

@@ -558,4 +558,40 @@
   <data name="___OUT__" xml:space="preserve">
     <value>OUT</value>
   </data>
+  <data name="___Waiting_for_program_to_be_stopped____" xml:space="preserve">
+    <value>¡Esperando a que se detenga el programa! </value>
+  </data>
+  <data name="___Start_program_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>¡El inicio del programa fue abortado antes de completarse!</value>
+  </data>
+  <data name="___Start_program_was_completed_successfully___" xml:space="preserve">
+    <value>El inicio del programa se ha completado con éxito.</value>
+  </data>
+  <data name="___Start_program_finished_with_error___" xml:space="preserve">
+    <value>El inicio del programa ha terminado con error.</value>
+  </data>
+  <data name="___Start_program_started___" xml:space="preserve">
+    <value>Inicio del programa iniciado.</value>
+  </data>
+  <data name="___Stop_motors_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>¡La parada de motores fue abortada antes de completarse!</value>
+  </data>
+  <data name="___Waiting_for_write_access_to_be_granted____" xml:space="preserve">
+    <value>¡Esperando la concesión del acceso de escritura! </value>
+  </data>
+  <data name="___Remote_access_is_not_allowed_on_the_robot_controller____" xml:space="preserve">
+    <value>¡El acceso remoto no está permitido en el controlador del robot! </value>
+  </data>
+  <data name="___Waiting_for_write_access_to_be_available____" xml:space="preserve">
+    <value>¡Esperando a que el acceso de escritura esté disponible! </value>
+  </data>
+  <data name="___Waiting_for_safety_circuit_to_be_closed____" xml:space="preserve">
+    <value>¡Esperando el cierre del circuito de seguridad! </value>
+  </data>
+  <data name="___Safety_reset_is_required_on_the_robot_controller____" xml:space="preserve">
+    <value>¡Se requiere un reinicio de seguridad en el controlador del robot! </value>
+  </data>
+  <data name="___Waiting_for_write_access_to_be_released____" xml:space="preserve">
+    <value>¡Esperando la liberación del acceso de escritura! </value>
+  </data>
 </root>

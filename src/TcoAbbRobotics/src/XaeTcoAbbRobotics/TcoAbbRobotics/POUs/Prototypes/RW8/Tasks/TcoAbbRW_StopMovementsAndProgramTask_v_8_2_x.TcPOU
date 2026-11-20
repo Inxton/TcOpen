@@ -103,10 +103,9 @@ InvokeWithParams := THIS^.Invoke();]]></ST>
 METHOD PROTECTED OnAbort
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN   THIS^.inoStatus.ActionDescription := '<#Stop movements and program was aborted, while not yet completed!#>';END_IF; 
-inoControl.SoftStop := FALSE;
-inoControl.QuickStop := FALSE;
-inoControl.StopProgram:=FALSE;]]></ST>
+        <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN   THIS^.inoStatus.ActionDescription := '<#Stop movements and program was aborted, while not yet completed!#>';END_IF;
+Cleanup();
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="OnDone" Id="{37090fda-46f3-4d93-854d-4d74658980af}">
@@ -121,6 +120,7 @@ METHOD PROTECTED OnDone
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN  THIS^.inoStatus.ActionDescription := '<#Stop movements and program  was completed successfully.#>';END_IF; 
+Cleanup();
 _progress:=0;]]></ST>
       </Implementation>
     </Method>
@@ -138,8 +138,9 @@ VAR
 	description: STRING;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[THIS^.inoStatus.ActionDescription := '<#Stop movements and program finished with error.#>';
+        <ST><![CDATA[description := '<#Stop movements and program finished with error.#>';
 IF  __ISVALIDREF(inoStatus) THEN   THIS^.inoStatus.ActionDescription := description; END_IF;
+Cleanup();
 THIS^._errorMessage.Error(_sb.Clear().Append(description).Append(' To restore acknowledge this alarm.').ToString()).Pin();]]></ST>
       </Implementation>
     </Method>
@@ -147,8 +148,19 @@ THIS^._errorMessage.Error(_sb.Clear().Append(description).Append(' To restore ac
       <Declaration><![CDATA[METHOD PROTECTED OnStart 
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN  THIS^.inoStatus.ActionDescription := '<#Stop movements and program started.#>'; END_IF; 
-CallTimers(FALSE);]]></ST>
+        <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN  THIS^.inoStatus.ActionDescription := '<#Stop movements and program started.#>'; END_IF;
+Activate();
+ReleaseStartCommands();
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ReleaseCommands" Id="{739727d7-ae21-4a03-95e3-ccee1ff2d4b8}">
+      <Declaration><![CDATA[METHOD PROTECTED ReleaseCommands
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[inoControl.SoftStop := FALSE;
+inoControl.QuickStop := FALSE;
+inoControl.StopProgram := FALSE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Restore" Id="{1ff47490-2c1b-41ec-9b0f-fa58128f5981}">
@@ -165,9 +177,6 @@ CallTimers(FALSE);]]></ST>
 METHOD Restore : ITcoRestorable]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.Restore();
-inoControl.SoftStop := FALSE;
-inoControl.QuickStop := FALSE;
-inoControl.StopProgram:=FALSE;
 ]]></ST>
       </Implementation>
     </Method>

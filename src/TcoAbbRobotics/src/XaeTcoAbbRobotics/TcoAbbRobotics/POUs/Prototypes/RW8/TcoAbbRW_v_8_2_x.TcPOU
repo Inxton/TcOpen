@@ -9,7 +9,11 @@
 			PLC to robot: byte 0 bit 1 is WriteAccess (LoadProg is no longer mapped).
 			Robot to PLC: byte 1 bit 4 WriteAccessAvailable (was SystemInputBusy), byte 1 bit 7 WriteAccess (was BatteryLow),
 			byte 2 bit 0 RemoteAccess, bit 1 ResetState, bit 2 InArea_1, bit 3 InArea_2 (InArea_3 and InArea_4 are removed).
-			The task logic is the same as in TcoOmnicore_v_1_x_x; the write access handshake is not handled by the tasks.
+			Start of the program (StartProgram, StartAtMain, StartMotorsAndProgram): the tasks release the stop commands, take write access
+			(WriteAccess, confirmed by State.WriteAccess; RemoteAccess and WriteAccessAvailable are required), send one start pulse
+			and release write access when the program is running (CycleOn). The stop tasks do not need write access; they release
+			a write access request left by an interrupted start and reset their stop commands when they finish.
+			Required controller configuration: Control Station with Motion Control = Yes and Implicit Write Access = No.
 		</summary>
 	</docu>
 ~*)
@@ -69,7 +73,7 @@ VAR
     _stopMovementsAndProgramTask : TcoAbbRW_StopMovementsAndProgramTask_v_8_2_x(THIS^);
 	
 	{attribute addProperty Name "<#Stop program#>"}
-    _stopProgramTask : TcoAbbRW_StopMovementsAndProgramTask_v_8_2_x(THIS^);
+    _stopProgramTask : TcoAbbRW_StopProgramTask_v_8_2_x(THIS^);
 	
 	{attribute addProperty Name "<#Stop motors#>"}
     _stopMotorsTask : TcoAbbRW_StopMotorsTask_v_8_2_x(THIS^);
@@ -102,9 +106,9 @@ _pnError:= not _profinetReady;
 
 UpdateStatus();
 _stopTasksAreActive :=  _stopMovementsTask.Busy 
-			AND _stopMovementsAndProgramTask.Busy 
-			AND _stopProgramTask.Busy
-			AND _stopMotorsTask.Busy;
+			OR _stopMovementsAndProgramTask.Busy 
+			OR _stopProgramTask.Busy
+			OR _stopMotorsTask.Busy;
 			
 _startAtMainTask.Enabled:=NOT _stopTasksAreActive;
 _startAtMainTask(inoConfig:=_config,inoControl:=_control,inoStatus:=_status);
@@ -272,14 +276,16 @@ _control.Coordinates.Rz:=0;
       <Declaration><![CDATA[METHOD INTERNAL RestoreTasks 
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[//_resetTask.Restore();
-_startMovementsTask.Restore();
+        <ST><![CDATA[_startMovementsTask.Restore();
 _startMotorsProgramAndMovementsTask.Restore();
-_stopMovementsTask.Restore();
 _startMotorsAndProgramTask.Restore();
+_startMotorsTask.Restore();
+_startProgramTask.Restore();
 _startAtMainTask.Restore();
+_stopMovementsTask.Restore();
 _stopMovementsAndProgramTask.Restore();
-_stopProgramTask.Restore();]]></ST>
+_stopProgramTask.Restore();
+_stopMotorsTask.Restore();]]></ST>
       </Implementation>
     </Method>
     <Method Name="ServiceMode" Id="{cfd87184-bed0-429f-8463-8d41f3605797}">

@@ -5,38 +5,24 @@
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[
-
 IF Execute() THEN
 	 _blink(inOnTime:=T#500MS,inOffTime:=T#500MS);
-
-  	IF _progress = 0 THEN
-		IF NOT __ISVALIDREF(inoControl) THEN
-			_varInfo :=__VARINFO(inoControl);
-			Messenger.Programming(_sb.Clear().Append('<#Invalid reference: #>').Append(_varInfo.Symbol).ToString()).Pin();
-		ELSIF NOT __ISVALIDREF(inoConfig) THEN                                                  
-			_varInfo :=__VARINFO(inoConfig);                                                    
-			Messenger.Programming(_sb.Clear().Append('<#Invalid reference: #>').Append(_varInfo.Symbol).ToString()).Pin();
-		ELSIF NOT __ISVALIDREF(inoStatus) THEN                                                  
-			_varInfo :=__VARINFO(inoStatus);                                                    
-			Messenger.Programming(_sb.Clear().Append('<#Invalid reference: #>').Append(_varInfo.Symbol).ToString()).Pin();
-		ELSE
-
+	IF _progress = 0 THEN
+		IF CheckReferences() THEN
 			_progress := _progress + 1;
-
 		END_IF
-
 	END_IF
 	IF _progress = 1 THEN
-	
-		_varInfo :=__VARINFO( inoStatus.State.AutoOn);                                                
+		_varInfo :=__VARINFO( inoStatus.State.AutoOn);
 		THIS^.Messenger.OnCondition(_infoTimer.Q AND NOT inoStatus.State.AutoOn).Warning(_sb.Clear().Append('<#Waiting for Auto signal! #>').Append(_varInfo.Symbol).ToString());
-		IF  inoStatus.State.AutoOn THEN
+		IF inoStatus.State.MotorOnState AND NOT inoStatus.State.Error THEN
+			// the motors are already on
+			_progress := 5;
+		ELSIF  inoStatus.State.AutoOn THEN
 			_progress := _progress + 1;
 		END_IF;
 	END_IF;
-	
-	
-	IF _progress = 2 THEN	
+	IF _progress = 2 THEN
 		Messenger.Debug('<#Robot Error Reset#>');
 		inoControl.ResetError := inoStatus.State.Error AND _blink.outQ;
 		IF NOT inoStatus.State.Error THEN
@@ -44,8 +30,8 @@ IF Execute() THEN
 			_progress := _progress + 1;
 		END_IF
 	END_IF;
-	
-	IF _progress = 3 THEN	
+
+	IF _progress = 3 THEN
 		Messenger.Debug('<#Robot Emergency Stop Reset#>');
 		inoControl.ResetEmgStop := inoStatus.State.EmgStop AND _blink.outQ;
 		IF NOT inoStatus.State.EmgStop THEN
@@ -53,32 +39,19 @@ IF Execute() THEN
 			_progress := _progress + 1;
 		END_IF
 	END_IF;
-		
-	
-	IF _progress = 4 THEN	
-		IF inoStatus.State.Error THEN 
+
+	IF _progress = 4 THEN
+		IF inoStatus.State.Error THEN
+			inoControl.MotorOn := FALSE;
 			_progress := 1;
-		END_IF
-		_varInfo :=__VARINFO( inoStatus.State.MotorOnState);                                                
-		THIS^.Messenger.OnCondition(_infoTimer.Q AND NOT inoStatus.State.MotorOnState).Warning(_sb.Clear().Append('<# Waiting for signal: #>').Append(_varInfo.Symbol).ToString());
-			_varInfo :=__VARINFO( inoStatus.State.Error);                                                
-		THIS^.Messenger.OnCondition(_infoTimer.Q AND NOT inoStatus.State.Error).Warning(_sb.Clear().Append('<# Waiting for signal: #>').Append(_varInfo.Symbol).ToString());
-	
-		inoControl.MotorOn:=_blink.outQ;	
-		IF inoStatus.State.MotorOnState  AND NOT inoStatus.State.Error THEN
-			 inoControl.MotorOn:=FALSE;
+		ELSIF MotorsOn() THEN
 			_progress := _progress + 1;
 		END_IF
-	END_IF;		
-	
-	
-	
-	
-    DoneWhen(inoStatus.State.MotorOnState AND NOT inoStatus.State.Error);
-    CallTimers(TRUE);
-	
+	END_IF;
+
+	DoneWhen(_progress = 5);
+	CallTimers(TRUE);
 	THIS^.ThrowWhen(_errorTimer.Q );
-	
 END_IF
 
 IF  THIS^.Error AND NOT _errorMessage.Pinned THEN
@@ -108,6 +81,7 @@ METHOD PROTECTED OnAbort
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN   THIS^.inoStatus.ActionDescription := '<#Start motors  was aborted.#>'; END_IF;
+Cleanup();
 ]]></ST>
       </Implementation>
     </Method>
@@ -123,7 +97,9 @@ METHOD PROTECTED OnDone
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN   THIS^.inoStatus.ActionDescription := '<#Start motors  finished successfully.#>'; END_IF;
-_progress:=0;]]></ST>
+_progress:=0;
+Cleanup();
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="OnError" Id="{c5c239dd-bf5e-4c4c-836e-65ef725a0b3a}">
@@ -134,6 +110,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[description := '<#Start motors finished with error.#>'; 
 IF  __ISVALIDREF(inoStatus) THEN   THIS^.inoStatus.ActionDescription := description; END_IF;
+Cleanup();
 THIS^._errorMessage.Error(_sb.Clear().Append(description).Append(' To restore acknowledge this alarm.').ToString()).Pin();]]></ST>
       </Implementation>
     </Method>
@@ -142,7 +119,16 @@ THIS^._errorMessage.Error(_sb.Clear().Append(description).Append(' To restore ac
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN  THIS^.inoStatus.ActionDescription := '<#Start motors started.#>'; END_IF; 
-CallTimers(FALSE);]]></ST>
+Activate();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ReleaseCommands" Id="{b762573b-3327-4042-87ff-f967f692526d}">
+      <Declaration><![CDATA[METHOD PROTECTED ReleaseCommands
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[inoControl.MotorOn := FALSE;
+inoControl.ResetError := FALSE;
+inoControl.ResetEmgStop := FALSE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Restore" Id="{694f1b54-e633-4ca2-aaa2-756fc3643bf3}">

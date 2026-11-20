@@ -177,14 +177,17 @@
   <data name="___Safety_circuit_open__" xml:space="preserve">
     <value>Safety circuit open</value>
   </data>
-  <data name="___Invalid_reference____" xml:space="preserve">
-    <value>Invalid reference: </value>
+  <data name="___Waiting_for_Auto_signal____" xml:space="preserve">
+    <value>Waiting for Auto signal! </value>
   </data>
-  <data name="___Waiting_program_pointer_changed____" xml:space="preserve">
-    <value>Waiting program pointer changed! </value>
+  <data name="___Waiting_for_program_to_be_stopped____" xml:space="preserve">
+    <value>Waiting for program to be stopped! </value>
   </data>
-  <data name="___Waiting_for_system_ready_signal____" xml:space="preserve">
-    <value>Waiting for system ready signal! </value>
+  <data name="___Waiting_for_motors_are_On____" xml:space="preserve">
+    <value>Waiting for motors are On! </value>
+  </data>
+  <data name="___Waiting_for_program_running_signal____" xml:space="preserve">
+    <value>Waiting for program running signal! </value>
   </data>
   <data name="___Start_at_Main_was_aborted__while_not_yet_completed___" xml:space="preserve">
     <value>Start at Main was aborted, while not yet completed!</value>
@@ -198,20 +201,11 @@
   <data name="___Start_at_Main_started___" xml:space="preserve">
     <value>Start at Main started.</value>
   </data>
-  <data name="___Waiting_for_Auto_signal____" xml:space="preserve">
-    <value>Waiting for Auto signal! </value>
-  </data>
-  <data name="___Robot_is_not_in_Auto__" xml:space="preserve">
-    <value>Robot is not in Auto</value>
-  </data>
   <data name="___Robot_Error_Reset__" xml:space="preserve">
     <value>Robot Error Reset</value>
   </data>
   <data name="___Robot_Emergency_Stop_Reset__" xml:space="preserve">
     <value>Robot Emergency Stop Reset</value>
-  </data>
-  <data name="____Waiting_for_signal____" xml:space="preserve">
-    <value> Waiting for signal: </value>
   </data>
   <data name="___Start_motors_and_program_was_aborted___" xml:space="preserve">
     <value>Start motors and program was aborted.</value>
@@ -227,6 +221,9 @@
   </data>
   <data name="___Invalid_reference_StartMotorAndProgramTask__" xml:space="preserve">
     <value>Invalid reference StartMotorAndProgramTask</value>
+  </data>
+  <data name="___Invalid_reference____" xml:space="preserve">
+    <value>Invalid reference: </value>
   </data>
   <data name="___Moving_to_position_ID__" xml:space="preserve">
     <value>Moving to position ID</value>
@@ -255,12 +252,6 @@
   <data name="___Start_motors_started___" xml:space="preserve">
     <value>Start motors started.</value>
   </data>
-  <data name="___Waiting_for_program_running_signal____" xml:space="preserve">
-    <value>Waiting for program running signal! </value>
-  </data>
-  <data name="___Waiting_for_motors_are_On____" xml:space="preserve">
-    <value>Waiting for motors are On! </value>
-  </data>
   <data name="___Waiting_for_system_is_without_errors____" xml:space="preserve">
     <value>Waiting for system is without errors! </value>
   </data>
@@ -276,17 +267,23 @@
   <data name="___Start_movements_stared___" xml:space="preserve">
     <value>Start movements stared.</value>
   </data>
-  <data name="___Stop_program_was_aborted__while_not_yet_completed___" xml:space="preserve">
-    <value>Stop program was aborted, while not yet completed!</value>
+  <data name="___Start_program_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>Start program was aborted, while not yet completed!</value>
   </data>
-  <data name="___Stop_program_was_completed_successfully___" xml:space="preserve">
-    <value>Stop program was completed successfully.</value>
+  <data name="___Start_program_was_completed_successfully___" xml:space="preserve">
+    <value>Start program was completed successfully.</value>
   </data>
-  <data name="___Stopping_program_with_error___" xml:space="preserve">
-    <value>Stopping program with error.</value>
+  <data name="___Start_program_finished_with_error___" xml:space="preserve">
+    <value>Start program finished with error.</value>
   </data>
-  <data name="___Stopping_program_started___" xml:space="preserve">
-    <value>Stopping program started.</value>
+  <data name="___Start_program_started___" xml:space="preserve">
+    <value>Start program started.</value>
+  </data>
+  <data name="____Waiting_for_signal____" xml:space="preserve">
+    <value> Waiting for signal: </value>
+  </data>
+  <data name="___Stop_motors_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>Stop motors was aborted, while not yet completed!</value>
   </data>
   <data name="___Stop_motors_was_completed_successfully___" xml:space="preserve">
     <value>Stop motors was completed successfully.</value>
@@ -323,6 +320,45 @@
   </data>
   <data name="___Stopping_movements_started___" xml:space="preserve">
     <value>Stopping movements started.</value>
+  </data>
+  <data name="___Stop_program_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>Stop program was aborted, while not yet completed!</value>
+  </data>
+  <data name="___Stop_program_was_completed_successfully___" xml:space="preserve">
+    <value>Stop program was completed successfully.</value>
+  </data>
+  <data name="___Stopping_program_with_error___" xml:space="preserve">
+    <value>Stopping program with error.</value>
+  </data>
+  <data name="___Stopping_program_started___" xml:space="preserve">
+    <value>Stopping program started.</value>
+  </data>
+  <data name="___Waiting_for_write_access_to_be_granted____" xml:space="preserve">
+    <value>Waiting for write access to be granted! </value>
+  </data>
+  <data name="___Remote_access_is_not_allowed_on_the_robot_controller____" xml:space="preserve">
+    <value>Remote access is not allowed on the robot controller! </value>
+  </data>
+  <data name="___Waiting_for_write_access_to_be_available____" xml:space="preserve">
+    <value>Waiting for write access to be available! </value>
+  </data>
+  <data name="___Waiting_for_safety_circuit_to_be_closed____" xml:space="preserve">
+    <value>Waiting for safety circuit to be closed! </value>
+  </data>
+  <data name="___Safety_reset_is_required_on_the_robot_controller____" xml:space="preserve">
+    <value>Safety reset is required on the robot controller! </value>
+  </data>
+  <data name="___Waiting_for_write_access_to_be_released____" xml:space="preserve">
+    <value>Waiting for write access to be released! </value>
+  </data>
+  <data name="___Waiting_program_pointer_changed____" xml:space="preserve">
+    <value>Waiting program pointer changed! </value>
+  </data>
+  <data name="___Waiting_for_system_ready_signal____" xml:space="preserve">
+    <value>Waiting for system ready signal! </value>
+  </data>
+  <data name="___Robot_is_not_in_Auto__" xml:space="preserve">
+    <value>Robot is not in Auto</value>
   </data>
   <data name="___Interuption_actually_running_instruction__" xml:space="preserve">
     <value>Interuption actually running instruction</value>

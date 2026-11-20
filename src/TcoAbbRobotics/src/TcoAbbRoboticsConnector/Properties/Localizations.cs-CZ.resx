@@ -558,4 +558,40 @@
   <data name="___OUT__" xml:space="preserve">
     <value>OUT</value>
   </data>
+  <data name="___Waiting_for_program_to_be_stopped____" xml:space="preserve">
+    <value>Čekání na zastavení programu! </value>
+  </data>
+  <data name="___Start_program_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>Spuštění programu bylo přerušeno před dokončením!</value>
+  </data>
+  <data name="___Start_program_was_completed_successfully___" xml:space="preserve">
+    <value>Spuštění programu bylo úspěšně dokončeno.</value>
+  </data>
+  <data name="___Start_program_finished_with_error___" xml:space="preserve">
+    <value>Spuštění programu skončilo chybou.</value>
+  </data>
+  <data name="___Start_program_started___" xml:space="preserve">
+    <value>Spuštění programu zahájeno.</value>
+  </data>
+  <data name="___Stop_motors_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>Vypnutí motorů bylo přerušeno před dokončením!</value>
+  </data>
+  <data name="___Waiting_for_write_access_to_be_granted____" xml:space="preserve">
+    <value>Čekání na udělení práva zápisu! </value>
+  </data>
+  <data name="___Remote_access_is_not_allowed_on_the_robot_controller____" xml:space="preserve">
+    <value>Vzdálený přístup není na řídicím systému robota povolen! </value>
+  </data>
+  <data name="___Waiting_for_write_access_to_be_available____" xml:space="preserve">
+    <value>Čekání na dostupnost práva zápisu! </value>
+  </data>
+  <data name="___Waiting_for_safety_circuit_to_be_closed____" xml:space="preserve">
+    <value>Čekání na uzavření bezpečnostního obvodu! </value>
+  </data>
+  <data name="___Safety_reset_is_required_on_the_robot_controller____" xml:space="preserve">
+    <value>Na řídicím systému robota je nutný bezpečnostní reset! </value>
+  </data>
+  <data name="___Waiting_for_write_access_to_be_released____" xml:space="preserve">
+    <value>Čekání na uvolnění práva zápisu! </value>
+  </data>
 </root>

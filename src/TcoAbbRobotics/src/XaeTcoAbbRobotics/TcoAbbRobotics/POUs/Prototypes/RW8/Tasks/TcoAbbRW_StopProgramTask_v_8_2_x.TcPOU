@@ -82,8 +82,9 @@ InvokeWithParams := THIS^.Invoke();]]></ST>
 METHOD PROTECTED OnAbort
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN   THIS^.inoStatus.ActionDescription := '<#Stop program was aborted, while not yet completed!#>';END_IF; 
-inoControl.StopProgram:=FALSE;]]></ST>
+        <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN   THIS^.inoStatus.ActionDescription := '<#Stop program was aborted, while not yet completed!#>';END_IF;
+Cleanup();
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="OnDone" Id="{cd70d818-6a6c-4149-a610-396c8e96e369}">
@@ -98,6 +99,7 @@ METHOD PROTECTED OnDone
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN  THIS^.inoStatus.ActionDescription := '<#Stop program was completed successfully.#>';END_IF; 
+Cleanup();
 _progress:=0;]]></ST>
       </Implementation>
     </Method>
@@ -115,8 +117,9 @@ VAR
 	description: STRING;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[THIS^.inoStatus.ActionDescription := '<#Stopping program with error.#>';
+        <ST><![CDATA[description := '<#Stopping program with error.#>';
 IF  __ISVALIDREF(inoStatus) THEN   THIS^.inoStatus.ActionDescription := description; END_IF;
+Cleanup();
 THIS^._errorMessage.Error(_sb.Clear().Append(description).Append(' To restore acknowledge this alarm.').ToString()).Pin();]]></ST>
       </Implementation>
     </Method>
@@ -124,8 +127,17 @@ THIS^._errorMessage.Error(_sb.Clear().Append(description).Append(' To restore ac
       <Declaration><![CDATA[METHOD PROTECTED OnStart 
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN  THIS^.inoStatus.ActionDescription := '<#Stopping program started.#>'; END_IF; 
-CallTimers(FALSE);]]></ST>
+        <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN  THIS^.inoStatus.ActionDescription := '<#Stopping program started.#>'; END_IF;
+Activate();
+ReleaseStartCommands();
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ReleaseCommands" Id="{66b0d59b-ef96-4421-ae3c-edc212f8a665}">
+      <Declaration><![CDATA[METHOD PROTECTED ReleaseCommands
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[inoControl.StopProgram := FALSE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Restore" Id="{cbd3f0f9-0f0a-48c4-b538-cdf8f74c820a}">
@@ -142,7 +154,6 @@ CallTimers(FALSE);]]></ST>
 METHOD Restore : ITcoRestorable]]></Declaration>
       <Implementation>
         <ST><![CDATA[SUPER^.Restore();
-inoControl.StopProgram:=FALSE;
 ]]></ST>
       </Implementation>
     </Method>
