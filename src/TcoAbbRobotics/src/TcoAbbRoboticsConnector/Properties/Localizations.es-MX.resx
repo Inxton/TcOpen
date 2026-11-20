@@ -480,6 +480,18 @@
   <data name="___Battery_Low__" xml:space="preserve">
     <value>Batería baja</value>
   </data>
+  <data name="___Write_access__" xml:space="preserve">
+    <value>Acceso de escritura</value>
+  </data>
+  <data name="___Write_access_available__" xml:space="preserve">
+    <value>Acceso de escritura disponible</value>
+  </data>
+  <data name="___Remote_access__" xml:space="preserve">
+    <value>Acceso remoto</value>
+  </data>
+  <data name="___Reset_state__" xml:space="preserve">
+    <value>Estado de reinicio</value>
+  </data>
   <data name="___In_area_1__" xml:space="preserve">
     <value>En la zona 1</value>
   </data>
