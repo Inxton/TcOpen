@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="TcoAbbRW_IO_v_8_2_x" Id="{5fe36939-7a74-43e6-8e95-7ff0907417be}">
+    <Declaration><![CDATA[TYPE TcoAbbRW_IO_v_8_2_x :
+STRUCT
+	PnIoBoxState AT %I*	:	UINT;
+	PnIoBoxDiag AT %I*	:	UINT;
+	PnIoBoxCtrl AT %Q*	:	UINT;
+	{attribute addProperty Name "<#IN#>"}
+	In : TcoAbbRW_Inputs_v_8_2_x;
+	{attribute addProperty Name "<#OUT#>"}
+	Out : TcoAbbRW_Outputs_v_8_2_x;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

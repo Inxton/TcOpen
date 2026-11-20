@@ -78,6 +78,60 @@
     <Compile Include="POUs\Prototypes\Omnicore\TcoOmnicore_v_1_x_x.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Prototypes\RW8\DUTs\TcoAbbRW_Control_v_8_2_x.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RW8\DUTs\TcoAbbRW_State_v_8_2_x.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RW8\DUTs\TcoAbbRW_Status_v_8_2_x.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RW8\IO\TcoAbbRW_Inputs_v_8_2_x.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RW8\IO\TcoAbbRW_IO_v_8_2_x.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RW8\IO\TcoAbbRW_Outputs_v_8_2_x.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RW8\Tasks\TcoAbbRW_StartAtMainTask_v_8_2_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RW8\Tasks\TcoAbbRW_StartMotorsAndProgramTask_v_8_2_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RW8\Tasks\TcoAbbRW_StartMotorsProgramAndMovementsTask_v_8_2_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RW8\Tasks\TcoAbbRW_StartMotorsTask_v_8_2_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RW8\Tasks\TcoAbbRW_StartMovementsTask_v_8_2_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RW8\Tasks\TcoAbbRW_StartProgramTask_v_8_2_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RW8\Tasks\TcoAbbRW_StopMotorsTask_v_8_2_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RW8\Tasks\TcoAbbRW_StopMovementsAndProgramTask_v_8_2_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RW8\Tasks\TcoAbbRW_StopMovementsTask_v_8_2_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RW8\Tasks\TcoAbbRW_StopProgramTask_v_8_2_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RW8\Tasks\TcoAbbRWTask_v_8_2_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Prototypes\RW8\TcoAbbRW_v_8_2_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Prototypes\RoboticsTasks\Starts\StartAtMainTask.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -124,6 +178,10 @@
     <Folder Include="POUs\Prototypes\RoboticsTasks" />
     <Folder Include="POUs\Prototypes\RoboticsTasks\Starts" />
     <Folder Include="POUs\Prototypes\RoboticsTasks\Stops" />
+    <Folder Include="POUs\Prototypes\RW8" />
+    <Folder Include="POUs\Prototypes\RW8\DUTs" />
+    <Folder Include="POUs\Prototypes\RW8\IO" />
+    <Folder Include="POUs\Prototypes\RW8\Tasks" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />
   </ItemGroup>

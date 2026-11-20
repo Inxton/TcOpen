@@ -37,6 +37,11 @@
 
                 </Grid>
             </TabItem>
+            <TabItem Header="Robot RW8">
+                <Grid>
+                    <vortex:RenderableContentControl DataContext="{Binding MAIN._wpfContext._robot3}" PresentationType="Service"/>
+                </Grid>
+            </TabItem>
             <TabItem Header="SequenceTest Irc5 ">
                 <StackPanel Orientation="Vertical">
                     <vortex:RenderableContentControl DataContext="{Binding MAIN._wpfContext._sequence1Task}" PresentationType="Base"></vortex:RenderableContentControl>
