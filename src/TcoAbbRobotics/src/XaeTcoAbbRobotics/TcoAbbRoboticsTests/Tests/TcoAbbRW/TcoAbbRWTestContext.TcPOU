@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAbbRWTestContext" Id="{8b494a05-5577-4e74-9ccb-4ec3b06ff4dc}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Test context of TcoAbbRW_v_8_2_x. _sim holds the signals of the robot side and is written into the
+			input image every cycle. With _simulate = TRUE a minimal RobotWare 8 controller model reacts to the outputs:
+			write access (granted only with remote access allowed and write access available), motors on/off,
+			error and emergency stop reset, start / start at main (accepted only with write access held, motors on,
+			program stopped and no stop command set) and the stop commands.
+		</summary>
+	</docu>
+~*)
+FUNCTION_BLOCK TcoAbbRWTestContext EXTENDS TcoCore._internals_TcoContext
+VAR
+	_sut : TcoAbbRobotics.TcoAbbRW_v_8_2_x(THIS^);
+	_io : TcoAbbRobotics.TcoAbbRW_IO_v_8_2_x;
+	_sim : TcoAbbRobotics.TcoAbbRW_State_v_8_2_x;
+	_simulate : BOOL;
+	// another control station holds write access
+	_simWriteAccessTaken : BOOL;
+	// the controller does not react to the start commands
+	_simStartBlocked : BOOL;
+	_stopType : TcoAbstractions.eTcoRoboticsStopType;
+	// rising edges of the start commands seen by the robot
+	_startProgramPulses : INT;
+	_startAtMainPulses : INT;
+	// start commands the robot has rejected (no write access, motors off, stop command set, ...)
+	_startRejected : INT;
+	_motorOnSeen : BOOL;
+	_writeAccessSeen : BOOL;
+	_taskDone : BOOL;
+	_taskError : BOOL;
+END_VAR
+VAR
+	{attribute 'hide'}
+	_i : INT;
+	{attribute 'hide'}
+	_startProgramLast : BOOL;
+	{attribute 'hide'}
+	_startAtMainLast : BOOL;
+	{attribute 'hide'}
+	_startEdge : BOOL;
+	{attribute 'hide'}
+	_stopCommand : BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Main" Id="{6df7e03e-242c-4991-9c2b-785c2cff03de}">
+      <Declaration><![CDATA[METHOD PROTECTED Main
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[//*************ROBOT SIMULATOR************
+IF _simulate THEN
+	// write access: Outputs[0].1 = WriteAccess request
+	IF NOT _io.Out.Outputs[0].1 OR NOT _sim.RemoteAccess OR NOT _sim.AutoOn THEN
+		_sim.WriteAccess := FALSE;
+	ELSIF _sim.WriteAccessAvailable THEN
+		_sim.WriteAccess := TRUE;
+	END_IF
+	_sim.WriteAccessAvailable := _sim.RemoteAccess AND NOT _sim.WriteAccess AND NOT _simWriteAccessTaken;
+
+	// error and emergency stop reset: Outputs[0].7, Outputs[0].6
+	IF _io.Out.Outputs[0].7 THEN
+		_sim.Error := FALSE;
+	END_IF
+	IF _io.Out.Outputs[0].6 THEN
+		_sim.EmgStop := FALSE;
+	END_IF
+
+	// motors: Outputs[0].3 = MotorOff, Outputs[0].4 = MotorOn
+	IF _io.Out.Outputs[0].3 OR NOT _sim.SafetyOk OR NOT _sim.ResetState THEN
+		_sim.MotorOnState := FALSE;
+	ELSIF _io.Out.Outputs[0].4 AND _sim.AutoOn THEN
+		_sim.MotorOnState := TRUE;
+	END_IF
+	_sim.MotorOffState := NOT _sim.MotorOnState;
+
+	// program: Outputs[1].0 = Start, .1 = StartAtMain, .2 = Stop, .3 = QuickStop, .4 = SoftStop, .5 = StopCycle, .6 = StopInstruction
+	_stopCommand := _io.Out.Outputs[1].2 OR _io.Out.Outputs[1].3 OR _io.Out.Outputs[1].4 OR _io.Out.Outputs[1].5 OR _io.Out.Outputs[1].6;
+	_startEdge := (_io.Out.Outputs[1].0 AND NOT _startProgramLast) OR (_io.Out.Outputs[1].1 AND NOT _startAtMainLast);
+	IF _stopCommand OR NOT _sim.MotorOnState THEN
+		_sim.CycleOn := FALSE;
+	END_IF
+	IF _startEdge AND NOT _simStartBlocked THEN
+		IF _sim.WriteAccess AND _sim.AutoOn AND _sim.MotorOnState AND NOT _sim.CycleOn AND NOT _stopCommand THEN
+			_sim.CycleOn := TRUE;
+		ELSE
+			_startRejected := _startRejected + 1;
+		END_IF
+	END_IF
+	_sim.MoveActive := _sim.CycleOn;
+	_sim.MoveInactive := NOT _sim.CycleOn;
+END_IF
+
+IF _io.Out.Outputs[1].0 AND NOT _startProgramLast THEN
+	_startProgramPulses := _startProgramPulses + 1;
+END_IF
+IF _io.Out.Outputs[1].1 AND NOT _startAtMainLast THEN
+	_startAtMainPulses := _startAtMainPulses + 1;
+END_IF
+_startProgramLast := _io.Out.Outputs[1].0;
+_startAtMainLast := _io.Out.Outputs[1].1;
+_motorOnSeen := _motorOnSeen OR _io.Out.Outputs[0].4;
+_writeAccessSeen := _writeAccessSeen OR _io.Out.Outputs[0].1;
+
+//*************INPUT IMAGE****************
+_io.In.Inputs[0].0 := _sim.AutoOn;
+_io.In.Inputs[0].1 := _sim.CycleOn;
+_io.In.Inputs[0].2 := _sim.EmgStop;
+_io.In.Inputs[0].3 := _sim.Error;
+_io.In.Inputs[0].4 := _sim.MoveActive;
+_io.In.Inputs[0].5 := _sim.MoveInactive;
+_io.In.Inputs[0].6 := _sim.MotorOff;
+_io.In.Inputs[0].7 := _sim.MotorOn;
+_io.In.Inputs[1].0 := _sim.MotorOffState;
+_io.In.Inputs[1].1 := _sim.MotorOnState;
+_io.In.Inputs[1].2 := _sim.ProgExecError;
+_io.In.Inputs[1].3 := _sim.SafetyOk;
+_io.In.Inputs[1].4 := _sim.WriteAccessAvailable;
+_io.In.Inputs[1].5 := _sim.PpMoved;
+_io.In.Inputs[1].6 := _sim.MotionSupervision;
+_io.In.Inputs[1].7 := _sim.WriteAccess;
+_io.In.Inputs[2].0 := _sim.RemoteAccess;
+_io.In.Inputs[2].1 := _sim.ResetState;
+_io.In.Inputs[2].2 := _sim.InArea_1;
+_io.In.Inputs[2].3 := _sim.InArea_2;
+_io.In.Inputs[2].4 := _sim.InPosition_1;
+_io.In.Inputs[2].5 := _sim.InPosition_2;
+_io.In.Inputs[2].6 := _sim.InPosition_3;
+_io.In.Inputs[2].7 := _sim.InPosition_4;
+IF _simulate THEN
+	// the robot mirrors zone, position, action number, movement parameters and coordinates
+	FOR _i := 5 TO 43 DO
+		_io.In.Inputs[_i] := _io.Out.Outputs[_i];
+	END_FOR
+ELSE
+	_io.In.Inputs[5] := _sim.Zone;
+	_io.In.Inputs[6] := _sim.InPosition;
+	_io.In.Inputs[7] := _sim.ActionNo;
+END_IF
+_io.In.Inputs[44] := UDINT_TO_BYTE(_sim.EventId);
+_io.In.Inputs[45] := UDINT_TO_BYTE(SHR(_sim.EventId, 8));
+_io.In.Inputs[46] := UDINT_TO_BYTE(SHR(_sim.EventId, 16));
+_io.In.Inputs[47] := UDINT_TO_BYTE(SHR(_sim.EventId, 24));
+
+_sut(inoData := _io);
+
+CASE _testId OF
+	eTcoAbbRWTests.Restore:
+		_sut.Restore();
+		_sut._messenger.Clear();
+		_startProgramPulses := 0;
+		_startAtMainPulses := 0;
+		_startRejected := 0;
+		_motorOnSeen := FALSE;
+		_writeAccessSeen := FALSE;
+		_taskDone := FALSE;
+		_taskError := FALSE;
+		ProbeDoneWhen(TRUE);
+	eTcoAbbRWTests.Run:
+		;
+	eTcoAbbRWTests.StartMotors:
+		_taskDone := _sut.StartMotors().Done;
+		_taskError := _sut.StartMotorsTask.Error;
+		ProbeDoneWhen(_taskDone OR _taskError);
+	eTcoAbbRWTests.StartMotorsAndProgram:
+		_taskDone := _sut.StartMotorsAndProgram().Done;
+		_taskError := _sut.StartMotorsAndProgramTask.Error;
+		ProbeDoneWhen(_taskDone OR _taskError);
+	eTcoAbbRWTests.StartProgram:
+		_taskDone := _sut.StartProgram().Done;
+		_taskError := _sut.StartProgramTask.Error;
+		ProbeDoneWhen(_taskDone OR _taskError);
+	eTcoAbbRWTests.StartAtMain:
+		_taskDone := _sut.StartAtMain().Done;
+		_taskError := _sut.StartAtMainTask.Error;
+		ProbeDoneWhen(_taskDone OR _taskError);
+	eTcoAbbRWTests.StopMotors:
+		_taskDone := _sut.StopMotors().Done;
+		_taskError := _sut.StopMotorsTask.Error;
+		ProbeDoneWhen(_taskDone OR _taskError);
+	eTcoAbbRWTests.StopMovements:
+		_taskDone := _sut.StopMovements(_stopType).Done;
+		_taskError := _sut.StopMovementsTask.Error;
+		ProbeDoneWhen(_taskDone OR _taskError);
+	eTcoAbbRWTests.StopProgram:
+		_taskDone := _sut.StopProgram().Done;
+		_taskError := _sut.StopProgramTask.Error;
+		ProbeDoneWhen(_taskDone OR _taskError);
+	eTcoAbbRWTests.StopMovementsAndProgram:
+		_taskDone := _sut.StopMovementsAndProgram(_stopType).Done;
+		_taskError := _sut.StopMovementsAndProgramTask.Error;
+		ProbeDoneWhen(_taskDone OR _taskError);
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

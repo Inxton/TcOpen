@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAbbRW_StartAtMainTask_v_8_2_x" Id="{5386d75b-229e-4d90-a779-599a9cc8e842}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK TcoAbbRW_StartAtMainTask_v_8_2_x EXTENDS TcoAbbRWTask_v_8_2_x]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+IF Execute() THEN 
+	IF _progress = 0 THEN
+		IF CheckReferences() THEN
+			_progress := _progress + 1;
+		END_IF
+	END_IF
+	IF _progress = 1 THEN
+		ReleaseStopCommands();
+		_varInfo :=__VARINFO( inoStatus.State.AutoOn);
+		THIS^.Messenger.OnCondition(_infoTimer.Q AND NOT inoStatus.State.AutoOn).Warning(_sb.Clear().Append('<#Waiting for Auto signal! #>').Append(_varInfo.Symbol).ToString());
+		// Start at Main is not valid while the program is running
+		_varInfo :=__VARINFO( inoStatus.State.CycleOn);
+		THIS^.Messenger.OnCondition(_infoTimer.Q AND inoStatus.State.CycleOn).Warning(_sb.Clear().Append('<#Waiting for program to be stopped! #>').Append(_varInfo.Symbol).ToString());
+		IF inoStatus.State.AutoOn AND NOT inoStatus.State.CycleOn THEN
+			_progress := _progress + 1;
+		END_IF
+	END_IF
+	IF _progress = 2 THEN
+		IF AcquireWriteAccess() THEN
+			_progress := _progress + 1;
+		END_IF
+	END_IF
+	IF _progress = 3 THEN
+		_varInfo :=__VARINFO( inoStatus.State.MotorOnState);
+		THIS^.Messenger.OnCondition(_infoTimer.Q AND NOT inoStatus.State.MotorOnState).Warning(_sb.Clear().Append('<#Waiting for motors are On! #>').Append(_varInfo.Symbol).ToString());
+		IF inoStatus.State.MotorOnState THEN
+			_pulseTimer(IN := FALSE);
+			_progress := _progress + 1;
+		END_IF
+	END_IF
+	IF _progress = 4 THEN
+		// one pulse; the controller accepts it only with write access held and the stop commands released
+		inoControl.StartAtMain := Pulse();
+		_varInfo :=__VARINFO( inoStatus.State.CycleOn);
+		THIS^.Messenger.OnCondition(_infoTimer.Q AND NOT inoStatus.State.CycleOn).Warning(_sb.Clear().Append('<#Waiting for program running signal! #>').Append(_varInfo.Symbol).ToString());
+		IF inoStatus.State.CycleOn AND NOT inoControl.StartAtMain THEN
+			_progress := _progress + 1;
+		END_IF
+	END_IF
+	IF _progress = 5 THEN
+		IF ReleaseWriteAccess() THEN
+			_progress := _progress + 1;
+		END_IF
+	END_IF
+
+	DoneWhen(_progress = 6);
+	CallTimers(TRUE);
+	THIS^.ThrowWhen(_errorTimer.Q OR (_progress > 0 AND_THEN inoStatus.State.Error));
+END_IF
+
+IF  THIS^.Error AND NOT _errorMessage.Pinned THEN
+	THIS^.Restore();
+END_IF]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{47f18b16-c760-416d-9945-93f5a2be79a7}">
+      <Declaration><![CDATA[METHOD PUBLIC FB_init : BOOL
+VAR_INPUT
+    bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+    bInCopyCode : BOOL; // if TRUE, the instance afterwards gets moved into the copy code (online change)
+  	ParentObject : ITcoObject;	
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnAbort" Id="{7012e2db-d11d-4c39-8fcf-4ab81b2ec35d}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Executes when task is aborted.
+		</summary>			
+	</docu>	
+~*)
+METHOD PROTECTED OnAbort
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN   THIS^.inoStatus.ActionDescription := '<#Start at Main was aborted, while not yet completed!#>';END_IF; 
+Cleanup();
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnDone" Id="{8c677c2d-8657-4ab5-bd14-883024544c7b}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Executes when task reaches the ```Done``` state .
+		</summary>			
+	</docu>	
+~*)
+METHOD PROTECTED OnDone
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN  THIS^.inoStatus.ActionDescription := '<#Start at Main was completed successfully.#>';END_IF; 
+Cleanup();
+_progress:=0;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnError" Id="{6ef1232b-51a3-44fe-9fe6-f85e2d0d3d44}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Executes when task reaches the ```Error``` state.
+			<para>
+				Do not confuse with <see cref="PlcDocu.TcoCore.TcoTask.WhileError()"/>, that is called cyclically until '''Error''' state is left.
+			</para>
+		</summary>			
+	</docu>	
+~*)
+METHOD PROTECTED OnError
+
+VAR
+	description: STRING;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[description:= '<#Start at Main finished with error.#>';
+IF  __ISVALIDREF(inoStatus) THEN   THIS^.inoStatus.ActionDescription := description; END_IF;
+Cleanup();
+THIS^._errorMessage.Error(_sb.Clear().Append(description).Append(' To restore acknowledge this alarm.').ToString()).Pin();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnStart" Id="{50a9481d-163a-4c09-8a1f-a67d311d4ccf}">
+      <Declaration><![CDATA[METHOD PROTECTED OnStart 
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN  THIS^.inoStatus.ActionDescription := '<#Start at Main started.#>'; END_IF; 
+Activate();
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ReleaseCommands" Id="{47221457-0da7-4050-b7e2-c7c270da56b1}">
+      <Declaration><![CDATA[METHOD PROTECTED ReleaseCommands
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[inoControl.StartAtMain := FALSE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Restore" Id="{03126fac-693a-48f3-853b-bfff768debae}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Restores this instance to the Ready state. Can be called explicitly or from within one of the restore mechanisms.
+			<para>
+				See also <see cref="PlcDocu.TcoCore.TcoTask.AutoRestorable()"/>
+			</para>
+		</summary>			
+	</docu>	
+~*)
+METHOD Restore : ITcoRestorable]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.Restore();
+]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

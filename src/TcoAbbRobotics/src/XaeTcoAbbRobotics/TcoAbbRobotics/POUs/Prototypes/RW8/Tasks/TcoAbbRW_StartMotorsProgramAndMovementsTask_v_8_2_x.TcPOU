@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAbbRW_StartMotorsProgramAndMovementsTask_v_8_2_x" Id="{3b9d257c-1fe8-4c52-8f32-5b3143dfed53}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK TcoAbbRW_StartMotorsProgramAndMovementsTask_v_8_2_x EXTENDS TcoAbbRWTask_v_8_2_x
+VAR_INPUT
+	refStartMotorsAndProgramTask: REFERENCE TO TcoAbbRW_StartMotorsAndProgramTask_v_8_2_x;
+END_VAR 
+VAR
+     _moveParams:TcoAbstractions.TcoRoboticsMovementsParams;
+	 
+	 
+END_VAR
+VAR
+	_startMotorsAndProgramTask: REFERENCE TO TcoAbbRW_StartMotorsAndProgramTask_v_8_2_x;
+END_VAR
+
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF NOT __ISVALIDREF(refStartMotorsAndProgramTask)  THEN
+    Messenger.Post('<#Invalid reference StartMotorAndProgramTask#>', TcoCore.eMessageCategory.ProgrammingError);
+    RETURN;
+END_IF
+_startMotorsAndProgramTask REF= refStartMotorsAndProgramTask;
+
+IF Execute() THEN
+	IF _progress = 0 THEN
+		IF NOT __ISVALIDREF(inoControl) THEN
+			_varInfo :=__VARINFO(inoControl);
+			Messenger.Programming(_sb.Clear().Append('<#Invalid reference: #>').Append(_varInfo.Symbol).ToString()).Pin();
+		ELSIF NOT __ISVALIDREF(inoConfig) THEN                                                  
+			_varInfo :=__VARINFO(inoConfig);                                                    
+			Messenger.Programming(_sb.Clear().Append('<#Invalid reference: #>').Append(_varInfo.Symbol).ToString()).Pin();
+		ELSIF NOT __ISVALIDREF(inoStatus) THEN                                                  
+			_varInfo :=__VARINFO(inoStatus);                                                    
+			Messenger.Programming(_sb.Clear().Append('<#Invalid reference: #>').Append(_varInfo.Symbol).ToString()).Pin();
+			ELSE
+			_progress := _progress + 1;
+		END_IF
+
+	END_IF
+	
+	IF _progress = 1 THEN
+		IF _startMotorsAndProgramTask.Invoke().Done THEN
+			_progress := _progress + 1;
+		END_IF
+
+	END_IF;
+	
+	
+	IF _progress = 2 THEN
+		inoControl.GlobalSpeed := _moveParams.GlobalSpeed;
+		inoControl.ToolNo := _moveParams.ToolNo;
+		inoControl.WorkobjectNo := _moveParams.WorkobjectNo;
+		inoControl.PointNo := _moveParams.PointNo;
+		inoControl.UserSpecSpeed1 := _moveParams.UserSpecSpeed1;
+		inoControl.UserSpecSpeed2 := _moveParams.UserSpecSpeed2;
+		inoControl.Coordinates := _moveParams.Coordinates; 		
+	
+		inoControl.ActionNo := 254;
+		IF inoControl.ActionNo = inoStatus.State.ActionNo THEN
+			inoControl.ActionNo := 255;
+			_progress:=_progress + 1;
+		END_IF
+	END_IF;	
+	IF _progress = 3 THEN
+		IF 	inoStatus.State.GlobalSpeed = _moveParams.GlobalSpeed AND
+			inoStatus.State.ToolNo = _moveParams.ToolNo AND
+			inoStatus.State.WorkobjectNo = _moveParams.WorkobjectNo AND
+			inoStatus.State.PointNo = _moveParams.PointNo AND
+			inoStatus.State.UserSpecSpeed1 = _moveParams.UserSpecSpeed1 AND
+			inoStatus.State.UserSpecSpeed2 =_moveParams.UserSpecSpeed2 AND
+			TcoAbstractions.CoordinatesAreEqual(inoStatus.State.Coordinates,_moveParams.Coordinates,0.01,0.01,0.01,0.01,0.01,0.01) THEN
+			inoControl.ActionNo := 255;
+			_progress:=_progress + 1;
+		END_IF
+	END_IF;	
+	
+	IF _progress = 4 THEN
+		IF inoControl.ActionNo = inoStatus.State.ActionNo THEN
+			_progress:=_progress + 1;
+		END_IF
+	END_IF;	
+	
+	
+	IF _progress = 5 THEN
+	
+		Messenger.Info(CONCAT('<#Moving to position ID#>: ', INT_TO_STRING(_moveParams.ActionNo)));
+		inoControl.ActionNo := _moveParams.ActionNo;
+		IF inoControl.ActionNo = inoStatus.State.ActionNo THEN
+			inoControl.ActionNo :=255;
+				_progress := _progress + 1;
+		END_IF
+	END_IF;		
+			
+	IF _progress = 6 THEN
+		IF inoControl.ActionNo = inoStatus.State.ActionNo THEN
+			 DoneWhen(TRUE);
+		END_IF
+	END_IF;		
+
+   CallTimers(TRUE);
+	
+	THIS^.ThrowWhen(_errorTimer.Q );
+END_IF
+
+IF  THIS^.Error AND NOT _errorMessage.Pinned THEN
+	THIS^.Restore();
+END_IF]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{6aa705db-42c6-4010-8df3-bc75f4749eff}">
+      <Declaration><![CDATA[METHOD PUBLIC FB_init : BOOL
+VAR_INPUT
+    bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+    bInCopyCode : BOOL; // if TRUE, the instance afterwards gets moved into the copy code (online change)
+  	ParentObject : ITcoObject;	
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="InvokeWithParams" Id="{85313558-9c7c-47a1-b556-733e0eafb332}">
+      <Declaration><![CDATA[METHOD INTERNAL InvokeWithParams : ITcoTaskStatus
+VAR_INPUT
+    inMoveParams:TcoAbstractions.TcoRoboticsMovementsParams;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_moveParams:=inMoveParams;
+InvokeWithParams := THIS^.Invoke();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnAbort" Id="{e52caa9f-b506-4c90-a99f-49a434c02e8b}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Executes when task is aborted.
+		</summary>			
+	</docu>	
+~*)
+METHOD PROTECTED OnAbort]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN   THIS^.inoStatus.ActionDescription := '<#Start motors, program and movements was aborted, while not yet completed!#>';END_IF; 
+inoControl.SoftStop := TRUE;
+inoControl.QuickStop := FALSE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnDone" Id="{4ef2f931-e2b2-47ca-9f1e-7e9667c9bb98}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Executes when task reaches the ```Done``` state .
+		</summary>			
+	</docu>	
+~*)
+METHOD PROTECTED OnDone
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN   THIS^.inoStatus.ActionDescription := '<#Start motors, program and movements finished successfully.#>'; END_IF;
+_progress:=0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnError" Id="{f0ea0b31-46e1-4382-a09a-6b6c3251e4c9}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Executes when task reaches the ```Error``` state.
+		</summary>			
+	</docu>	
+~*)
+METHOD PROTECTED OnError
+VAR
+	description: STRING;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[description := '<#Start motors, program and movements finished with error.#>';
+IF  __ISVALIDREF(inoStatus) THEN   THIS^.inoStatus.ActionDescription := description; END_IF;
+THIS^._errorMessage.Error(_sb.Clear().Append(description).Append(' To restore acknowledge this alarm.').ToString()).Pin();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnStart" Id="{5e1797cd-d544-4a61-b7fb-91b92e348e57}">
+      <Declaration><![CDATA[METHOD PROTECTED OnStart 
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF  __ISVALIDREF(inoStatus) THEN   THIS^.inoStatus.ActionDescription := '<#Start motors, program and movements stared.#>'; END_IF;
+CallTimers(FALSE);
+inoControl.QuickStop:=FALSE;
+inoControl.SoftStop:=FALSE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Restore" Id="{d1328f5d-ce21-4d63-ad96-55a8ed2d7407}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Restores this instance to the Ready state. Can be called explicitly or from within one of the restore mechanisms.
+			<para>
+				See also <see cref="PlcDocu.TcoCore.TcoTask.AutoRestorable()"/>
+			</para>
+		</summary>			
+	</docu>	
+~*)
+METHOD Restore : ITcoRestorable]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.Restore();]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>
