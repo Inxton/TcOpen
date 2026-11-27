@@ -14,6 +14,12 @@ jobs:
         with :
           path : '.'
           fetch-depth: 0
+      # self-hosted agent: the .NET 8 SDK is installed on the machine (the runner account cannot
+      # install into C:\Program Files\dotnet); fails here if global.json finds no matching SDK
+      - name: Check .NET SDK
+        run: |
+          dotnet --version
+          dotnet --list-sdks
       - name: Run Psake
         env:         
           GH_TOKEN : ${{ secrets.GH_TOKEN  }}
@@ -25,6 +31,7 @@ jobs:
             "updateAssemblyInfo" = $true;
             "isTestingEnabled" = $true;
             "testingStrength" = 10;
+            "plcTestFrameworks" = "net48;net8.0;net8.0-windows";
             "packNugets" = $true;
           }
       - name : Create Tag

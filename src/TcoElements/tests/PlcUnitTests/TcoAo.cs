@@ -14,7 +14,7 @@ namespace TcoElementsUnitTests
         [OneTimeSetUp]
         public void Setup()
         {
-            Entry.TcoElementsTests.Connector.BuildAndStart().ReadWriteCycleDelay = 100;
+            ConnectorOnce.Start();
             sut = Entry.TcoElementsTests.MAIN._tcoAnalogActuatorTests;
         }
 

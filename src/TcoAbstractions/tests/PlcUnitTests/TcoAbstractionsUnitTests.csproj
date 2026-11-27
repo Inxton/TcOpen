@@ -1,15 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFrameworks>$(TcoLibTargetFrameworks)</TargetFrameworks>
     <IsPackable>false</IsPackable>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="nunit" Version="3.13.2" />
-    <PackageReference Include="JunitXml.TestLogger" Version="2.1.10" />
+    <PackageReference Include="nunit" Version="3.14.0" />
+    <PackageReference Include="JunitXml.TestLogger" Version="3.1.12" />
 	<PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.2" />
     <PackageReference Include="TcOpen.Tc.Prober" Version="0.3.0-alpha.1" />
   </ItemGroup>
 

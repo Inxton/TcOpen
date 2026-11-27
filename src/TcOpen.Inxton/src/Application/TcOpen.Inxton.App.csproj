@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>net48;net5.0</TargetFrameworks>
+    <TargetFrameworks>$(TcoLibTargetFrameworks)</TargetFrameworks>
     <Authors>TcOpenGroup contributors</Authors>
     <Company>TcOpenGroup</Company>
     <RepositoryUrl>https://github.com/TcOpenGroup/TcOpen</RepositoryUrl>

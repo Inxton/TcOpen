@@ -15,7 +15,7 @@ namespace TcoInspectorsUnitTests
         [OneTimeSetUp]
         public override void OneTimeSetup()
         {
-            Entry.TcoInspectorsTests.Connector.BuildAndStart().ReadWriteCycleDelay = 100;
+            global::TcoInspectorsUnitTests.ConnectorOnce.Start();
             container = Entry.TcoInspectorsTests.MAIN._dataInspectorTests;
             InspectorContainer = container;            
         }

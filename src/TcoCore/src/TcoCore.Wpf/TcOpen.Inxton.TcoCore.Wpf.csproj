@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
-		<TargetFrameworks>net48;net5.0-windows</TargetFrameworks>
+		<TargetFrameworks>$(TcoWpfTargetFrameworks)</TargetFrameworks>
 		<UseWPF>true</UseWPF>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<!--NuGet properties-->
@@ -20,7 +20,7 @@
 		<DebugSymbols>true</DebugSymbols>
 	</PropertyGroup>
   <PropertyGroup>
-    <RuntimeIdentifiers>win7-x86;win-x64</RuntimeIdentifiers>
+    <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
   </PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Inxton.Package.Vortex.Essentials.Wpf" Version="2.0.0" />

@@ -1,0 +1,21 @@
+<Project>
+  <!--
+    Shared target frameworks for TcOpen .NET projects.
+    Projects opt in with <TargetFrameworks>$(TcoLibTargetFrameworks)</TargetFrameworks>
+    or <TargetFrameworks>$(TcoWpfTargetFrameworks)</TargetFrameworks>.
+    Projects that are net48-only keep a literal TargetFramework.
+  -->
+  <PropertyGroup>
+    <TcoLibTargetFrameworks>net48;net8.0</TcoLibTargetFrameworks>
+    <TcoWpfTargetFrameworks>net48;net8.0-windows</TcoWpfTargetFrameworks>
+  </PropertyGroup>
+
+  <!--
+    CA1416 (platform compatibility) is a false positive for -windows targets:
+    projects with GenerateAssemblyInfo=false never get the SDK's
+    SupportedOSPlatform attribute, although the TFM is Windows-only.
+  -->
+  <PropertyGroup Condition="$(TargetFramework.EndsWith('-windows'))">
+    <NoWarn>$(NoWarn);CA1416</NoWarn>
+  </PropertyGroup>
+</Project>

@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFrameworks>$(TcoLibTargetFrameworks)</TargetFrameworks>
     <PackageId>TcOpen.Tc.Prober</PackageId>
     <Authors>petok</Authors>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
