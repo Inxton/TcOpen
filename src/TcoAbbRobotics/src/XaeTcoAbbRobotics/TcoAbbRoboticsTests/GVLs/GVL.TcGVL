@@ -5,6 +5,7 @@
 VAR_GLOBAL
 	Robot1	:	TcoAbbRobotics.TcoIrc5_IO_v_1_x_x;
 	Robot2	:	TcoAbbRobotics.TcoOmnicore_IO_v_1_x_x;
+	Robot3	:	TcoAbbRobotics.TcoAbbRW_IO_v_8_2_x;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

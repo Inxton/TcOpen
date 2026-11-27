@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="eTcoAbbRWTests" Id="{8aab7efa-f4b7-49df-9a0d-816fc691ba06}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE eTcoAbbRWTests :
+(
+	None := 0,
+	Restore := 10,
+	Run := 20,
+	StartMotors := 30,
+	StartMotorsAndProgram := 40,
+	StartProgram := 50,
+	StartAtMain := 60,
+	StopMotors := 70,
+	StopMovements := 80,
+	StopProgram := 90,
+	StopMovementsAndProgram := 100
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

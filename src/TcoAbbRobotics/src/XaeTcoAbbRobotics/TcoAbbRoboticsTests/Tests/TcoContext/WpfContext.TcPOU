@@ -8,6 +8,8 @@ VAR
     _robot1 : TcoAbbRobotics.TcoIrc5_v_1_x_x(THIS^);
 	{attribute addProperty Name "<#Abb Omnicore#>"}
     _robot2 : TcoAbbRobotics.TcoOmnicore_v_1_x_x(THIS^);
+	{attribute addProperty Name "<#Abb RW8#>"}
+    _robot3 : TcoAbbRobotics.TcoAbbRW_v_8_2_x(THIS^);
 
 	
 	
@@ -42,6 +44,7 @@ METHOD PROTECTED Main]]></Declaration>
         <ST><![CDATA[IF _serviceModeActive THEN
    	_robot1.Service();
   	_robot2.Service();
+  	_robot3.Service();
  
 
 
@@ -52,6 +55,9 @@ _robot1(
 
 _robot2(
     inoData := GVL.Robot2);
+
+_robot3(
+    inoData := GVL.Robot3);
 
 _sequence1Task.Enabled := NOT _sequence2Task.Busy;
 _sequence1Task(Sequence := _sequence1);

@@ -4,6 +4,7 @@
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
     _tcoIrc5TestContext : TcoTestContext;
+    _rwTestContext : TcoAbbRWTestContext;
 
     _wpfContext : WpfContext;
     _wpfContextCall : BOOL := FALSE;
@@ -11,6 +12,7 @@ VAR
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[_tcoIrc5TestContext.ProbeRun();
+_rwTestContext.ProbeRun();
 
 
 IF _wpfContextCall THEN

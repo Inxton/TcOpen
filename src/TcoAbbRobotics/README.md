@@ -387,3 +387,107 @@ IF (seq.Step(inStepID := seq.RESTORE_STEP_ID,
 END_IF;
 
 seq.Close();
+
+## OmniCore with RobotWare 8.2 - `TcoAbbRW_v_8_2_x`
+
+`TcoAbbRobotics.TcoAbbRW_v_8_2_x` is the component for OmniCore controllers running RobotWare 8.2. It is used the same way as `TcoOmnicore_v_1_x_x` (steps above), with the hardware structure `TcoAbbRobotics.TcoAbbRW_IO_v_8_2_x`:
+
+```csharp
+VAR_GLOBAL
+	Robot3	:	TcoAbbRobotics.TcoAbbRW_IO_v_8_2_x;
+END_VAR
+
+{attribute addProperty Name "<#Abb RW8#>"}
+_robot3 : TcoAbbRobotics.TcoAbbRW_v_8_2_x(THIS^);
+
+_robot3(inoData := GVL.Robot3);
+```
+
+Device description: `GSDML-V2.46-ABB-Robotics-OmniCore-20260330.xml` (`.\src\TcoAbbRobotics\assets\` and `.\src\TcoAbbRobotics\src\TcoAbbRoboticsConnector\ddf\`). Module configuration: `DI 64 bytes` + `DO 64 bytes`.
+
+### Starting and stopping the program
+
+RobotWare 8 accepts the start commands only from a control station that holds write access. The start tasks take and release write access themselves; the application only calls the task.
+
+Required controller configuration (topic *Controller*, type *Control Station*): *Motion Control* = `Yes`, *Implicit Write Access* = `No`. The system input *Write Access*, the system output *Write Access Status* and the start inputs must belong to the same control station. Remote access must be allowed on the FlexPendant.
+
+`StartProgram()` (continue) and `StartAtMain()` (start from the beginning):
+
+1. release the stop commands (`StopProgram`, `QuickStop`, `SoftStop`, `StopCycle`, `StopInstruction`) - the controller rejects a start while one of them is set
+2. wait for `AutoOn`; `StartAtMain` also waits until the program is stopped (`CycleOn` = 0), `StartProgram` is done at once when the program already runs
+3. wait for `RemoteAccess` and `WriteAccessAvailable`, set `Control.WriteAccess`, wait for `State.WriteAccess`
+4. wait for `MotorOnState`
+5. one start pulse of 200 ms (`StartProgram` or `StartAtMain`), wait for `CycleOn`
+6. reset `Control.WriteAccess`, wait for `State.WriteAccess` = 0
+
+`StartAtMain` is done when the program runs (`CycleOn`), not when the program pointer has moved (`PpMoved`) as in `TcoOmnicore_v_1_x_x`.
+
+`StartMotors()` does not need write access. It pulses `MotorOn` only when the safety circuit is closed (`SafetyOk`) and the controller is not in guard stop (`ResetState`). A guard stop can be left only by a safety reset, not by the PLC.
+
+`StartMotorsAndProgram()` resets the error and the emergency stop, takes write access, switches the motors on, sends the start pulse and releases write access. `MotorOnAndStart` is not used.
+
+The stop tasks (`StopProgram`, `StopMovements`, `StopMovementsAndProgram`, `StopMotors`) do not need write access. When a stop task starts, it resets the start commands and a write access request left by an interrupted start. Every stop task resets its stop commands when it is done, aborted or restored.
+
+The controller gives no feedback for a rejected command except an event log entry. Each waiting step therefore reports what it is waiting for; set `Config.ErrorTime` to let a task end with an error instead of waiting.
+
+### Differences against `TcoOmnicore_v_1_x_x` (RobotWare 7)
+
+| Direction | Byte.Bit | RobotWare 7 | RobotWare 8.2 |
+|---|---|---|---|
+| PLC -> robot | 0.1 | `LoadProg` (di_Load) | `WriteAccess` (di_WriteAccess) |
+| robot -> PLC | 1.4 | `SystemInputBusy` | `WriteAccessAvailable` (do_WriteAccessAvailable) |
+| robot -> PLC | 1.7 | `BatteryLow` | `WriteAccess` (do_WriteAccess) |
+| robot -> PLC | 2.0 | `InArea_1` | `RemoteAccess` (do_RemoteAccess) |
+| robot -> PLC | 2.1 | `InArea_2` | `ResetState` (do_ResetState) |
+| robot -> PLC | 2.2 | `InArea_3` | `InArea_1` |
+| robot -> PLC | 2.3 | `InArea_4` | `InArea_2` |
+
+`LoadProg`, `SystemInputBusy`, `BatteryLow`, `InArea_3` and `InArea_4` do not exist in the RobotWare 8.2 structures.
+
+### Process image - PLC -> robot (`Out.Outputs`, `TcoAbbRW_Control_v_8_2_x`)
+
+| Byte | Bit 0 | Bit 1 | Bit 2 | Bit 3 | Bit 4 | Bit 5 | Bit 6 | Bit 7 |
+|---|---|---|---|---|---|---|---|---|
+| 0 | Interupt | WriteAccess | LoadAndStartProg | MotorOff | MotorOn | MotorOnAndStart | ResetEmgStop | ResetError |
+| 1 | StartProgram | StartAtMain | StopProgram | QuickStop | SoftStop | StopCycle | StopInstruction | LimitSpeed |
+| 2 | Tool_1_Retract | Tool_1_Extend | Tool_2_Retract | Tool_2_Extend | Tool_3_Retract | Tool_3_Extend | Tool_4_Retract | Tool_4_Extend |
+
+| Byte(s) | Member | Encoding |
+|---|---|---|
+| 3 | MasterMode | BYTE |
+| 5 | Zone | BYTE |
+| 6 | InPosition | BYTE |
+| 7 | ActionNo | BYTE |
+| 8 | GlobalSpeed | BYTE |
+| 9 | ToolNo | BYTE |
+| 10 | WorkobjectNo | BYTE |
+| 11 | PointNo | BYTE |
+| 12..15 | UserSpecSpeed1 | DINT, little endian |
+| 16..19 | UserSpecSpeed2 | DINT, little endian |
+| 20..31 | Coordinates X, Y, Z | DINT, little endian, (value + 10000.0) * 10000.0 |
+| 32..43 | Coordinates Rx, Ry, Rz | DINT, little endian, (value + 360.0) * 10000.0 |
+
+### Process image - robot -> PLC (`In.Inputs`, `TcoAbbRW_State_v_8_2_x`)
+
+| Byte | Bit 0 | Bit 1 | Bit 2 | Bit 3 | Bit 4 | Bit 5 | Bit 6 | Bit 7 |
+|---|---|---|---|---|---|---|---|---|
+| 0 | AutoOn | CycleOn | EmgStop | Error | MoveActive | MoveInactive | MotorOff | MotorOn |
+| 1 | MotorOffState | MotorOnState | ProgExecError | SafetyOk | WriteAccessAvailable | PpMoved | MotionSupervision | WriteAccess |
+| 2 | RemoteAccess | ResetState | InArea_1 | InArea_2 | InPosition_1 | InPosition_2 | InPosition_3 | InPosition_4 |
+| 3 | Tool_1_Retract | Tool_1_Extend | Tool_2_Retract | Tool_2_Extend | Tool_3_Retract | Tool_3_Extend | Tool_4_Retract | Tool_4_Extend |
+| 4 | AutoStop_1 | AutoStop_2 | EmergencyStop_1 | EmergencyStop_2 | GeneralStop_1 | GeneralStop_2 | Enable_1 | Enable_2 |
+
+| Byte(s) | Member | Encoding |
+|---|---|---|
+| 5 | Zone | BYTE |
+| 6 | InPosition | BYTE |
+| 7 | ActionNo | BYTE |
+| 8 | GlobalSpeed | BYTE |
+| 9 | ToolNo | BYTE |
+| 10 | WorkobjectNo | BYTE |
+| 11 | PointNo | BYTE |
+| 12..15 | UserSpecSpeed1 | DINT, little endian |
+| 16..19 | UserSpecSpeed2 | DINT, little endian |
+| 20..31 | Coordinates X, Y, Z | DINT, little endian, value / 10000.0 - 10000.0 |
+| 32..43 | Coordinates Rx, Ry, Rz | DINT, little endian, value / 10000.0 - 360.0 |
+| 44..47 | EventId | UDINT, little endian |
