@@ -51,6 +51,12 @@
     <Compile Include="Tests\TcoAbbRobotics\TcoAbbRoboticsTest.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Tests\TcoAbbRW\eTcoAbbRWTests.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tests\TcoAbbRW\TcoAbbRWTestContext.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DUTs" />
@@ -58,6 +64,7 @@
     <Folder Include="Tests" />
     <Folder Include="Tests\TcoContext" />
     <Folder Include="Tests\TcoAbbRobotics" />
+    <Folder Include="Tests\TcoAbbRW" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />
   </ItemGroup>

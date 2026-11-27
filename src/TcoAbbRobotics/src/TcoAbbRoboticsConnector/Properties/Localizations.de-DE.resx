@@ -480,6 +480,18 @@
   <data name="___Battery_Low__" xml:space="preserve">
     <value>Batterie schwach</value>
   </data>
+  <data name="___Write_access__" xml:space="preserve">
+    <value>Schreibzugriff</value>
+  </data>
+  <data name="___Write_access_available__" xml:space="preserve">
+    <value>Schreibzugriff verfügbar</value>
+  </data>
+  <data name="___Remote_access__" xml:space="preserve">
+    <value>Fernzugriff</value>
+  </data>
+  <data name="___Reset_state__" xml:space="preserve">
+    <value>Reset-Zustand</value>
+  </data>
   <data name="___In_area_1__" xml:space="preserve">
     <value>Im Bereich 1</value>
   </data>
@@ -545,5 +557,41 @@
   </data>
   <data name="___OUT__" xml:space="preserve">
     <value>OUT</value>
+  </data>
+  <data name="___Waiting_for_program_to_be_stopped____" xml:space="preserve">
+    <value>Warten auf das Anhalten des Programms! </value>
+  </data>
+  <data name="___Start_program_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>Programmstart wurde vor dem Abschluss abgebrochen!</value>
+  </data>
+  <data name="___Start_program_was_completed_successfully___" xml:space="preserve">
+    <value>Programmstart wurde erfolgreich abgeschlossen.</value>
+  </data>
+  <data name="___Start_program_finished_with_error___" xml:space="preserve">
+    <value>Programmstart mit Fehler beendet.</value>
+  </data>
+  <data name="___Start_program_started___" xml:space="preserve">
+    <value>Programmstart begonnen.</value>
+  </data>
+  <data name="___Stop_motors_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>Ausschalten der Motoren wurde vor dem Abschluss abgebrochen!</value>
+  </data>
+  <data name="___Waiting_for_write_access_to_be_granted____" xml:space="preserve">
+    <value>Warten auf die Erteilung des Schreibzugriffs! </value>
+  </data>
+  <data name="___Remote_access_is_not_allowed_on_the_robot_controller____" xml:space="preserve">
+    <value>Fernzugriff ist an der Robotersteuerung nicht erlaubt! </value>
+  </data>
+  <data name="___Waiting_for_write_access_to_be_available____" xml:space="preserve">
+    <value>Warten auf verfügbaren Schreibzugriff! </value>
+  </data>
+  <data name="___Waiting_for_safety_circuit_to_be_closed____" xml:space="preserve">
+    <value>Warten auf das Schließen des Sicherheitskreises! </value>
+  </data>
+  <data name="___Safety_reset_is_required_on_the_robot_controller____" xml:space="preserve">
+    <value>An der Robotersteuerung ist ein Sicherheitsreset erforderlich! </value>
+  </data>
+  <data name="___Waiting_for_write_access_to_be_released____" xml:space="preserve">
+    <value>Warten auf die Freigabe des Schreibzugriffs! </value>
   </data>
 </root>
