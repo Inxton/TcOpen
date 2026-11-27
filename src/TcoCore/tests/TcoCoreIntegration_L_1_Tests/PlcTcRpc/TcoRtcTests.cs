@@ -13,6 +13,26 @@ namespace TcoCoreUnitTests.PlcTcRpc
         TcoCoreTests.TcoRtcTest tc_B = TcoCoreUnitTests.ConnectorFixture.Connector.MAIN._tcoRtcTest_B;
         int Delay = 500;
 
+        //The synchronization parameters are taken over by the PLC in its next cycle, while RtcIsSynchronized() stays TRUE
+        //across a parameter change, so it cannot be used to wait for them. Several ADS round trips fit into a single PLC cycle,
+        //therefore reading the parameters back right after writing them returns the previous values every now and then.
+        private static void WaitForSynchParams(TcoCoreTests.TcoRtcTest tc, bool doSynch, string syncAmsId, ushort syncPeriod, int timeoutMs = 5000)
+        {
+            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+            do
+            {
+                tc.GetSynchParams();
+                if (tc._rtcSynchParamsGet.doSynch.Synchron == doSynch
+                    && tc._rtcSynchParamsGet.syncAmsId.Synchron == syncAmsId
+                    && tc._rtcSynchParamsGet.syncPeriod.Synchron == syncPeriod)
+                {
+                    return;
+                }
+                Thread.Sleep(10);
+            } while (stopwatch.ElapsedMilliseconds < timeoutMs);
+            //On timeout the assertions of the calling test report what has not been taken over.
+        }
+
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
@@ -64,7 +84,7 @@ namespace TcoCoreUnitTests.PlcTcRpc
 
             tc_A._callMyPlcInstanceRun.Synchron = false;        //Switch off the cyclical execution of the _TcoRtcTest_A Run() method 
 
-            tc_A.GetSynchParams();
+            WaitForSynchParams(tc_A, true, synchAmsId, SyncPeriod);
 
             Assert.AreEqual(tc_A._myIdentity.Synchron, tc_A._rtcSynchParamsGet.synchContextIdentity.Synchron);
 
@@ -98,6 +118,8 @@ namespace TcoCoreUnitTests.PlcTcRpc
 
 
             while (!tc_B.RtcIsSynchronized()) { }
+
+            Thread.Sleep(Delay);                                //Let the PLC run several cycles, so the parameters would have been taken over if they were accepted.
 
             tc_B._callMyPlcInstanceRun.Synchron = false;        //Switch off the cyclical execution of the _TcoRtcTest_B Run() method 
 
@@ -141,7 +163,7 @@ namespace TcoCoreUnitTests.PlcTcRpc
 
             tc_A._callMyPlcInstanceRun.Synchron = false;        //Switch off the cyclical execution of the _TcoRtcTest_A Run() method 
 
-            tc_A.GetSynchParams();
+            WaitForSynchParams(tc_A, !doSync, newSyncAmsId, (ushort)(2 * SyncPeriod));
 
             Assert.AreEqual(tc_A._myIdentity.Synchron, tc_A._rtcSynchParamsGet.synchContextIdentity.Synchron);
             Assert.AreEqual(synchContextIdentity, tc_A._rtcSynchParamsGet.synchContextIdentity.Synchron);
@@ -160,7 +182,7 @@ namespace TcoCoreUnitTests.PlcTcRpc
 
             tc_A._callMyPlcInstanceRun.Synchron = false;        //Switch off the cyclical execution of the _TcoRtcTest_A Run() method 
 
-            tc_A.GetSynchParams();
+            WaitForSynchParams(tc_A, doSync, synchAmsId, SyncPeriod);
 
             Assert.AreEqual(tc_A._myIdentity.Synchron, tc_A._rtcSynchParamsGet.synchContextIdentity.Synchron);
             Assert.AreEqual(synchContextIdentity, tc_A._rtcSynchParamsGet.synchContextIdentity.Synchron);
