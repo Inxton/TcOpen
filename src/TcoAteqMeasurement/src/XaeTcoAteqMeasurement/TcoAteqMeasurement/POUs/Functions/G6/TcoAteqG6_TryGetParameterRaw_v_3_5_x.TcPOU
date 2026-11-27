@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_TryGetParameterRaw_v_3_5_x" Id="{ba2d35b0-9e3d-435e-8cb6-6e56483844c2}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Raw value of parameter inId; outFound is FALSE when it is not in the list.
+		</summary>
+	</docu>
+~*)
+FUNCTION TcoAteqG6_TryGetParameterRaw_v_3_5_x : DINT
+VAR_INPUT
+	inId : UINT;
+END_VAR
+VAR_IN_OUT
+	inoList : TcoAteqG6_ParameterList_v_3_5_x;
+END_VAR
+VAR_OUTPUT
+	outFound : BOOL;
+END_VAR
+VAR
+	i : INT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[outFound := FALSE;
+FOR i := 0 TO inoList.Count - 1 DO
+	IF inoList.Items[i].Id = inId THEN
+		TcoAteqG6_TryGetParameterRaw_v_3_5_x := inoList.Items[i].Raw;
+		outFound := TRUE;
+		RETURN;
+	END_IF
+END_FOR]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

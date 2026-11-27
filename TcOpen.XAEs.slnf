@@ -20,6 +20,7 @@
       "src\\TcoRexrothPress\\src\\XAE\\XAE\\XAETcoRexrothPress.tsproj",
       "src\\TcoMitsubishiRobotics\src\\XaeTcoMitsubishiRobotics\\XaeTcoMitsubishiRobotics.tsproj",
       "src\\TcoAimTtiPowerSupply\\src\\XaeTcoAimTtiPowerSupply\\XaeTcoAimTtiPowerSupply.tsproj",
+      "src\\TcoAteqMeasurement\\src\\XaeTcoAteqMeasurement\\XaeTcoAteqMeasurement.tsproj",
       "src\\TcoUrRobotics\\src\\XaeTcoUrRobotics\\XaeTcoUrRobotics.tsproj",
       "src\\TcoKukaRobotics\\src\\XaeTcoKukaRobotics\\XaeTcoKukaRobotics.tsproj",
       "src\\TcoTixonFeeding\\src\\XaeTcoTixonFeeding\\XaeTcoTixonFeeding.tsproj" 

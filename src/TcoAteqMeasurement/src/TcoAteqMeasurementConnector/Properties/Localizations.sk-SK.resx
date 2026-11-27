@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="___Raw__" xml:space="preserve">
+    <value>Surová hodnota</value>
+  </data>
+  <data name="___Reset__" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="___Start__" xml:space="preserve">
+    <value>Štart</value>
+  </data>
+  <data name="___Special_cycle__" xml:space="preserve">
+    <value>Špeciálny cyklus</value>
+  </data>
+  <data name="___Program_selection__" xml:space="preserve">
+    <value>Výber programu</value>
+  </data>
+  <data name="___Read_FIFO_results__" xml:space="preserve">
+    <value>Čítať výsledky FIFO</value>
+  </data>
+  <data name="___Read_parameters__" xml:space="preserve">
+    <value>Čítať parametre</value>
+  </data>
+  <data name="___Write_parameters__" xml:space="preserve">
+    <value>Zapísať parametre</value>
+  </data>
+  <data name="___Reset_FIFO_results__" xml:space="preserve">
+    <value>Vymazať výsledky FIFO</value>
+  </data>
+  <data name="___Read_instrument_configuration__" xml:space="preserve">
+    <value>Čítať konfiguráciu prístroja</value>
+  </data>
+  <data name="___Read_configuration_bits__" xml:space="preserve">
+    <value>Čítať konfiguračné bity</value>
+  </data>
+  <data name="___Read_function_bits__" xml:space="preserve">
+    <value>Čítať funkčné bity</value>
+  </data>
+  <data name="___Write_configuration_bits__" xml:space="preserve">
+    <value>Zapísať konfiguračné bity</value>
+  </data>
+  <data name="___Write_function_bits__" xml:space="preserve">
+    <value>Zapísať funkčné bity</value>
+  </data>
+  <data name="___Read_program_name__" xml:space="preserve">
+    <value>Čítať názov programu</value>
+  </data>
+  <data name="___Write_program_name__" xml:space="preserve">
+    <value>Zapísať názov programu</value>
+  </data>
+  <data name="___Read_last_result__" xml:space="preserve">
+    <value>Čítať posledný výsledok</value>
+  </data>
+  <data name="___Info_time__" xml:space="preserve">
+    <value>Čas informácie</value>
+  </data>
+  <data name="___Task_timeout__0___off___" xml:space="preserve">
+    <value>Časový limit úlohy (0 = vyp.)</value>
+  </data>
+  <data name="___Command_handshake_timeout__per_step___" xml:space="preserve">
+    <value>Časový limit potvrdenia príkazu (na krok)</value>
+  </data>
+  <data name="___Test_cycle_timeout__" xml:space="preserve">
+    <value>Časový limit testovacieho cyklu</value>
+  </data>
+  <data name="___Command_word__" xml:space="preserve">
+    <value>Príkazové slovo</value>
+  </data>
+  <data name="___Command_bits__" xml:space="preserve">
+    <value>Príkazové bity</value>
+  </data>
+  <data name="___Program_number__as_displayed__1_128___" xml:space="preserve">
+    <value>Číslo programu (ako na displeji, 1-128)</value>
+  </data>
+  <data name="___Special_cycle_instruction__" xml:space="preserve">
+    <value>Inštrukcia špeciálneho cyklu</value>
+  </data>
+  <data name="___Parameter_request__" xml:space="preserve">
+    <value>Požiadavka na parametre</value>
+  </data>
+  <data name="___Selected_parameter__" xml:space="preserve">
+    <value>Vybraný parameter</value>
+  </data>
+  <data name="___Valid__" xml:space="preserve">
+    <value>Platný</value>
+  </data>
+  <data name="___Program__" xml:space="preserve">
+    <value>Program</value>
+  </data>
+  <data name="___Test_type__raw___" xml:space="preserve">
+    <value>Typ testu (surový)</value>
+  </data>
+  <data name="___Pass__" xml:space="preserve">
+    <value>Vyhovuje</value>
+  </data>
+  <data name="___Fail_test_part__maximum_flow_reject___" xml:space="preserve">
+    <value>Testovaný diel nevyhovuje (max. prietok)</value>
+  </data>
+  <data name="___Fail_reference_part__minimum_flow_reject___" xml:space="preserve">
+    <value>Referenčný diel nevyhovuje (min. prietok)</value>
+  </data>
+  <data name="___Alarm__" xml:space="preserve">
+    <value>Alarm</value>
+  </data>
+  <data name="___Pressure_error__unverified___" xml:space="preserve">
+    <value>Chyba tlaku (neoverené)</value>
+  </data>
+  <data name="___Part_recoverable__unverified___" xml:space="preserve">
+    <value>Diel opraviteľný (neoverené)</value>
+  </data>
+  <data name="___Calibration_error__unverified___" xml:space="preserve">
+    <value>Chyba kalibrácie (neoverené)</value>
+  </data>
+  <data name="___Calibration_check_error__unverified___" xml:space="preserve">
+    <value>Chyba kontroly kalibrácie (neoverené)</value>
+  </data>
+  <data name="___ATR_fault__unverified___" xml:space="preserve">
+    <value>Chyba ATR (neoverené)</value>
+  </data>
+  <data name="___Relay_image__raw___" xml:space="preserve">
+    <value>Obraz relé (surový)</value>
+  </data>
+  <data name="___Alarm_code__" xml:space="preserve">
+    <value>Kód alarmu</value>
+  </data>
+  <data name="___Alarm_code__raw___" xml:space="preserve">
+    <value>Kód alarmu (surový)</value>
+  </data>
+  <data name="___Measurement__" xml:space="preserve">
+    <value>Meranie</value>
+  </data>
+  <data name="___Pressure__" xml:space="preserve">
+    <value>Tlak</value>
+  </data>
+  <data name="___Pressure_unit__" xml:space="preserve">
+    <value>Jednotka tlaku</value>
+  </data>
+  <data name="___Flow___leak__" xml:space="preserve">
+    <value>Prietok / netesnosť</value>
+  </data>
+  <data name="___Flow_unit__" xml:space="preserve">
+    <value>Jednotka prietoku</value>
+  </data>
+  <data name="___Pressure__raw_x1000___" xml:space="preserve">
+    <value>Tlak (surový x1000)</value>
+  </data>
+  <data name="___Pressure_unit_code__raw___" xml:space="preserve">
+    <value>Kód jednotky tlaku (surový)</value>
+  </data>
+  <data name="___Flow__raw_x1000___" xml:space="preserve">
+    <value>Prietok (surový x1000)</value>
+  </data>
+  <data name="___Flow_unit_code__raw___" xml:space="preserve">
+    <value>Kód jednotky prietoku (surový)</value>
+  </data>
+  <data name="___Number_of_parameters_read__" xml:space="preserve">
+    <value>Počet prečítaných parametrov</value>
+  </data>
+  <data name="___Parameters__" xml:space="preserve">
+    <value>Parametre</value>
+  </data>
+  <data name="___Parameter__" xml:space="preserve">
+    <value>Parameter</value>
+  </data>
+  <data name="___Found__" xml:space="preserve">
+    <value>Nájdené</value>
+  </data>
+  <data name="___Value__" xml:space="preserve">
+    <value>Hodnota</value>
+  </data>
+  <data name="___Value__raw_x1000___" xml:space="preserve">
+    <value>Hodnota (surová x1000)</value>
+  </data>
+  <data name="___Number_of_parameters__1_35___" xml:space="preserve">
+    <value>Počet parametrov (1-35)</value>
+  </data>
+  <data name="___Identifiers__" xml:space="preserve">
+    <value>Identifikátory</value>
+  </data>
+  <data name="___Fill_time__s___" xml:space="preserve">
+    <value>Čas plnenia [s]</value>
+  </data>
+  <data name="___Stabilization_time__s___" xml:space="preserve">
+    <value>Čas stabilizácie [s]</value>
+  </data>
+  <data name="___Test_time__s___" xml:space="preserve">
+    <value>Čas testu [s]</value>
+  </data>
+  <data name="___Dump_time__s___" xml:space="preserve">
+    <value>Čas vypustenia [s]</value>
+  </data>
+  <data name="___Test_type__" xml:space="preserve">
+    <value>Typ testu</value>
+  </data>
+  <data name="___Minimum_fill_pressure__" xml:space="preserve">
+    <value>Minimálny plniaci tlak</value>
+  </data>
+  <data name="___Maximum_fill_pressure__" xml:space="preserve">
+    <value>Maximálny plniaci tlak</value>
+  </data>
+  <data name="___Test_part_reject_level__" xml:space="preserve">
+    <value>Hranica odmietnutia testovaného dielu</value>
+  </data>
+  <data name="___Reference_part_reject_level__" xml:space="preserve">
+    <value>Hranica odmietnutia referenčného dielu</value>
+  </data>
+  <data name="___Fill_set_point__" xml:space="preserve">
+    <value>Žiadaná hodnota plnenia</value>
+  </data>
+  <data name="___Identifier__" xml:space="preserve">
+    <value>Identifikátor</value>
+  </data>
+  <data name="___Command_echo__" xml:space="preserve">
+    <value>Potvrdenie príkazu</value>
+  </data>
+  <data name="___Command_error__" xml:space="preserve">
+    <value>Chyba príkazu</value>
+  </data>
+  <data name="___Command_running__" xml:space="preserve">
+    <value>Príkaz prebieha</value>
+  </data>
+  <data name="___Current_program__" xml:space="preserve">
+    <value>Aktuálny program</value>
+  </data>
+  <data name="___Results_in_FIFO__" xml:space="preserve">
+    <value>Výsledky vo FIFO</value>
+  </data>
+  <data name="___Status__" xml:space="preserve">
+    <value>Stav</value>
+  </data>
+  <data name="___Step__" xml:space="preserve">
+    <value>Krok</value>
+  </data>
+  <data name="___Step__raw___" xml:space="preserve">
+    <value>Krok (surový)</value>
+  </data>
+  <data name="___Real_time__" xml:space="preserve">
+    <value>Reálny čas</value>
+  </data>
+  <data name="___Fail_test_part__" xml:space="preserve">
+    <value>Testovaný diel nevyhovuje</value>
+  </data>
+  <data name="___Fail_reference_part__" xml:space="preserve">
+    <value>Referenčný diel nevyhovuje</value>
+  </data>
+  <data name="___Pressure_error__" xml:space="preserve">
+    <value>Chyba tlaku</value>
+  </data>
+  <data name="___Cycle_end__" xml:space="preserve">
+    <value>Koniec cyklu</value>
+  </data>
+  <data name="___Part_recoverable__" xml:space="preserve">
+    <value>Diel opraviteľný</value>
+  </data>
+  <data name="___Calibration_error_or_drift__" xml:space="preserve">
+    <value>Chyba alebo drift kalibrácie</value>
+  </data>
+  <data name="___ATR_error_or_drift__" xml:space="preserve">
+    <value>Chyba alebo drift ATR</value>
+  </data>
+  <data name="___Key_presence__" xml:space="preserve">
+    <value>Prítomnosť kľúča</value>
+  </data>
+  <data name="___Action__" xml:space="preserve">
+    <value>Akcia</value>
+  </data>
+  <data name="___Ready__" xml:space="preserve">
+    <value>Pripravený</value>
+  </data>
+  <data name="___Last_part_passed__" xml:space="preserve">
+    <value>Posledný diel vyhovel</value>
+  </data>
+  <data name="___Last_command_error_word__" xml:space="preserve">
+    <value>Posledné chybové slovo príkazu</value>
+  </data>
+  <data name="___Instrument__" xml:space="preserve">
+    <value>Prístroj</value>
+  </data>
+  <data name="___Last_result__" xml:space="preserve">
+    <value>Posledný výsledok</value>
+  </data>
+  <data name="___Preset_parameters__" xml:space="preserve">
+    <value>Prednastavené parametre</value>
+  </data>
+  <data name="___Control__" xml:space="preserve">
+    <value>Riadenie</value>
+  </data>
+  <data name="___Config__" xml:space="preserve">
+    <value>Konfigurácia</value>
+  </data>
+  <data name="___PN_Error__" xml:space="preserve">
+    <value>Chyba PN</value>
+  </data>
+  <data name="___Select_program__" xml:space="preserve">
+    <value>Vybrať program</value>
+  </data>
+  <data name="___Start_test_cycle__" xml:space="preserve">
+    <value>Spustiť testovací cyklus</value>
+  </data>
+  <data name="___Start_special_cycle__" xml:space="preserve">
+    <value>Spustiť špeciálny cyklus</value>
+  </data>
+  <data name="___Restore__" xml:space="preserve">
+    <value>Obnoviť</value>
+  </data>
+  <data name="___Restore_has_been_executed___" xml:space="preserve">
+    <value>Obnovenie bolo vykonané.</value>
+  </data>
+  <data name="___IN__" xml:space="preserve">
+    <value>IN</value>
+  </data>
+  <data name="___OUT__" xml:space="preserve">
+    <value>OUT</value>
+  </data>
+  <data name="___Input_module_1__slot_1__00h__3Fh___" xml:space="preserve">
+    <value>Vstupný modul 1 (slot 1, 00h..3Fh)</value>
+  </data>
+  <data name="___Input_module_2__slot_2__40h__7Fh___" xml:space="preserve">
+    <value>Vstupný modul 2 (slot 2, 40h..7Fh)</value>
+  </data>
+  <data name="___Input_module_3__slot_3__80h__BFh___" xml:space="preserve">
+    <value>Vstupný modul 3 (slot 3, 80h..BFh)</value>
+  </data>
+  <data name="___Input_module_4__slot_4__C0h__FFh___" xml:space="preserve">
+    <value>Vstupný modul 4 (slot 4, C0h..FFh)</value>
+  </data>
+  <data name="___Output_module_1__slot_5__00h__3Fh___" xml:space="preserve">
+    <value>Výstupný modul 1 (slot 5, 00h..3Fh)</value>
+  </data>
+  <data name="___Output_module_2__slot_6__40h__7Fh___" xml:space="preserve">
+    <value>Výstupný modul 2 (slot 6, 40h..7Fh)</value>
+  </data>
+  <data name="___Output_module_3__slot_7__80h__BFh___" xml:space="preserve">
+    <value>Výstupný modul 3 (slot 7, 80h..BFh)</value>
+  </data>
+  <data name="___Output_module_4__slot_8__C0h__FFh___" xml:space="preserve">
+    <value>Výstupný modul 4 (slot 8, C0h..FFh)</value>
+  </data>
+  <data name="___Invalid_reference____" xml:space="preserve">
+    <value>Neplatný odkaz: </value>
+  </data>
+  <data name="___Instrument_still_echoes_the_previous_command__Reset_the_instrument__then_restore_the_component___" xml:space="preserve">
+    <value>Prístroj stále potvrdzuje predchádzajúci príkaz. Resetujte prístroj a potom obnovte komponent.</value>
+  </data>
+  <data name="___Command_was_not_acknowledged_by_the_instrument__Check_the_PROFINET_connection_and_fieldbus_mode_5_Standard___" xml:space="preserve">
+    <value>Prístroj nepotvrdil príkaz. Skontrolujte pripojenie PROFINET a režim zbernice 5 Standard.</value>
+  </data>
+  <data name="___Instrument_reported_a_command_error__See_LastCommandError__the_set_bit_names_the_failed_command___" xml:space="preserve">
+    <value>Prístroj hlási chybu príkazu. Pozri LastCommandError: nastavený bit označuje neúspešný príkaz.</value>
+  </data>
+  <data name="___Command_was_not_completed_by_the_instrument__Check_the_instrument_display_for_a_running_menu_or_alarm___" xml:space="preserve">
+    <value>Prístroj nedokončil príkaz. Skontrolujte na displeji prístroja otvorené menu alebo alarm.</value>
+  </data>
+  <data name="___Instrument_did_not_release_the_command_echo__Reset_the_instrument__then_restore_the_component___" xml:space="preserve">
+    <value>Prístroj neuvoľnil potvrdenie príkazu. Resetujte prístroj a potom obnovte komponent.</value>
+  </data>
+  <data name="___Test_cycle_did_not_start__Check_the_instrument_for_alarms_and_that_the_program_is_valid___" xml:space="preserve">
+    <value>Testovací cyklus sa nespustil. Skontrolujte alarmy prístroja a platnosť programu.</value>
+  </data>
+  <data name="___Test_cycle_did_not_end_within_Config_CycleTimeout___" xml:space="preserve">
+    <value>Testovací cyklus neskončil v čase Config.CycleTimeout.</value>
+  </data>
+  <data name="___Task_time_exceeded__Config_ErrorTime____" xml:space="preserve">
+    <value>Prekročený čas úlohy (Config.ErrorTime).</value>
+  </data>
+  <data name="___Command_was_aborted___" xml:space="preserve">
+    <value>Príkaz bol prerušený.</value>
+  </data>
+  <data name="____To_restore_acknowledge_this_alarm___" xml:space="preserve">
+    <value> Pre obnovenie potvrďte tento alarm.</value>
+  </data>
+  <data name="___Reading_last_result__" xml:space="preserve">
+    <value>Čítanie posledného výsledku</value>
+  </data>
+  <data name="___Last_result_read__" xml:space="preserve">
+    <value>Posledný výsledok prečítaný</value>
+  </data>
+  <data name="___Map_to_preset__" xml:space="preserve">
+    <value>Mapovať na predvoľbu</value>
+  </data>
+  <data name="___Checking_parameter_request__" xml:space="preserve">
+    <value>Kontrola požiadavky na parametre</value>
+  </data>
+  <data name="___Number_of_requested_parameters_out_of_range__1_35____" xml:space="preserve">
+    <value>Počet požadovaných parametrov je mimo rozsahu (1-35).</value>
+  </data>
+  <data name="___Reading_parameters__" xml:space="preserve">
+    <value>Čítanie parametrov</value>
+  </data>
+  <data name="___Parameters_read__" xml:space="preserve">
+    <value>Parametre prečítané</value>
+  </data>
+  <data name="___Resetting_instrument__" xml:space="preserve">
+    <value>Resetovanie prístroja</value>
+  </data>
+  <data name="___Instrument_reset__" xml:space="preserve">
+    <value>Prístroj resetovaný</value>
+  </data>
+  <data name="___Checking_program_number__" xml:space="preserve">
+    <value>Kontrola čísla programu</value>
+  </data>
+  <data name="___Program_number_out_of_range__1_128___Pass_the_program_number_as_shown_on_the_instrument_display___" xml:space="preserve">
+    <value>Číslo programu je mimo rozsahu (1-128). Zadajte číslo programu tak, ako je zobrazené na displeji prístroja.</value>
+  </data>
+  <data name="___Selecting_program__" xml:space="preserve">
+    <value>Výber programu</value>
+  </data>
+  <data name="___Verifying_selected_program__" xml:space="preserve">
+    <value>Overenie vybraného programu</value>
+  </data>
+  <data name="___Instrument_did_not_switch_to_the_requested_program__Check_that_the_program_exists_on_the_instrument___" xml:space="preserve">
+    <value>Prístroj neprepol na požadovaný program. Skontrolujte, či program v prístroji existuje.</value>
+  </data>
+  <data name="___Program_selected__" xml:space="preserve">
+    <value>Program vybraný</value>
+  </data>
+  <data name="___Waiting_for_instrument_ready__" xml:space="preserve">
+    <value>Čakanie na pripravenosť prístroja</value>
+  </data>
+  <data name="___No_special_cycle_selected___" xml:space="preserve">
+    <value>Nie je vybraný žiadny špeciálny cyklus.</value>
+  </data>
+  <data name="___Instrument_is_not_ready__no_cycle_end___Wait_for_the_running_cycle_to_finish_or_reset_the_instrument___" xml:space="preserve">
+    <value>Prístroj nie je pripravený (žiadny koniec cyklu). Počkajte na dokončenie bežiaceho cyklu alebo resetujte prístroj.</value>
+  </data>
+  <data name="___Starting_special_cycle__" xml:space="preserve">
+    <value>Spúšťanie špeciálneho cyklu</value>
+  </data>
+  <data name="___Special_cycle_running__" xml:space="preserve">
+    <value>Špeciálny cyklus prebieha</value>
+  </data>
+  <data name="___Special_cycle_finished__" xml:space="preserve">
+    <value>Špeciálny cyklus ukončený</value>
+  </data>
+  <data name="___Starting_test_cycle__" xml:space="preserve">
+    <value>Spúšťanie testovacieho cyklu</value>
+  </data>
+  <data name="___Test_cycle_running__" xml:space="preserve">
+    <value>Testovací cyklus prebieha</value>
+  </data>
+  <data name="___Last_result_does_not_belong_to_the_requested_program__A_stale_result_was_read___" xml:space="preserve">
+    <value>Posledný výsledok nepatrí k požadovanému programu. Bol prečítaný starý výsledok.</value>
+  </data>
+  <data name="___Test_cycle_finished__" xml:space="preserve">
+    <value>Testovací cyklus ukončený</value>
+  </data>
+</root>

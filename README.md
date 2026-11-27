@@ -101,7 +101,11 @@ You should set up Windows environment variable ```Tc3Target``` with the value of
 
 **Build project to restore necessary tooling and packages**
 
-### BEFORE RUNNING THE SCRIPT MAKE SURE ALL INSTANCES OF VISUAL STUDIO ARE CLOSED. THE SCRIPT WILL OPEN VS TO COMPLETE THE BUILD OF THE PROJECT.
+The script runs Visual Studio in the background without opening the IDE window (Vortex builder and the TwinCAT compile still need the VS 2019 engine). It closes only the VS instance it started, so your own VS sessions stay open. Set `"headlessVs" = $false` to open the IDE window as before.
+
+For local development add `"incremental" = $true`. This skips the clean step (generated twins, `_meta`, `obj/bin`, TwinCAT compile info are kept) and uses `/Build` instead of `/Rebuild` for the PLC projects.
+
+Every build records its successfully completed steps in `_Vortex\build.state.json`. When a build fails, run it again with `"resume" = $true` and it continues from the failed step. The Vortex builder runs and is checkpointed per component (dependencies first), the PLC compile per tsproj and the tests per test project, so only the failed one and the rest are built. Combine with `"incremental" = $true` so the PLC projects are not rebuilt. The state is removed after a successful build, and it is ignored when `buildConfig` differs.
 
 _VS 2019 Community edition_
 ~~~ PowerShell

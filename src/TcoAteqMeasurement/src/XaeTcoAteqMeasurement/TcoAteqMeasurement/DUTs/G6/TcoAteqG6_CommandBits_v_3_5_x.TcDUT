@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="TcoAteqG6_CommandBits_v_3_5_x" Id="{03c40f48-0f2c-4331-a527-f072f0a21f91}">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Bit view of a command, echo or error word (bit 0 = Reset ... bit 15 = Read last result).
+		</summary>
+	</docu>
+~*)
+TYPE TcoAteqG6_CommandBits_v_3_5_x :
+STRUCT
+	{attribute addProperty Name "<#Raw#>"}
+	Raw : WORD;
+	{attribute addProperty Name "<#Reset#>"}
+	Reset : BOOL;
+	{attribute addProperty Name "<#Start#>"}
+	Start : BOOL;
+	{attribute addProperty Name "<#Special cycle#>"}
+	SpecialCycle : BOOL;
+	{attribute addProperty Name "<#Program selection#>"}
+	ProgramSelection : BOOL;
+	{attribute addProperty Name "<#Read FIFO results#>"}
+	ReadFifo : BOOL;
+	{attribute addProperty Name "<#Read parameters#>"}
+	ReadParameters : BOOL;
+	{attribute addProperty Name "<#Write parameters#>"}
+	WriteParameters : BOOL;
+	{attribute addProperty Name "<#Reset FIFO results#>"}
+	ResetFifo : BOOL;
+	{attribute addProperty Name "<#Read instrument configuration#>"}
+	ReadInstrumentConfiguration : BOOL;
+	{attribute addProperty Name "<#Read configuration bits#>"}
+	ReadConfigurationBits : BOOL;
+	{attribute addProperty Name "<#Read function bits#>"}
+	ReadFunctionBits : BOOL;
+	{attribute addProperty Name "<#Write configuration bits#>"}
+	WriteConfigurationBits : BOOL;
+	{attribute addProperty Name "<#Write function bits#>"}
+	WriteFunctionBits : BOOL;
+	{attribute addProperty Name "<#Read program name#>"}
+	ReadProgramName : BOOL;
+	{attribute addProperty Name "<#Write program name#>"}
+	WriteProgramName : BOOL;
+	{attribute addProperty Name "<#Read last result#>"}
+	ReadLastResult : BOOL;
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

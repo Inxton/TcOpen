@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="TcoAteqG6_Measurement_v_3_5_x" Id="{ed2db54d-67d7-4e41-a528-86f6b3282f5d}">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Pressure and flow with their units: four LONGs (value x1000, unit code).
+		</summary>
+	</docu>
+~*)
+TYPE TcoAteqG6_Measurement_v_3_5_x :
+STRUCT
+	{attribute addProperty Name "<#Pressure#>"}
+	Pressure : REAL;
+	{attribute addProperty Name "<#Pressure unit#>"}
+	PressureUnit : eTcoAteqG6_Unit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.Unknown;
+	{attribute addProperty Name "<#Flow / leak#>"}
+	Flow : REAL;
+	{attribute addProperty Name "<#Flow unit#>"}
+	FlowUnit : eTcoAteqG6_Unit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.Unknown;
+	{attribute addProperty Name "<#Pressure (raw x1000)#>"}
+	PressureRaw : DINT;
+	{attribute addProperty Name "<#Pressure unit code (raw)#>"}
+	PressureUnitRaw : DINT;
+	{attribute addProperty Name "<#Flow (raw x1000)#>"}
+	FlowRaw : DINT;
+	{attribute addProperty Name "<#Flow unit code (raw)#>"}
+	FlowUnitRaw : DINT;
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

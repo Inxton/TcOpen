@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_DecodeStatusBits_v_3_5_x" Id="{f7624874-bff0-43ff-a640-0e8cf554cba9}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Bit view of the status word (input 0Ch).
+		</summary>
+	</docu>
+~*)
+FUNCTION TcoAteqG6_DecodeStatusBits_v_3_5_x : BOOL
+VAR_INPUT
+	inValue : WORD;
+END_VAR
+VAR_IN_OUT
+	inoBits : TcoAteqG6_StatusBits_v_3_5_x;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[inoBits.Raw := inValue;
+inoBits.Pass := inValue.0;
+inoBits.FailTest := inValue.1;
+inoBits.FailReference := inValue.2;
+inoBits.Alarm := inValue.3;
+inoBits.PressureError := inValue.4;
+inoBits.CycleEnd := inValue.5;
+inoBits.Recoverable := inValue.6;
+inoBits.CalibrationError := inValue.7;
+inoBits.AtrError := inValue.9;
+inoBits.KeyPresence := inValue.15;
+TcoAteqG6_DecodeStatusBits_v_3_5_x := TRUE;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

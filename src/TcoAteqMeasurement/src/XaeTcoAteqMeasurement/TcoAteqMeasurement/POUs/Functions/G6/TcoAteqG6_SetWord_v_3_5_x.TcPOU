@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_SetWord_v_3_5_x" Id="{3d788cd7-f3be-43c0-816f-e80fd7b3bfcb}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Writes a little-endian WORD at inOffset.
+		</summary>
+	</docu>
+~*)
+FUNCTION TcoAteqG6_SetWord_v_3_5_x : BOOL
+VAR_INPUT
+	inOffset : INT;
+	inValue : WORD;
+END_VAR
+VAR_IN_OUT
+	inoImage : ARRAY[0..255] OF BYTE;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[inoImage[inOffset] := WORD_TO_BYTE(inValue AND 16#00FF);
+inoImage[inOffset + 1] := WORD_TO_BYTE(SHR(inValue, 8));
+TcoAteqG6_SetWord_v_3_5_x := TRUE;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

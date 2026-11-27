@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="___Raw__" xml:space="preserve">
+    <value>Rohwert</value>
+  </data>
+  <data name="___Reset__" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="___Start__" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="___Special_cycle__" xml:space="preserve">
+    <value>Sonderzyklus</value>
+  </data>
+  <data name="___Program_selection__" xml:space="preserve">
+    <value>Programmwahl</value>
+  </data>
+  <data name="___Read_FIFO_results__" xml:space="preserve">
+    <value>FIFO-Ergebnisse lesen</value>
+  </data>
+  <data name="___Read_parameters__" xml:space="preserve">
+    <value>Parameter lesen</value>
+  </data>
+  <data name="___Write_parameters__" xml:space="preserve">
+    <value>Parameter schreiben</value>
+  </data>
+  <data name="___Reset_FIFO_results__" xml:space="preserve">
+    <value>FIFO-Ergebnisse löschen</value>
+  </data>
+  <data name="___Read_instrument_configuration__" xml:space="preserve">
+    <value>Gerätekonfiguration lesen</value>
+  </data>
+  <data name="___Read_configuration_bits__" xml:space="preserve">
+    <value>Konfigurationsbits lesen</value>
+  </data>
+  <data name="___Read_function_bits__" xml:space="preserve">
+    <value>Funktionsbits lesen</value>
+  </data>
+  <data name="___Write_configuration_bits__" xml:space="preserve">
+    <value>Konfigurationsbits schreiben</value>
+  </data>
+  <data name="___Write_function_bits__" xml:space="preserve">
+    <value>Funktionsbits schreiben</value>
+  </data>
+  <data name="___Read_program_name__" xml:space="preserve">
+    <value>Programmname lesen</value>
+  </data>
+  <data name="___Write_program_name__" xml:space="preserve">
+    <value>Programmname schreiben</value>
+  </data>
+  <data name="___Read_last_result__" xml:space="preserve">
+    <value>Letztes Ergebnis lesen</value>
+  </data>
+  <data name="___Info_time__" xml:space="preserve">
+    <value>Infozeit</value>
+  </data>
+  <data name="___Task_timeout__0___off___" xml:space="preserve">
+    <value>Task-Zeitüberschreitung (0 = aus)</value>
+  </data>
+  <data name="___Command_handshake_timeout__per_step___" xml:space="preserve">
+    <value>Befehlsquittierung Zeitüberschreitung (pro Schritt)</value>
+  </data>
+  <data name="___Test_cycle_timeout__" xml:space="preserve">
+    <value>Prüfzyklus Zeitüberschreitung</value>
+  </data>
+  <data name="___Command_word__" xml:space="preserve">
+    <value>Befehlswort</value>
+  </data>
+  <data name="___Command_bits__" xml:space="preserve">
+    <value>Befehlsbits</value>
+  </data>
+  <data name="___Program_number__as_displayed__1_128___" xml:space="preserve">
+    <value>Programmnummer (wie angezeigt, 1-128)</value>
+  </data>
+  <data name="___Special_cycle_instruction__" xml:space="preserve">
+    <value>Sonderzyklus-Vorgabe</value>
+  </data>
+  <data name="___Parameter_request__" xml:space="preserve">
+    <value>Parameteranfrage</value>
+  </data>
+  <data name="___Selected_parameter__" xml:space="preserve">
+    <value>Ausgewählter Parameter</value>
+  </data>
+  <data name="___Valid__" xml:space="preserve">
+    <value>Gültig</value>
+  </data>
+  <data name="___Program__" xml:space="preserve">
+    <value>Programm</value>
+  </data>
+  <data name="___Test_type__raw___" xml:space="preserve">
+    <value>Prüfart (roh)</value>
+  </data>
+  <data name="___Pass__" xml:space="preserve">
+    <value>Gut</value>
+  </data>
+  <data name="___Fail_test_part__maximum_flow_reject___" xml:space="preserve">
+    <value>Prüfteil schlecht (Max.-Durchfluss)</value>
+  </data>
+  <data name="___Fail_reference_part__minimum_flow_reject___" xml:space="preserve">
+    <value>Referenzteil schlecht (Min.-Durchfluss)</value>
+  </data>
+  <data name="___Alarm__" xml:space="preserve">
+    <value>Alarm</value>
+  </data>
+  <data name="___Pressure_error__unverified___" xml:space="preserve">
+    <value>Druckfehler (ungeprüft)</value>
+  </data>
+  <data name="___Part_recoverable__unverified___" xml:space="preserve">
+    <value>Teil nacharbeitbar (ungeprüft)</value>
+  </data>
+  <data name="___Calibration_error__unverified___" xml:space="preserve">
+    <value>Kalibrierfehler (ungeprüft)</value>
+  </data>
+  <data name="___Calibration_check_error__unverified___" xml:space="preserve">
+    <value>Kalibrierprüfungsfehler (ungeprüft)</value>
+  </data>
+  <data name="___ATR_fault__unverified___" xml:space="preserve">
+    <value>ATR-Fehler (ungeprüft)</value>
+  </data>
+  <data name="___Relay_image__raw___" xml:space="preserve">
+    <value>Relaisabbild (roh)</value>
+  </data>
+  <data name="___Alarm_code__" xml:space="preserve">
+    <value>Alarmcode</value>
+  </data>
+  <data name="___Alarm_code__raw___" xml:space="preserve">
+    <value>Alarmcode (roh)</value>
+  </data>
+  <data name="___Measurement__" xml:space="preserve">
+    <value>Messung</value>
+  </data>
+  <data name="___Pressure__" xml:space="preserve">
+    <value>Druck</value>
+  </data>
+  <data name="___Pressure_unit__" xml:space="preserve">
+    <value>Druckeinheit</value>
+  </data>
+  <data name="___Flow___leak__" xml:space="preserve">
+    <value>Durchfluss / Leck</value>
+  </data>
+  <data name="___Flow_unit__" xml:space="preserve">
+    <value>Durchflusseinheit</value>
+  </data>
+  <data name="___Pressure__raw_x1000___" xml:space="preserve">
+    <value>Druck (roh x1000)</value>
+  </data>
+  <data name="___Pressure_unit_code__raw___" xml:space="preserve">
+    <value>Druckeinheit-Code (roh)</value>
+  </data>
+  <data name="___Flow__raw_x1000___" xml:space="preserve">
+    <value>Durchfluss (roh x1000)</value>
+  </data>
+  <data name="___Flow_unit_code__raw___" xml:space="preserve">
+    <value>Durchflusseinheit-Code (roh)</value>
+  </data>
+  <data name="___Number_of_parameters_read__" xml:space="preserve">
+    <value>Anzahl gelesener Parameter</value>
+  </data>
+  <data name="___Parameters__" xml:space="preserve">
+    <value>Parameter</value>
+  </data>
+  <data name="___Parameter__" xml:space="preserve">
+    <value>Parameter</value>
+  </data>
+  <data name="___Found__" xml:space="preserve">
+    <value>Gefunden</value>
+  </data>
+  <data name="___Value__" xml:space="preserve">
+    <value>Wert</value>
+  </data>
+  <data name="___Value__raw_x1000___" xml:space="preserve">
+    <value>Wert (roh x1000)</value>
+  </data>
+  <data name="___Number_of_parameters__1_35___" xml:space="preserve">
+    <value>Anzahl Parameter (1-35)</value>
+  </data>
+  <data name="___Identifiers__" xml:space="preserve">
+    <value>Kennungen</value>
+  </data>
+  <data name="___Fill_time__s___" xml:space="preserve">
+    <value>Füllzeit [s]</value>
+  </data>
+  <data name="___Stabilization_time__s___" xml:space="preserve">
+    <value>Stabilisierungszeit [s]</value>
+  </data>
+  <data name="___Test_time__s___" xml:space="preserve">
+    <value>Prüfzeit [s]</value>
+  </data>
+  <data name="___Dump_time__s___" xml:space="preserve">
+    <value>Entlüftungszeit [s]</value>
+  </data>
+  <data name="___Test_type__" xml:space="preserve">
+    <value>Prüfart</value>
+  </data>
+  <data name="___Minimum_fill_pressure__" xml:space="preserve">
+    <value>Minimaler Fülldruck</value>
+  </data>
+  <data name="___Maximum_fill_pressure__" xml:space="preserve">
+    <value>Maximaler Fülldruck</value>
+  </data>
+  <data name="___Test_part_reject_level__" xml:space="preserve">
+    <value>Ausschussgrenze Prüfteil</value>
+  </data>
+  <data name="___Reference_part_reject_level__" xml:space="preserve">
+    <value>Ausschussgrenze Referenzteil</value>
+  </data>
+  <data name="___Fill_set_point__" xml:space="preserve">
+    <value>Füll-Sollwert</value>
+  </data>
+  <data name="___Identifier__" xml:space="preserve">
+    <value>Kennung</value>
+  </data>
+  <data name="___Command_echo__" xml:space="preserve">
+    <value>Befehlsquittung</value>
+  </data>
+  <data name="___Command_error__" xml:space="preserve">
+    <value>Befehlsfehler</value>
+  </data>
+  <data name="___Command_running__" xml:space="preserve">
+    <value>Befehl läuft</value>
+  </data>
+  <data name="___Current_program__" xml:space="preserve">
+    <value>Aktuelles Programm</value>
+  </data>
+  <data name="___Results_in_FIFO__" xml:space="preserve">
+    <value>Ergebnisse im FIFO</value>
+  </data>
+  <data name="___Status__" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="___Step__" xml:space="preserve">
+    <value>Schritt</value>
+  </data>
+  <data name="___Step__raw___" xml:space="preserve">
+    <value>Schritt (roh)</value>
+  </data>
+  <data name="___Real_time__" xml:space="preserve">
+    <value>Echtzeit</value>
+  </data>
+  <data name="___Fail_test_part__" xml:space="preserve">
+    <value>Prüfteil schlecht</value>
+  </data>
+  <data name="___Fail_reference_part__" xml:space="preserve">
+    <value>Referenzteil schlecht</value>
+  </data>
+  <data name="___Pressure_error__" xml:space="preserve">
+    <value>Druckfehler</value>
+  </data>
+  <data name="___Cycle_end__" xml:space="preserve">
+    <value>Zyklusende</value>
+  </data>
+  <data name="___Part_recoverable__" xml:space="preserve">
+    <value>Teil nacharbeitbar</value>
+  </data>
+  <data name="___Calibration_error_or_drift__" xml:space="preserve">
+    <value>Kalibrierfehler oder Drift</value>
+  </data>
+  <data name="___ATR_error_or_drift__" xml:space="preserve">
+    <value>ATR-Fehler oder Drift</value>
+  </data>
+  <data name="___Key_presence__" xml:space="preserve">
+    <value>Schlüssel vorhanden</value>
+  </data>
+  <data name="___Action__" xml:space="preserve">
+    <value>Aktion</value>
+  </data>
+  <data name="___Ready__" xml:space="preserve">
+    <value>Bereit</value>
+  </data>
+  <data name="___Last_part_passed__" xml:space="preserve">
+    <value>Letztes Teil gut</value>
+  </data>
+  <data name="___Last_command_error_word__" xml:space="preserve">
+    <value>Letztes Befehlsfehlerwort</value>
+  </data>
+  <data name="___Instrument__" xml:space="preserve">
+    <value>Gerät</value>
+  </data>
+  <data name="___Last_result__" xml:space="preserve">
+    <value>Letztes Ergebnis</value>
+  </data>
+  <data name="___Preset_parameters__" xml:space="preserve">
+    <value>Vorgabeparameter</value>
+  </data>
+  <data name="___Control__" xml:space="preserve">
+    <value>Steuerung</value>
+  </data>
+  <data name="___Config__" xml:space="preserve">
+    <value>Konfiguration</value>
+  </data>
+  <data name="___PN_Error__" xml:space="preserve">
+    <value>PN-Fehler</value>
+  </data>
+  <data name="___Select_program__" xml:space="preserve">
+    <value>Programm wählen</value>
+  </data>
+  <data name="___Start_test_cycle__" xml:space="preserve">
+    <value>Prüfzyklus starten</value>
+  </data>
+  <data name="___Start_special_cycle__" xml:space="preserve">
+    <value>Sonderzyklus starten</value>
+  </data>
+  <data name="___Restore__" xml:space="preserve">
+    <value>Wiederherstellen</value>
+  </data>
+  <data name="___Restore_has_been_executed___" xml:space="preserve">
+    <value>Wiederherstellung wurde ausgeführt.</value>
+  </data>
+  <data name="___IN__" xml:space="preserve">
+    <value>IN</value>
+  </data>
+  <data name="___OUT__" xml:space="preserve">
+    <value>OUT</value>
+  </data>
+  <data name="___Input_module_1__slot_1__00h__3Fh___" xml:space="preserve">
+    <value>Eingangsmodul 1 (Steckplatz 1, 00h..3Fh)</value>
+  </data>
+  <data name="___Input_module_2__slot_2__40h__7Fh___" xml:space="preserve">
+    <value>Eingangsmodul 2 (Steckplatz 2, 40h..7Fh)</value>
+  </data>
+  <data name="___Input_module_3__slot_3__80h__BFh___" xml:space="preserve">
+    <value>Eingangsmodul 3 (Steckplatz 3, 80h..BFh)</value>
+  </data>
+  <data name="___Input_module_4__slot_4__C0h__FFh___" xml:space="preserve">
+    <value>Eingangsmodul 4 (Steckplatz 4, C0h..FFh)</value>
+  </data>
+  <data name="___Output_module_1__slot_5__00h__3Fh___" xml:space="preserve">
+    <value>Ausgangsmodul 1 (Steckplatz 5, 00h..3Fh)</value>
+  </data>
+  <data name="___Output_module_2__slot_6__40h__7Fh___" xml:space="preserve">
+    <value>Ausgangsmodul 2 (Steckplatz 6, 40h..7Fh)</value>
+  </data>
+  <data name="___Output_module_3__slot_7__80h__BFh___" xml:space="preserve">
+    <value>Ausgangsmodul 3 (Steckplatz 7, 80h..BFh)</value>
+  </data>
+  <data name="___Output_module_4__slot_8__C0h__FFh___" xml:space="preserve">
+    <value>Ausgangsmodul 4 (Steckplatz 8, C0h..FFh)</value>
+  </data>
+  <data name="___Invalid_reference____" xml:space="preserve">
+    <value>Ungültige Referenz: </value>
+  </data>
+  <data name="___Instrument_still_echoes_the_previous_command__Reset_the_instrument__then_restore_the_component___" xml:space="preserve">
+    <value>Gerät quittiert noch den vorherigen Befehl. Gerät zurücksetzen, dann die Komponente wiederherstellen.</value>
+  </data>
+  <data name="___Command_was_not_acknowledged_by_the_instrument__Check_the_PROFINET_connection_and_fieldbus_mode_5_Standard___" xml:space="preserve">
+    <value>Befehl wurde vom Gerät nicht quittiert. PROFINET-Verbindung und Feldbusmodus 5 Standard prüfen.</value>
+  </data>
+  <data name="___Instrument_reported_a_command_error__See_LastCommandError__the_set_bit_names_the_failed_command___" xml:space="preserve">
+    <value>Gerät meldet einen Befehlsfehler. Siehe LastCommandError: das gesetzte Bit nennt den fehlgeschlagenen Befehl.</value>
+  </data>
+  <data name="___Command_was_not_completed_by_the_instrument__Check_the_instrument_display_for_a_running_menu_or_alarm___" xml:space="preserve">
+    <value>Befehl wurde vom Gerät nicht abgeschlossen. Display auf offenes Menü oder Alarm prüfen.</value>
+  </data>
+  <data name="___Instrument_did_not_release_the_command_echo__Reset_the_instrument__then_restore_the_component___" xml:space="preserve">
+    <value>Gerät hat die Befehlsquittung nicht zurückgenommen. Gerät zurücksetzen, dann die Komponente wiederherstellen.</value>
+  </data>
+  <data name="___Test_cycle_did_not_start__Check_the_instrument_for_alarms_and_that_the_program_is_valid___" xml:space="preserve">
+    <value>Prüfzyklus ist nicht gestartet. Gerät auf Alarme und das Programm auf Gültigkeit prüfen.</value>
+  </data>
+  <data name="___Test_cycle_did_not_end_within_Config_CycleTimeout___" xml:space="preserve">
+    <value>Prüfzyklus wurde nicht innerhalb von Config.CycleTimeout beendet.</value>
+  </data>
+  <data name="___Task_time_exceeded__Config_ErrorTime____" xml:space="preserve">
+    <value>Taskzeit überschritten (Config.ErrorTime).</value>
+  </data>
+  <data name="___Command_was_aborted___" xml:space="preserve">
+    <value>Befehl wurde abgebrochen.</value>
+  </data>
+  <data name="____To_restore_acknowledge_this_alarm___" xml:space="preserve">
+    <value> Zum Wiederherstellen diesen Alarm quittieren.</value>
+  </data>
+  <data name="___Reading_last_result__" xml:space="preserve">
+    <value>Letztes Ergebnis wird gelesen</value>
+  </data>
+  <data name="___Last_result_read__" xml:space="preserve">
+    <value>Letztes Ergebnis gelesen</value>
+  </data>
+  <data name="___Map_to_preset__" xml:space="preserve">
+    <value>Auf Vorgabe abbilden</value>
+  </data>
+  <data name="___Checking_parameter_request__" xml:space="preserve">
+    <value>Parameteranfrage wird geprüft</value>
+  </data>
+  <data name="___Number_of_requested_parameters_out_of_range__1_35____" xml:space="preserve">
+    <value>Anzahl angeforderter Parameter außerhalb des Bereichs (1-35).</value>
+  </data>
+  <data name="___Reading_parameters__" xml:space="preserve">
+    <value>Parameter werden gelesen</value>
+  </data>
+  <data name="___Parameters_read__" xml:space="preserve">
+    <value>Parameter gelesen</value>
+  </data>
+  <data name="___Resetting_instrument__" xml:space="preserve">
+    <value>Gerät wird zurückgesetzt</value>
+  </data>
+  <data name="___Instrument_reset__" xml:space="preserve">
+    <value>Gerät zurückgesetzt</value>
+  </data>
+  <data name="___Checking_program_number__" xml:space="preserve">
+    <value>Programmnummer wird geprüft</value>
+  </data>
+  <data name="___Program_number_out_of_range__1_128___Pass_the_program_number_as_shown_on_the_instrument_display___" xml:space="preserve">
+    <value>Programmnummer außerhalb des Bereichs (1-128). Programmnummer wie im Gerätedisplay angezeigt angeben.</value>
+  </data>
+  <data name="___Selecting_program__" xml:space="preserve">
+    <value>Programm wird gewählt</value>
+  </data>
+  <data name="___Verifying_selected_program__" xml:space="preserve">
+    <value>Gewähltes Programm wird geprüft</value>
+  </data>
+  <data name="___Instrument_did_not_switch_to_the_requested_program__Check_that_the_program_exists_on_the_instrument___" xml:space="preserve">
+    <value>Gerät hat nicht auf das angeforderte Programm umgeschaltet. Prüfen, ob das Programm im Gerät existiert.</value>
+  </data>
+  <data name="___Program_selected__" xml:space="preserve">
+    <value>Programm gewählt</value>
+  </data>
+  <data name="___Waiting_for_instrument_ready__" xml:space="preserve">
+    <value>Warten auf Gerät bereit</value>
+  </data>
+  <data name="___No_special_cycle_selected___" xml:space="preserve">
+    <value>Kein Sonderzyklus gewählt.</value>
+  </data>
+  <data name="___Instrument_is_not_ready__no_cycle_end___Wait_for_the_running_cycle_to_finish_or_reset_the_instrument___" xml:space="preserve">
+    <value>Gerät nicht bereit (kein Zyklusende). Auf das Ende des laufenden Zyklus warten oder das Gerät zurücksetzen.</value>
+  </data>
+  <data name="___Starting_special_cycle__" xml:space="preserve">
+    <value>Sonderzyklus wird gestartet</value>
+  </data>
+  <data name="___Special_cycle_running__" xml:space="preserve">
+    <value>Sonderzyklus läuft</value>
+  </data>
+  <data name="___Special_cycle_finished__" xml:space="preserve">
+    <value>Sonderzyklus beendet</value>
+  </data>
+  <data name="___Starting_test_cycle__" xml:space="preserve">
+    <value>Prüfzyklus wird gestartet</value>
+  </data>
+  <data name="___Test_cycle_running__" xml:space="preserve">
+    <value>Prüfzyklus läuft</value>
+  </data>
+  <data name="___Last_result_does_not_belong_to_the_requested_program__A_stale_result_was_read___" xml:space="preserve">
+    <value>Letztes Ergebnis gehört nicht zum angeforderten Programm. Ein veraltetes Ergebnis wurde gelesen.</value>
+  </data>
+  <data name="___Test_cycle_finished__" xml:space="preserve">
+    <value>Prüfzyklus beendet</value>
+  </data>
+</root>

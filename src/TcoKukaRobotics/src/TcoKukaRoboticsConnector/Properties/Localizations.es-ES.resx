@@ -267,6 +267,9 @@
   <data name="___Start_movements_stared___" xml:space="preserve">
     <value>Los movimientos de inicio se quedaron mirando.</value>
   </data>
+  <data name="___Start_program_was_aborted__while_not_yet_completed___" xml:space="preserve">
+    <value>Iniciar programa fue abortado, ¡aún no se ha completado!</value>
+  </data>
   <data name="___Stop_program_was_aborted__while_not_yet_completed___" xml:space="preserve">
     <value>Se ha interrumpido el programa Stop, ¡aún no se ha completado!</value>
   </data>
@@ -275,6 +278,9 @@
   </data>
   <data name="___Stopping_program_with_error___" xml:space="preserve">
     <value>Parada del programa con error.</value>
+  </data>
+  <data name="___Starting_program_started___" xml:space="preserve">
+    <value>Inicio del programa iniciado.</value>
   </data>
   <data name="___Stopping_program_started___" xml:space="preserve">
     <value>Detención del programa iniciado.</value>

@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="TcoAteqG6_StatusBits_v_3_5_x" Id="{9fe8cc9c-de0a-42ba-9040-ebab86765459}">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Status word of the instrument (input 0Ch). Bits 8 and 10..14 are not used.
+		</summary>
+	</docu>
+~*)
+TYPE TcoAteqG6_StatusBits_v_3_5_x :
+STRUCT
+	{attribute addProperty Name "<#Raw#>"}
+	Raw : WORD;
+	{attribute addProperty Name "<#Pass#>"}
+	Pass : BOOL;
+	{attribute addProperty Name "<#Fail test part#>"}
+	FailTest : BOOL;
+	{attribute addProperty Name "<#Fail reference part#>"}
+	FailReference : BOOL;
+	{attribute addProperty Name "<#Alarm#>"}
+	Alarm : BOOL;
+	{attribute addProperty Name "<#Pressure error#>"}
+	PressureError : BOOL;
+	{attribute addProperty Name "<#Cycle end#>"}
+	CycleEnd : BOOL;
+	{attribute addProperty Name "<#Part recoverable#>"}
+	Recoverable : BOOL;
+	{attribute addProperty Name "<#Calibration error or drift#>"}
+	CalibrationError : BOOL;
+	{attribute addProperty Name "<#ATR error or drift#>"}
+	AtrError : BOOL;
+	{attribute addProperty Name "<#Key presence#>"}
+	KeyPresence : BOOL;
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

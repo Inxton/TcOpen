@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_QueryParameter_v_3_5_x" Id="{6c111b7a-505b-4034-bda0-52774fa3a46e}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Looks inParameter up in a list that was read.
+		</summary>
+	</docu>
+~*)
+FUNCTION TcoAteqG6_QueryParameter_v_3_5_x : BOOL
+VAR_INPUT
+	inParameter : eTcoAteqG6_ParameterId_v_3_5_x;
+END_VAR
+VAR_IN_OUT
+	inoList : TcoAteqG6_ParameterList_v_3_5_x;
+	inoQuery : TcoAteqG6_ParameterQuery_v_3_5_x;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[inoQuery.Parameter := inParameter;
+inoQuery.Found := FALSE;
+inoQuery.Raw := 0;
+inoQuery.Value := 0.0;
+TcoAteqG6_QueryParameter_v_3_5_x := TRUE;
+IF inParameter = eTcoAteqG6_ParameterId_v_3_5_x.None THEN
+	RETURN;
+END_IF
+inoQuery.Raw := TcoAteqG6_TryGetParameterRaw_v_3_5_x(inId := TO_UINT(inParameter), inoList := inoList, outFound => inoQuery.Found);
+inoQuery.Value := TcoAteqG6_ToEngineering_v_3_5_x(inoQuery.Raw);]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

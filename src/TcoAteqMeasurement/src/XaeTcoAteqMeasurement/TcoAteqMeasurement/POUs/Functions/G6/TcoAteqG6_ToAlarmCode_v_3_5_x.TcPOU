@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_ToAlarmCode_v_3_5_x" Id="{7f2ac453-4084-4b33-9315-d5cc002f2963}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Alarm code word to alarm code.
+		</summary>
+	</docu>
+~*)
+FUNCTION TcoAteqG6_ToAlarmCode_v_3_5_x : eTcoAteqG6_AlarmCode_v_3_5_x
+VAR_INPUT
+	inRaw : INT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE inRaw OF
+	0: TcoAteqG6_ToAlarmCode_v_3_5_x := eTcoAteqG6_AlarmCode_v_3_5_x.NoAlarm;
+	1: TcoAteqG6_ToAlarmCode_v_3_5_x := eTcoAteqG6_AlarmCode_v_3_5_x.PressureSwitchTooHigh;
+	2: TcoAteqG6_ToAlarmCode_v_3_5_x := eTcoAteqG6_AlarmCode_v_3_5_x.PressureSwitchTooLow;
+	3: TcoAteqG6_ToAlarmCode_v_3_5_x := eTcoAteqG6_AlarmCode_v_3_5_x.LargeLeakOnTest;
+	4: TcoAteqG6_ToAlarmCode_v_3_5_x := eTcoAteqG6_AlarmCode_v_3_5_x.LargeLeakOnReference;
+	7: TcoAteqG6_ToAlarmCode_v_3_5_x := eTcoAteqG6_AlarmCode_v_3_5_x.SensorOutOfOrder;
+	43: TcoAteqG6_ToAlarmCode_v_3_5_x := eTcoAteqG6_AlarmCode_v_3_5_x.PressureTooHigh;
+	44: TcoAteqG6_ToAlarmCode_v_3_5_x := eTcoAteqG6_AlarmCode_v_3_5_x.PressureTooLow;
+	45: TcoAteqG6_ToAlarmCode_v_3_5_x := eTcoAteqG6_AlarmCode_v_3_5_x.PiezoSensorOutOfOrder;
+	46: TcoAteqG6_ToAlarmCode_v_3_5_x := eTcoAteqG6_AlarmCode_v_3_5_x.DumpError;
+	47: TcoAteqG6_ToAlarmCode_v_3_5_x := eTcoAteqG6_AlarmCode_v_3_5_x.CalibrationDrift;
+	73: TcoAteqG6_ToAlarmCode_v_3_5_x := eTcoAteqG6_AlarmCode_v_3_5_x.AtmosphericPressureError;
+	74: TcoAteqG6_ToAlarmCode_v_3_5_x := eTcoAteqG6_AlarmCode_v_3_5_x.TemperatureError;
+ELSE
+	TcoAteqG6_ToAlarmCode_v_3_5_x := eTcoAteqG6_AlarmCode_v_3_5_x.Unknown;
+END_CASE]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

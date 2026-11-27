@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <GVL Name="GVL" Id="{3038b878-c5ba-4829-869e-3fc77f90ade2}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	Ateq1 : TcoAteqMeasurement.TcoAteqG6Pn_IO_v_3_5_x;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

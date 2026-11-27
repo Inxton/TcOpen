@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_ToUnit_v_3_5_x" Id="{d5e127a2-18ea-4ace-87d2-aeeb0a845322}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Unit code (LONG, code x1000) to unit. Codes that are not listed or not a multiple of 1000 give Unknown.
+		</summary>
+	</docu>
+~*)
+FUNCTION TcoAteqG6_ToUnit_v_3_5_x : eTcoAteqG6_Unit_v_3_5_x
+VAR_INPUT
+	inRaw : DINT;
+END_VAR
+VAR
+	code : DINT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[TcoAteqG6_ToUnit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.Unknown;
+IF inRaw < 0 OR (inRaw MOD 1000) <> 0 THEN
+	RETURN;
+END_IF
+code := inRaw / 1000;
+CASE code OF
+	0: TcoAteqG6_ToUnit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.cm3_s;
+	1: TcoAteqG6_ToUnit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.cm3_min;
+	2: TcoAteqG6_ToUnit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.cm3_h;
+	6: TcoAteqG6_ToUnit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.Pa;
+	11: TcoAteqG6_ToUnit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.bar;
+	12: TcoAteqG6_ToUnit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.kPa;
+	13: TcoAteqG6_ToUnit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.PSI;
+	14: TcoAteqG6_ToUnit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.mbar;
+	15: TcoAteqG6_ToUnit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.MPa;
+	30: TcoAteqG6_ToUnit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.l_h;
+	46: TcoAteqG6_ToUnit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.inch3_s;
+	47: TcoAteqG6_ToUnit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.inch3_min;
+	48: TcoAteqG6_ToUnit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.inch3_h;
+	49: TcoAteqG6_ToUnit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.ft3_h;
+	50: TcoAteqG6_ToUnit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.ml_s;
+	51: TcoAteqG6_ToUnit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.ml_min;
+	52: TcoAteqG6_ToUnit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.ml_h;
+	55: TcoAteqG6_ToUnit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.mm3;
+	56: TcoAteqG6_ToUnit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.cm3;
+	61: TcoAteqG6_ToUnit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.ml;
+	62: TcoAteqG6_ToUnit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.l;
+	63: TcoAteqG6_ToUnit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.inch3;
+	64: TcoAteqG6_ToUnit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.ft3;
+	84: TcoAteqG6_ToUnit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.SCCM;
+	92: TcoAteqG6_ToUnit_v_3_5_x := eTcoAteqG6_Unit_v_3_5_x.Points;
+END_CASE]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

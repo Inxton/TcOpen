@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_ToTestType_v_3_5_x" Id="{8c99c010-77c1-4953-b11c-16d230775a77}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Test type parameter value (code x1000) to test type.
+		</summary>
+	</docu>
+~*)
+FUNCTION TcoAteqG6_ToTestType_v_3_5_x : eTcoAteqG6_TestType_v_3_5_x
+VAR_INPUT
+	inRaw : DINT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE inRaw OF
+	0: TcoAteqG6_ToTestType_v_3_5_x := eTcoAteqG6_TestType_v_3_5_x.Invalid;
+	1000: TcoAteqG6_ToTestType_v_3_5_x := eTcoAteqG6_TestType_v_3_5_x.Direct;
+	2000: TcoAteqG6_ToTestType_v_3_5_x := eTcoAteqG6_TestType_v_3_5_x.Operator;
+ELSE
+	TcoAteqG6_ToTestType_v_3_5_x := eTcoAteqG6_TestType_v_3_5_x.Unknown;
+END_CASE]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

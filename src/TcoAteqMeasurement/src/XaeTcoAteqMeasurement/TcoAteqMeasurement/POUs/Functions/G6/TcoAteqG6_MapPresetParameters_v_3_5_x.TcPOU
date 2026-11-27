@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_MapPresetParameters_v_3_5_x" Id="{292240af-81d8-4863-b1b0-5b3c86d7503f}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Maps a list read with the preset request onto the typed parameter set.
+		</summary>
+	</docu>
+~*)
+FUNCTION TcoAteqG6_MapPresetParameters_v_3_5_x : BOOL
+VAR_IN_OUT
+	inoList : TcoAteqG6_ParameterList_v_3_5_x;
+	inoSet : TcoAteqG6_ParameterSet_v_3_5_x;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[inoSet.FillTime := TcoAteqG6_ToEngineering_v_3_5_x(TcoAteqG6_TryGetParameterRaw_v_3_5_x(inId := TO_UINT(eTcoAteqG6_ParameterId_v_3_5_x.FillTime), inoList := inoList));
+inoSet.StabTime := TcoAteqG6_ToEngineering_v_3_5_x(TcoAteqG6_TryGetParameterRaw_v_3_5_x(inId := TO_UINT(eTcoAteqG6_ParameterId_v_3_5_x.StabTime), inoList := inoList));
+inoSet.TestTime := TcoAteqG6_ToEngineering_v_3_5_x(TcoAteqG6_TryGetParameterRaw_v_3_5_x(inId := TO_UINT(eTcoAteqG6_ParameterId_v_3_5_x.TestTime), inoList := inoList));
+inoSet.DumpTime := TcoAteqG6_ToEngineering_v_3_5_x(TcoAteqG6_TryGetParameterRaw_v_3_5_x(inId := TO_UINT(eTcoAteqG6_ParameterId_v_3_5_x.DumpTime), inoList := inoList));
+inoSet.TestType := TcoAteqG6_ToTestType_v_3_5_x(TcoAteqG6_TryGetParameterRaw_v_3_5_x(inId := TO_UINT(eTcoAteqG6_ParameterId_v_3_5_x.TestType), inoList := inoList));
+inoSet.MinFill := TcoAteqG6_ToEngineering_v_3_5_x(TcoAteqG6_TryGetParameterRaw_v_3_5_x(inId := TO_UINT(eTcoAteqG6_ParameterId_v_3_5_x.MinFill), inoList := inoList));
+inoSet.MaxFill := TcoAteqG6_ToEngineering_v_3_5_x(TcoAteqG6_TryGetParameterRaw_v_3_5_x(inId := TO_UINT(eTcoAteqG6_ParameterId_v_3_5_x.MaxFill), inoList := inoList));
+inoSet.PressureUnit := TcoAteqG6_ToUnit_v_3_5_x(TcoAteqG6_TryGetParameterRaw_v_3_5_x(inId := TO_UINT(eTcoAteqG6_ParameterId_v_3_5_x.PressureUnit), inoList := inoList));
+inoSet.TestFail := TcoAteqG6_ToEngineering_v_3_5_x(TcoAteqG6_TryGetParameterRaw_v_3_5_x(inId := TO_UINT(eTcoAteqG6_ParameterId_v_3_5_x.TestFail), inoList := inoList));
+inoSet.RefFail := TcoAteqG6_ToEngineering_v_3_5_x(TcoAteqG6_TryGetParameterRaw_v_3_5_x(inId := TO_UINT(eTcoAteqG6_ParameterId_v_3_5_x.RefFail), inoList := inoList));
+inoSet.SetFill := TcoAteqG6_ToEngineering_v_3_5_x(TcoAteqG6_TryGetParameterRaw_v_3_5_x(inId := TO_UINT(eTcoAteqG6_ParameterId_v_3_5_x.SetFill), inoList := inoList));
+TcoAteqG6_MapPresetParameters_v_3_5_x := TRUE;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="TcoAteqG6_ParameterQuery_v_3_5_x" Id="{d35de390-8c02-4873-8e8c-1b8b0079e55e}">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Value of the selected parameter (Control.QueryParameter), looked up after every "Read parameters".
+		</summary>
+	</docu>
+~*)
+TYPE TcoAteqG6_ParameterQuery_v_3_5_x :
+STRUCT
+	{attribute addProperty Name "<#Parameter#>"}
+	Parameter : eTcoAteqG6_ParameterId_v_3_5_x;
+	{attribute addProperty Name "<#Found#>"}
+	Found : BOOL;
+	{attribute addProperty Name "<#Value#>"}
+	Value : REAL;
+	{attribute addProperty Name "<#Value (raw x1000)#>"}
+	Raw : DINT;
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

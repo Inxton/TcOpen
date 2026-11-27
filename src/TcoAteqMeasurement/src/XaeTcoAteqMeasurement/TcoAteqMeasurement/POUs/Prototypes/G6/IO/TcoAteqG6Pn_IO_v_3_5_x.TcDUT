@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="TcoAteqG6Pn_IO_v_3_5_x" Id="{a496ae8c-fdc2-4bb1-9f92-36489962f09b}">
+    <Declaration><![CDATA[TYPE TcoAteqG6Pn_IO_v_3_5_x :
+STRUCT
+	PnIoBoxState AT %I*	:	UINT;
+	PnIoBoxDiag AT %I*	:	UINT;
+	PnIoBoxCtrl AT %Q*	:	UINT;
+	{attribute addProperty Name "<#IN#>"}
+	In : TcoAteqG6_Inputs_v_3_5_x;
+	{attribute addProperty Name "<#OUT#>"}
+	Out : TcoAteqG6_Outputs_v_3_5_x;
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

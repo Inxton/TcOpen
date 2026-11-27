@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="eTcoAteqG6Tests" Id="{00a397cb-0ffd-4a88-8930-7de8812f220b}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE eTcoAteqG6Tests :
+(
+	None := 0,
+	Restore := 10,
+	Run := 20,
+	Reset := 30,
+	SelectProgram := 40,
+	StartCycle := 50,
+	ReadLastResult := 60,
+	SpecialCycle := 70,
+	ReadParameters := 80,
+	ReadPresetParameters := 90,
+	ReadParameter := 100,
+	InvokeStartCycle := 110,
+	InvokeSelectProgram := 120,
+	InvokeReset := 130
+);
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_BuildPresetRequest_v_3_5_x" Id="{bab7e987-1a09-462c-9b66-5f6fc0bb1e45}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Fills the request with the 11 identifiers of the preset parameter set.
+		</summary>
+	</docu>
+~*)
+FUNCTION TcoAteqG6_BuildPresetRequest_v_3_5_x : BOOL
+VAR_IN_OUT
+	inoRequest : TcoAteqG6_ParameterRequest_v_3_5_x;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[TcoAteqG6_ClearParameterRequest_v_3_5_x(inoRequest := inoRequest);
+TcoAteqG6_AddParameterToRequest_v_3_5_x(inParameter := eTcoAteqG6_ParameterId_v_3_5_x.FillTime, inoRequest := inoRequest);
+TcoAteqG6_AddParameterToRequest_v_3_5_x(inParameter := eTcoAteqG6_ParameterId_v_3_5_x.StabTime, inoRequest := inoRequest);
+TcoAteqG6_AddParameterToRequest_v_3_5_x(inParameter := eTcoAteqG6_ParameterId_v_3_5_x.TestTime, inoRequest := inoRequest);
+TcoAteqG6_AddParameterToRequest_v_3_5_x(inParameter := eTcoAteqG6_ParameterId_v_3_5_x.DumpTime, inoRequest := inoRequest);
+TcoAteqG6_AddParameterToRequest_v_3_5_x(inParameter := eTcoAteqG6_ParameterId_v_3_5_x.TestType, inoRequest := inoRequest);
+TcoAteqG6_AddParameterToRequest_v_3_5_x(inParameter := eTcoAteqG6_ParameterId_v_3_5_x.MinFill, inoRequest := inoRequest);
+TcoAteqG6_AddParameterToRequest_v_3_5_x(inParameter := eTcoAteqG6_ParameterId_v_3_5_x.MaxFill, inoRequest := inoRequest);
+TcoAteqG6_AddParameterToRequest_v_3_5_x(inParameter := eTcoAteqG6_ParameterId_v_3_5_x.PressureUnit, inoRequest := inoRequest);
+TcoAteqG6_AddParameterToRequest_v_3_5_x(inParameter := eTcoAteqG6_ParameterId_v_3_5_x.TestFail, inoRequest := inoRequest);
+TcoAteqG6_AddParameterToRequest_v_3_5_x(inParameter := eTcoAteqG6_ParameterId_v_3_5_x.RefFail, inoRequest := inoRequest);
+TcoAteqG6_AddParameterToRequest_v_3_5_x(inParameter := eTcoAteqG6_ParameterId_v_3_5_x.SetFill, inoRequest := inoRequest);
+TcoAteqG6_BuildPresetRequest_v_3_5_x := TRUE;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="TcoAteqG6_ParameterList_v_3_5_x" Id="{5e5a9d1f-8e76-4aa2-b9fa-0eabf6105591}">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Response of the "Read parameters" command: from input 20h one identifier WORD + value LONG x1000 per parameter.
+		</summary>
+	</docu>
+~*)
+TYPE TcoAteqG6_ParameterList_v_3_5_x :
+STRUCT
+	{attribute addProperty Name "<#Number of parameters read#>"}
+	Count : INT;
+	{attribute addProperty Name "<#Parameters#>"}
+	Items : ARRAY[0..34] OF TcoAteqG6_Parameter_v_3_5_x;
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

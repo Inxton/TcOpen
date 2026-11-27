@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_ReadLastResultTask_v_3_5_x" Id="{4ab3fbfc-1e9c-414c-8668-a67fba6d1c59}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Read last result (command bit 15) and decode the exchange zone into Status.LastResult.
+		</summary>
+	</docu>
+~*)
+FUNCTION_BLOCK TcoAteqG6_ReadLastResultTask_v_3_5_x EXTENDS TcoAteqG6Task_v_3_5_x]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF Execute() THEN
+	IF CheckReferences() THEN
+		// AX step 0: read the last result
+		IF _progress = 0 THEN
+			inoStatus.ActionDescription := '<#Reading last result#>';
+			IF Handshake(MASK_READ_LAST_RESULT) THEN
+				TcoAteqG6_DecodeLastResult_v_3_5_x(inoImage := inoImage, inoResult := inoStatus.LastResult);
+				GoTo(100);
+			END_IF
+		END_IF
+
+		// AX step 100
+		IF _progress = 100 THEN
+			inoStatus.ActionDescription := '<#Last result read#>';
+			DoneWhen(TRUE);
+		END_IF
+		Supervise();
+	END_IF
+END_IF
+
+IF THIS^.Error AND NOT _errorMessage.Pinned THEN
+	THIS^.Restore();
+END_IF]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{64f5e006-e2ea-4cb0-b028-803241175e66}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	ParentObject : ITcoObject;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnStart" Id="{f321a932-7fee-4796-9a6d-ef735e42f794}">
+      <Declaration><![CDATA[METHOD PROTECTED OnStart]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.OnStart();
+IF __ISVALIDREF(inoStatus) THEN
+	TcoAteqG6_ClearLastResult_v_3_5_x(inoResult := THIS^.inoStatus.LastResult);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_DecodeMeasurement_v_3_5_x" Id="{934db888-26d5-492e-81c3-c018f30cea9c}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Decodes pressure, pressure unit, flow and flow unit (4 LONGs) from inOffset.
+		</summary>
+	</docu>
+~*)
+FUNCTION TcoAteqG6_DecodeMeasurement_v_3_5_x : BOOL
+VAR_INPUT
+	inOffset : INT;
+END_VAR
+VAR_IN_OUT
+	inoImage : ARRAY[0..255] OF BYTE;
+	inoMeasurement : TcoAteqG6_Measurement_v_3_5_x;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[inoMeasurement.PressureRaw := TcoAteqG6_GetDint_v_3_5_x(inOffset := inOffset, inoImage := inoImage);
+inoMeasurement.PressureUnitRaw := TcoAteqG6_GetDint_v_3_5_x(inOffset := inOffset + 4, inoImage := inoImage);
+inoMeasurement.FlowRaw := TcoAteqG6_GetDint_v_3_5_x(inOffset := inOffset + 8, inoImage := inoImage);
+inoMeasurement.FlowUnitRaw := TcoAteqG6_GetDint_v_3_5_x(inOffset := inOffset + 12, inoImage := inoImage);
+inoMeasurement.Pressure := TcoAteqG6_ToEngineering_v_3_5_x(inoMeasurement.PressureRaw);
+inoMeasurement.PressureUnit := TcoAteqG6_ToUnit_v_3_5_x(inoMeasurement.PressureUnitRaw);
+inoMeasurement.Flow := TcoAteqG6_ToEngineering_v_3_5_x(inoMeasurement.FlowRaw);
+inoMeasurement.FlowUnit := TcoAteqG6_ToUnit_v_3_5_x(inoMeasurement.FlowUnitRaw);
+TcoAteqG6_DecodeMeasurement_v_3_5_x := TRUE;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

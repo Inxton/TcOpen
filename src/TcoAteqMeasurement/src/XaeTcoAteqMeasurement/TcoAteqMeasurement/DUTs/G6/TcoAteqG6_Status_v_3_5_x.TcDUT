@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="TcoAteqG6_Status_v_3_5_x" Id="{ca9d63c3-26e4-48a6-8ebc-4dc5b340eb1d}">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Status of TcoAteqG6Pn_v_3_5_x.
+		</summary>
+	</docu>
+~*)
+TYPE TcoAteqG6_Status_v_3_5_x :
+STRUCT
+	{attribute addProperty Name "<#Action#>"}
+	ActionDescription : STRING(100);
+	{attribute addProperty Name "<#Ready#>"}
+	Ready : BOOL;
+	{attribute addProperty Name "<#Last part passed#>"}
+	LastPass : BOOL;
+	{attribute addProperty Name "<#Last command error word#>"}
+	LastCommandError : WORD;
+	{attribute addProperty Name "<#Instrument#>"}
+	State : TcoAteqG6_State_v_3_5_x;
+	{attribute addProperty Name "<#Last result#>"}
+	LastResult : TcoAteqG6_LastResult_v_3_5_x;
+	{attribute addProperty Name "<#Parameters#>"}
+	Parameters : TcoAteqG6_ParameterList_v_3_5_x;
+	{attribute addProperty Name "<#Preset parameters#>"}
+	ParameterSet : TcoAteqG6_ParameterSet_v_3_5_x;
+	{attribute addProperty Name "<#Selected parameter#>"}
+	ParameterQuery : TcoAteqG6_ParameterQuery_v_3_5_x;
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

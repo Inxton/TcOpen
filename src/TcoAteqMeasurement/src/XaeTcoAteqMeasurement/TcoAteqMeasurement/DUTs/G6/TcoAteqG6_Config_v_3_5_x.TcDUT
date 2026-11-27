@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="TcoAteqG6_Config_v_3_5_x" Id="{f6d3f930-6867-46a5-b4b3-ccbcdb894da9}">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Configuration of TcoAteqG6Pn_v_3_5_x. CommandTimeout / CycleTimeout of 0 fall back to 5 s / 60 s.
+		</summary>
+	</docu>
+~*)
+TYPE TcoAteqG6_Config_v_3_5_x :
+STRUCT
+	{attribute addProperty Name "<#Info time#>"}
+	InfoTime : TIME := T#2S;
+	{attribute addProperty Name "<#Task timeout (0 = off)#>"}
+	ErrorTime : TIME := T#0S;
+	{attribute addProperty Name "<#Command handshake timeout (per step)#>"}
+	CommandTimeout : TIME := T#5S;
+	{attribute addProperty Name "<#Test cycle timeout#>"}
+	CycleTimeout : TIME := T#60S;
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

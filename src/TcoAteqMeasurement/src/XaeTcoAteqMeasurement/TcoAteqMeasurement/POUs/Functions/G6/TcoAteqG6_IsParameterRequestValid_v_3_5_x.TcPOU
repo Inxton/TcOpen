@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_IsParameterRequestValid_v_3_5_x" Id="{32863f88-e42f-4f54-8e9a-b283d85f4c27}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			TRUE when the request holds 1..35 identifiers.
+		</summary>
+	</docu>
+~*)
+FUNCTION TcoAteqG6_IsParameterRequestValid_v_3_5_x : BOOL
+VAR_IN_OUT
+	inoRequest : TcoAteqG6_ParameterRequest_v_3_5_x;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[TcoAteqG6_IsParameterRequestValid_v_3_5_x := inoRequest.Count >= 1 AND inoRequest.Count <= 35;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

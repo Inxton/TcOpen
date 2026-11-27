@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6Simulator" Id="{c9aba182-bbf7-49db-9040-ca10560661aa}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Simulated ATEQ G6 instrument (port of the AX FakeG6 harness). Each Step() plays one PLC cycle of the instrument
+			against the output image: a rising command edge is echoed with error word FFFFh, the command completes after
+			CommandCycles cycles (error word 0, or the command's own bit when it is in FailMask), the echo drops once the
+			PLC drops the command bit. A started (special) cycle clears CycleEnd for CycleCycles cycles. Results are written
+			into the input image exactly where the real instrument puts them.
+		</summary>
+	</docu>
+~*)
+FUNCTION_BLOCK TcoAteqG6Simulator
+VAR
+	// behaviour knobs
+	CommandCycles : INT := 2;
+	CycleCycles : INT := 3;
+	FailMask : WORD;               // commands completing with an error
+	SilentMask : WORD;             // commands never acknowledged
+	StuckEchoMask : WORD;          // echo never released
+	IgnoreProgramSelection : BOOL;
+	NoCycle : BOOL;                // start accepted, cycle end never drops
+	EndlessCycle : BOOL;           // cycle end never comes back
+	ResultProgramOffset : INT;     // <> 0 -> stale last result
+	ResultRelay : WORD := 16#0001;
+	ResultAlarm : INT;
+	// instrument state
+	BusProgram : INT;              // 0-based, as on the bus
+	CycleEnd : BOOL := TRUE;
+	Echo : WORD;
+	Error : WORD;
+	// observations
+	RisingEdges : INT;
+	RaisedUnion : WORD;
+	LastRaised : WORD;
+	LastSpecialId : BYTE;
+END_VAR
+VAR
+	_prev : WORD;
+	_active : WORD;
+	_busy : INT;
+	_cycle : INT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Reset" Id="{27d6baee-ccd2-49ef-8428-2bdf01cb6fdb}">
+      <Declaration><![CDATA[METHOD Reset]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CommandCycles := 2;
+CycleCycles := 3;
+FailMask := 0;
+SilentMask := 0;
+StuckEchoMask := 0;
+IgnoreProgramSelection := FALSE;
+NoCycle := FALSE;
+EndlessCycle := FALSE;
+ResultProgramOffset := 0;
+ResultRelay := 16#0001;
+ResultAlarm := 0;
+BusProgram := 0;
+CycleEnd := TRUE;
+Echo := 0;
+Error := 0;
+RisingEdges := 0;
+RaisedUnion := 0;
+LastRaised := 0;
+LastSpecialId := 0;
+_prev := 0;
+_active := 0;
+_busy := 0;
+_cycle := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Step" Id="{70cc3c16-7176-499a-9423-00e30b742173}">
+      <Declaration><![CDATA[METHOD Step
+VAR_IN_OUT
+	inoOut : ARRAY[0..255] OF BYTE; // what the PLC put on the wire
+	inoIn : ARRAY[0..255] OF BYTE;  // input image of the instrument
+END_VAR
+VAR
+	cmd : WORD;
+	rising : WORD;
+	dropped : WORD;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[cmd := TcoAteqMeasurement.TcoAteqG6_GetWord_v_3_5_x(inOffset := 16#00, inoImage := inoOut);
+rising := cmd AND NOT _prev;
+dropped := _prev AND NOT cmd;
+IF rising <> 0 THEN
+	RisingEdges := RisingEdges + 1;
+	RaisedUnion := RaisedUnion OR rising;
+	LastRaised := rising;
+	IF (rising AND SilentMask) = 0 THEN
+		_active := rising;
+		Echo := Echo OR rising;
+		Error := 16#FFFF;
+		_busy := CommandCycles;
+		IF (rising AND 16#0004) <> 0 THEN
+			LastSpecialId := inoOut[16#08];
+		END_IF
+	END_IF
+END_IF
+IF _busy > 0 THEN
+	_busy := _busy - 1;
+	IF _busy = 0 THEN
+		Complete(inoOut := inoOut, inoIn := inoIn);
+	END_IF
+END_IF
+Echo := Echo AND NOT (dropped AND NOT StuckEchoMask);
+IF _cycle > 0 AND NOT EndlessCycle THEN
+	_cycle := _cycle - 1;
+	IF _cycle = 0 THEN
+		CycleEnd := TRUE;
+		WriteLastResult(inoIn := inoIn);
+	END_IF
+END_IF
+_prev := cmd;
+WriteState(inoIn := inoIn);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Complete" Id="{373f3694-466a-4e75-aa5e-9c2f5a279e8b}">
+      <Declaration><![CDATA[METHOD PRIVATE Complete
+VAR_IN_OUT
+	inoOut : ARRAY[0..255] OF BYTE;
+	inoIn : ARRAY[0..255] OF BYTE;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF (_active AND FailMask) <> 0 THEN
+	Error := _active;
+	RETURN;
+END_IF
+Error := 0;
+IF _active = 16#0001 THEN
+	CycleEnd := TRUE;
+	_cycle := 0;
+ELSIF _active = 16#0008 THEN
+	IF NOT IgnoreProgramSelection THEN
+		BusProgram := TcoAteqMeasurement.TcoAteqG6_GetInt_v_3_5_x(inOffset := 16#06, inoImage := inoOut);
+	END_IF
+ELSIF _active = 16#0002 OR _active = 16#0006 THEN
+	IF NOT NoCycle THEN
+		CycleEnd := FALSE;
+		_cycle := CycleCycles;
+	END_IF
+ELSIF _active = 16#8000 THEN
+	WriteLastResult(inoIn := inoIn);
+ELSIF _active = 16#0020 THEN
+	WriteParameters(inoOut := inoOut, inoIn := inoIn);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="WriteState" Id="{ec4505d0-d0b2-4c44-b3f5-ef6953893001}">
+      <Declaration><![CDATA[METHOD PRIVATE WriteState
+VAR_IN_OUT
+	inoIn : ARRAY[0..255] OF BYTE;
+END_VAR
+VAR
+	status : WORD;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TcoAteqMeasurement.TcoAteqG6_SetWord_v_3_5_x(inOffset := 16#00, inValue := Echo, inoImage := inoIn);
+TcoAteqMeasurement.TcoAteqG6_SetWord_v_3_5_x(inOffset := 16#02, inValue := Error, inoImage := inoIn);
+TcoAteqMeasurement.TcoAteqG6_SetWord_v_3_5_x(inOffset := 16#06, inValue := INT_TO_WORD(BusProgram), inoImage := inoIn);
+IF CycleEnd THEN
+	status := 16#0020;
+END_IF
+TcoAteqMeasurement.TcoAteqG6_SetWord_v_3_5_x(inOffset := 16#0C, inValue := status, inoImage := inoIn);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="WriteLastResult" Id="{7efe2dcb-9654-40a9-9a41-e6a04174a2d4}">
+      <Declaration><![CDATA[METHOD PRIVATE WriteLastResult
+VAR_IN_OUT
+	inoIn : ARRAY[0..255] OF BYTE;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TcoAteqMeasurement.TcoAteqG6_SetWord_v_3_5_x(inOffset := 16#20, inValue := INT_TO_WORD(BusProgram + ResultProgramOffset), inoImage := inoIn);
+TcoAteqMeasurement.TcoAteqG6_SetWord_v_3_5_x(inOffset := 16#24, inValue := ResultRelay, inoImage := inoIn);
+TcoAteqMeasurement.TcoAteqG6_SetWord_v_3_5_x(inOffset := 16#26, inValue := INT_TO_WORD(ResultAlarm), inoImage := inoIn);
+TcoAteqMeasurement.TcoAteqG6_SetDint_v_3_5_x(inOffset := 16#28, inValue := 207000, inoImage := inoIn);
+TcoAteqMeasurement.TcoAteqG6_SetDint_v_3_5_x(inOffset := 16#2C, inValue := 14000, inoImage := inoIn);
+TcoAteqMeasurement.TcoAteqG6_SetDint_v_3_5_x(inOffset := 16#30, inValue := -108, inoImage := inoIn);
+TcoAteqMeasurement.TcoAteqG6_SetDint_v_3_5_x(inOffset := 16#34, inValue := 1000, inoImage := inoIn);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="WriteParameters" Id="{6b66e51a-859b-4a45-b26d-33d269cc5e1d}">
+      <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Response value of every requested parameter = its identifier x 1000. The request (count + identifiers) is read from output 20h.
+		</summary>
+	</docu>
+~*)
+METHOD PRIVATE WriteParameters
+VAR_IN_OUT
+	inoOut : ARRAY[0..255] OF BYTE;
+	inoIn : ARRAY[0..255] OF BYTE;
+END_VAR
+VAR
+	i : INT;
+	count : INT;
+	id : WORD;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[count := TcoAteqMeasurement.TcoAteqG6_GetInt_v_3_5_x(inOffset := 16#20, inoImage := inoOut);
+FOR i := 0 TO count - 1 DO
+	id := TcoAteqMeasurement.TcoAteqG6_GetWord_v_3_5_x(inOffset := 16#22 + 2 * i, inoImage := inoOut);
+	TcoAteqMeasurement.TcoAteqG6_SetWord_v_3_5_x(inOffset := 16#20 + 6 * i, inValue := id, inoImage := inoIn);
+	TcoAteqMeasurement.TcoAteqG6_SetDint_v_3_5_x(inOffset := 16#22 + 6 * i, inValue := WORD_TO_DINT(id) * 1000, inoImage := inoIn);
+END_FOR]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_SelectProgramTask_v_3_5_x" Id="{50df4edd-e540-41bb-8dc1-79d531c5c40c}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Program selection (command bit 3) of Control.ProgramNumber, then checks that the instrument switched to it.
+		</summary>
+	</docu>
+~*)
+FUNCTION_BLOCK TcoAteqG6_SelectProgramTask_v_3_5_x EXTENDS TcoAteqG6Task_v_3_5_x]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF Execute() THEN
+	IF CheckReferences() THEN
+		// AX step 0: valid program number
+		IF _progress = 0 THEN
+			inoStatus.ActionDescription := '<#Checking program number#>';
+			IF inoControl.ProgramNumber < 1 OR inoControl.ProgramNumber > 128 THEN
+				Fail('<#Program number out of range (1-128). Pass the program number as shown on the instrument display.#>');
+			ELSE
+				GoTo(10);
+			END_IF
+		END_IF
+
+		// AX step 10: select the program
+		IF _progress = 10 THEN
+			inoStatus.ActionDescription := '<#Selecting program#>';
+			IF Handshake(MASK_PROGRAM_SELECTION) THEN
+				GoTo(20);
+			END_IF
+		END_IF
+
+		// AX step 20: the instrument reports the requested program
+		IF _progress = 20 THEN
+			inoStatus.ActionDescription := '<#Verifying selected program#>';
+			IF inoStatus.State.CurrentProgram = inoControl.ProgramNumber THEN
+				GoTo(100);
+			ELSIF StepElapsed(CommandTimeout()) THEN
+				Fail('<#Instrument did not switch to the requested program. Check that the program exists on the instrument.#>');
+			END_IF
+		END_IF
+
+		// AX step 100
+		IF _progress = 100 THEN
+			inoStatus.ActionDescription := '<#Program selected#>';
+			DoneWhen(TRUE);
+		END_IF
+		Supervise();
+	END_IF
+END_IF
+
+IF THIS^.Error AND NOT _errorMessage.Pinned THEN
+	THIS^.Restore();
+END_IF]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{874cbdb3-2842-4ef5-8215-0d94e08ffe13}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	ParentObject : ITcoObject;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

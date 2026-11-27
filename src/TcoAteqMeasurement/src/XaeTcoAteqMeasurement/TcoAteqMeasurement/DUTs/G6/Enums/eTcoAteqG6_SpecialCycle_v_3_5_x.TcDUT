@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="eTcoAteqG6_SpecialCycle_v_3_5_x" Id="{4a007d21-a1e6-4bb1-9bc1-b90e4caefc92}">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Special cycle table (manual p. 58). Ids 25..31 require the "Service" special-cycle function to be enabled on the instrument.
+		</summary>
+	</docu>
+~*)
+{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE eTcoAteqG6_SpecialCycle_v_3_5_x :
+(
+	None := 0,
+	AtrLearning := 1,
+	CustomUnitLearn := 4,
+	CustomUnitCheck := 5,
+	PiezoAutoZero := 9,
+	RegulatorAdjust := 13,
+	CapillaryTemperatureCheck := 25,
+	TemperatureCheck := 26,
+	AtmPressureCheck := 27,
+	P1SensorCheck := 28,
+	Flow1Check := 29,
+	Flow2Check := 30,
+	LinePressureSensorCheck := 31
+) INT;
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

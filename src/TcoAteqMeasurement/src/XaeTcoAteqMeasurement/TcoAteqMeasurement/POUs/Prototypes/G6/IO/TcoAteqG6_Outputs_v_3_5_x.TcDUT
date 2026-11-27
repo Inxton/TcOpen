@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="TcoAteqG6_Outputs_v_3_5_x" Id="{aa15bb07-7f0b-4f43-9399-bff6147fac48}">
+    <Declaration><![CDATA[TYPE TcoAteqG6_Outputs_v_3_5_x :
+STRUCT
+	{attribute addProperty Name "<#Output module 1 (slot 5, 00h..3Fh)#>"}
+	Out1 AT %Q* : ARRAY[0..63] OF BYTE;
+	{attribute addProperty Name "<#Output module 2 (slot 6, 40h..7Fh)#>"}
+	Out2 AT %Q* : ARRAY[0..63] OF BYTE;
+	{attribute addProperty Name "<#Output module 3 (slot 7, 80h..BFh)#>"}
+	Out3 AT %Q* : ARRAY[0..63] OF BYTE;
+	{attribute addProperty Name "<#Output module 4 (slot 8, C0h..FFh)#>"}
+	Out4 AT %Q* : ARRAY[0..63] OF BYTE;
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

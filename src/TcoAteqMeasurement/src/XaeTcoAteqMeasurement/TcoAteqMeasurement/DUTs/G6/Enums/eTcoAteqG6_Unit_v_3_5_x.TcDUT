@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="eTcoAteqG6_Unit_v_3_5_x" Id="{527e7932-eaf1-4199-9f6c-135486b9a364}">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Unit table (manual p. 48). On the bus a unit is a LONG holding the unit code; the enum value is that code divided by 1000 (14000 = mbar).
+		</summary>
+	</docu>
+~*)
+{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE eTcoAteqG6_Unit_v_3_5_x :
+(
+	Unknown := -1,
+	cm3_s := 0,
+	cm3_min := 1,
+	cm3_h := 2,
+	Pa := 6,
+	bar := 11,
+	kPa := 12,
+	PSI := 13,
+	mbar := 14,
+	MPa := 15,
+	l_h := 30,
+	inch3_s := 46,
+	inch3_min := 47,
+	inch3_h := 48,
+	ft3_h := 49,
+	ml_s := 50,
+	ml_min := 51,
+	ml_h := 52,
+	mm3 := 55,
+	cm3 := 56,
+	ml := 61,
+	l := 62,
+	inch3 := 63,
+	ft3 := 64,
+	SCCM := 84,
+	Points := 92
+) INT;
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

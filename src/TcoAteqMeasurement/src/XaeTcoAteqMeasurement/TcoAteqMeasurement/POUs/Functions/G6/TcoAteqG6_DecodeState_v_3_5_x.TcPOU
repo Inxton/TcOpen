@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_DecodeState_v_3_5_x" Id="{c456cedc-eb0e-40e5-bae7-84f9e55dd5ed}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Decodes the live part of the input image (00h..1Fh). The program number is 0-based on the bus and 1-based here.
+		</summary>
+	</docu>
+~*)
+FUNCTION TcoAteqG6_DecodeState_v_3_5_x : BOOL
+VAR_IN_OUT
+	inoImage : ARRAY[0..255] OF BYTE;
+	inoState : TcoAteqG6_State_v_3_5_x;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[TcoAteqG6_DecodeCommandBits_v_3_5_x(inValue := TcoAteqG6_GetWord_v_3_5_x(inOffset := 16#00, inoImage := inoImage), inoBits := inoState.Echo);
+TcoAteqG6_DecodeCommandBits_v_3_5_x(inValue := TcoAteqG6_GetWord_v_3_5_x(inOffset := 16#02, inoImage := inoImage), inoBits := inoState.Error);
+inoState.CommandRunning := inoState.Error.Raw = 16#FFFF;
+inoState.CurrentProgram := TcoAteqG6_GetInt_v_3_5_x(inOffset := 16#06, inoImage := inoImage) + 1;
+inoState.ResultsInFifo := TcoAteqG6_GetInt_v_3_5_x(inOffset := 16#08, inoImage := inoImage);
+inoState.TestTypeRaw := TcoAteqG6_GetInt_v_3_5_x(inOffset := 16#0A, inoImage := inoImage);
+TcoAteqG6_DecodeStatusBits_v_3_5_x(inValue := TcoAteqG6_GetWord_v_3_5_x(inOffset := 16#0C, inoImage := inoImage), inoBits := inoState.StatusBits);
+inoState.StepRaw := TcoAteqG6_GetInt_v_3_5_x(inOffset := 16#0E, inoImage := inoImage);
+inoState.Step := TcoAteqG6_ToStep_v_3_5_x(inoState.StepRaw);
+TcoAteqG6_DecodeMeasurement_v_3_5_x(inOffset := 16#10, inoImage := inoImage, inoMeasurement := inoState.RealTime);
+TcoAteqG6_DecodeState_v_3_5_x := TRUE;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

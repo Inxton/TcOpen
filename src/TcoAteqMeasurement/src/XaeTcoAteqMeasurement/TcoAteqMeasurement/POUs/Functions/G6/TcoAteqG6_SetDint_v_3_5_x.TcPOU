@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcoAteqG6_SetDint_v_3_5_x" Id="{f3bd2d1d-d62c-424c-9a99-1ac3daec67f0}" SpecialFunc="None">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Writes a little-endian LONG at inOffset.
+		</summary>
+	</docu>
+~*)
+FUNCTION TcoAteqG6_SetDint_v_3_5_x : BOOL
+VAR_INPUT
+	inOffset : INT;
+	inValue : DINT;
+END_VAR
+VAR_IN_OUT
+	inoImage : ARRAY[0..255] OF BYTE;
+END_VAR
+VAR
+	raw : DWORD;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[raw := DINT_TO_DWORD(inValue);
+inoImage[inOffset] := DWORD_TO_BYTE(raw);
+inoImage[inOffset + 1] := DWORD_TO_BYTE(SHR(raw, 8));
+inoImage[inOffset + 2] := DWORD_TO_BYTE(SHR(raw, 16));
+inoImage[inOffset + 3] := DWORD_TO_BYTE(SHR(raw, 24));
+TcoAteqG6_SetDint_v_3_5_x := TRUE;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

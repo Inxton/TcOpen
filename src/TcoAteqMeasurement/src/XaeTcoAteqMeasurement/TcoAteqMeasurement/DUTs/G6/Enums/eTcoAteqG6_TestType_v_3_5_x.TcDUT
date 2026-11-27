@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="eTcoAteqG6_TestType_v_3_5_x" Id="{92418dc7-9864-4265-ac99-b883d8da92df}">
+    <Declaration><![CDATA[(*~
+	<docu>
+		<summary>
+			Test type parameter (id 21).
+		</summary>
+	</docu>
+~*)
+{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE eTcoAteqG6_TestType_v_3_5_x :
+(
+	Unknown := -1,
+	Invalid := 0,
+	Direct := 1,
+	Operator := 2
+) INT;
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>
